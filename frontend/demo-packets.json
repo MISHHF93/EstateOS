@@ -1,10 +1,3834 @@
 {
   "meta": {
-    "generated_at_utc": "2026-03-20T16:55:10.638871+00:00",
+    "generated_at_utc": "2026-03-20T17:18:37.678675+00:00",
     "generated_from": "backend.orchestration.build_demo_payloads",
     "normalized": true
   },
+  "journeys": {
+    "buyer": {
+      "meta": {
+        "journey_key": "buyer",
+        "normalized": true
+      },
+      "packets": {
+        "journey_key": "buyer",
+        "property_decision": {
+          "request_id": "demo-request",
+          "profile": {
+            "role": "buyer",
+            "investor_type": "owner_occupier",
+            "intent": "family relocation purchase with financing support",
+            "financial_intent": "primary residence with moderate appreciation",
+            "country": "United States",
+            "target_region": "Portugal",
+            "risk_tolerance": "balanced",
+            "investment_budget": 650000,
+            "residency_interest": true,
+            "residency_goal": "family relocation in 12 months",
+            "financing_needed": true,
+            "household_size": 4
+          },
+          "identity": {
+            "subject_id": "demo-subject",
+            "auth_assurance_level": "aal2",
+            "mfa_completed": true,
+            "rbac_roles": [
+              "client",
+              "buyer"
+            ],
+            "entitlements": [
+              "decision:view",
+              "profile:update",
+              "transaction:approve"
+            ],
+            "kyc_status": "approved",
+            "aml_risk": "medium",
+            "sanctions_status": "clear",
+            "privacy_tier": "confidential",
+            "consent_scope": [
+              "routing",
+              "kyc",
+              "personalization",
+              "evidence_retention"
+            ],
+            "pii_tags": [
+              "identity",
+              "financial",
+              "residency"
+            ],
+            "profile_source": "frontend"
+          },
+          "context": {
+            "request_id": "demo-request",
+            "journey_stage": "discovery",
+            "channel": "web",
+            "locale": "en-US",
+            "has_verified_identity": true,
+            "has_consent": true,
+            "property_country": "Portugal",
+            "property_type": "apartment",
+            "climate_risk": "low",
+            "market_volatility": "medium",
+            "session_risk": "low",
+            "cross_border": true,
+            "generated_at_utc": "2026-03-20T00:00:00+00:00"
+          },
+          "detected_intents": [
+            "finance",
+            "property_search",
+            "recommendation",
+            "residency"
+          ],
+          "selected_experts": [
+            {
+              "expert": "unified_compliance_risk_intelligence",
+              "score": 0.92,
+              "rationale": "Selected for specialties ['continuous_control_monitoring', 'cross_workflow_risk_scoring', 'aml_kyc_enforcement', 'sanctions_screening', 'audit_logging', 'iso_27001_alignment', 'iso_31000_alignment'] with 1 trigger hits, intent alignment=False, profile-aware bonus=0.00, context bonus=0.03.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "compliance_validation",
+              "score": 0.83,
+              "rationale": "Selected for specialties ['kyc', 'aml', 'sanctions', 'privacy', 'records'] with 0 trigger hits, intent alignment=False, profile-aware bonus=0.00, context bonus=0.03.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "residency_eligibility",
+              "score": 0.8,
+              "rationale": "Selected for specialties ['residency', 'visa', 'jurisdiction_rules'] with 1 trigger hits, intent alignment=True, profile-aware bonus=0.04, context bonus=0.03.",
+              "execution_mode": "async"
+            },
+            {
+              "expert": "property_valuation",
+              "score": 0.76,
+              "rationale": "Selected for specialties ['valuation', 'comparables', 'market_position', 'trend_analysis', 'location_intelligence'] with 2 trigger hits, intent alignment=True, profile-aware bonus=0.00, context bonus=0.00.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "financial_risk",
+              "score": 0.73,
+              "rationale": "Selected for specialties ['affordability', 'leverage', 'liquidity', 'fx_exposure'] with 0 trigger hits, intent alignment=True, profile-aware bonus=0.04, context bonus=0.00.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "listing_recommendation",
+              "score": 0.7,
+              "rationale": "Selected for specialties ['ranking', 'preference_matching', 'fairness_checks', 'explainable_ordering'] with 0 trigger hits, intent alignment=True, profile-aware bonus=0.00, context bonus=0.00.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "ux_personalization",
+              "score": 0.52,
+              "rationale": "Selected for specialties ['journey_guidance', 'messaging', 'next_best_action'] with 0 trigger hits, intent alignment=False, profile-aware bonus=0.00, context bonus=0.00.",
+              "execution_mode": "sync"
+            }
+          ],
+          "expert_outputs": [
+            {
+              "expert": "unified_compliance_risk_intelligence",
+              "summary": "Continuous control monitoring unifies AML/KYC, sanctions screening, audit logging, and cross-domain risk scoring across property, payment, insurance, and residency workflows.",
+              "confidence": 0.95,
+              "evidence": [
+                "continuous activity risk graph",
+                "AML/KYC and sanctions screening ledger",
+                "immutable audit event chain",
+                "ISO/IEC 27001 and ISO 31000 control mappings"
+              ],
+              "next_actions": [
+                "review elevated risk cases",
+                "attach evidence bundle to any held workflow"
+              ]
+            },
+            {
+              "expert": "compliance_validation",
+              "summary": "Release gate confirms identity, records, privacy, and screening posture before output release.",
+              "confidence": 0.93,
+              "evidence": [
+                "RBAC evaluation",
+                "MFA state",
+                "KYC/AML state",
+                "audit retention check"
+              ],
+              "next_actions": [
+                "preserve evidence bundle",
+                "route exceptions to review"
+              ]
+            },
+            {
+              "expert": "residency_eligibility",
+              "summary": "Residency pathways remain viable with current KYC posture and target-market assumptions.",
+              "confidence": 0.82,
+              "evidence": [
+                "jurisdiction rules summary",
+                "household evidence checklist",
+                "timeline estimate"
+              ],
+              "next_actions": [
+                "collect supporting documents",
+                "monitor program updates"
+              ]
+            },
+            {
+              "expert": "property_valuation",
+              "summary": "Valuation band and comparable-set quality indicate strong confidence for Mediterranean urban assets.",
+              "confidence": 0.9,
+              "evidence": [
+                "three to five market comparables per candidate",
+                "freshness-scored market feed",
+                "location intelligence overlay"
+              ],
+              "next_actions": [
+                "review comp pack",
+                "confirm valuation assumptions"
+              ]
+            },
+            {
+              "expert": "financial_risk",
+              "summary": "Financing capacity is acceptable under balanced leverage and moderate stress assumptions.",
+              "confidence": 0.84,
+              "evidence": [
+                "budget profile",
+                "leverage ratio",
+                "liquidity reserve check"
+              ],
+              "next_actions": [
+                "obtain pre-qualification",
+                "compare financing paths"
+              ]
+            },
+            {
+              "expert": "listing_recommendation",
+              "summary": "Ranking model blended property fit, return profile, residency, insurance, and fairness checks.",
+              "confidence": 0.89,
+              "evidence": [
+                "weighted expert contributions",
+                "preference matching trace",
+                "ranking fairness diagnostics"
+              ],
+              "next_actions": [
+                "inspect ranked rationale",
+                "export shortlist with reasons"
+              ]
+            },
+            {
+              "expert": "ux_personalization",
+              "summary": "Explanation depth and next-best actions were tailored to the current user journey.",
+              "confidence": 0.78,
+              "evidence": [
+                "persona mapping",
+                "journey stage",
+                "explanation depth preference"
+              ],
+              "next_actions": [
+                "adjust explanation depth",
+                "surface guided tasks"
+              ]
+            }
+          ],
+          "ranked_recommendations": [
+            {
+              "candidate_id": "lisbon-green-quarter",
+              "title": "Lisbon Green Quarter Apartment",
+              "geography": "Lisbon, Portugal",
+              "category": "property",
+              "summary": "Family-ready apartment with strong walkability, retrofit upside, and dependable insurance placement.",
+              "composite_score": 0.63,
+              "confidence": 0.67,
+              "expert_contributions": {
+                "property_valuation": 0.7,
+                "investment_analysis": 0.52,
+                "listing_recommendation": 0.65,
+                "residency_eligibility": 0.73,
+                "insurance_matching": 0.59,
+                "financial_risk": 0.61,
+                "compliance_validation": 0.79,
+                "ux_personalization": 0.45
+              },
+              "valuation_band": "$600k-$645k",
+              "comparable_summary": "Supported by three central Lisbon family apartment comparables with similar retrofit profiles.",
+              "trend_signal": "Urban family stock remains supply-constrained with stable pricing momentum.",
+              "location_intelligence": "Strong transit, school access, and low-friction daily mobility improve long-term fit.",
+              "recommendation_rationale": "Recommendation expert favors this listing because user preferences, value confidence, and location quality align cleanly.",
+              "why": "Lisbon Green Quarter Apartment scored well because valuation confidence, fit, and governance posture remain strong for a owner_occupier profile in Portugal.",
+              "investment_insight": "Balanced appreciation outlook with resilience under moderate financing stress.",
+              "visa_pathway": "Portugal D7 family relocation route is the clearest next step.",
+              "insurance_option": "Home, contents, and legal protection bundle with low hazard friction."
+            },
+            {
+              "candidate_id": "porto-riverside-loft",
+              "title": "Porto Riverside Loft",
+              "geography": "Porto, Portugal",
+              "category": "property",
+              "summary": "Flexible lower-cost option with strong affordability and rental fallback support.",
+              "composite_score": 0.61,
+              "confidence": 0.65,
+              "expert_contributions": {
+                "property_valuation": 0.63,
+                "investment_analysis": 0.54,
+                "listing_recommendation": 0.59,
+                "residency_eligibility": 0.67,
+                "insurance_matching": 0.59,
+                "financial_risk": 0.65,
+                "compliance_validation": 0.78,
+                "ux_personalization": 0.42
+              },
+              "valuation_band": "$520k-$555k",
+              "comparable_summary": "Backed by lower-entry riverside loft sales and resilient rent-comp comparables.",
+              "trend_signal": "Moderate appreciation with stronger affordability retention than premium districts.",
+              "location_intelligence": "Transit and rental fallback raise flexibility for mixed family and investment use.",
+              "recommendation_rationale": "Recommendation expert places it second because finance fit is excellent but family relocation signals are slightly weaker.",
+              "why": "Porto Riverside Loft scored well because valuation confidence, fit, and governance posture remain strong for a owner_occupier profile in Portugal.",
+              "investment_insight": "Best affordability and financing resilience in the buyer catalog.",
+              "visa_pathway": "Portugal D7 remains viable, especially when optional rental income matters.",
+              "insurance_option": "Standard property protection package with simpler underwriting requirements."
+            },
+            {
+              "candidate_id": "cascais-coastal-townhome",
+              "title": "Cascais Coastal Townhome",
+              "geography": "Cascais, Portugal",
+              "category": "property",
+              "summary": "Premium lifestyle home with appreciation upside and more insurance complexity.",
+              "composite_score": 0.56,
+              "confidence": 0.6,
+              "expert_contributions": {
+                "property_valuation": 0.67,
+                "investment_analysis": 0.55,
+                "listing_recommendation": 0.55,
+                "residency_eligibility": 0.7,
+                "insurance_matching": 0.48,
+                "financial_risk": 0.51,
+                "compliance_validation": 0.78,
+                "ux_personalization": 0.43
+              },
+              "valuation_band": "$745k-$805k",
+              "comparable_summary": "Premium coastal townhome comps support value, but insurance-adjusted carrying costs vary more widely.",
+              "trend_signal": "Premium submarket demand is healthy, though pricing is more sensitive to macro shocks.",
+              "location_intelligence": "Lifestyle appeal is high, but coastal exposure slightly weakens all-weather resilience.",
+              "recommendation_rationale": "Recommendation expert penalizes this listing for insurance friction and budget stretch despite strong lifestyle appeal.",
+              "why": "Cascais Coastal Townhome scored well because valuation confidence, fit, and governance posture remain strong for a owner_occupier profile in Portugal.",
+              "investment_insight": "Premium appreciation story, but softer resilience under constrained financing.",
+              "visa_pathway": "Portugal relocation still fits, but household cost and protection review are needed.",
+              "insurance_option": "Enhanced coastal package with higher premium and more documentation."
+            }
+          ],
+          "policy_gates": [
+            {
+              "name": "ai_management",
+              "status": "passed",
+              "details": "Operate the AI management system under ISO/IEC 42001 with documented ownership, risk treatment, and human oversight."
+            },
+            {
+              "name": "aml",
+              "status": "passed",
+              "details": "Check source-of-funds completeness, transaction anomaly indicators, and enhanced due diligence thresholds."
+            },
+            {
+              "name": "business_continuity",
+              "status": "passed",
+              "details": "Preserve workflow continuity with alternate queues, RTO/RPO monitoring, failover runbooks, and transaction recovery evidence."
+            },
+            {
+              "name": "data_quality",
+              "status": "passed",
+              "details": "Apply ISO/IEC 5259-aligned controls for data provenance, completeness, freshness, comparability, and traceable remediation."
+            },
+            {
+              "name": "data_residency",
+              "status": "passed",
+              "details": "Apply region-aware storage, transfer, retention, and deletion constraints to profile and decision data."
+            },
+            {
+              "name": "explainability",
+              "status": "passed",
+              "details": "Preserve user-facing reasons, comparable-set rationale, and feature contribution summaries for each decision."
+            },
+            {
+              "name": "fairness",
+              "status": "passed",
+              "details": "Measure ranking fairness, disparate impact, and preference weighting drift before releasing recommendations."
+            },
+            {
+              "name": "jurisdiction",
+              "status": "passed",
+              "details": "Verify local property ownership, residency-by-investment, cross-border disclosure, and servicing rules."
+            },
+            {
+              "name": "kyc",
+              "status": "passed",
+              "details": "Confirm identity evidence, beneficial ownership, and document completeness before high-trust actions are released."
+            },
+            {
+              "name": "licensing",
+              "status": "passed",
+              "details": "Ensure insurance distribution and advisory actions fit the servicing entity permissions."
+            },
+            {
+              "name": "mfa",
+              "status": "passed",
+              "details": "Require phishing-resistant MFA for privileged actions, high-risk sessions, and sensitive expert outputs."
+            },
+            {
+              "name": "model_risk",
+              "status": "passed",
+              "details": "Record model lineage, confidence, bias review, and evaluation thresholds for AI-assisted outputs."
+            },
+            {
+              "name": "pci_dss",
+              "status": "passed",
+              "details": "Isolate cardholder data, use tokenization, protect payment pages, and log reconciliation activity under PCI DSS controls."
+            },
+            {
+              "name": "privacy",
+              "status": "passed",
+              "details": "Enforce purpose limitation, data minimization, consent propagation, and profile-specific privacy controls."
+            },
+            {
+              "name": "rbac",
+              "status": "passed",
+              "details": "Authorize access with least privilege, role scoping, and entitlement checks before expert invocation or release."
+            },
+            {
+              "name": "records",
+              "status": "passed",
+              "details": "Write immutable audit logs with inputs, outputs, lineage, approvals, and identity state."
+            },
+            {
+              "name": "risk_thresholds",
+              "status": "passed",
+              "details": "Block release when fraud, climate, cyber, session, or financial risks exceed threshold."
+            },
+            {
+              "name": "sanctions",
+              "status": "passed",
+              "details": "Screen sanctioned individuals, entities, PEP relationships, and high-risk geographies before release."
+            },
+            {
+              "name": "suitability",
+              "status": "passed",
+              "details": "Check affordability, investor category, and product suitability against client profile and constraints."
+            }
+          ],
+          "audit_trail": [
+            {
+              "name": "journey.requested",
+              "status": "completed",
+              "detail": "Request received for web channel.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "identity.profile.ingested",
+              "status": "completed",
+              "detail": "Profile source=frontend, auth_assurance=aal2, roles=['client', 'buyer'], consent_scope=['routing', 'kyc', 'personalization', 'evidence_retention'].",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "context.assembled",
+              "status": "completed",
+              "detail": "Journey stage=discovery, locale=en-US.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "experts.selected",
+              "status": "completed",
+              "detail": "Selected experts unified_compliance_risk_intelligence:sync, compliance_validation:sync, residency_eligibility:async, property_valuation:sync, financial_risk:sync, listing_recommendation:sync, ux_personalization:sync.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "policy.validation.completed",
+              "status": "released",
+              "detail": "Non-passing gates: ['none'].",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "audit.packet.persisted",
+              "status": "completed",
+              "detail": "Decision packet persisted to evidence store and event stream.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            }
+          ],
+          "recommendation": "Present a guided property decision journey led by Lisbon Green Quarter Apartment that combines fair value, comparables, trends, location intelligence, affordability, eligibility, insurance, and next steps using unified_compliance_risk_intelligence, compliance_validation, residency_eligibility, property_valuation, financial_risk, listing_recommendation.",
+          "explanation": "EstateOS ingested frontend profile signals for investor_type 'owner_occupier', financial intent 'primary residence with moderate appreciation', residency goal 'family relocation in 12 months', and locale 'en-US'. The request was evaluated with auth assurance 'aal2', MFA=on, KYC='approved', and sanctions='clear'. Top-ranked expert was unified_compliance_risk_intelligence at 0.92. Top-ranked recommendation was 'Lisbon Green Quarter Apartment' in Lisbon, Portugal with composite score 0.63. The routing layer combined synchronous and asynchronous experts, evaluated 19 policy gates, applied ISO/IEC 5259, ISO/IEC 42001, ISO/IEC 27001, and ISO 22301 governance controls, and ended with release status 'released'. Review flags: ['none'].",
+          "release_status": "released",
+          "governance_status": [
+            {
+              "framework": "ISO/IEC 5259",
+              "status": "active",
+              "controls": [
+                "market-data freshness scoring",
+                "comparable-set completeness checks",
+                "location signal provenance",
+                "ranking fairness sampling"
+              ],
+              "explanation": "Data quality governance monitors market feeds, comparables, trend features, and location intelligence before valuation and ranking outputs are released."
+            },
+            {
+              "framework": "ISO/IEC 42001",
+              "status": "active",
+              "controls": [
+                "AI inventory and ownership",
+                "human oversight thresholds",
+                "explainability ledger",
+                "risk treatment and approval workflow"
+              ],
+              "explanation": "The AI management layer records accountable owners, ranking and valuation risks, fairness checks, and manual review triggers for sensitive releases."
+            },
+            {
+              "framework": "ISO/IEC 27001",
+              "status": "active",
+              "controls": [
+                "segregation of duties",
+                "least-privilege entitlements",
+                "immutable audit evidence",
+                "security monitoring with Sentinel"
+              ],
+              "explanation": "Information-security controls verify identity posture, access governance, auditability, and protective monitoring before EstateOS outputs can be exported or operationalized."
+            },
+            {
+              "framework": "ISO 22301",
+              "status": "active",
+              "controls": [
+                "active-active workflow failover",
+                "RTO/RPO checkpoints",
+                "workflow replay from immutable events",
+                "manual continuity runbook"
+              ],
+              "explanation": "Business continuity governance maintains alternate routing paths, replayable event streams, and recovery checkpoints for critical transaction and advisory workflows."
+            }
+          ],
+          "azure_services": [
+            "Azure Front Door",
+            "Azure API Management",
+            "Microsoft Entra External ID",
+            "Azure App Service",
+            "Azure Kubernetes Service",
+            "Azure Database for PostgreSQL",
+            "Azure Cache for Redis",
+            "Azure Blob Storage",
+            "Azure Service Bus",
+            "Azure AI Search",
+            "Azure Machine Learning",
+            "Azure Key Vault",
+            "Azure Monitor",
+            "Microsoft Sentinel",
+            "Defender for Cloud"
+          ],
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27017",
+            "ISO/IEC 27701",
+            "PCI DSS",
+            "SOC 2 Type 2",
+            "ISO/IEC 25010",
+            "ISO/IEC 5259",
+            "ISO/IEC 42001",
+            "ISO 22301",
+            "ISO 31000",
+            "ISO 9241-210"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "transaction_decision": {
+          "request_id": "demo-request",
+          "transaction": {
+            "transaction_id": "demo-transaction",
+            "deal_name": "Lisbon Green Quarter acquisition",
+            "deal_type": "owner occupied purchase",
+            "jurisdiction": "Portugal",
+            "stage": "document_validation",
+            "purchase_price": 620000,
+            "target_price": 598000,
+            "financing_ratio": 0.68,
+            "seller_motivation": "high",
+            "urgency_days": 12,
+            "counterparty_risk": "medium",
+            "requested_documents": [
+              {
+                "document_id": "doc-title",
+                "name": "Title and encumbrance report",
+                "status": "validated",
+                "document_type": "title",
+                "owner": "Legal counsel",
+                "issues": [],
+                "compliance_tags": [
+                  "records",
+                  "jurisdiction"
+                ],
+                "last_checked_utc": "2026-03-20T17:18:37.661088+00:00"
+              },
+              {
+                "document_id": "doc-disclosure",
+                "name": "Seller disclosure package",
+                "status": "review",
+                "document_type": "disclosure",
+                "owner": "Broker",
+                "issues": [
+                  "Missing renovation permit attachment"
+                ],
+                "compliance_tags": [
+                  "records",
+                  "privacy"
+                ],
+                "last_checked_utc": "2026-03-20T17:18:37.661101+00:00"
+              },
+              {
+                "document_id": "doc-finance",
+                "name": "Lender commitment letter",
+                "status": "validated",
+                "document_type": "financing",
+                "owner": "Lender",
+                "issues": [],
+                "compliance_tags": [
+                  "records",
+                  "business_continuity"
+                ],
+                "last_checked_utc": "2026-03-20T17:18:37.661106+00:00"
+              }
+            ],
+            "workflow_stages": [
+              {
+                "stage": "intake",
+                "status": "completed",
+                "completion": 1.0,
+                "owner": "Broker ops",
+                "control_checks": [
+                  "identity bound",
+                  "consent captured"
+                ],
+                "blocker": ""
+              },
+              {
+                "stage": "pricing_review",
+                "status": "completed",
+                "completion": 1.0,
+                "owner": "Deal desk",
+                "control_checks": [
+                  "pricing memo stored",
+                  "approval recorded"
+                ],
+                "blocker": ""
+              },
+              {
+                "stage": "negotiation",
+                "status": "completed",
+                "completion": 1.0,
+                "owner": "Advisor",
+                "control_checks": [
+                  "counter trail stored",
+                  "deadline evidence stored"
+                ],
+                "blocker": ""
+              },
+              {
+                "stage": "document_validation",
+                "status": "in_progress",
+                "completion": 0.72,
+                "owner": "Legal counsel",
+                "control_checks": [
+                  "document hash stored",
+                  "exception list open"
+                ],
+                "blocker": "Pending permit attachment"
+              },
+              {
+                "stage": "approval",
+                "status": "pending",
+                "completion": 0.1,
+                "owner": "Transaction manager",
+                "control_checks": [
+                  "segregation of duties",
+                  "release gate pending"
+                ],
+                "blocker": ""
+              },
+              {
+                "stage": "closing",
+                "status": "pending",
+                "completion": 0.0,
+                "owner": "Closing agent",
+                "control_checks": [
+                  "continuity runbook attached"
+                ],
+                "blocker": ""
+              }
+            ],
+            "human_approvals": [
+              "buyer_signoff_pending",
+              "legal_signoff_required"
+            ],
+            "bcdr_tier": "tier_1"
+          },
+          "pricing_strategy": {
+            "expert": "pricing_strategy",
+            "headline": "Anchor near 598,000 with protected concession bands.",
+            "detail": "Pricing strategy recommends an anchored opening position, a documented walk-away threshold, and contingency pricing that preserves margin if diligence reveals title, financing, or disclosure friction.",
+            "score": 0.87,
+            "priority": "high",
+            "next_action": "Prepare counteroffer ladder with opening, midpoint, and walk-away thresholds."
+          },
+          "negotiation_insight": {
+            "expert": "negotiation_insights",
+            "headline": "Use deadline-backed concessions and keep document deficiencies as leverage.",
+            "detail": "Negotiation insight favors time-boxed counters, explicit document conditions, and concession sequencing that trades speed for signature certainty rather than headline price alone.",
+            "score": 0.83,
+            "priority": "high",
+            "next_action": "Issue a counter with an expiration window and evidence-based contingency carve-outs."
+          },
+          "document_validation": {
+            "expert": "document_validation",
+            "headline": "Do not advance to closing until title, disclosures, and signatures clear validation.",
+            "detail": "Document validation reviewed 3 artifacts, found 1 not-yet-validated items, and logged 1 compliance or execution issues for remediation.",
+            "score": 0.82,
+            "priority": "critical",
+            "next_action": "Route open document issues to owners and require re-validation before approval."
+          },
+          "risk_scoring": {
+            "expert": "deal_risk_scoring",
+            "headline": "Escalate when counterparty friction, leverage, or document drift exceed tolerance.",
+            "detail": "Deal risk scoring combines counterparty posture, market volatility, document exceptions, financing leverage, and workflow integrity checks into a single escalation score.",
+            "score": 0.55,
+            "priority": "medium",
+            "next_action": "Lock release behind approval if the risk score remains above the configured threshold."
+          },
+          "overall_risk_score": 0.41,
+          "risk_rating": "moderate",
+          "release_status": "review",
+          "workflow_integrity": {
+            "sequential_integrity": "intact",
+            "audit_status": "complete",
+            "immutable_event_chain": true,
+            "continuity_mode": "active-active",
+            "continuity_notes": [
+              "All stage changes are event-sourced and replayable.",
+              "Manual continuity runbook is attached to approval and closing stages.",
+              "BCDR tier tier_1 maps to workflow replay and alternate-queue failover."
+            ]
+          },
+          "compliance_controls": [
+            {
+              "control": "Access governance",
+              "framework": "ISO/IEC 27001",
+              "status": "active",
+              "detail": "RBAC and MFA protect pricing, negotiation, and release decisions for sensitive transactions.",
+              "evidence": [
+                "RBAC entitlement snapshot",
+                "MFA assertion",
+                "approval group membership"
+              ]
+            },
+            {
+              "control": "Immutable audit trail",
+              "framework": "ISO/IEC 27001",
+              "status": "active",
+              "detail": "Every stage transition, expert recommendation, and approval is written to an immutable event chain.",
+              "evidence": [
+                "event stream offsets",
+                "tamper-evident digest",
+                "approval timestamps"
+              ]
+            },
+            {
+              "control": "Documented continuity plan",
+              "framework": "ISO 22301",
+              "status": "active",
+              "detail": "Critical deal workflows have defined recovery paths, alternate queues, and manual playbooks.",
+              "evidence": [
+                "continuity tier mapping",
+                "workflow replay procedure",
+                "RTO/RPO checkpoint"
+              ]
+            },
+            {
+              "control": "Document completeness",
+              "framework": "ISO/IEC 27001",
+              "status": "review",
+              "detail": "Deal release requires validated title, disclosure, diligence, and closing artifacts before advancing the workflow.",
+              "evidence": [
+                "Seller disclosure package"
+              ]
+            }
+          ],
+          "audit_trail": [
+            {
+              "name": "transaction.intake.recorded",
+              "status": "completed",
+              "detail": "Transaction deal-506653d5 created for Lisbon Green Quarter acquisition.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "transaction.pricing.reviewed",
+              "status": "completed",
+              "detail": "Pricing strategy generated with concession ladder.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "transaction.documents.checked",
+              "status": "completed",
+              "detail": "Validation results linked to immutable audit bundle.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "transaction.workflow.integrity",
+              "status": "intact",
+              "detail": "Continuity mode=active-active.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "transaction.release.gated",
+              "status": "review",
+              "detail": "Release status determined from risk, controls, and workflow integrity.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            }
+          ],
+          "recommendations": [
+            "Prepare counteroffer ladder with opening, midpoint, and walk-away thresholds.",
+            "Issue a counter with an expiration window and evidence-based contingency carve-outs.",
+            "Route open document issues to owners and require re-validation before approval.",
+            "Lock release behind approval if the risk score remains above the configured threshold.",
+            "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
+          ],
+          "explanation": "Transaction deal-506653d5 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO 22301",
+            "ISO/IEC 42001",
+            "ISO 31000"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "payment_decision": {
+          "request_id": "demo-request",
+          "transaction_reference": "demo-transaction",
+          "payment_instrument": {
+            "instrument_type": "wire",
+            "token_provider": "Banking / escrow token service",
+            "token_reference": "tok-ed3814fc73",
+            "last4": "6789",
+            "network": "ACH/Wire",
+            "wallet_or_bank": "Escrow operating account",
+            "pci_scope": "tokenized_frontend_only"
+          },
+          "participants": [
+            {
+              "role": "payer",
+              "name": "usr-e5d49966",
+              "identifier": "usr-e5d49966"
+            },
+            {
+              "role": "beneficiary",
+              "name": "EstateOS Escrow",
+              "identifier": "deal-506653d5"
+            },
+            {
+              "role": "servicer",
+              "name": "EstateOS Payment Ops",
+              "identifier": "req-7f24eb14"
+            }
+          ],
+          "fraud_probability": 0.36,
+          "risk_level": "low",
+          "payment_behavior_summary": "Payer behavior is stable across token usage, timing, and identity context.",
+          "escrow_status": "Awaiting dual approval",
+          "frontend_security_posture": "PCI DSS hosted payment fields, tokenized instruments, CSP/WAF controls, and log redaction protect the frontend payment experience.",
+          "signals": [
+            {
+              "category": "device_trust",
+              "status": "passed",
+              "detail": "Session is bound to MFA and a trusted device."
+            },
+            {
+              "category": "amount_velocity",
+              "status": "review",
+              "detail": "Amount 120,000 is checked against payer velocity and historical behavior."
+            },
+            {
+              "category": "cross_border",
+              "status": "review",
+              "detail": "Cross-border payment routes trigger enhanced beneficiary, sanctions, and settlement monitoring."
+            },
+            {
+              "category": "chargeback_history",
+              "status": "passed",
+              "detail": "Chargeback history feeds the fraud probability model and manual-review thresholds."
+            }
+          ],
+          "escrow_conditions": [
+            {
+              "condition": "funds_available",
+              "status": "ready",
+              "detail": "Escrow release requires settled funds and beneficiary matching."
+            },
+            {
+              "condition": "document_clearance",
+              "status": "ready",
+              "detail": "Closing, identity, and approval milestones must be complete before release."
+            },
+            {
+              "condition": "dual_approval",
+              "status": "ready",
+              "detail": "Release requires dual approval with segregation of duties and immutable event logging."
+            }
+          ],
+          "reconciliation_entries": [
+            {
+              "entry_type": "authorization_capture",
+              "status": "not_applicable",
+              "detail": "PSP references are reconciled without exposing raw cardholder data."
+            },
+            {
+              "entry_type": "escrow_ledger",
+              "status": "open",
+              "detail": "Escrow ledger events are matched to bank/PSP settlement references."
+            },
+            {
+              "entry_type": "exception_queue",
+              "status": "escalated",
+              "detail": "Signed webhooks, settlement files, and exception queues drive reconciliation closeout."
+            }
+          ],
+          "recommended_actions": [
+            "Keep the user in hosted payment fields and masked token views.",
+            "Allow escrow progression when settlement and approvals remain clean.",
+            "Match settlement references and escrow ledger entries before reconciliation close."
+          ],
+          "release_status": "released",
+          "explanation": "Payment deal-506653d5 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "standards_alignment": [
+            "PCI DSS",
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO 31000",
+            "SOC 2 Type 2"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "insurance_decision": {
+          "request_id": "demo-request",
+          "applicant": {
+            "applicant_id": "demo-applicant",
+            "persona": "buyer",
+            "property_type": "apartment",
+            "occupancy": "owner_occupied",
+            "transaction_context": "closing",
+            "property_jurisdiction": "Portugal",
+            "estimated_property_value": 620000,
+            "mortgage_amount": 420000,
+            "household_size": 4,
+            "dependents": 2,
+            "landlord_exposure": false,
+            "title_required": true,
+            "life_priority": true,
+            "prior_claims_count": 0,
+            "privacy_consent": true
+          },
+          "acord_parties": [
+            {
+              "role": "applicant",
+              "name": "usr-e5d49966",
+              "identifier": "usr-e5d49966"
+            },
+            {
+              "role": "servicing_entity",
+              "name": "EstateOS Insurance Desk",
+              "identifier": "estateos-insurance"
+            },
+            {
+              "role": "transaction_context",
+              "name": "closing",
+              "identifier": "req-7f24eb14"
+            }
+          ],
+          "acord_coverages": [
+            {
+              "line_of_business": "property",
+              "acord_form": "ACORD 80",
+              "coverage_type": "homeowners",
+              "insured_amount": 620000,
+              "deductible": 1000,
+              "notes": "Captures dwelling, occupancy, mortgagee, and peril details for quote intake."
+            },
+            {
+              "line_of_business": "title",
+              "acord_form": "ACORD 28",
+              "coverage_type": "title",
+              "insured_amount": 620000,
+              "deductible": 0,
+              "notes": "Binds ownership, lender, and recording evidence to the closing packet."
+            },
+            {
+              "line_of_business": "landlord",
+              "acord_form": "ACORD 101",
+              "coverage_type": "landlord",
+              "insured_amount": 310000,
+              "deductible": 2500,
+              "notes": "Supports rental, loss-of-rents, and premises-liability underwriting when leasing exposure exists."
+            },
+            {
+              "line_of_business": "life",
+              "acord_form": "ACORD 103",
+              "coverage_type": "life_continuity",
+              "insured_amount": 420000,
+              "deductible": 0,
+              "notes": "Captures beneficiary and continuity needs when household or guarantor protection is requested."
+            }
+          ],
+          "recommendations": [
+            {
+              "coverage_type": "homeowners",
+              "recommendation_level": "primary",
+              "policy_form": "HO-3",
+              "premium_estimate": "$188/mo est.",
+              "rationale": "HO-3 is the best fit for a owner_occupied apartment because it aligns dwelling protection with the current closing workflow.",
+              "acord_payload_refs": [
+                "ACORD 80"
+              ]
+            },
+            {
+              "coverage_type": "title",
+              "recommendation_level": "recommended",
+              "policy_form": "Owner's title",
+              "premium_estimate": "$1,950 one-time est.",
+              "rationale": "Title protection is recommended whenever acquisition, transfer, or refinance steps depend on clean ownership and lien status.",
+              "acord_payload_refs": [
+                "ACORD 28"
+              ]
+            },
+            {
+              "coverage_type": "landlord",
+              "recommendation_level": "contingent",
+              "policy_form": "Deferred landlord endorsement",
+              "premium_estimate": "$38/mo add-on est.",
+              "rationale": "Landlord coverage becomes primary when rent interruption, tenant liability, or premises claims could affect transaction economics.",
+              "acord_payload_refs": [
+                "ACORD 101"
+              ]
+            },
+            {
+              "coverage_type": "life_related",
+              "recommendation_level": "recommended",
+              "policy_form": "Term life with mortgage continuity rider",
+              "premium_estimate": "$61/mo est.",
+              "rationale": "Life-related continuity coverage is recommended when household dependents, guarantors, or debt-service plans depend on insured income continuity.",
+              "acord_payload_refs": [
+                "ACORD 103"
+              ]
+            }
+          ],
+          "secure_exchange_controls": [
+            {
+              "control": "Consent and privacy notice",
+              "status": "active",
+              "detail": "NAIC-aligned notice, purpose limitation, and quote-sharing consent are checked before payload release."
+            },
+            {
+              "control": "Encrypted carrier exchange",
+              "status": "active",
+              "detail": "ACORD payloads are exchanged using mTLS, field-level encryption, signed service identities, and correlation IDs."
+            },
+            {
+              "control": "Access and servicing governance",
+              "status": "active",
+              "detail": "Only entitled advisors, servicing staff, and approved partner roles can view recommendation details or request quotes."
+            },
+            {
+              "control": "Audit and retention",
+              "status": "active",
+              "detail": "Quote packets, title evidence, underwriting assumptions, and retransmission attempts are written to immutable servicing logs."
+            }
+          ],
+          "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-7f24eb14.",
+          "release_status": "released",
+          "explanation": "Insurance review evaluated persona 'buyer', property type 'apartment', occupancy 'owner_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
+          "standards_alignment": [
+            "ACORD",
+            "NAIC Privacy/Security",
+            "ISO/IEC 27001",
+            "ISO/IEC 27701"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "integration_decision": {
+          "request_id": "demo-request",
+          "partner_system": "property_registry",
+          "domain": "government",
+          "canonical_contract": "CanonicalPropertySubmission.v1",
+          "expert_chain": [
+            "payment_intelligence",
+            "financial_risk",
+            "compliance_validation"
+          ],
+          "validation_results": [
+            {
+              "control": "Partner domain alignment",
+              "status": "review",
+              "detail": "Partner declared domain 'government' and adapter profile expects 'banking'."
+            },
+            {
+              "control": "Consent and privacy scope",
+              "status": "passed",
+              "detail": "Payload release requires purpose-bound consent and an active session consent state."
+            },
+            {
+              "control": "Identity and trust posture",
+              "status": "review",
+              "detail": "Step-up MFA and verified identity improve confidence before external partner delivery."
+            },
+            {
+              "control": "Data classification handling",
+              "status": "passed",
+              "detail": "Payload classification 'restricted' is checked against partner transport and storage controls."
+            }
+          ],
+          "routing_decisions": [
+            {
+              "target": "escrow_settlement_orchestrator",
+              "status": "conditional_review",
+              "detail": "Canonical contract CanonicalPropertySubmission.v1 is routed into the primary adapter when validation and policy checks pass."
+            },
+            {
+              "target": "payment_operations_review",
+              "status": "standby",
+              "detail": "Fallback routing preserves interoperability evidence and hands exceptions to the correct human or secondary workflow."
+            }
+          ],
+          "compliance_evidence": [
+            "ISO 20022/NACHA field mapping ledger",
+            "PCI DSS tokenization boundary evidence",
+            "AML/KYC and approval trace"
+          ],
+          "release_status": "release_ready",
+          "explanation": "Integration hub normalized the property_registry payload into CanonicalPropertySubmission.v1, ran expert chain payment_intelligence, financial_risk, compliance_validation, and produced a release_ready decision with schema, trust, privacy, and routing evidence attached.",
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "PCI DSS"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "residency_decision": {
+          "request_id": "demo-request",
+          "applicant": {
+            "applicant_id": "demo-applicant",
+            "citizenship_country": "United States",
+            "current_country": "United States",
+            "target_jurisdiction": "Portugal",
+            "household_size": 4,
+            "dependents": 2,
+            "annual_income": 168000,
+            "liquid_assets": 210000,
+            "property_budget": 650000,
+            "property_value": 620000,
+            "source_of_funds_verified": true,
+            "criminal_record_clear": true,
+            "health_insurance_ready": true,
+            "documents_on_file": [
+              "passport",
+              "proof_of_income",
+              "proof_of_funds",
+              "health_insurance",
+              "birth_certificates",
+              "tax_number"
+            ]
+          },
+          "program": "Portugal D7 Residency",
+          "jurisdiction": "Portugal",
+          "pathway_type": "passive-income residency",
+          "eligibility_status": "eligible_with_review",
+          "eligibility_score": 0.85,
+          "rule_checks": [
+            {
+              "name": "property_value",
+              "status": "passed",
+              "detail": "This pathway does not require a minimum property value for baseline eligibility."
+            },
+            {
+              "name": "annual_income",
+              "status": "passed",
+              "detail": "Annual income 168,000 compared with threshold 12,000."
+            },
+            {
+              "name": "liquid_assets",
+              "status": "passed",
+              "detail": "Liquid assets 210,000 compared with threshold 36,000."
+            },
+            {
+              "name": "source_of_funds",
+              "status": "passed",
+              "detail": "Source-of-funds evidence is matched with AML posture before release."
+            },
+            {
+              "name": "criminal_record",
+              "status": "passed",
+              "detail": "Criminal record evidence must be clear for filing and downstream partner submission."
+            },
+            {
+              "name": "health_insurance",
+              "status": "passed",
+              "detail": "Health insurance readiness is checked because consular and residence filing often require coverage."
+            }
+          ],
+          "document_checks": [
+            {
+              "document": "passport",
+              "status": "ready",
+              "detail": "Document is present in the controlled evidence bundle."
+            },
+            {
+              "document": "proof_of_income",
+              "status": "ready",
+              "detail": "Document is present in the controlled evidence bundle."
+            },
+            {
+              "document": "bank_statements",
+              "status": "missing",
+              "detail": "Document still needs collection or validation."
+            },
+            {
+              "document": "health_insurance",
+              "status": "ready",
+              "detail": "Document is present in the controlled evidence bundle."
+            },
+            {
+              "document": "criminal_record",
+              "status": "missing",
+              "detail": "Document still needs collection or validation."
+            },
+            {
+              "document": "proof_of_address",
+              "status": "missing",
+              "detail": "Document still needs collection or validation."
+            },
+            {
+              "document": "tax_number",
+              "status": "review",
+              "detail": "Supplemental document is available for accelerated review."
+            },
+            {
+              "document": "lease_or_property_deed",
+              "status": "recommended",
+              "detail": "Supplemental evidence is recommended for smoother counsel review."
+            },
+            {
+              "document": "family_dependents_pack",
+              "status": "recommended",
+              "detail": "Supplemental evidence is recommended for smoother counsel review."
+            }
+          ],
+          "compliance_workflow": [
+            {
+              "step": "1. KYC identity verification",
+              "owner": "Compliance ops",
+              "status": "completed",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            },
+            {
+              "step": "2. AML source-of-funds review",
+              "owner": "AML analyst",
+              "status": "completed",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            },
+            {
+              "step": "3. Document authenticity validation",
+              "owner": "Residency operations",
+              "status": "ready",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            },
+            {
+              "step": "4. Privacy minimization and consent logging",
+              "owner": "Privacy office",
+              "status": "completed",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            },
+            {
+              "step": "5. Manual legal review before submission",
+              "owner": "Jurisdiction counsel",
+              "status": "blocked",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            }
+          ],
+          "kyc_aml_summary": "KYC status is approved, AML risk is medium, sanctions status is clear, and source-of-funds verification is complete.",
+          "privacy_summary": "ISO/IEC 27701-aligned handling keeps residency evidence purpose-bound under the confidential privacy tier, with document minimization, consent-scoped sharing, and retention-aware compliance workflows.",
+          "explanation": "Portugal D7 Residency in Portugal was evaluated for a household of 4 with property value 620,000, annual income 168,000, and liquid assets 210,000. Eligibility ended as 'eligible_with_review' because 6 rule checks passed, 0 need review, and 3 required documents are still missing. Compliance workflow steps preserve KYC/AML gates, document authenticity review, and ISO/IEC 27701 privacy controls before any external filing.",
+          "standards_alignment": [
+            "KYC/AML",
+            "ISO/IEC 27701",
+            "ISO/IEC 27001",
+            "ISO 22301"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        }
+      }
+    },
+    "investor": {
+      "meta": {
+        "journey_key": "investor",
+        "normalized": true
+      },
+      "packets": {
+        "journey_key": "investor",
+        "property_decision": {
+          "request_id": "demo-request",
+          "profile": {
+            "role": "investor",
+            "investor_type": "cross_border",
+            "intent": "cross-border property investment with residency options",
+            "financial_intent": "income plus long-term appreciation",
+            "country": "United States",
+            "target_region": "Portugal",
+            "risk_tolerance": "balanced",
+            "investment_budget": 850000,
+            "residency_interest": true,
+            "residency_goal": "golden visa pathway for family relocation",
+            "financing_needed": true,
+            "household_size": 3
+          },
+          "identity": {
+            "subject_id": "demo-subject",
+            "auth_assurance_level": "aal2",
+            "mfa_completed": true,
+            "rbac_roles": [
+              "client",
+              "investor"
+            ],
+            "entitlements": [
+              "decision:view",
+              "decision:export",
+              "profile:update",
+              "transaction:approve"
+            ],
+            "kyc_status": "approved",
+            "aml_risk": "medium",
+            "sanctions_status": "clear",
+            "privacy_tier": "confidential",
+            "consent_scope": [
+              "routing",
+              "kyc",
+              "personalization",
+              "evidence_retention"
+            ],
+            "pii_tags": [
+              "identity",
+              "financial",
+              "residency"
+            ],
+            "profile_source": "frontend"
+          },
+          "context": {
+            "request_id": "demo-request",
+            "journey_stage": "consideration",
+            "channel": "web",
+            "locale": "en-US",
+            "has_verified_identity": true,
+            "has_consent": true,
+            "property_country": "Portugal",
+            "property_type": "apartment",
+            "climate_risk": "medium",
+            "market_volatility": "medium",
+            "session_risk": "medium",
+            "cross_border": true,
+            "generated_at_utc": "2026-03-20T00:00:00+00:00"
+          },
+          "detected_intents": [
+            "finance",
+            "insurance",
+            "investment",
+            "payment",
+            "property_search",
+            "recommendation",
+            "residency"
+          ],
+          "selected_experts": [
+            {
+              "expert": "unified_compliance_risk_intelligence",
+              "score": 0.99,
+              "rationale": "Selected for specialties ['continuous_control_monitoring', 'cross_workflow_risk_scoring', 'aml_kyc_enforcement', 'sanctions_screening', 'audit_logging', 'iso_27001_alignment', 'iso_31000_alignment'] with 3 trigger hits, intent alignment=False, profile-aware bonus=0.00, context bonus=0.03.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "payment_intelligence",
+              "score": 0.89,
+              "rationale": "Selected for specialties ['payment risk', 'fraud scoring', 'escrow', 'reconciliation'] with 3 trigger hits, intent alignment=True, profile-aware bonus=0.00, context bonus=0.00.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "financial_risk",
+              "score": 0.83,
+              "rationale": "Selected for specialties ['affordability', 'leverage', 'liquidity', 'fx_exposure'] with 2 trigger hits, intent alignment=True, profile-aware bonus=0.04, context bonus=0.00.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "compliance_validation",
+              "score": 0.83,
+              "rationale": "Selected for specialties ['kyc', 'aml', 'sanctions', 'privacy', 'records'] with 0 trigger hits, intent alignment=False, profile-aware bonus=0.00, context bonus=0.03.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "residency_eligibility",
+              "score": 0.8,
+              "rationale": "Selected for specialties ['residency', 'visa', 'jurisdiction_rules'] with 1 trigger hits, intent alignment=True, profile-aware bonus=0.04, context bonus=0.03.",
+              "execution_mode": "async"
+            },
+            {
+              "expert": "investment_analysis",
+              "score": 0.76,
+              "rationale": "Selected for specialties ['yield', 'irr', 'cashflow', 'portfolio_fit'] with 1 trigger hits, intent alignment=True, profile-aware bonus=0.03, context bonus=0.00.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "property_valuation",
+              "score": 0.71,
+              "rationale": "Selected for specialties ['valuation', 'comparables', 'market_position', 'trend_analysis', 'location_intelligence'] with 1 trigger hits, intent alignment=True, profile-aware bonus=0.00, context bonus=0.00.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "listing_recommendation",
+              "score": 0.7,
+              "rationale": "Selected for specialties ['ranking', 'preference_matching', 'fairness_checks', 'explainable_ordering'] with 0 trigger hits, intent alignment=True, profile-aware bonus=0.00, context bonus=0.00.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "insurance_matching",
+              "score": 0.69,
+              "rationale": "Selected for specialties ['coverage', 'perils', 'acord_intake'] with 1 trigger hits, intent alignment=True, profile-aware bonus=0.00, context bonus=0.00.",
+              "execution_mode": "async"
+            },
+            {
+              "expert": "ux_personalization",
+              "score": 0.57,
+              "rationale": "Selected for specialties ['journey_guidance', 'messaging', 'next_best_action'] with 1 trigger hits, intent alignment=False, profile-aware bonus=0.00, context bonus=0.00.",
+              "execution_mode": "sync"
+            }
+          ],
+          "expert_outputs": [
+            {
+              "expert": "unified_compliance_risk_intelligence",
+              "summary": "Continuous control monitoring unifies AML/KYC, sanctions screening, audit logging, and cross-domain risk scoring across property, payment, insurance, and residency workflows.",
+              "confidence": 0.95,
+              "evidence": [
+                "continuous activity risk graph",
+                "AML/KYC and sanctions screening ledger",
+                "immutable audit event chain",
+                "ISO/IEC 27001 and ISO 31000 control mappings"
+              ],
+              "next_actions": [
+                "review elevated risk cases",
+                "attach evidence bundle to any held workflow"
+              ]
+            },
+            {
+              "expert": "payment_intelligence",
+              "summary": "Payment routing monitors fraud probability, escrow milestones, and reconciliation exceptions before funds move.",
+              "confidence": 0.86,
+              "evidence": [
+                "tokenized payment telemetry",
+                "device and velocity checks",
+                "escrow and settlement ledger"
+              ],
+              "next_actions": [
+                "review payment release posture",
+                "clear reconciliation exceptions"
+              ]
+            },
+            {
+              "expert": "financial_risk",
+              "summary": "Financing capacity is acceptable under balanced leverage and moderate stress assumptions.",
+              "confidence": 0.84,
+              "evidence": [
+                "budget profile",
+                "leverage ratio",
+                "liquidity reserve check"
+              ],
+              "next_actions": [
+                "obtain pre-qualification",
+                "compare financing paths"
+              ]
+            },
+            {
+              "expert": "compliance_validation",
+              "summary": "Release gate confirms identity, records, privacy, and screening posture before output release.",
+              "confidence": 0.93,
+              "evidence": [
+                "RBAC evaluation",
+                "MFA state",
+                "KYC/AML state",
+                "audit retention check"
+              ],
+              "next_actions": [
+                "preserve evidence bundle",
+                "route exceptions to review"
+              ]
+            },
+            {
+              "expert": "residency_eligibility",
+              "summary": "Residency pathways remain viable with current KYC posture and target-market assumptions.",
+              "confidence": 0.82,
+              "evidence": [
+                "jurisdiction rules summary",
+                "household evidence checklist",
+                "timeline estimate"
+              ],
+              "next_actions": [
+                "collect supporting documents",
+                "monitor program updates"
+              ]
+            },
+            {
+              "expert": "investment_analysis",
+              "summary": "Return model favors resilient income and capital preservation over pure premium upside.",
+              "confidence": 0.87,
+              "evidence": [
+                "yield scenario table",
+                "downside stress case",
+                "portfolio fit check"
+              ],
+              "next_actions": [
+                "compare downside cases",
+                "review hold-period assumptions"
+              ]
+            },
+            {
+              "expert": "property_valuation",
+              "summary": "Valuation band and comparable-set quality indicate strong confidence for Mediterranean urban assets.",
+              "confidence": 0.9,
+              "evidence": [
+                "three to five market comparables per candidate",
+                "freshness-scored market feed",
+                "location intelligence overlay"
+              ],
+              "next_actions": [
+                "review comp pack",
+                "confirm valuation assumptions"
+              ]
+            },
+            {
+              "expert": "listing_recommendation",
+              "summary": "Ranking model blended property fit, return profile, residency, insurance, and fairness checks.",
+              "confidence": 0.89,
+              "evidence": [
+                "weighted expert contributions",
+                "preference matching trace",
+                "ranking fairness diagnostics"
+              ],
+              "next_actions": [
+                "inspect ranked rationale",
+                "export shortlist with reasons"
+              ]
+            },
+            {
+              "expert": "insurance_matching",
+              "summary": "Coverage options remain placeable with manageable premium variance across top candidates.",
+              "confidence": 0.8,
+              "evidence": [
+                "hazard scoring",
+                "carrier appetite summary",
+                "intake completeness"
+              ],
+              "next_actions": [
+                "request quotes",
+                "confirm property disclosures"
+              ]
+            },
+            {
+              "expert": "ux_personalization",
+              "summary": "Explanation depth and next-best actions were tailored to the current user journey.",
+              "confidence": 0.78,
+              "evidence": [
+                "persona mapping",
+                "journey stage",
+                "explanation depth preference"
+              ],
+              "next_actions": [
+                "adjust explanation depth",
+                "surface guided tasks"
+              ]
+            }
+          ],
+          "ranked_recommendations": [
+            {
+              "candidate_id": "athens-urban-block",
+              "title": "Athens Urban Residential Block",
+              "geography": "Athens, Greece",
+              "category": "property",
+              "summary": "Income-oriented multifamily opportunity with strong downside resilience and optional residency value.",
+              "composite_score": 0.63,
+              "confidence": 0.67,
+              "expert_contributions": {
+                "property_valuation": 0.61,
+                "investment_analysis": 0.7,
+                "listing_recommendation": 0.63,
+                "residency_eligibility": 0.66,
+                "insurance_matching": 0.56,
+                "financial_risk": 0.71,
+                "compliance_validation": 0.78,
+                "ux_personalization": 0.44
+              },
+              "valuation_band": "$845k-$910k",
+              "comparable_summary": "Comparable multifamily-style blocks and stabilized rent rolls support the value range.",
+              "trend_signal": "Yield-driven demand remains constructive despite moderate market volatility.",
+              "location_intelligence": "Dense urban amenities and diversified occupancy drivers improve resilience.",
+              "recommendation_rationale": "Recommendation expert ranks this first because yield, resilience, and diversification best match the investor profile.",
+              "why": "Athens Urban Residential Block scored well because valuation confidence, fit, and governance posture remain strong for a cross_border profile in Portugal.",
+              "investment_insight": "Top blend of yield, occupancy resilience, and diversification in the current set.",
+              "visa_pathway": "Greece Golden Visa adjacency is attractive but should be monitored for policy shifts.",
+              "insurance_option": "Landlord plus catastrophe cover remains accessible with manageable exclusions."
+            },
+            {
+              "candidate_id": "lisbon-urban-rental-pair",
+              "title": "Lisbon Urban Rental Pair",
+              "geography": "Lisbon, Portugal",
+              "category": "property",
+              "summary": "Balanced dual-asset strategy with efficient financing and optional future owner use.",
+              "composite_score": 0.63,
+              "confidence": 0.67,
+              "expert_contributions": {
+                "property_valuation": 0.6,
+                "investment_analysis": 0.67,
+                "listing_recommendation": 0.59,
+                "residency_eligibility": 0.63,
+                "insurance_matching": 0.57,
+                "financial_risk": 0.72,
+                "compliance_validation": 0.79,
+                "ux_personalization": 0.46
+              },
+              "valuation_band": "$735k-$785k",
+              "comparable_summary": "Two-unit Lisbon rental comparables indicate stable income pricing with manageable vacancy assumptions.",
+              "trend_signal": "Balanced market momentum with moderate regulatory watchpoints.",
+              "location_intelligence": "Central urban access and flexible exit paths support optional future owner use.",
+              "recommendation_rationale": "Recommendation expert keeps it near the top because flexibility and capital efficiency are strong.",
+              "why": "Lisbon Urban Rental Pair scored well because valuation confidence, fit, and governance posture remain strong for a cross_border profile in Portugal.",
+              "investment_insight": "Best flexibility and financing efficiency for a balanced portfolio lens.",
+              "visa_pathway": "Portugal residency is less central here, but optional relocation remains open.",
+              "insurance_option": "Portfolio landlord package with moderate carry and straightforward placement."
+            },
+            {
+              "candidate_id": "dubai-marina-residence",
+              "title": "Dubai Marina Branded Residence",
+              "geography": "Dubai, UAE",
+              "category": "property",
+              "summary": "Premium globally mobile asset with high upside and higher insurance carry.",
+              "composite_score": 0.56,
+              "confidence": 0.6,
+              "expert_contributions": {
+                "property_valuation": 0.64,
+                "investment_analysis": 0.68,
+                "listing_recommendation": 0.53,
+                "residency_eligibility": 0.7,
+                "insurance_matching": 0.5,
+                "financial_risk": 0.62,
+                "compliance_validation": 0.77,
+                "ux_personalization": 0.45
+              },
+              "valuation_band": "$1.16M-$1.24M",
+              "comparable_summary": "Premium branded residence comps confirm upside but with a wider premium-market spread.",
+              "trend_signal": "Momentum is favorable yet more cyclical than the Mediterranean income plays.",
+              "location_intelligence": "Liquidity and prestige are strong, but FX and carrying cost sensitivity are higher.",
+              "recommendation_rationale": "Recommendation expert lowers the rank because premium carry and budget pressure reduce fit.",
+              "why": "Dubai Marina Branded Residence scored well because valuation confidence, fit, and governance posture remain strong for a cross_border profile in Portugal.",
+              "investment_insight": "Strong upside, but lower resilience when FX and premium operating costs widen.",
+              "visa_pathway": "UAE investor residence route is strong for globally mobile investors.",
+              "insurance_option": "High-value property coverage with premium documentation requirements."
+            }
+          ],
+          "policy_gates": [
+            {
+              "name": "ai_management",
+              "status": "passed",
+              "details": "Operate the AI management system under ISO/IEC 42001 with documented ownership, risk treatment, and human oversight."
+            },
+            {
+              "name": "aml",
+              "status": "passed",
+              "details": "Check source-of-funds completeness, transaction anomaly indicators, and enhanced due diligence thresholds."
+            },
+            {
+              "name": "business_continuity",
+              "status": "passed",
+              "details": "Preserve workflow continuity with alternate queues, RTO/RPO monitoring, failover runbooks, and transaction recovery evidence."
+            },
+            {
+              "name": "data_quality",
+              "status": "passed",
+              "details": "Apply ISO/IEC 5259-aligned controls for data provenance, completeness, freshness, comparability, and traceable remediation."
+            },
+            {
+              "name": "data_residency",
+              "status": "passed",
+              "details": "Apply region-aware storage, transfer, retention, and deletion constraints to profile and decision data."
+            },
+            {
+              "name": "explainability",
+              "status": "passed",
+              "details": "Preserve user-facing reasons, comparable-set rationale, and feature contribution summaries for each decision."
+            },
+            {
+              "name": "fairness",
+              "status": "passed",
+              "details": "Measure ranking fairness, disparate impact, and preference weighting drift before releasing recommendations."
+            },
+            {
+              "name": "jurisdiction",
+              "status": "passed",
+              "details": "Verify local property ownership, residency-by-investment, cross-border disclosure, and servicing rules."
+            },
+            {
+              "name": "kyc",
+              "status": "passed",
+              "details": "Confirm identity evidence, beneficial ownership, and document completeness before high-trust actions are released."
+            },
+            {
+              "name": "licensing",
+              "status": "passed",
+              "details": "Ensure insurance distribution and advisory actions fit the servicing entity permissions."
+            },
+            {
+              "name": "mfa",
+              "status": "passed",
+              "details": "Require phishing-resistant MFA for privileged actions, high-risk sessions, and sensitive expert outputs."
+            },
+            {
+              "name": "model_risk",
+              "status": "passed",
+              "details": "Record model lineage, confidence, bias review, and evaluation thresholds for AI-assisted outputs."
+            },
+            {
+              "name": "pci_dss",
+              "status": "passed",
+              "details": "Isolate cardholder data, use tokenization, protect payment pages, and log reconciliation activity under PCI DSS controls."
+            },
+            {
+              "name": "privacy",
+              "status": "passed",
+              "details": "Enforce purpose limitation, data minimization, consent propagation, and profile-specific privacy controls."
+            },
+            {
+              "name": "rbac",
+              "status": "passed",
+              "details": "Authorize access with least privilege, role scoping, and entitlement checks before expert invocation or release."
+            },
+            {
+              "name": "records",
+              "status": "passed",
+              "details": "Write immutable audit logs with inputs, outputs, lineage, approvals, and identity state."
+            },
+            {
+              "name": "risk_thresholds",
+              "status": "passed",
+              "details": "Block release when fraud, climate, cyber, session, or financial risks exceed threshold."
+            },
+            {
+              "name": "sanctions",
+              "status": "passed",
+              "details": "Screen sanctioned individuals, entities, PEP relationships, and high-risk geographies before release."
+            },
+            {
+              "name": "suitability",
+              "status": "passed",
+              "details": "Check affordability, investor category, and product suitability against client profile and constraints."
+            }
+          ],
+          "audit_trail": [
+            {
+              "name": "journey.requested",
+              "status": "completed",
+              "detail": "Request received for web channel.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "identity.profile.ingested",
+              "status": "completed",
+              "detail": "Profile source=frontend, auth_assurance=aal2, roles=['client', 'investor'], consent_scope=['routing', 'kyc', 'personalization', 'evidence_retention'].",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "context.assembled",
+              "status": "completed",
+              "detail": "Journey stage=consideration, locale=en-US.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "experts.selected",
+              "status": "completed",
+              "detail": "Selected experts unified_compliance_risk_intelligence:sync, payment_intelligence:sync, financial_risk:sync, compliance_validation:sync, residency_eligibility:async, investment_analysis:sync, property_valuation:sync, listing_recommendation:sync, insurance_matching:async, ux_personalization:sync.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "policy.validation.completed",
+              "status": "released",
+              "detail": "Non-passing gates: ['none'].",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "audit.packet.persisted",
+              "status": "completed",
+              "detail": "Decision packet persisted to evidence store and event stream.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            }
+          ],
+          "recommendation": "Deliver a cross_border investor brief led by Athens Urban Residential Block, ranking assets by fair value, comparable-set strength, risk-adjusted return, location intelligence, residency alignment, insurability, and financing readiness using signals from unified_compliance_risk_intelligence, payment_intelligence, financial_risk, compliance_validation, residency_eligibility, investment_analysis while honoring confidential privacy controls.",
+          "explanation": "EstateOS ingested frontend profile signals for investor_type 'cross_border', financial intent 'income plus long-term appreciation', residency goal 'golden visa pathway for family relocation', and locale 'en-US'. The request was evaluated with auth assurance 'aal2', MFA=on, KYC='approved', and sanctions='clear'. Top-ranked expert was unified_compliance_risk_intelligence at 0.99. Top-ranked recommendation was 'Athens Urban Residential Block' in Athens, Greece with composite score 0.63. The routing layer combined synchronous and asynchronous experts, evaluated 19 policy gates, applied ISO/IEC 5259, ISO/IEC 42001, ISO/IEC 27001, and ISO 22301 governance controls, and ended with release status 'released'. Review flags: ['none'].",
+          "release_status": "released",
+          "governance_status": [
+            {
+              "framework": "ISO/IEC 5259",
+              "status": "active",
+              "controls": [
+                "market-data freshness scoring",
+                "comparable-set completeness checks",
+                "location signal provenance",
+                "ranking fairness sampling"
+              ],
+              "explanation": "Data quality governance monitors market feeds, comparables, trend features, and location intelligence before valuation and ranking outputs are released."
+            },
+            {
+              "framework": "ISO/IEC 42001",
+              "status": "active",
+              "controls": [
+                "AI inventory and ownership",
+                "human oversight thresholds",
+                "explainability ledger",
+                "risk treatment and approval workflow"
+              ],
+              "explanation": "The AI management layer records accountable owners, ranking and valuation risks, fairness checks, and manual review triggers for sensitive releases."
+            },
+            {
+              "framework": "ISO/IEC 27001",
+              "status": "active",
+              "controls": [
+                "segregation of duties",
+                "least-privilege entitlements",
+                "immutable audit evidence",
+                "security monitoring with Sentinel"
+              ],
+              "explanation": "Information-security controls verify identity posture, access governance, auditability, and protective monitoring before EstateOS outputs can be exported or operationalized."
+            },
+            {
+              "framework": "ISO 22301",
+              "status": "active",
+              "controls": [
+                "active-active workflow failover",
+                "RTO/RPO checkpoints",
+                "workflow replay from immutable events",
+                "manual continuity runbook"
+              ],
+              "explanation": "Business continuity governance maintains alternate routing paths, replayable event streams, and recovery checkpoints for critical transaction and advisory workflows."
+            }
+          ],
+          "azure_services": [
+            "Azure Front Door",
+            "Azure API Management",
+            "Microsoft Entra External ID",
+            "Azure App Service",
+            "Azure Kubernetes Service",
+            "Azure Database for PostgreSQL",
+            "Azure Cache for Redis",
+            "Azure Blob Storage",
+            "Azure Service Bus",
+            "Azure AI Search",
+            "Azure Machine Learning",
+            "Azure Key Vault",
+            "Azure Monitor",
+            "Microsoft Sentinel",
+            "Defender for Cloud"
+          ],
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27017",
+            "ISO/IEC 27701",
+            "PCI DSS",
+            "SOC 2 Type 2",
+            "ISO/IEC 25010",
+            "ISO/IEC 5259",
+            "ISO/IEC 42001",
+            "ISO 22301",
+            "ISO 31000",
+            "ISO 9241-210"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "transaction_decision": {
+          "request_id": "demo-request",
+          "transaction": {
+            "transaction_id": "demo-transaction",
+            "deal_name": "Lisbon Green Quarter acquisition",
+            "deal_type": "cross-border purchase",
+            "jurisdiction": "Portugal",
+            "stage": "document_validation",
+            "purchase_price": 620000,
+            "target_price": 598000,
+            "financing_ratio": 0.68,
+            "seller_motivation": "high",
+            "urgency_days": 12,
+            "counterparty_risk": "medium",
+            "requested_documents": [
+              {
+                "document_id": "doc-title",
+                "name": "Title and encumbrance report",
+                "status": "validated",
+                "document_type": "title",
+                "owner": "Legal counsel",
+                "issues": [],
+                "compliance_tags": [
+                  "records",
+                  "jurisdiction"
+                ],
+                "last_checked_utc": "2026-03-20T17:18:37.667477+00:00"
+              },
+              {
+                "document_id": "doc-disclosure",
+                "name": "Seller disclosure package",
+                "status": "review",
+                "document_type": "disclosure",
+                "owner": "Broker",
+                "issues": [
+                  "Missing renovation permit attachment"
+                ],
+                "compliance_tags": [
+                  "records",
+                  "privacy"
+                ],
+                "last_checked_utc": "2026-03-20T17:18:37.667485+00:00"
+              },
+              {
+                "document_id": "doc-finance",
+                "name": "Lender commitment letter",
+                "status": "validated",
+                "document_type": "financing",
+                "owner": "Lender",
+                "issues": [],
+                "compliance_tags": [
+                  "records",
+                  "business_continuity"
+                ],
+                "last_checked_utc": "2026-03-20T17:18:37.667490+00:00"
+              }
+            ],
+            "workflow_stages": [
+              {
+                "stage": "intake",
+                "status": "completed",
+                "completion": 1.0,
+                "owner": "Broker ops",
+                "control_checks": [
+                  "identity bound",
+                  "consent captured"
+                ],
+                "blocker": ""
+              },
+              {
+                "stage": "pricing_review",
+                "status": "completed",
+                "completion": 1.0,
+                "owner": "Deal desk",
+                "control_checks": [
+                  "pricing memo stored",
+                  "approval recorded"
+                ],
+                "blocker": ""
+              },
+              {
+                "stage": "negotiation",
+                "status": "completed",
+                "completion": 1.0,
+                "owner": "Advisor",
+                "control_checks": [
+                  "counter trail stored",
+                  "deadline evidence stored"
+                ],
+                "blocker": ""
+              },
+              {
+                "stage": "document_validation",
+                "status": "in_progress",
+                "completion": 0.72,
+                "owner": "Legal counsel",
+                "control_checks": [
+                  "document hash stored",
+                  "exception list open"
+                ],
+                "blocker": "Pending permit attachment"
+              },
+              {
+                "stage": "approval",
+                "status": "pending",
+                "completion": 0.1,
+                "owner": "Transaction manager",
+                "control_checks": [
+                  "segregation of duties",
+                  "release gate pending"
+                ],
+                "blocker": ""
+              },
+              {
+                "stage": "closing",
+                "status": "pending",
+                "completion": 0.0,
+                "owner": "Closing agent",
+                "control_checks": [
+                  "continuity runbook attached"
+                ],
+                "blocker": ""
+              }
+            ],
+            "human_approvals": [
+              "advisor_signoff_pending",
+              "legal_signoff_required"
+            ],
+            "bcdr_tier": "tier_1"
+          },
+          "pricing_strategy": {
+            "expert": "pricing_strategy",
+            "headline": "Anchor near 598,000 with protected concession bands.",
+            "detail": "Pricing strategy recommends an anchored opening position, a documented walk-away threshold, and contingency pricing that preserves margin if diligence reveals title, financing, or disclosure friction.",
+            "score": 0.87,
+            "priority": "high",
+            "next_action": "Prepare counteroffer ladder with opening, midpoint, and walk-away thresholds."
+          },
+          "negotiation_insight": {
+            "expert": "negotiation_insights",
+            "headline": "Use deadline-backed concessions and keep document deficiencies as leverage.",
+            "detail": "Negotiation insight favors time-boxed counters, explicit document conditions, and concession sequencing that trades speed for signature certainty rather than headline price alone.",
+            "score": 0.83,
+            "priority": "high",
+            "next_action": "Issue a counter with an expiration window and evidence-based contingency carve-outs."
+          },
+          "document_validation": {
+            "expert": "document_validation",
+            "headline": "Do not advance to closing until title, disclosures, and signatures clear validation.",
+            "detail": "Document validation reviewed 3 artifacts, found 1 not-yet-validated items, and logged 1 compliance or execution issues for remediation.",
+            "score": 0.82,
+            "priority": "critical",
+            "next_action": "Route open document issues to owners and require re-validation before approval."
+          },
+          "risk_scoring": {
+            "expert": "deal_risk_scoring",
+            "headline": "Escalate when counterparty friction, leverage, or document drift exceed tolerance.",
+            "detail": "Deal risk scoring combines counterparty posture, market volatility, document exceptions, financing leverage, and workflow integrity checks into a single escalation score.",
+            "score": 0.55,
+            "priority": "medium",
+            "next_action": "Lock release behind approval if the risk score remains above the configured threshold."
+          },
+          "overall_risk_score": 0.41,
+          "risk_rating": "moderate",
+          "release_status": "review",
+          "workflow_integrity": {
+            "sequential_integrity": "intact",
+            "audit_status": "complete",
+            "immutable_event_chain": true,
+            "continuity_mode": "active-active",
+            "continuity_notes": [
+              "All stage changes are event-sourced and replayable.",
+              "Manual continuity runbook is attached to approval and closing stages.",
+              "BCDR tier tier_1 maps to workflow replay and alternate-queue failover."
+            ]
+          },
+          "compliance_controls": [
+            {
+              "control": "Access governance",
+              "framework": "ISO/IEC 27001",
+              "status": "active",
+              "detail": "RBAC and MFA protect pricing, negotiation, and release decisions for sensitive transactions.",
+              "evidence": [
+                "RBAC entitlement snapshot",
+                "MFA assertion",
+                "approval group membership"
+              ]
+            },
+            {
+              "control": "Immutable audit trail",
+              "framework": "ISO/IEC 27001",
+              "status": "active",
+              "detail": "Every stage transition, expert recommendation, and approval is written to an immutable event chain.",
+              "evidence": [
+                "event stream offsets",
+                "tamper-evident digest",
+                "approval timestamps"
+              ]
+            },
+            {
+              "control": "Documented continuity plan",
+              "framework": "ISO 22301",
+              "status": "active",
+              "detail": "Critical deal workflows have defined recovery paths, alternate queues, and manual playbooks.",
+              "evidence": [
+                "continuity tier mapping",
+                "workflow replay procedure",
+                "RTO/RPO checkpoint"
+              ]
+            },
+            {
+              "control": "Document completeness",
+              "framework": "ISO/IEC 27001",
+              "status": "review",
+              "detail": "Deal release requires validated title, disclosure, diligence, and closing artifacts before advancing the workflow.",
+              "evidence": [
+                "Seller disclosure package"
+              ]
+            }
+          ],
+          "audit_trail": [
+            {
+              "name": "transaction.intake.recorded",
+              "status": "completed",
+              "detail": "Transaction deal-a3cec013 created for Lisbon Green Quarter acquisition.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "transaction.pricing.reviewed",
+              "status": "completed",
+              "detail": "Pricing strategy generated with concession ladder.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "transaction.documents.checked",
+              "status": "completed",
+              "detail": "Validation results linked to immutable audit bundle.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "transaction.workflow.integrity",
+              "status": "intact",
+              "detail": "Continuity mode=active-active.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "transaction.release.gated",
+              "status": "review",
+              "detail": "Release status determined from risk, controls, and workflow integrity.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            }
+          ],
+          "recommendations": [
+            "Prepare counteroffer ladder with opening, midpoint, and walk-away thresholds.",
+            "Issue a counter with an expiration window and evidence-based contingency carve-outs.",
+            "Route open document issues to owners and require re-validation before approval.",
+            "Lock release behind approval if the risk score remains above the configured threshold.",
+            "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
+          ],
+          "explanation": "Transaction deal-a3cec013 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO 22301",
+            "ISO/IEC 42001",
+            "ISO 31000"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "payment_decision": {
+          "request_id": "demo-request",
+          "transaction_reference": "demo-transaction",
+          "payment_instrument": {
+            "instrument_type": "wire",
+            "token_provider": "Banking / escrow token service",
+            "token_reference": "tok-0bfc8d011a",
+            "last4": "6789",
+            "network": "ACH/Wire",
+            "wallet_or_bank": "Escrow operating account",
+            "pci_scope": "tokenized_frontend_only"
+          },
+          "participants": [
+            {
+              "role": "payer",
+              "name": "usr-c1734b0a",
+              "identifier": "usr-c1734b0a"
+            },
+            {
+              "role": "beneficiary",
+              "name": "EstateOS Escrow",
+              "identifier": "deal-a3cec013"
+            },
+            {
+              "role": "servicer",
+              "name": "EstateOS Payment Ops",
+              "identifier": "req-f0944c7b"
+            }
+          ],
+          "fraud_probability": 0.36,
+          "risk_level": "low",
+          "payment_behavior_summary": "Payer behavior is stable across token usage, timing, and identity context.",
+          "escrow_status": "Awaiting dual approval",
+          "frontend_security_posture": "PCI DSS hosted payment fields, tokenized instruments, CSP/WAF controls, and log redaction protect the frontend payment experience.",
+          "signals": [
+            {
+              "category": "device_trust",
+              "status": "passed",
+              "detail": "Session is bound to MFA and a trusted device."
+            },
+            {
+              "category": "amount_velocity",
+              "status": "review",
+              "detail": "Amount 120,000 is checked against payer velocity and historical behavior."
+            },
+            {
+              "category": "cross_border",
+              "status": "review",
+              "detail": "Cross-border payment routes trigger enhanced beneficiary, sanctions, and settlement monitoring."
+            },
+            {
+              "category": "chargeback_history",
+              "status": "passed",
+              "detail": "Chargeback history feeds the fraud probability model and manual-review thresholds."
+            }
+          ],
+          "escrow_conditions": [
+            {
+              "condition": "funds_available",
+              "status": "ready",
+              "detail": "Escrow release requires settled funds and beneficiary matching."
+            },
+            {
+              "condition": "document_clearance",
+              "status": "ready",
+              "detail": "Closing, identity, and approval milestones must be complete before release."
+            },
+            {
+              "condition": "dual_approval",
+              "status": "ready",
+              "detail": "Release requires dual approval with segregation of duties and immutable event logging."
+            }
+          ],
+          "reconciliation_entries": [
+            {
+              "entry_type": "authorization_capture",
+              "status": "not_applicable",
+              "detail": "PSP references are reconciled without exposing raw cardholder data."
+            },
+            {
+              "entry_type": "escrow_ledger",
+              "status": "open",
+              "detail": "Escrow ledger events are matched to bank/PSP settlement references."
+            },
+            {
+              "entry_type": "exception_queue",
+              "status": "escalated",
+              "detail": "Signed webhooks, settlement files, and exception queues drive reconciliation closeout."
+            }
+          ],
+          "recommended_actions": [
+            "Keep the user in hosted payment fields and masked token views.",
+            "Allow escrow progression when settlement and approvals remain clean.",
+            "Match settlement references and escrow ledger entries before reconciliation close."
+          ],
+          "release_status": "released",
+          "explanation": "Payment deal-a3cec013 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "standards_alignment": [
+            "PCI DSS",
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO 31000",
+            "SOC 2 Type 2"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "insurance_decision": {
+          "request_id": "demo-request",
+          "applicant": {
+            "applicant_id": "demo-applicant",
+            "persona": "investor",
+            "property_type": "multifamily",
+            "occupancy": "tenant_occupied",
+            "transaction_context": "closing",
+            "property_jurisdiction": "Greece",
+            "estimated_property_value": 880000,
+            "mortgage_amount": 420000,
+            "household_size": 3,
+            "dependents": 2,
+            "landlord_exposure": true,
+            "title_required": true,
+            "life_priority": true,
+            "prior_claims_count": 0,
+            "privacy_consent": true
+          },
+          "acord_parties": [
+            {
+              "role": "applicant",
+              "name": "usr-c1734b0a",
+              "identifier": "usr-c1734b0a"
+            },
+            {
+              "role": "servicing_entity",
+              "name": "EstateOS Insurance Desk",
+              "identifier": "estateos-insurance"
+            },
+            {
+              "role": "transaction_context",
+              "name": "closing",
+              "identifier": "req-f0944c7b"
+            }
+          ],
+          "acord_coverages": [
+            {
+              "line_of_business": "property",
+              "acord_form": "ACORD 80",
+              "coverage_type": "homeowners",
+              "insured_amount": 880000,
+              "deductible": 2500,
+              "notes": "Captures dwelling, occupancy, mortgagee, and peril details for quote intake."
+            },
+            {
+              "line_of_business": "title",
+              "acord_form": "ACORD 28",
+              "coverage_type": "title",
+              "insured_amount": 880000,
+              "deductible": 0,
+              "notes": "Binds ownership, lender, and recording evidence to the closing packet."
+            },
+            {
+              "line_of_business": "landlord",
+              "acord_form": "ACORD 101",
+              "coverage_type": "landlord",
+              "insured_amount": 440000,
+              "deductible": 2500,
+              "notes": "Supports rental, loss-of-rents, and premises-liability underwriting when leasing exposure exists."
+            },
+            {
+              "line_of_business": "life",
+              "acord_form": "ACORD 103",
+              "coverage_type": "life_continuity",
+              "insured_amount": 420000,
+              "deductible": 0,
+              "notes": "Captures beneficiary and continuity needs when household or guarantor protection is requested."
+            }
+          ],
+          "recommendations": [
+            {
+              "coverage_type": "homeowners",
+              "recommendation_level": "primary",
+              "policy_form": "Habitational package",
+              "premium_estimate": "$322/mo est.",
+              "rationale": "Habitational package is the best fit for a tenant_occupied multifamily because it aligns dwelling protection with the current closing workflow.",
+              "acord_payload_refs": [
+                "ACORD 80"
+              ]
+            },
+            {
+              "coverage_type": "title",
+              "recommendation_level": "recommended",
+              "policy_form": "Owner's title",
+              "premium_estimate": "$1,950 one-time est.",
+              "rationale": "Title protection is recommended whenever acquisition, transfer, or refinance steps depend on clean ownership and lien status.",
+              "acord_payload_refs": [
+                "ACORD 28"
+              ]
+            },
+            {
+              "coverage_type": "landlord",
+              "recommendation_level": "primary",
+              "policy_form": "Landlord package",
+              "premium_estimate": "$322/mo est.",
+              "rationale": "Landlord coverage becomes primary when rent interruption, tenant liability, or premises claims could affect transaction economics.",
+              "acord_payload_refs": [
+                "ACORD 101"
+              ]
+            },
+            {
+              "coverage_type": "life_related",
+              "recommendation_level": "recommended",
+              "policy_form": "Term life with mortgage continuity rider",
+              "premium_estimate": "$61/mo est.",
+              "rationale": "Life-related continuity coverage is recommended when household dependents, guarantors, or debt-service plans depend on insured income continuity.",
+              "acord_payload_refs": [
+                "ACORD 103"
+              ]
+            }
+          ],
+          "secure_exchange_controls": [
+            {
+              "control": "Consent and privacy notice",
+              "status": "active",
+              "detail": "NAIC-aligned notice, purpose limitation, and quote-sharing consent are checked before payload release."
+            },
+            {
+              "control": "Encrypted carrier exchange",
+              "status": "active",
+              "detail": "ACORD payloads are exchanged using mTLS, field-level encryption, signed service identities, and correlation IDs."
+            },
+            {
+              "control": "Access and servicing governance",
+              "status": "active",
+              "detail": "Only entitled advisors, servicing staff, and approved partner roles can view recommendation details or request quotes."
+            },
+            {
+              "control": "Audit and retention",
+              "status": "active",
+              "detail": "Quote packets, title evidence, underwriting assumptions, and retransmission attempts are written to immutable servicing logs."
+            }
+          ],
+          "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-f0944c7b.",
+          "release_status": "released",
+          "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
+          "standards_alignment": [
+            "ACORD",
+            "NAIC Privacy/Security",
+            "ISO/IEC 27001",
+            "ISO/IEC 27701"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "integration_decision": {
+          "request_id": "demo-request",
+          "partner_system": "government_registry",
+          "domain": "government",
+          "canonical_contract": "CanonicalJurisdictionSubmission.v1",
+          "expert_chain": [
+            "residency_eligibility",
+            "document_validation",
+            "compliance_validation"
+          ],
+          "validation_results": [
+            {
+              "control": "Partner domain alignment",
+              "status": "passed",
+              "detail": "Partner declared domain 'government' and adapter profile expects 'government'."
+            },
+            {
+              "control": "Consent and privacy scope",
+              "status": "passed",
+              "detail": "Payload release requires purpose-bound consent and an active session consent state."
+            },
+            {
+              "control": "Identity and trust posture",
+              "status": "review",
+              "detail": "Step-up MFA and verified identity improve confidence before external partner delivery."
+            },
+            {
+              "control": "Data classification handling",
+              "status": "passed",
+              "detail": "Payload classification 'restricted' is checked against partner transport and storage controls."
+            }
+          ],
+          "routing_decisions": [
+            {
+              "target": "jurisdiction_submission_gateway",
+              "status": "release_ready",
+              "detail": "Canonical contract CanonicalJurisdictionSubmission.v1 is routed into the primary adapter when validation and policy checks pass."
+            },
+            {
+              "target": "legal_migration_review",
+              "status": "standby",
+              "detail": "Fallback routing preserves interoperability evidence and hands exceptions to the correct human or secondary workflow."
+            }
+          ],
+          "compliance_evidence": [
+            "Jurisdiction schema version ledger",
+            "ISO/IEC 27701 cross-border handling evidence",
+            "Manual sign-off record for regulated filings"
+          ],
+          "release_status": "release_ready",
+          "explanation": "Integration hub normalized the government_registry payload into CanonicalJurisdictionSubmission.v1, ran expert chain residency_eligibility, document_validation, compliance_validation, and produced a release_ready decision with schema, trust, privacy, and routing evidence attached.",
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "PCI DSS"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "residency_decision": {
+          "request_id": "demo-request",
+          "applicant": {
+            "applicant_id": "demo-applicant",
+            "citizenship_country": "United States",
+            "current_country": "United States",
+            "target_jurisdiction": "Greece",
+            "household_size": 3,
+            "dependents": 2,
+            "annual_income": 145000,
+            "liquid_assets": 280000,
+            "property_budget": 900000,
+            "property_value": 880000,
+            "source_of_funds_verified": true,
+            "criminal_record_clear": true,
+            "health_insurance_ready": true,
+            "documents_on_file": [
+              "passport",
+              "property_purchase_agreement",
+              "proof_of_funds",
+              "health_insurance",
+              "criminal_record",
+              "tax_number"
+            ]
+          },
+          "program": "Greece Golden Visa",
+          "jurisdiction": "Greece",
+          "pathway_type": "property-led residency",
+          "eligibility_status": "eligible",
+          "eligibility_score": 0.94,
+          "rule_checks": [
+            {
+              "name": "property_value",
+              "status": "passed",
+              "detail": "Property value 880,000 compared with threshold 250,000."
+            },
+            {
+              "name": "annual_income",
+              "status": "passed",
+              "detail": "Annual income 145,000 compared with threshold 0."
+            },
+            {
+              "name": "liquid_assets",
+              "status": "passed",
+              "detail": "Liquid assets 280,000 compared with threshold 50,000."
+            },
+            {
+              "name": "source_of_funds",
+              "status": "passed",
+              "detail": "Source-of-funds evidence is matched with AML posture before release."
+            },
+            {
+              "name": "criminal_record",
+              "status": "passed",
+              "detail": "Criminal record evidence must be clear for filing and downstream partner submission."
+            },
+            {
+              "name": "health_insurance",
+              "status": "passed",
+              "detail": "Health insurance readiness is checked because consular and residence filing often require coverage."
+            }
+          ],
+          "document_checks": [
+            {
+              "document": "passport",
+              "status": "ready",
+              "detail": "Document is present in the controlled evidence bundle."
+            },
+            {
+              "document": "property_purchase_agreement",
+              "status": "ready",
+              "detail": "Document is present in the controlled evidence bundle."
+            },
+            {
+              "document": "proof_of_funds",
+              "status": "ready",
+              "detail": "Document is present in the controlled evidence bundle."
+            },
+            {
+              "document": "health_insurance",
+              "status": "ready",
+              "detail": "Document is present in the controlled evidence bundle."
+            },
+            {
+              "document": "criminal_record",
+              "status": "ready",
+              "detail": "Document is present in the controlled evidence bundle."
+            },
+            {
+              "document": "land_registry_extract",
+              "status": "recommended",
+              "detail": "Supplemental evidence is recommended for smoother counsel review."
+            },
+            {
+              "document": "tax_number",
+              "status": "review",
+              "detail": "Supplemental document is available for accelerated review."
+            },
+            {
+              "document": "family_dependents_pack",
+              "status": "recommended",
+              "detail": "Supplemental evidence is recommended for smoother counsel review."
+            }
+          ],
+          "compliance_workflow": [
+            {
+              "step": "1. KYC identity verification",
+              "owner": "Compliance ops",
+              "status": "completed",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            },
+            {
+              "step": "2. AML source-of-funds review",
+              "owner": "AML analyst",
+              "status": "completed",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            },
+            {
+              "step": "3. Property title and valuation validation",
+              "owner": "Residency operations",
+              "status": "ready",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            },
+            {
+              "step": "4. Privacy minimization and consent logging",
+              "owner": "Privacy office",
+              "status": "completed",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            },
+            {
+              "step": "5. Manual compliance sign-off before filing",
+              "owner": "Jurisdiction counsel",
+              "status": "ready",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            }
+          ],
+          "kyc_aml_summary": "KYC status is approved, AML risk is medium, sanctions status is clear, and source-of-funds verification is complete.",
+          "privacy_summary": "ISO/IEC 27701-aligned handling keeps residency evidence purpose-bound under the confidential privacy tier, with document minimization, consent-scoped sharing, and retention-aware compliance workflows.",
+          "explanation": "Greece Golden Visa in Greece was evaluated for a household of 3 with property value 880,000, annual income 145,000, and liquid assets 280,000. Eligibility ended as 'eligible' because 6 rule checks passed, 0 need review, and 0 required documents are still missing. Compliance workflow steps preserve KYC/AML gates, document authenticity review, and ISO/IEC 27701 privacy controls before any external filing.",
+          "standards_alignment": [
+            "KYC/AML",
+            "ISO/IEC 27701",
+            "ISO/IEC 27001",
+            "ISO 22301"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        }
+      }
+    },
+    "advisor": {
+      "meta": {
+        "journey_key": "advisor",
+        "normalized": true
+      },
+      "packets": {
+        "journey_key": "advisor",
+        "property_decision": {
+          "request_id": "demo-request",
+          "profile": {
+            "role": "advisor",
+            "investor_type": "fiduciary_operator",
+            "intent": "advisor oversight for a cross-border acquisition",
+            "financial_intent": "protect capital while preparing the client for approval",
+            "country": "United States",
+            "target_region": "Greece",
+            "risk_tolerance": "balanced",
+            "investment_budget": 900000,
+            "residency_interest": true,
+            "residency_goal": "keep investor-residency optional after diligence",
+            "financing_needed": false,
+            "household_size": 3
+          },
+          "identity": {
+            "subject_id": "demo-subject",
+            "auth_assurance_level": "aal2",
+            "mfa_completed": true,
+            "rbac_roles": [
+              "advisor",
+              "transaction_manager"
+            ],
+            "entitlements": [
+              "decision:view",
+              "decision:export",
+              "profile:update",
+              "transaction:approve",
+              "transaction:escalate"
+            ],
+            "kyc_status": "approved",
+            "aml_risk": "medium",
+            "sanctions_status": "clear",
+            "privacy_tier": "confidential",
+            "consent_scope": [
+              "routing",
+              "kyc",
+              "personalization",
+              "evidence_retention"
+            ],
+            "pii_tags": [
+              "identity",
+              "financial",
+              "residency"
+            ],
+            "profile_source": "frontend"
+          },
+          "context": {
+            "request_id": "demo-request",
+            "journey_stage": "transaction_review",
+            "channel": "web",
+            "locale": "en-US",
+            "has_verified_identity": true,
+            "has_consent": true,
+            "property_country": "Greece",
+            "property_type": "multifamily",
+            "climate_risk": "medium",
+            "market_volatility": "medium",
+            "session_risk": "low",
+            "cross_border": true,
+            "generated_at_utc": "2026-03-20T00:00:00+00:00"
+          },
+          "detected_intents": [
+            "compliance",
+            "insurance",
+            "payment",
+            "recommendation",
+            "residency"
+          ],
+          "selected_experts": [
+            {
+              "expert": "unified_compliance_risk_intelligence",
+              "score": 0.99,
+              "rationale": "Selected for specialties ['continuous_control_monitoring', 'cross_workflow_risk_scoring', 'aml_kyc_enforcement', 'sanctions_screening', 'audit_logging', 'iso_27001_alignment', 'iso_31000_alignment'] with 2 trigger hits, intent alignment=True, profile-aware bonus=0.05, context bonus=0.03.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "compliance_validation",
+              "score": 0.88,
+              "rationale": "Selected for specialties ['kyc', 'aml', 'sanctions', 'privacy', 'records'] with 0 trigger hits, intent alignment=False, profile-aware bonus=0.05, context bonus=0.03.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "payment_intelligence",
+              "score": 0.79,
+              "rationale": "Selected for specialties ['payment risk', 'fraud scoring', 'escrow', 'reconciliation'] with 1 trigger hits, intent alignment=True, profile-aware bonus=0.00, context bonus=0.00.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "residency_eligibility",
+              "score": 0.75,
+              "rationale": "Selected for specialties ['residency', 'visa', 'jurisdiction_rules'] with 0 trigger hits, intent alignment=True, profile-aware bonus=0.04, context bonus=0.03.",
+              "execution_mode": "async"
+            },
+            {
+              "expert": "listing_recommendation",
+              "score": 0.7,
+              "rationale": "Selected for specialties ['ranking', 'preference_matching', 'fairness_checks', 'explainable_ordering'] with 0 trigger hits, intent alignment=True, profile-aware bonus=0.00, context bonus=0.00.",
+              "execution_mode": "sync"
+            },
+            {
+              "expert": "insurance_matching",
+              "score": 0.69,
+              "rationale": "Selected for specialties ['coverage', 'perils', 'acord_intake'] with 1 trigger hits, intent alignment=True, profile-aware bonus=0.00, context bonus=0.00.",
+              "execution_mode": "async"
+            },
+            {
+              "expert": "ux_personalization",
+              "score": 0.52,
+              "rationale": "Selected for specialties ['journey_guidance', 'messaging', 'next_best_action'] with 0 trigger hits, intent alignment=False, profile-aware bonus=0.00, context bonus=0.00.",
+              "execution_mode": "sync"
+            }
+          ],
+          "expert_outputs": [
+            {
+              "expert": "unified_compliance_risk_intelligence",
+              "summary": "Continuous control monitoring unifies AML/KYC, sanctions screening, audit logging, and cross-domain risk scoring across property, payment, insurance, and residency workflows.",
+              "confidence": 0.95,
+              "evidence": [
+                "continuous activity risk graph",
+                "AML/KYC and sanctions screening ledger",
+                "immutable audit event chain",
+                "ISO/IEC 27001 and ISO 31000 control mappings"
+              ],
+              "next_actions": [
+                "review elevated risk cases",
+                "attach evidence bundle to any held workflow"
+              ]
+            },
+            {
+              "expert": "compliance_validation",
+              "summary": "Release gate confirms identity, records, privacy, and screening posture before output release.",
+              "confidence": 0.93,
+              "evidence": [
+                "RBAC evaluation",
+                "MFA state",
+                "KYC/AML state",
+                "audit retention check"
+              ],
+              "next_actions": [
+                "preserve evidence bundle",
+                "route exceptions to review"
+              ]
+            },
+            {
+              "expert": "payment_intelligence",
+              "summary": "Payment routing monitors fraud probability, escrow milestones, and reconciliation exceptions before funds move.",
+              "confidence": 0.86,
+              "evidence": [
+                "tokenized payment telemetry",
+                "device and velocity checks",
+                "escrow and settlement ledger"
+              ],
+              "next_actions": [
+                "review payment release posture",
+                "clear reconciliation exceptions"
+              ]
+            },
+            {
+              "expert": "residency_eligibility",
+              "summary": "Residency pathways remain viable with current KYC posture and target-market assumptions.",
+              "confidence": 0.82,
+              "evidence": [
+                "jurisdiction rules summary",
+                "household evidence checklist",
+                "timeline estimate"
+              ],
+              "next_actions": [
+                "collect supporting documents",
+                "monitor program updates"
+              ]
+            },
+            {
+              "expert": "listing_recommendation",
+              "summary": "Ranking model blended property fit, return profile, residency, insurance, and fairness checks.",
+              "confidence": 0.89,
+              "evidence": [
+                "weighted expert contributions",
+                "preference matching trace",
+                "ranking fairness diagnostics"
+              ],
+              "next_actions": [
+                "inspect ranked rationale",
+                "export shortlist with reasons"
+              ]
+            },
+            {
+              "expert": "insurance_matching",
+              "summary": "Coverage options remain placeable with manageable premium variance across top candidates.",
+              "confidence": 0.8,
+              "evidence": [
+                "hazard scoring",
+                "carrier appetite summary",
+                "intake completeness"
+              ],
+              "next_actions": [
+                "request quotes",
+                "confirm property disclosures"
+              ]
+            },
+            {
+              "expert": "ux_personalization",
+              "summary": "Explanation depth and next-best actions were tailored to the current user journey.",
+              "confidence": 0.78,
+              "evidence": [
+                "persona mapping",
+                "journey stage",
+                "explanation depth preference"
+              ],
+              "next_actions": [
+                "adjust explanation depth",
+                "surface guided tasks"
+              ]
+            }
+          ],
+          "ranked_recommendations": [
+            {
+              "candidate_id": "athens-balanced-income",
+              "title": "Athens Balanced Income Asset",
+              "geography": "Athens, Greece",
+              "category": "property",
+              "summary": "Balanced recommendation that pairs yield support with clearer residency optionality.",
+              "composite_score": 0.6,
+              "confidence": 0.64,
+              "expert_contributions": {
+                "property_valuation": 0.59,
+                "investment_analysis": 0.62,
+                "listing_recommendation": 0.6,
+                "residency_eligibility": 0.63,
+                "insurance_matching": 0.55,
+                "financial_risk": 0.58,
+                "compliance_validation": 0.83,
+                "ux_personalization": 0.41
+              },
+              "valuation_band": "$860k-$915k",
+              "comparable_summary": "Income asset comparables and rent rolls support a balanced valuation case.",
+              "trend_signal": "Healthy income demand with moderate policy watch exposure.",
+              "location_intelligence": "Residency optionality and urban access strengthen client flexibility.",
+              "recommendation_rationale": "Recommendation expert keeps this close because yield and residency optionality are both strong.",
+              "why": "Athens Balanced Income Asset scored well because valuation confidence, fit, and governance posture remain strong for a fiduciary_operator profile in Greece.",
+              "investment_insight": "Best alternative when client optionality matters more than narrative simplicity.",
+              "visa_pathway": "Greece residency planning remains viable with current policy monitoring.",
+              "insurance_option": "Residential income package with catastrophe rider and manageable complexity."
+            },
+            {
+              "candidate_id": "barcelona-family-office",
+              "title": "Barcelona Family Office Residence",
+              "geography": "Barcelona, Spain",
+              "category": "property",
+              "summary": "Documentation-friendly premium asset with a strong client narrative and controlled downside.",
+              "composite_score": 0.58,
+              "confidence": 0.62,
+              "expert_contributions": {
+                "property_valuation": 0.61,
+                "investment_analysis": 0.56,
+                "listing_recommendation": 0.62,
+                "residency_eligibility": 0.57,
+                "insurance_matching": 0.59,
+                "financial_risk": 0.59,
+                "compliance_validation": 0.85,
+                "ux_personalization": 0.43
+              },
+              "valuation_band": "$1.01M-$1.08M",
+              "comparable_summary": "Premium residence comparables support pricing with strong documentation quality.",
+              "trend_signal": "Steady prime-market demand with comparatively controlled downside.",
+              "location_intelligence": "Dense services, strong client usability, and clear documentation raise advisor confidence.",
+              "recommendation_rationale": "Recommendation expert favors this listing because it is easiest to defend in a suitability-led memo.",
+              "why": "Barcelona Family Office Residence scored well because valuation confidence, fit, and governance posture remain strong for a fiduciary_operator profile in Greece.",
+              "investment_insight": "Best suitability story when the client values clarity and documentation quality.",
+              "visa_pathway": "Spain residence planning requires current legal review before client release.",
+              "insurance_option": "Premium residence package with strong liability and contents coverage."
+            },
+            {
+              "candidate_id": "dubai-premium-diversifier",
+              "title": "Dubai Premium Diversifier",
+              "geography": "Dubai, UAE",
+              "category": "property",
+              "summary": "High-upside premium asset that only fits aggressive client mandates.",
+              "composite_score": 0.5,
+              "confidence": 0.54,
+              "expert_contributions": {
+                "property_valuation": 0.63,
+                "investment_analysis": 0.61,
+                "listing_recommendation": 0.52,
+                "residency_eligibility": 0.67,
+                "insurance_matching": 0.49,
+                "financial_risk": 0.48,
+                "compliance_validation": 0.82,
+                "ux_personalization": 0.4
+              },
+              "valuation_band": "$1.39M-$1.49M",
+              "comparable_summary": "High-end comparables support the range but with broader volatility bands.",
+              "trend_signal": "Premium growth potential is strong, but cyclicality is higher than the peer set.",
+              "location_intelligence": "Global mobility is attractive, though cost-to-fit is weakest for conservative advice.",
+              "recommendation_rationale": "Recommendation expert places it last because suitability and carrying cost outweigh upside here.",
+              "why": "Dubai Premium Diversifier scored well because valuation confidence, fit, and governance posture remain strong for a fiduciary_operator profile in Greece.",
+              "investment_insight": "Advisable only for clients who explicitly accept cyclical exposure and premium operating costs.",
+              "visa_pathway": "UAE investor route is compelling but should follow suitability confirmation.",
+              "insurance_option": "High-value diversified cover with premium carry and more underwriting evidence."
+            }
+          ],
+          "policy_gates": [
+            {
+              "name": "ai_management",
+              "status": "passed",
+              "details": "Operate the AI management system under ISO/IEC 42001 with documented ownership, risk treatment, and human oversight."
+            },
+            {
+              "name": "aml",
+              "status": "passed",
+              "details": "Check source-of-funds completeness, transaction anomaly indicators, and enhanced due diligence thresholds."
+            },
+            {
+              "name": "business_continuity",
+              "status": "passed",
+              "details": "Preserve workflow continuity with alternate queues, RTO/RPO monitoring, failover runbooks, and transaction recovery evidence."
+            },
+            {
+              "name": "data_quality",
+              "status": "passed",
+              "details": "Apply ISO/IEC 5259-aligned controls for data provenance, completeness, freshness, comparability, and traceable remediation."
+            },
+            {
+              "name": "data_residency",
+              "status": "passed",
+              "details": "Apply region-aware storage, transfer, retention, and deletion constraints to profile and decision data."
+            },
+            {
+              "name": "explainability",
+              "status": "passed",
+              "details": "Preserve user-facing reasons, comparable-set rationale, and feature contribution summaries for each decision."
+            },
+            {
+              "name": "fairness",
+              "status": "passed",
+              "details": "Measure ranking fairness, disparate impact, and preference weighting drift before releasing recommendations."
+            },
+            {
+              "name": "jurisdiction",
+              "status": "passed",
+              "details": "Verify local property ownership, residency-by-investment, cross-border disclosure, and servicing rules."
+            },
+            {
+              "name": "kyc",
+              "status": "passed",
+              "details": "Confirm identity evidence, beneficial ownership, and document completeness before high-trust actions are released."
+            },
+            {
+              "name": "licensing",
+              "status": "passed",
+              "details": "Ensure insurance distribution and advisory actions fit the servicing entity permissions."
+            },
+            {
+              "name": "mfa",
+              "status": "passed",
+              "details": "Require phishing-resistant MFA for privileged actions, high-risk sessions, and sensitive expert outputs."
+            },
+            {
+              "name": "model_risk",
+              "status": "passed",
+              "details": "Record model lineage, confidence, bias review, and evaluation thresholds for AI-assisted outputs."
+            },
+            {
+              "name": "pci_dss",
+              "status": "passed",
+              "details": "Isolate cardholder data, use tokenization, protect payment pages, and log reconciliation activity under PCI DSS controls."
+            },
+            {
+              "name": "privacy",
+              "status": "passed",
+              "details": "Enforce purpose limitation, data minimization, consent propagation, and profile-specific privacy controls."
+            },
+            {
+              "name": "rbac",
+              "status": "passed",
+              "details": "Authorize access with least privilege, role scoping, and entitlement checks before expert invocation or release."
+            },
+            {
+              "name": "records",
+              "status": "passed",
+              "details": "Write immutable audit logs with inputs, outputs, lineage, approvals, and identity state."
+            },
+            {
+              "name": "risk_thresholds",
+              "status": "passed",
+              "details": "Block release when fraud, climate, cyber, session, or financial risks exceed threshold."
+            },
+            {
+              "name": "sanctions",
+              "status": "passed",
+              "details": "Screen sanctioned individuals, entities, PEP relationships, and high-risk geographies before release."
+            },
+            {
+              "name": "suitability",
+              "status": "passed",
+              "details": "Check affordability, investor category, and product suitability against client profile and constraints."
+            }
+          ],
+          "audit_trail": [
+            {
+              "name": "journey.requested",
+              "status": "completed",
+              "detail": "Request received for web channel.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "identity.profile.ingested",
+              "status": "completed",
+              "detail": "Profile source=frontend, auth_assurance=aal2, roles=['advisor', 'transaction_manager'], consent_scope=['routing', 'kyc', 'personalization', 'evidence_retention'].",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "context.assembled",
+              "status": "completed",
+              "detail": "Journey stage=transaction_review, locale=en-US.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "experts.selected",
+              "status": "completed",
+              "detail": "Selected experts unified_compliance_risk_intelligence:sync, compliance_validation:sync, payment_intelligence:sync, residency_eligibility:async, listing_recommendation:sync, insurance_matching:async, ux_personalization:sync.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "policy.validation.completed",
+              "status": "released",
+              "detail": "Non-passing gates: ['none'].",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "audit.packet.persisted",
+              "status": "completed",
+              "detail": "Decision packet persisted to evidence store and event stream.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            }
+          ],
+          "recommendation": "Provide an approval-ready memo centered on Athens Balanced Income Asset with expert-by-expert rationale, policy outcomes, assumptions, and human override options grounded in unified_compliance_risk_intelligence, compliance_validation, payment_intelligence, residency_eligibility, listing_recommendation, insurance_matching.",
+          "explanation": "EstateOS ingested frontend profile signals for investor_type 'fiduciary_operator', financial intent 'protect capital while preparing the client for approval', residency goal 'keep investor-residency optional after diligence', and locale 'en-US'. The request was evaluated with auth assurance 'aal2', MFA=on, KYC='approved', and sanctions='clear'. Top-ranked expert was unified_compliance_risk_intelligence at 0.99. Top-ranked recommendation was 'Athens Balanced Income Asset' in Athens, Greece with composite score 0.60. The routing layer combined synchronous and asynchronous experts, evaluated 19 policy gates, applied ISO/IEC 5259, ISO/IEC 42001, ISO/IEC 27001, and ISO 22301 governance controls, and ended with release status 'released'. Review flags: ['none'].",
+          "release_status": "released",
+          "governance_status": [
+            {
+              "framework": "ISO/IEC 5259",
+              "status": "active",
+              "controls": [
+                "market-data freshness scoring",
+                "comparable-set completeness checks",
+                "location signal provenance",
+                "ranking fairness sampling"
+              ],
+              "explanation": "Data quality governance monitors market feeds, comparables, trend features, and location intelligence before valuation and ranking outputs are released."
+            },
+            {
+              "framework": "ISO/IEC 42001",
+              "status": "active",
+              "controls": [
+                "AI inventory and ownership",
+                "human oversight thresholds",
+                "explainability ledger",
+                "risk treatment and approval workflow"
+              ],
+              "explanation": "The AI management layer records accountable owners, ranking and valuation risks, fairness checks, and manual review triggers for sensitive releases."
+            },
+            {
+              "framework": "ISO/IEC 27001",
+              "status": "active",
+              "controls": [
+                "segregation of duties",
+                "least-privilege entitlements",
+                "immutable audit evidence",
+                "security monitoring with Sentinel"
+              ],
+              "explanation": "Information-security controls verify identity posture, access governance, auditability, and protective monitoring before EstateOS outputs can be exported or operationalized."
+            },
+            {
+              "framework": "ISO 22301",
+              "status": "active",
+              "controls": [
+                "active-active workflow failover",
+                "RTO/RPO checkpoints",
+                "workflow replay from immutable events",
+                "manual continuity runbook"
+              ],
+              "explanation": "Business continuity governance maintains alternate routing paths, replayable event streams, and recovery checkpoints for critical transaction and advisory workflows."
+            }
+          ],
+          "azure_services": [
+            "Azure Front Door",
+            "Azure API Management",
+            "Microsoft Entra External ID",
+            "Azure App Service",
+            "Azure Kubernetes Service",
+            "Azure Database for PostgreSQL",
+            "Azure Cache for Redis",
+            "Azure Blob Storage",
+            "Azure Service Bus",
+            "Azure AI Search",
+            "Azure Machine Learning",
+            "Azure Key Vault",
+            "Azure Monitor",
+            "Microsoft Sentinel",
+            "Defender for Cloud"
+          ],
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27017",
+            "ISO/IEC 27701",
+            "PCI DSS",
+            "SOC 2 Type 2",
+            "ISO/IEC 25010",
+            "ISO/IEC 5259",
+            "ISO/IEC 42001",
+            "ISO 22301",
+            "ISO 31000",
+            "ISO 9241-210"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "transaction_decision": {
+          "request_id": "demo-request",
+          "transaction": {
+            "transaction_id": "demo-transaction",
+            "deal_name": "Athens Urban Block diligence",
+            "deal_type": "advisor managed acquisition",
+            "jurisdiction": "Greece",
+            "stage": "approval",
+            "purchase_price": 880000,
+            "target_price": 845000,
+            "financing_ratio": 0.42,
+            "seller_motivation": "medium",
+            "urgency_days": 18,
+            "counterparty_risk": "medium",
+            "requested_documents": [
+              {
+                "document_id": "doc-title",
+                "name": "Title and encumbrance report",
+                "status": "validated",
+                "document_type": "title",
+                "owner": "Legal counsel",
+                "issues": [],
+                "compliance_tags": [
+                  "records",
+                  "jurisdiction"
+                ],
+                "last_checked_utc": "2026-03-20T17:18:37.674761+00:00"
+              },
+              {
+                "document_id": "doc-disclosure",
+                "name": "Seller disclosure package",
+                "status": "review",
+                "document_type": "disclosure",
+                "owner": "Broker",
+                "issues": [
+                  "Missing renovation permit attachment"
+                ],
+                "compliance_tags": [
+                  "records",
+                  "privacy"
+                ],
+                "last_checked_utc": "2026-03-20T17:18:37.674770+00:00"
+              },
+              {
+                "document_id": "doc-finance",
+                "name": "Lender commitment letter",
+                "status": "validated",
+                "document_type": "financing",
+                "owner": "Lender",
+                "issues": [],
+                "compliance_tags": [
+                  "records",
+                  "business_continuity"
+                ],
+                "last_checked_utc": "2026-03-20T17:18:37.674775+00:00"
+              }
+            ],
+            "workflow_stages": [
+              {
+                "stage": "intake",
+                "status": "completed",
+                "completion": 1.0,
+                "owner": "Broker ops",
+                "control_checks": [
+                  "identity bound",
+                  "consent captured"
+                ],
+                "blocker": ""
+              },
+              {
+                "stage": "pricing_review",
+                "status": "completed",
+                "completion": 1.0,
+                "owner": "Deal desk",
+                "control_checks": [
+                  "pricing memo stored",
+                  "approval recorded"
+                ],
+                "blocker": ""
+              },
+              {
+                "stage": "negotiation",
+                "status": "completed",
+                "completion": 1.0,
+                "owner": "Advisor",
+                "control_checks": [
+                  "counter trail stored",
+                  "deadline evidence stored"
+                ],
+                "blocker": ""
+              },
+              {
+                "stage": "document_validation",
+                "status": "in_progress",
+                "completion": 0.72,
+                "owner": "Legal counsel",
+                "control_checks": [
+                  "document hash stored",
+                  "exception list open"
+                ],
+                "blocker": "Pending permit attachment"
+              },
+              {
+                "stage": "approval",
+                "status": "pending",
+                "completion": 0.1,
+                "owner": "Transaction manager",
+                "control_checks": [
+                  "segregation of duties",
+                  "release gate pending"
+                ],
+                "blocker": ""
+              },
+              {
+                "stage": "closing",
+                "status": "pending",
+                "completion": 0.0,
+                "owner": "Closing agent",
+                "control_checks": [
+                  "continuity runbook attached"
+                ],
+                "blocker": ""
+              }
+            ],
+            "human_approvals": [
+              "advisor_signoff_complete",
+              "investment_committee_pending"
+            ],
+            "bcdr_tier": "tier_1"
+          },
+          "pricing_strategy": {
+            "expert": "pricing_strategy",
+            "headline": "Anchor near 845,000 with protected concession bands.",
+            "detail": "Pricing strategy recommends an anchored opening position, a documented walk-away threshold, and contingency pricing that preserves margin if diligence reveals title, financing, or disclosure friction.",
+            "score": 0.83,
+            "priority": "high",
+            "next_action": "Prepare counteroffer ladder with opening, midpoint, and walk-away thresholds."
+          },
+          "negotiation_insight": {
+            "expert": "negotiation_insights",
+            "headline": "Use deadline-backed concessions and keep document deficiencies as leverage.",
+            "detail": "Negotiation insight favors time-boxed counters, explicit document conditions, and concession sequencing that trades speed for signature certainty rather than headline price alone.",
+            "score": 0.78,
+            "priority": "high",
+            "next_action": "Issue a counter with an expiration window and evidence-based contingency carve-outs."
+          },
+          "document_validation": {
+            "expert": "document_validation",
+            "headline": "Do not advance to closing until title, disclosures, and signatures clear validation.",
+            "detail": "Document validation reviewed 3 artifacts, found 1 not-yet-validated items, and logged 1 compliance or execution issues for remediation.",
+            "score": 0.82,
+            "priority": "critical",
+            "next_action": "Route open document issues to owners and require re-validation before approval."
+          },
+          "risk_scoring": {
+            "expert": "deal_risk_scoring",
+            "headline": "Escalate when counterparty friction, leverage, or document drift exceed tolerance.",
+            "detail": "Deal risk scoring combines counterparty posture, market volatility, document exceptions, financing leverage, and workflow integrity checks into a single escalation score.",
+            "score": 0.55,
+            "priority": "medium",
+            "next_action": "Lock release behind approval if the risk score remains above the configured threshold."
+          },
+          "overall_risk_score": 0.44,
+          "risk_rating": "moderate",
+          "release_status": "review",
+          "workflow_integrity": {
+            "sequential_integrity": "intact",
+            "audit_status": "complete",
+            "immutable_event_chain": true,
+            "continuity_mode": "active-active",
+            "continuity_notes": [
+              "All stage changes are event-sourced and replayable.",
+              "Manual continuity runbook is attached to approval and closing stages.",
+              "BCDR tier tier_1 maps to workflow replay and alternate-queue failover."
+            ]
+          },
+          "compliance_controls": [
+            {
+              "control": "Access governance",
+              "framework": "ISO/IEC 27001",
+              "status": "active",
+              "detail": "RBAC and MFA protect pricing, negotiation, and release decisions for sensitive transactions.",
+              "evidence": [
+                "RBAC entitlement snapshot",
+                "MFA assertion",
+                "approval group membership"
+              ]
+            },
+            {
+              "control": "Immutable audit trail",
+              "framework": "ISO/IEC 27001",
+              "status": "active",
+              "detail": "Every stage transition, expert recommendation, and approval is written to an immutable event chain.",
+              "evidence": [
+                "event stream offsets",
+                "tamper-evident digest",
+                "approval timestamps"
+              ]
+            },
+            {
+              "control": "Documented continuity plan",
+              "framework": "ISO 22301",
+              "status": "active",
+              "detail": "Critical deal workflows have defined recovery paths, alternate queues, and manual playbooks.",
+              "evidence": [
+                "continuity tier mapping",
+                "workflow replay procedure",
+                "RTO/RPO checkpoint"
+              ]
+            },
+            {
+              "control": "Document completeness",
+              "framework": "ISO/IEC 27001",
+              "status": "review",
+              "detail": "Deal release requires validated title, disclosure, diligence, and closing artifacts before advancing the workflow.",
+              "evidence": [
+                "Seller disclosure package"
+              ]
+            }
+          ],
+          "audit_trail": [
+            {
+              "name": "transaction.intake.recorded",
+              "status": "completed",
+              "detail": "Transaction deal-1ebb26bc created for Athens Urban Block diligence.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "transaction.pricing.reviewed",
+              "status": "completed",
+              "detail": "Pricing strategy generated with concession ladder.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "transaction.documents.checked",
+              "status": "completed",
+              "detail": "Validation results linked to immutable audit bundle.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "transaction.workflow.integrity",
+              "status": "intact",
+              "detail": "Continuity mode=active-active.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            },
+            {
+              "name": "transaction.release.gated",
+              "status": "review",
+              "detail": "Release status determined from risk, controls, and workflow integrity.",
+              "timestamp_utc": "2026-03-20T00:00:00+00:00"
+            }
+          ],
+          "recommendations": [
+            "Prepare counteroffer ladder with opening, midpoint, and walk-away thresholds.",
+            "Issue a counter with an expiration window and evidence-based contingency carve-outs.",
+            "Route open document issues to owners and require re-validation before approval.",
+            "Lock release behind approval if the risk score remains above the configured threshold.",
+            "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
+          ],
+          "explanation": "Transaction deal-1ebb26bc for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO 22301",
+            "ISO/IEC 42001",
+            "ISO 31000"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "payment_decision": {
+          "request_id": "demo-request",
+          "transaction_reference": "demo-transaction",
+          "payment_instrument": {
+            "instrument_type": "escrow_disbursement",
+            "token_provider": "Banking / escrow token service",
+            "token_reference": "tok-ce274aa527",
+            "last4": "6789",
+            "network": "ACH/Wire",
+            "wallet_or_bank": "Escrow operating account",
+            "pci_scope": "tokenized_frontend_only"
+          },
+          "participants": [
+            {
+              "role": "payer",
+              "name": "usr-a9c033b5",
+              "identifier": "usr-a9c033b5"
+            },
+            {
+              "role": "beneficiary",
+              "name": "EstateOS Escrow",
+              "identifier": "deal-1ebb26bc"
+            },
+            {
+              "role": "servicer",
+              "name": "EstateOS Payment Ops",
+              "identifier": "req-1a0d8e99"
+            }
+          ],
+          "fraud_probability": 0.54,
+          "risk_level": "moderate",
+          "payment_behavior_summary": "Payer behavior is watchlisted because one or more telemetry signals exceeded baseline.",
+          "escrow_status": "Funding controls active",
+          "frontend_security_posture": "PCI DSS hosted payment fields, tokenized instruments, CSP/WAF controls, and log redaction protect the frontend payment experience.",
+          "signals": [
+            {
+              "category": "device_trust",
+              "status": "passed",
+              "detail": "Session is bound to MFA and a trusted device."
+            },
+            {
+              "category": "amount_velocity",
+              "status": "review",
+              "detail": "Amount 180,000 is checked against payer velocity and historical behavior."
+            },
+            {
+              "category": "cross_border",
+              "status": "review",
+              "detail": "Cross-border payment routes trigger enhanced beneficiary, sanctions, and settlement monitoring."
+            },
+            {
+              "category": "chargeback_history",
+              "status": "passed",
+              "detail": "Chargeback history feeds the fraud probability model and manual-review thresholds."
+            }
+          ],
+          "escrow_conditions": [
+            {
+              "condition": "funds_available",
+              "status": "ready",
+              "detail": "Escrow release requires settled funds and beneficiary matching."
+            },
+            {
+              "condition": "document_clearance",
+              "status": "review",
+              "detail": "Closing, identity, and approval milestones must be complete before release."
+            },
+            {
+              "condition": "dual_approval",
+              "status": "pending",
+              "detail": "Release requires dual approval with segregation of duties and immutable event logging."
+            }
+          ],
+          "reconciliation_entries": [
+            {
+              "entry_type": "authorization_capture",
+              "status": "not_applicable",
+              "detail": "PSP references are reconciled without exposing raw cardholder data."
+            },
+            {
+              "entry_type": "escrow_ledger",
+              "status": "open",
+              "detail": "Escrow ledger events are matched to bank/PSP settlement references."
+            },
+            {
+              "entry_type": "exception_queue",
+              "status": "monitored",
+              "detail": "Signed webhooks, settlement files, and exception queues drive reconciliation closeout."
+            }
+          ],
+          "recommended_actions": [
+            "Keep the user in hosted payment fields and masked token views.",
+            "Require payment-ops review before release.",
+            "Match settlement references and escrow ledger entries before reconciliation close."
+          ],
+          "release_status": "review",
+          "explanation": "Payment deal-1ebb26bc was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "standards_alignment": [
+            "PCI DSS",
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO 31000",
+            "SOC 2 Type 2"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "insurance_decision": {
+          "request_id": "demo-request",
+          "applicant": {
+            "applicant_id": "demo-applicant",
+            "persona": "advisor",
+            "property_type": "multifamily",
+            "occupancy": "tenant_occupied",
+            "transaction_context": "approval",
+            "property_jurisdiction": "Greece",
+            "estimated_property_value": 880000,
+            "mortgage_amount": 360000,
+            "household_size": 3,
+            "dependents": 1,
+            "landlord_exposure": true,
+            "title_required": true,
+            "life_priority": false,
+            "prior_claims_count": 0,
+            "privacy_consent": true
+          },
+          "acord_parties": [
+            {
+              "role": "applicant",
+              "name": "usr-a9c033b5",
+              "identifier": "usr-a9c033b5"
+            },
+            {
+              "role": "servicing_entity",
+              "name": "EstateOS Insurance Desk",
+              "identifier": "estateos-insurance"
+            },
+            {
+              "role": "transaction_context",
+              "name": "approval",
+              "identifier": "req-1a0d8e99"
+            }
+          ],
+          "acord_coverages": [
+            {
+              "line_of_business": "property",
+              "acord_form": "ACORD 80",
+              "coverage_type": "homeowners",
+              "insured_amount": 880000,
+              "deductible": 2500,
+              "notes": "Captures dwelling, occupancy, mortgagee, and peril details for quote intake."
+            },
+            {
+              "line_of_business": "title",
+              "acord_form": "ACORD 28",
+              "coverage_type": "title",
+              "insured_amount": 880000,
+              "deductible": 0,
+              "notes": "Binds ownership, lender, and recording evidence to the closing packet."
+            },
+            {
+              "line_of_business": "landlord",
+              "acord_form": "ACORD 101",
+              "coverage_type": "landlord",
+              "insured_amount": 440000,
+              "deductible": 2500,
+              "notes": "Supports rental, loss-of-rents, and premises-liability underwriting when leasing exposure exists."
+            },
+            {
+              "line_of_business": "life",
+              "acord_form": "ACORD 103",
+              "coverage_type": "life_continuity",
+              "insured_amount": 360000,
+              "deductible": 0,
+              "notes": "Captures beneficiary and continuity needs when household or guarantor protection is requested."
+            }
+          ],
+          "recommendations": [
+            {
+              "coverage_type": "homeowners",
+              "recommendation_level": "primary",
+              "policy_form": "Habitational package",
+              "premium_estimate": "$322/mo est.",
+              "rationale": "Habitational package is the best fit for a tenant_occupied multifamily because it aligns dwelling protection with the current approval workflow.",
+              "acord_payload_refs": [
+                "ACORD 80"
+              ]
+            },
+            {
+              "coverage_type": "title",
+              "recommendation_level": "recommended",
+              "policy_form": "Owner's title",
+              "premium_estimate": "$1,950 one-time est.",
+              "rationale": "Title protection is recommended whenever acquisition, transfer, or refinance steps depend on clean ownership and lien status.",
+              "acord_payload_refs": [
+                "ACORD 28"
+              ]
+            },
+            {
+              "coverage_type": "landlord",
+              "recommendation_level": "primary",
+              "policy_form": "Landlord package",
+              "premium_estimate": "$322/mo est.",
+              "rationale": "Landlord coverage becomes primary when rent interruption, tenant liability, or premises claims could affect transaction economics.",
+              "acord_payload_refs": [
+                "ACORD 101"
+              ]
+            },
+            {
+              "coverage_type": "life_related",
+              "recommendation_level": "optional",
+              "policy_form": "Optional household continuity rider",
+              "premium_estimate": "$28/mo add-on est.",
+              "rationale": "Life-related continuity coverage is recommended when household dependents, guarantors, or debt-service plans depend on insured income continuity.",
+              "acord_payload_refs": [
+                "ACORD 103"
+              ]
+            }
+          ],
+          "secure_exchange_controls": [
+            {
+              "control": "Consent and privacy notice",
+              "status": "active",
+              "detail": "NAIC-aligned notice, purpose limitation, and quote-sharing consent are checked before payload release."
+            },
+            {
+              "control": "Encrypted carrier exchange",
+              "status": "active",
+              "detail": "ACORD payloads are exchanged using mTLS, field-level encryption, signed service identities, and correlation IDs."
+            },
+            {
+              "control": "Access and servicing governance",
+              "status": "active",
+              "detail": "Only entitled advisors, servicing staff, and approved partner roles can view recommendation details or request quotes."
+            },
+            {
+              "control": "Audit and retention",
+              "status": "active",
+              "detail": "Quote packets, title evidence, underwriting assumptions, and retransmission attempts are written to immutable servicing logs."
+            }
+          ],
+          "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-1a0d8e99.",
+          "release_status": "released",
+          "explanation": "Insurance review evaluated persona 'advisor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'approval'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
+          "standards_alignment": [
+            "ACORD",
+            "NAIC Privacy/Security",
+            "ISO/IEC 27001",
+            "ISO/IEC 27701"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "integration_decision": {
+          "request_id": "demo-request",
+          "partner_system": "escrow_ledger",
+          "domain": "payments",
+          "canonical_contract": "CanonicalEscrowInstruction.v1",
+          "expert_chain": [
+            "payment_intelligence",
+            "financial_risk",
+            "compliance_validation"
+          ],
+          "validation_results": [
+            {
+              "control": "Partner domain alignment",
+              "status": "review",
+              "detail": "Partner declared domain 'payments' and adapter profile expects 'banking'."
+            },
+            {
+              "control": "Consent and privacy scope",
+              "status": "passed",
+              "detail": "Payload release requires purpose-bound consent and an active session consent state."
+            },
+            {
+              "control": "Identity and trust posture",
+              "status": "review",
+              "detail": "Step-up MFA and verified identity improve confidence before external partner delivery."
+            },
+            {
+              "control": "Data classification handling",
+              "status": "passed",
+              "detail": "Payload classification 'restricted' is checked against partner transport and storage controls."
+            }
+          ],
+          "routing_decisions": [
+            {
+              "target": "escrow_settlement_orchestrator",
+              "status": "conditional_review",
+              "detail": "Canonical contract CanonicalEscrowInstruction.v1 is routed into the primary adapter when validation and policy checks pass."
+            },
+            {
+              "target": "payment_operations_review",
+              "status": "standby",
+              "detail": "Fallback routing preserves interoperability evidence and hands exceptions to the correct human or secondary workflow."
+            }
+          ],
+          "compliance_evidence": [
+            "ISO 20022/NACHA field mapping ledger",
+            "PCI DSS tokenization boundary evidence",
+            "AML/KYC and approval trace"
+          ],
+          "release_status": "release_ready",
+          "explanation": "Integration hub normalized the escrow_ledger payload into CanonicalEscrowInstruction.v1, ran expert chain payment_intelligence, financial_risk, compliance_validation, and produced a release_ready decision with schema, trust, privacy, and routing evidence attached.",
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "PCI DSS"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "residency_decision": {
+          "request_id": "demo-request",
+          "applicant": {
+            "applicant_id": "demo-applicant",
+            "citizenship_country": "United States",
+            "current_country": "United States",
+            "target_jurisdiction": "Greece",
+            "household_size": 3,
+            "dependents": 1,
+            "annual_income": 210000,
+            "liquid_assets": 340000,
+            "property_budget": 900000,
+            "property_value": 880000,
+            "source_of_funds_verified": true,
+            "criminal_record_clear": true,
+            "health_insurance_ready": true,
+            "documents_on_file": [
+              "passport",
+              "proof_of_funds",
+              "property_purchase_agreement",
+              "health_insurance",
+              "tax_number"
+            ]
+          },
+          "program": "Greece Golden Visa",
+          "jurisdiction": "Greece",
+          "pathway_type": "property-led residency",
+          "eligibility_status": "eligible_with_review",
+          "eligibility_score": 0.91,
+          "rule_checks": [
+            {
+              "name": "property_value",
+              "status": "passed",
+              "detail": "Property value 880,000 compared with threshold 250,000."
+            },
+            {
+              "name": "annual_income",
+              "status": "passed",
+              "detail": "Annual income 210,000 compared with threshold 0."
+            },
+            {
+              "name": "liquid_assets",
+              "status": "passed",
+              "detail": "Liquid assets 340,000 compared with threshold 50,000."
+            },
+            {
+              "name": "source_of_funds",
+              "status": "passed",
+              "detail": "Source-of-funds evidence is matched with AML posture before release."
+            },
+            {
+              "name": "criminal_record",
+              "status": "passed",
+              "detail": "Criminal record evidence must be clear for filing and downstream partner submission."
+            },
+            {
+              "name": "health_insurance",
+              "status": "passed",
+              "detail": "Health insurance readiness is checked because consular and residence filing often require coverage."
+            }
+          ],
+          "document_checks": [
+            {
+              "document": "passport",
+              "status": "ready",
+              "detail": "Document is present in the controlled evidence bundle."
+            },
+            {
+              "document": "property_purchase_agreement",
+              "status": "ready",
+              "detail": "Document is present in the controlled evidence bundle."
+            },
+            {
+              "document": "proof_of_funds",
+              "status": "ready",
+              "detail": "Document is present in the controlled evidence bundle."
+            },
+            {
+              "document": "health_insurance",
+              "status": "ready",
+              "detail": "Document is present in the controlled evidence bundle."
+            },
+            {
+              "document": "criminal_record",
+              "status": "missing",
+              "detail": "Document still needs collection or validation."
+            },
+            {
+              "document": "land_registry_extract",
+              "status": "recommended",
+              "detail": "Supplemental evidence is recommended for smoother counsel review."
+            },
+            {
+              "document": "tax_number",
+              "status": "review",
+              "detail": "Supplemental document is available for accelerated review."
+            },
+            {
+              "document": "family_dependents_pack",
+              "status": "recommended",
+              "detail": "Supplemental evidence is recommended for smoother counsel review."
+            }
+          ],
+          "compliance_workflow": [
+            {
+              "step": "1. KYC identity verification",
+              "owner": "Compliance ops",
+              "status": "completed",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            },
+            {
+              "step": "2. AML source-of-funds review",
+              "owner": "AML analyst",
+              "status": "completed",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            },
+            {
+              "step": "3. Property title and valuation validation",
+              "owner": "Residency operations",
+              "status": "ready",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            },
+            {
+              "step": "4. Privacy minimization and consent logging",
+              "owner": "Privacy office",
+              "status": "completed",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            },
+            {
+              "step": "5. Manual compliance sign-off before filing",
+              "owner": "Jurisdiction counsel",
+              "status": "blocked",
+              "detail": "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+            }
+          ],
+          "kyc_aml_summary": "KYC status is approved, AML risk is medium, sanctions status is clear, and source-of-funds verification is complete.",
+          "privacy_summary": "ISO/IEC 27701-aligned handling keeps residency evidence purpose-bound under the confidential privacy tier, with document minimization, consent-scoped sharing, and retention-aware compliance workflows.",
+          "explanation": "Greece Golden Visa in Greece was evaluated for a household of 3 with property value 880,000, annual income 210,000, and liquid assets 340,000. Eligibility ended as 'eligible_with_review' because 6 rule checks passed, 0 need review, and 1 required documents are still missing. Compliance workflow steps preserve KYC/AML gates, document authenticity review, and ISO/IEC 27701 privacy controls before any external filing.",
+          "standards_alignment": [
+            "KYC/AML",
+            "ISO/IEC 27701",
+            "ISO/IEC 27001",
+            "ISO 22301"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        }
+      }
+    }
+  },
   "packets": {
+    "journey_key": "investor",
     "property_decision": {
       "request_id": "demo-request",
       "profile": {
@@ -610,7 +4434,7 @@
               "records",
               "jurisdiction"
             ],
-            "last_checked_utc": "2026-03-20T16:55:10.643271+00:00"
+            "last_checked_utc": "2026-03-20T17:18:37.667477+00:00"
           },
           {
             "document_id": "doc-disclosure",
@@ -625,7 +4449,7 @@
               "records",
               "privacy"
             ],
-            "last_checked_utc": "2026-03-20T16:55:10.643293+00:00"
+            "last_checked_utc": "2026-03-20T17:18:37.667485+00:00"
           },
           {
             "document_id": "doc-finance",
@@ -638,7 +4462,7 @@
               "records",
               "business_continuity"
             ],
-            "last_checked_utc": "2026-03-20T16:55:10.643300+00:00"
+            "last_checked_utc": "2026-03-20T17:18:37.667490+00:00"
           }
         ],
         "workflow_stages": [
@@ -808,7 +4632,7 @@
         {
           "name": "transaction.intake.recorded",
           "status": "completed",
-          "detail": "Transaction deal-3e234652 created for Lisbon Green Quarter acquisition.",
+          "detail": "Transaction deal-a3cec013 created for Lisbon Green Quarter acquisition.",
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
         {
@@ -843,7 +4667,7 @@
         "Lock release behind approval if the risk score remains above the configured threshold.",
         "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
       ],
-      "explanation": "Transaction deal-3e234652 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+      "explanation": "Transaction deal-a3cec013 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
       "standards_alignment": [
         "ISO/IEC 27001",
         "ISO 22301",
@@ -858,7 +4682,7 @@
       "payment_instrument": {
         "instrument_type": "wire",
         "token_provider": "Banking / escrow token service",
-        "token_reference": "tok-9cecf2f588",
+        "token_reference": "tok-0bfc8d011a",
         "last4": "6789",
         "network": "ACH/Wire",
         "wallet_or_bank": "Escrow operating account",
@@ -867,18 +4691,18 @@
       "participants": [
         {
           "role": "payer",
-          "name": "usr-98adbc7d",
-          "identifier": "usr-98adbc7d"
+          "name": "usr-c1734b0a",
+          "identifier": "usr-c1734b0a"
         },
         {
           "role": "beneficiary",
           "name": "EstateOS Escrow",
-          "identifier": "deal-3e234652"
+          "identifier": "deal-a3cec013"
         },
         {
           "role": "servicer",
           "name": "EstateOS Payment Ops",
-          "identifier": "req-da02d507"
+          "identifier": "req-f0944c7b"
         }
       ],
       "fraud_probability": 0.36,
@@ -948,7 +4772,7 @@
         "Match settlement references and escrow ledger entries before reconciliation close."
       ],
       "release_status": "released",
-      "explanation": "Payment deal-3e234652 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+      "explanation": "Payment deal-a3cec013 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
       "standards_alignment": [
         "PCI DSS",
         "ISO/IEC 27001",
@@ -980,8 +4804,8 @@
       "acord_parties": [
         {
           "role": "applicant",
-          "name": "usr-98adbc7d",
-          "identifier": "usr-98adbc7d"
+          "name": "usr-c1734b0a",
+          "identifier": "usr-c1734b0a"
         },
         {
           "role": "servicing_entity",
@@ -991,7 +4815,7 @@
         {
           "role": "transaction_context",
           "name": "closing",
-          "identifier": "req-da02d507"
+          "identifier": "req-f0944c7b"
         }
       ],
       "acord_coverages": [
@@ -1093,7 +4917,7 @@
         }
       ],
       "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-da02d507.",
+      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-f0944c7b.",
       "release_status": "released",
       "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
       "standards_alignment": [

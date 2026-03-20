@@ -1027,15 +1027,18 @@ const backendSnapshot = {
 };
 
 function getBackendPackets() {
-  return backendSnapshot.status === "ready" && backendSnapshot.data?.packets ? backendSnapshot.data.packets : null;
+  if (backendSnapshot.status !== "ready") return null;
+
+  const journeyPackets = backendSnapshot.data?.journeys?.[state.activeJourney]?.packets;
+  return journeyPackets || backendSnapshot.data?.packets || null;
 }
 
-function getInvestorBackendSync() {
-  if (state.activeJourney !== "investor") return null;
+function getBackendSync() {
   const packets = getBackendPackets();
   if (!packets) return null;
 
   return {
+    journeyKey: packets.journey_key || state.activeJourney,
     property: packets.property_decision,
     transaction: packets.transaction_decision,
     payment: packets.payment_decision,
@@ -1067,7 +1070,7 @@ function createWiringMetricCard(titleText, statusText, detailText) {
 
 function renderWiringStatus() {
   if (backendSnapshot.status === "ready" && backendSnapshot.data?.packets) {
-    const packets = backendSnapshot.data.packets;
+    const packets = getBackendPackets();
     const propertyPacket = packets.property_decision;
     const transactionPacket = packets.transaction_decision;
     const paymentPacket = packets.payment_decision;
@@ -1076,9 +1079,9 @@ function renderWiringStatus() {
     const residencyPacket = packets.residency_decision;
 
     wiringTitle.textContent = "Backend snapshot connected";
-    wiringStatusPill.textContent = "Demo packets loaded";
+    wiringStatusPill.textContent = `${state.activeJourney} packets loaded`;
     wiringStatusPill.dataset.status = "loaded";
-    wiringSummary.textContent = `Loaded ${backendSnapshot.data.meta.generated_from} and hydrated the UI with release, risk, and routing signals from the Python orchestration reference. Generated ${backendSnapshot.data.meta.generated_at_utc}.`;
+    wiringSummary.textContent = `Loaded ${backendSnapshot.data.meta.generated_from} and hydrated the ${state.activeJourney} UI with release, risk, and routing signals from the Python orchestration reference. Generated ${backendSnapshot.data.meta.generated_at_utc}.`;
     wiringCardGrid.innerHTML = [
       createWiringMetricCard(
         "Property decision",
@@ -1446,7 +1449,7 @@ function buildActionText(topCandidate) {
 }
 
 function renderPropertyList(rankedCandidates) {
-  const backend = getInvestorBackendSync();
+  const backend = getBackendSync();
   if (backend?.property?.ranked_recommendations?.length) {
     propertyList.innerHTML = backend.property.ranked_recommendations
       .map((candidate, index) => {
@@ -1505,7 +1508,7 @@ function renderPropertyList(rankedCandidates) {
 }
 
 function renderInsights(rankedCandidates) {
-  const backend = getInvestorBackendSync();
+  const backend = getBackendSync();
   if (backend?.property?.ranked_recommendations?.length) {
     const recommendations = backend.property.ranked_recommendations.slice(0, 2);
     insightList.innerHTML = recommendations
@@ -1585,7 +1588,7 @@ function renderInsights(rankedCandidates) {
 }
 
 function renderValuation(rankedCandidates) {
-  const backend = getInvestorBackendSync();
+  const backend = getBackendSync();
   if (backend?.property?.ranked_recommendations?.length) {
     valuationList.innerHTML = backend.property.ranked_recommendations
       .slice(0, 2)
@@ -1618,7 +1621,7 @@ function renderValuation(rankedCandidates) {
 }
 
 function renderGovernance() {
-  const backend = getInvestorBackendSync();
+  const backend = getBackendSync();
   if (backend?.property?.governance_status?.length) {
     governanceList.innerHTML = backend.property.governance_status
       .map(
@@ -1648,7 +1651,7 @@ function renderGovernance() {
 }
 
 function renderContributions(topCandidate) {
-  const backend = getInvestorBackendSync();
+  const backend = getBackendSync();
   const backendTopCandidate = backend?.property?.ranked_recommendations?.[0];
   if (backendTopCandidate) {
     contributionList.innerHTML = Object.entries(backendTopCandidate.expert_contributions)
@@ -1699,7 +1702,7 @@ function renderContributions(topCandidate) {
 }
 
 function renderDealBoard() {
-  const backend = getInvestorBackendSync();
+  const backend = getBackendSync();
   if (backend?.transaction) {
     const packet = backend.transaction;
     const transaction = packet.transaction;
@@ -1961,7 +1964,7 @@ function evaluateResidencyProgram() {
 }
 
 function renderResidencyEngine() {
-  const backend = getInvestorBackendSync();
+  const backend = getBackendSync();
   if (backend?.residency) {
     const packet = backend.residency;
     residencyProgramTitle.textContent = packet.program;
@@ -2122,7 +2125,7 @@ function getInsuranceScenario() {
 }
 
 function renderInsuranceEngine() {
-  const backend = getInvestorBackendSync();
+  const backend = getBackendSync();
   if (backend?.insurance) {
     const packet = backend.insurance;
     insuranceProgramTitle.textContent = `${packet.applicant.persona} insurance workspace`;
@@ -2306,7 +2309,7 @@ function getPaymentScenario() {
 }
 
 function renderPaymentEngine() {
-  const backend = getInvestorBackendSync();
+  const backend = getBackendSync();
   if (backend?.payment) {
     const packet = backend.payment;
     paymentProgramTitle.textContent = `${packet.payment_instrument.instrument_type} payment orchestration`;
@@ -2415,7 +2418,7 @@ function getIntegrationScenario() {
 }
 
 function renderIntegrationHub() {
-  const backend = getInvestorBackendSync();
+  const backend = getBackendSync();
   if (backend?.integration) {
     const packet = backend.integration;
     integrationProgramTitle.textContent = packet.partner_system;
@@ -2513,7 +2516,7 @@ function renderIntegrationHub() {
 }
 
 function renderNextActions(journey, topCandidate) {
-  const backend = getInvestorBackendSync();
+  const backend = getBackendSync();
   if (backend) {
     const dynamicActions = [
       ...backend.property.expert_outputs.slice(0, 3).flatMap((item) => item.next_actions),
@@ -2557,7 +2560,7 @@ function renderJourney() {
   const journey = journeys[state.activeJourney];
   const rankedCandidates = rankCandidates();
   const topCandidate = rankedCandidates[0];
-  const backend = getInvestorBackendSync();
+  const backend = getBackendSync();
   const backendTopCandidate = backend?.property?.ranked_recommendations?.[0];
 
   title.textContent = journey.title;
