@@ -56,8 +56,9 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 
 ### 4.4 Insurance matching
 - Enforce carrier licensing and servicing constraints.
-- Retain peril and property exposure evidence with purpose limitation.
-- Capture quote assumptions, exclusions, and underwriting blockers.
+- Retain peril, title, mortgage, and property exposure evidence with purpose limitation.
+- Capture quote assumptions, exclusions, underwriting blockers, and ACORD-informed payload references.
+- Apply NAIC-aligned privacy, third-party oversight, incident logging, and secure disposal expectations to insurer data exchange.
 
 ### 4.5 Financial risk and compliance
 - Apply affordability, suitability, RBAC, MFA, KYC/AML, and sanctions checks before release.

@@ -1,6 +1,6 @@
 {
   "service": "EstateOS Unified Intelligence API",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "azure_pattern": {
     "entrypoints": [
       "Azure API Management",
@@ -238,6 +238,70 @@
         "status",
         "detail"
       ]
+    },
+    "InsuranceApplicantProfile": {
+      "type": "object",
+      "required": [
+        "applicant_id",
+        "persona",
+        "property_type",
+        "occupancy",
+        "transaction_context",
+        "property_jurisdiction",
+        "estimated_property_value",
+        "mortgage_amount",
+        "household_size",
+        "dependents",
+        "landlord_exposure",
+        "title_required",
+        "life_priority",
+        "privacy_consent"
+      ]
+    },
+    "ACORDCoverageRequest": {
+      "type": "object",
+      "required": [
+        "line_of_business",
+        "acord_form",
+        "coverage_type",
+        "insured_amount",
+        "deductible",
+        "notes"
+      ]
+    },
+    "InsuranceRecommendation": {
+      "type": "object",
+      "required": [
+        "coverage_type",
+        "recommendation_level",
+        "policy_form",
+        "premium_estimate",
+        "rationale",
+        "acord_payload_refs"
+      ]
+    },
+    "SecureExchangeControl": {
+      "type": "object",
+      "required": [
+        "control",
+        "status",
+        "detail"
+      ]
+    },
+    "InsuranceDecision": {
+      "type": "object",
+      "required": [
+        "applicant",
+        "acord_parties",
+        "acord_coverages",
+        "recommendations",
+        "secure_exchange_controls",
+        "naic_privacy_summary",
+        "secure_exchange_summary",
+        "release_status",
+        "explanation",
+        "standards_alignment"
+      ]
     }
   },
   "endpoints": [
@@ -279,6 +343,18 @@
         "ISO/IEC 5259 data-quality scorecard",
         "ISO/IEC 42001 oversight state",
         "ranking fairness diagnostics"
+      ]
+    },
+    {
+      "path": "/v1/insurance/recommendations/evaluate",
+      "method": "POST",
+      "purpose": "Analyze user profile, property type, and transaction context to recommend homeowners, title, landlord, and life-related insurance options using ACORD-informed payloads and NAIC-aligned privacy/security controls.",
+      "controls": [
+        "ACORD payload schema validation",
+        "purpose-bound consent receipt",
+        "encrypted carrier exchange",
+        "role-based quote access",
+        "NAIC-aligned privacy and incident logging"
       ]
     },
     {

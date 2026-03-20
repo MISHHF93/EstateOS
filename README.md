@@ -33,14 +33,14 @@ python3 backend/orchestration.py
 3. Investment analysis with yield, scenario, and downside modeling.
 4. Transaction intelligence with pricing strategy, negotiation guidance, document validation, workflow integrity checks, and deal risk scoring.
 5. Residency-by-investment workflow planning by jurisdiction.
-6. Insurance recommendations aligned to property, climate, and exposure risk.
+6. Insurance recommendations aligned to user profile, property type, transaction context, ACORD-style secure exchange payloads, and NAIC-aligned privacy/security expectations.
 7. Risk assessment spanning fraud, cyber, property, climate, compliance, financial suitability, and transaction execution risk.
 8. Compliance validation for RBAC, MFA, KYC/AML, sanctions, privacy, records, explainability, and business continuity.
 9. Financial decision support for affordability, leverage, returns, liquidity, and scenario analysis.
 
 ## Architecture highlights
 
-- **Frontend experience layer:** role-aware journeys, identity/profile capture, explanation panels, confidence indicators, and audit-friendly action summaries.
+- **Frontend experience layer:** role-aware journeys, identity/profile capture, insurance recommendation controls, explanation panels, confidence indicators, and audit-friendly action summaries.
 - **Identity and trust plane:** Microsoft Entra-backed identity, step-up MFA, entitlement checks, privacy-tier propagation, and KYC/AML/sanctions state shared with the router.
 - **Expert mesh:** domain experts for valuation, listing recommendation, investment analysis, RBI, insurance, financial risk, compliance, and UX personalization.
 - **Policy guardrails:** every recommendation and transaction release is checked against RBAC, MFA, identity, sanctions, privacy, suitability, jurisdiction, and continuity rules before release.

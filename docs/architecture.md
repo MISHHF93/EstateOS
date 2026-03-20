@@ -19,7 +19,7 @@ EstateOS is a full-stack real estate and investment platform where a seamless, r
    - Property search and portfolio discovery.
    - Investment scenario builder.
    - Residency eligibility planner.
-   - Insurance readiness and quote intake.
+   - Insurance readiness and quote intake with homeowners, title, landlord, and life-related recommendation paths.
    - Decision timeline and document center.
 2. **Advisor console**
    - Case review, exception handling, and override management.
@@ -27,7 +27,7 @@ EstateOS is a full-stack real estate and investment platform where a seamless, r
    - Compliance, suitability, and approval checkpoints.
 3. **Partner workspaces**
    - Broker workspace for listing and client pipeline actions.
-   - Insurer/carrier view for ACORD-style intake and quote matching.
+   - Insurer/carrier view for ACORD-style intake, secure quote matching, and policy-class recommendations across homeowners, title, landlord, and life-related coverages.
    - Legal/migration workspace for RBI review and evidence completion.
 4. **External API consumers**
    - Embedded finance, partner CRM, property inventory, KYC providers, insurers, and valuation data vendors.

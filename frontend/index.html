@@ -16,6 +16,7 @@
           <a href="#experts">Experts</a>
           <a href="#compliance">Compliance</a>
           <a href="#residency">Residency engine</a>
+          <a href="#insurance">Insurance engine</a>
           <a href="#architecture">Architecture</a>
         </div>
       </nav>
@@ -23,10 +24,10 @@
       <section class="hero-content">
         <div>
           <p class="eyebrow">Secure • Scalable • AI-Native</p>
-          <h1>Deal intelligence that guides pricing, residency eligibility, negotiation, document validation, and closing risk.</h1>
+          <h1>Deal intelligence that guides pricing, residency eligibility, insurance placement, negotiation, document validation, and closing risk.</h1>
           <p class="hero-copy">
             EstateOS now pairs its property intelligence workspace with a residency-by-investment expert layer so every deal gets
-            pricing guidance, visa eligibility scoring, document QA, compliance workflow tracking, and continuity-aware workflow controls.
+            pricing guidance, visa eligibility scoring, insurance recommendations, document QA, compliance workflow tracking, and continuity-aware workflow controls.
           </p>
           <div class="hero-actions">
             <a class="primary" href="#workspace">Launch adaptive workspace</a>
@@ -428,6 +429,97 @@
                       </div>
                     </div>
                     <div id="compliance-workflow-list" class="stack-list"></div>
+                  </article>
+                </section>
+
+                <section id="insurance" class="insurance-layout" aria-label="Insurance recommendation expert system">
+                  <article class="decision-card insurance-card insurance-card--primary">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Insurance recommendation expert</p>
+                        <h4 id="insurance-program-title">Coverage overview</h4>
+                      </div>
+                      <span class="status-pill" id="insurance-status-pill">Reviewable</span>
+                    </div>
+                    <p id="insurance-summary" class="helper-copy"></p>
+                    <div class="form-grid insurance-form">
+                      <label>
+                        Property type
+                        <select id="insurance-property-type"></select>
+                      </label>
+                      <label>
+                        Transaction context
+                        <select id="insurance-transaction-context"></select>
+                      </label>
+                      <label>
+                        Occupancy profile
+                        <select id="insurance-occupancy"></select>
+                      </label>
+                      <label>
+                        Household coverage need
+                        <select id="insurance-household-risk"></select>
+                      </label>
+                      <label class="toggle-row">
+                        <input id="insurance-title-toggle" type="checkbox" />
+                        <span>Needs title protection at closing</span>
+                      </label>
+                      <label class="toggle-row">
+                        <input id="insurance-landlord-toggle" type="checkbox" />
+                        <span>Will lease the property or hold as a landlord</span>
+                      </label>
+                      <label class="toggle-row">
+                        <input id="insurance-life-toggle" type="checkbox" />
+                        <span>Wants life / mortgage continuity protection</span>
+                      </label>
+                    </div>
+                    <div class="metric-grid insurance-metric-grid">
+                      <div class="metric-item">
+                        <span>Composite readiness</span>
+                        <strong id="insurance-readiness-score"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>Primary package</span>
+                        <strong id="insurance-primary-package"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>ACORD exchange</span>
+                        <strong id="insurance-acord-mode"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>NAIC privacy posture</span>
+                        <strong id="insurance-naic-posture"></strong>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="decision-card insurance-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Recommended policies</p>
+                        <h4>Homeowners, title, landlord, and life options</h4>
+                      </div>
+                    </div>
+                    <div id="insurance-option-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card insurance-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Secure exchange payload</p>
+                        <h4>ACORD-informed intake + release controls</h4>
+                      </div>
+                    </div>
+                    <div id="insurance-payload-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card insurance-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Privacy and servicing controls</p>
+                        <h4>NAIC-aligned expectations</h4>
+                      </div>
+                    </div>
+                    <div id="insurance-control-list" class="stack-list"></div>
                   </article>
                 </section>
 
