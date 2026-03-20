@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at_utc": "2026-03-20T21:03:33.896770+00:00",
+    "generated_at_utc": "2026-03-20T21:36:37.827473+00:00",
     "generated_from": "backend.orchestration.build_demo_payloads",
     "normalized": true
   },
@@ -553,7 +553,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-20T21:03:33.875760+00:00"
+                "last_checked_utc": "2026-03-20T21:36:37.809237+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -568,7 +568,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-20T21:03:33.875774+00:00"
+                "last_checked_utc": "2026-03-20T21:36:37.809253+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -581,7 +581,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-20T21:03:33.875779+00:00"
+                "last_checked_utc": "2026-03-20T21:36:37.809258+00:00"
               }
             ],
             "workflow_stages": [
@@ -751,7 +751,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-2dcb3345 created for Lisbon Green Quarter acquisition.",
+              "detail": "Transaction deal-2c802b41 created for Lisbon Green Quarter acquisition.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -786,7 +786,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-2dcb3345 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-2c802b41 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -801,7 +801,7 @@
           "payment_instrument": {
             "instrument_type": "wire",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-a4551c4a7a",
+            "token_reference": "tok-763c450a0e",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -810,18 +810,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-a5fa66bd",
-              "identifier": "usr-a5fa66bd"
+              "name": "usr-a739c83c",
+              "identifier": "usr-a739c83c"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-2dcb3345"
+              "identifier": "deal-2c802b41"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-29d633cf"
+              "identifier": "req-72a8929d"
             }
           ],
           "fraud_probability": 0.36,
@@ -891,7 +891,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "released",
-          "explanation": "Payment deal-2dcb3345 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-2c802b41 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -923,8 +923,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-a5fa66bd",
-              "identifier": "usr-a5fa66bd"
+              "name": "usr-a739c83c",
+              "identifier": "usr-a739c83c"
             },
             {
               "role": "servicing_entity",
@@ -934,7 +934,7 @@
             {
               "role": "transaction_context",
               "name": "closing",
-              "identifier": "req-29d633cf"
+              "identifier": "req-72a8929d"
             }
           ],
           "acord_coverages": [
@@ -1036,7 +1036,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-29d633cf.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-72a8929d.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'buyer', property type 'apartment', occupancy 'owner_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -1369,7 +1369,7 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Lisbon Green Quarter Apartment to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-cf85873d modeled Lisbon Green Quarter Apartment in Portugal using purchase price 620,000, current value 628,000, occupancy 94%, rent 3,200/mo, renovation budget 38,000, insurance premium 2,256, and hold period 7 years. Best-case equity outcome is 535,249, downside annual cash flow is -7, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-885c3c48 modeled Lisbon Green Quarter Apartment in Portugal using purchase price 620,000, current value 628,000, occupancy 94%, rent 3,200/mo, renovation budget 38,000, insurance premium 2,256, and hold period 7 years. Best-case equity outcome is 535,249, downside annual cash flow is -7, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
@@ -1538,6 +1538,202 @@
             "ISO/IEC 5259",
             "ISO 31000",
             "ISO/IEC 27001"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "copilot_decision": {
+          "request_id": "demo-request",
+          "active_role": "buyer_advisor",
+          "roles": [
+            {
+              "role_key": "buyer_advisor",
+              "title": "Buyer advisor",
+              "persona": "Guides owner-occupiers through shortlist fit, financing, and next steps.",
+              "focus": "Property fit, affordability, family relocation logistics, and transaction sequencing.",
+              "confidence": 0.67,
+              "summary": "Recommends Lisbon Green Quarter Apartment because livability, financing readiness, and low-friction execution outperform the alternatives."
+            },
+            {
+              "role_key": "investor_strategist",
+              "title": "Investor strategist",
+              "persona": "Frames investments through risk-adjusted return and macro context.",
+              "focus": "Yield resilience, downside cases, market signals, and capital allocation discipline.",
+              "confidence": 0.66,
+              "summary": "Links Lisbon Green Quarter Apartment to Portugal relocation corridor signals, emphasizing 12 months demand resilience and documented downside cases."
+            },
+            {
+              "role_key": "insurance_guide",
+              "title": "Insurance guide",
+              "persona": "Translates underwriting and servicing requirements into actionable coverage advice.",
+              "focus": "Coverage fit, premium tradeoffs, data minimization, and quote-release posture.",
+              "confidence": 0.84,
+              "summary": "Maps the property profile to homeowners with privacy-safe ACORD exchange controls and a released release posture."
+            },
+            {
+              "role_key": "visa_assistant",
+              "title": "Visa assistant",
+              "persona": "Explains residency eligibility and outstanding filing evidence.",
+              "focus": "Program fit, document readiness, source-of-funds checks, and counsel handoff readiness.",
+              "confidence": 0.85,
+              "summary": "Explains the Portugal D7 Residency decision, including 9 tracked evidence items and the steps needed for filing readiness."
+            },
+            {
+              "role_key": "compliance_explainer",
+              "title": "Compliance explainer",
+              "persona": "Makes control outcomes understandable without hiding risk details.",
+              "focus": "Release gating, privacy boundaries, audit evidence, and explainability controls.",
+              "confidence": 0.94,
+              "summary": "Summarizes 19 policy gates, 4 transaction controls, and low payment risk before any sensitive action is released."
+            }
+          ],
+          "conversation": [
+            {
+              "speaker": "user",
+              "role": "Buyer advisor",
+              "text": "I need a clear recommendation for my buyer journey and I want to understand the risks before I move forward.",
+              "sources": [
+                "frontend intake",
+                "journey profile"
+              ]
+            },
+            {
+              "speaker": "assistant",
+              "role": "Buyer advisor",
+              "text": "My top recommendation is Lisbon Green Quarter Apartment. The MoE system blended property, investment, finance, compliance, and market signals to reach a released release with 7 routed experts.",
+              "sources": [
+                "property_decision.recommendation",
+                "property_decision.selected_experts"
+              ]
+            },
+            {
+              "speaker": "assistant",
+              "role": "Compliance explainer",
+              "text": "Nothing is hidden: 0 policy gates still require attention (no elevated gates), transaction risk is moderate, and payment risk is low.",
+              "sources": [
+                "property_decision.policy_gates",
+                "transaction_decision.risk_rating",
+                "payment_decision.risk_level"
+              ]
+            }
+          ],
+          "memory": [
+            {
+              "label": "User role",
+              "value": "buyer",
+              "source": "profile",
+              "retention": "session + audit excerpt"
+            },
+            {
+              "label": "Primary objective",
+              "value": "family relocation purchase with financing support",
+              "source": "profile",
+              "retention": "session"
+            },
+            {
+              "label": "Budget",
+              "value": "650,000 USD",
+              "source": "profile",
+              "retention": "session"
+            },
+            {
+              "label": "Top recommendation",
+              "value": "Lisbon Green Quarter Apartment",
+              "source": "property decision",
+              "retention": "decision record"
+            },
+            {
+              "label": "Residency status",
+              "value": "eligible_with_review",
+              "source": "residency decision",
+              "retention": "decision record"
+            },
+            {
+              "label": "Insurance release",
+              "value": "released",
+              "source": "insurance decision",
+              "retention": "decision record"
+            }
+          ],
+          "reasoning_trace": [
+            {
+              "step": "Intent and role detection",
+              "experts": [
+                "ux_personalization",
+                "conversational_copilot"
+              ],
+              "detail": "The copilot aligns the response to the buyer journey, family relocation purchase with financing support objective, and discovery stage before choosing an answer style."
+            },
+            {
+              "step": "MoE evidence retrieval",
+              "experts": [
+                "unified_compliance_risk_intelligence",
+                "compliance_validation",
+                "residency_eligibility",
+                "property_valuation"
+              ],
+              "detail": "Property, investment, finance, and compliance summaries are pulled first so the response cites governed recommendations instead of free-form opinion."
+            },
+            {
+              "step": "Role-specific synthesis",
+              "experts": [
+                "conversational_copilot",
+                "residency_eligibility",
+                "insurance_matching"
+              ],
+              "detail": "The copilot reframes the same evidence differently for buyer, investor, visa, insurance, or compliance conversations without changing the underlying facts."
+            },
+            {
+              "step": "Guarded release",
+              "experts": [
+                "compliance_validation",
+                "unified_compliance_risk_intelligence"
+              ],
+              "detail": "Before answering, the system checks privacy tier, consent scope, audit logging, and hold conditions so only policy-cleared details appear in the conversation."
+            }
+          ],
+          "guardrails": [
+            {
+              "control": "Context memory minimization",
+              "status": "active",
+              "detail": "Short-term memory stores only journey objectives, released decisions, and approved evidence references; raw PII stays outside the chat transcript."
+            },
+            {
+              "control": "Role-specific reasoning",
+              "status": "active",
+              "detail": "Every answer is conditioned on the selected role so buyers, investors, insurance users, and compliance reviewers get the same facts with different framing."
+            },
+            {
+              "control": "Explainability trace",
+              "status": "active",
+              "detail": "Each answer points back to MoE packets, expert summaries, and policy-gate outcomes instead of opaque free generation."
+            },
+            {
+              "control": "Compliance-aware release",
+              "status": "active",
+              "detail": "Responses inherit policy-gate results and currently track 0 elevated gates before export or partner release."
+            }
+          ],
+          "recommended_actions": [
+            "review elevated risk cases",
+            "Prepare counteroffer ladder with opening, midpoint, and walk-away thresholds.",
+            "HO-3 is the best fit for a owner_occupied apartment because it aligns dwelling protection with the current closing workflow.",
+            "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+          ],
+          "explainability_summary": "The conversational copilot is an interface over the existing MoE packets: it retains role context, cites expert outputs, and exposes reasoning steps so the answer can be challenged or audited.",
+          "privacy_summary": "Conversation memory follows the confidential privacy tier, respects consent scope ['routing', 'kyc', 'personalization', 'evidence_retention'], and limits release to role-approved details with audit logging.",
+          "compliance_summary": "Compliance posture spans 19 property gates, 4 transaction controls, residency status 'eligible_with_review', and payment risk 'low'.",
+          "natural_language_interfaces": [
+            "guided chat answers",
+            "role switcher for buyer, investor, insurance, visa, and compliance modes",
+            "context memory cards",
+            "reasoning trace with cited expert evidence"
+          ],
+          "release_status": "ready",
+          "standards_alignment": [
+            "ISO/IEC 42001",
+            "ISO/IEC 27701",
+            "ISO/IEC 27001",
+            "ISO/IEC 5259"
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         }
@@ -2155,7 +2351,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-20T21:03:33.885885+00:00"
+                "last_checked_utc": "2026-03-20T21:36:37.816086+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -2170,7 +2366,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-20T21:03:33.885896+00:00"
+                "last_checked_utc": "2026-03-20T21:36:37.816094+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -2183,7 +2379,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-20T21:03:33.885901+00:00"
+                "last_checked_utc": "2026-03-20T21:36:37.816099+00:00"
               }
             ],
             "workflow_stages": [
@@ -2353,7 +2549,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-b6d1d460 created for Lisbon Green Quarter acquisition.",
+              "detail": "Transaction deal-d6754e91 created for Lisbon Green Quarter acquisition.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -2388,7 +2584,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-b6d1d460 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-d6754e91 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -2403,7 +2599,7 @@
           "payment_instrument": {
             "instrument_type": "wire",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-14331e43e5",
+            "token_reference": "tok-3633974fea",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -2412,18 +2608,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-9587785b",
-              "identifier": "usr-9587785b"
+              "name": "usr-81198cd0",
+              "identifier": "usr-81198cd0"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-b6d1d460"
+              "identifier": "deal-d6754e91"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-bf961c2d"
+              "identifier": "req-1c0d3dff"
             }
           ],
           "fraud_probability": 0.36,
@@ -2493,7 +2689,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "released",
-          "explanation": "Payment deal-b6d1d460 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-d6754e91 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -2525,8 +2721,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-9587785b",
-              "identifier": "usr-9587785b"
+              "name": "usr-81198cd0",
+              "identifier": "usr-81198cd0"
             },
             {
               "role": "servicing_entity",
@@ -2536,7 +2732,7 @@
             {
               "role": "transaction_context",
               "name": "closing",
-              "identifier": "req-bf961c2d"
+              "identifier": "req-1c0d3dff"
             }
           ],
           "acord_coverages": [
@@ -2638,7 +2834,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-bf961c2d.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-1c0d3dff.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -2966,7 +3162,7 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Athens Urban Residential Block to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-e13ff59e modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-b3d397ff modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
@@ -3135,6 +3331,202 @@
             "ISO/IEC 5259",
             "ISO 31000",
             "ISO/IEC 27001"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "copilot_decision": {
+          "request_id": "demo-request",
+          "active_role": "investor_strategist",
+          "roles": [
+            {
+              "role_key": "buyer_advisor",
+              "title": "Buyer advisor",
+              "persona": "Guides owner-occupiers through shortlist fit, financing, and next steps.",
+              "focus": "Property fit, affordability, family relocation logistics, and transaction sequencing.",
+              "confidence": 0.67,
+              "summary": "Recommends Athens Urban Residential Block because livability, financing readiness, and low-friction execution outperform the alternatives."
+            },
+            {
+              "role_key": "investor_strategist",
+              "title": "Investor strategist",
+              "persona": "Frames investments through risk-adjusted return and macro context.",
+              "focus": "Yield resilience, downside cases, market signals, and capital allocation discipline.",
+              "confidence": 0.66,
+              "summary": "Links Athens Urban Residential Block to Mediterranean income markets signals, emphasizing 12 months demand resilience and documented downside cases."
+            },
+            {
+              "role_key": "insurance_guide",
+              "title": "Insurance guide",
+              "persona": "Translates underwriting and servicing requirements into actionable coverage advice.",
+              "focus": "Coverage fit, premium tradeoffs, data minimization, and quote-release posture.",
+              "confidence": 0.84,
+              "summary": "Maps the property profile to homeowners with privacy-safe ACORD exchange controls and a released release posture."
+            },
+            {
+              "role_key": "visa_assistant",
+              "title": "Visa assistant",
+              "persona": "Explains residency eligibility and outstanding filing evidence.",
+              "focus": "Program fit, document readiness, source-of-funds checks, and counsel handoff readiness.",
+              "confidence": 0.94,
+              "summary": "Explains the Greece Golden Visa decision, including 8 tracked evidence items and the steps needed for filing readiness."
+            },
+            {
+              "role_key": "compliance_explainer",
+              "title": "Compliance explainer",
+              "persona": "Makes control outcomes understandable without hiding risk details.",
+              "focus": "Release gating, privacy boundaries, audit evidence, and explainability controls.",
+              "confidence": 0.94,
+              "summary": "Summarizes 19 policy gates, 4 transaction controls, and low payment risk before any sensitive action is released."
+            }
+          ],
+          "conversation": [
+            {
+              "speaker": "user",
+              "role": "Investor strategist",
+              "text": "I need a clear recommendation for my investor journey and I want to understand the risks before I move forward.",
+              "sources": [
+                "frontend intake",
+                "journey profile"
+              ]
+            },
+            {
+              "speaker": "assistant",
+              "role": "Investor strategist",
+              "text": "My top recommendation is Athens Urban Residential Block. The MoE system blended property, investment, finance, compliance, and market signals to reach a released release with 10 routed experts.",
+              "sources": [
+                "property_decision.recommendation",
+                "property_decision.selected_experts"
+              ]
+            },
+            {
+              "speaker": "assistant",
+              "role": "Compliance explainer",
+              "text": "Nothing is hidden: 0 policy gates still require attention (no elevated gates), transaction risk is moderate, and payment risk is low.",
+              "sources": [
+                "property_decision.policy_gates",
+                "transaction_decision.risk_rating",
+                "payment_decision.risk_level"
+              ]
+            }
+          ],
+          "memory": [
+            {
+              "label": "User role",
+              "value": "investor",
+              "source": "profile",
+              "retention": "session + audit excerpt"
+            },
+            {
+              "label": "Primary objective",
+              "value": "cross-border property investment with residency options",
+              "source": "profile",
+              "retention": "session"
+            },
+            {
+              "label": "Budget",
+              "value": "850,000 USD",
+              "source": "profile",
+              "retention": "session"
+            },
+            {
+              "label": "Top recommendation",
+              "value": "Athens Urban Residential Block",
+              "source": "property decision",
+              "retention": "decision record"
+            },
+            {
+              "label": "Residency status",
+              "value": "eligible",
+              "source": "residency decision",
+              "retention": "decision record"
+            },
+            {
+              "label": "Insurance release",
+              "value": "released",
+              "source": "insurance decision",
+              "retention": "decision record"
+            }
+          ],
+          "reasoning_trace": [
+            {
+              "step": "Intent and role detection",
+              "experts": [
+                "ux_personalization",
+                "conversational_copilot"
+              ],
+              "detail": "The copilot aligns the response to the investor journey, cross-border property investment with residency options objective, and consideration stage before choosing an answer style."
+            },
+            {
+              "step": "MoE evidence retrieval",
+              "experts": [
+                "unified_compliance_risk_intelligence",
+                "payment_intelligence",
+                "financial_risk",
+                "compliance_validation"
+              ],
+              "detail": "Property, investment, finance, and compliance summaries are pulled first so the response cites governed recommendations instead of free-form opinion."
+            },
+            {
+              "step": "Role-specific synthesis",
+              "experts": [
+                "conversational_copilot",
+                "residency_eligibility",
+                "insurance_matching"
+              ],
+              "detail": "The copilot reframes the same evidence differently for buyer, investor, visa, insurance, or compliance conversations without changing the underlying facts."
+            },
+            {
+              "step": "Guarded release",
+              "experts": [
+                "compliance_validation",
+                "unified_compliance_risk_intelligence"
+              ],
+              "detail": "Before answering, the system checks privacy tier, consent scope, audit logging, and hold conditions so only policy-cleared details appear in the conversation."
+            }
+          ],
+          "guardrails": [
+            {
+              "control": "Context memory minimization",
+              "status": "active",
+              "detail": "Short-term memory stores only journey objectives, released decisions, and approved evidence references; raw PII stays outside the chat transcript."
+            },
+            {
+              "control": "Role-specific reasoning",
+              "status": "active",
+              "detail": "Every answer is conditioned on the selected role so buyers, investors, insurance users, and compliance reviewers get the same facts with different framing."
+            },
+            {
+              "control": "Explainability trace",
+              "status": "active",
+              "detail": "Each answer points back to MoE packets, expert summaries, and policy-gate outcomes instead of opaque free generation."
+            },
+            {
+              "control": "Compliance-aware release",
+              "status": "active",
+              "detail": "Responses inherit policy-gate results and currently track 0 elevated gates before export or partner release."
+            }
+          ],
+          "recommended_actions": [
+            "review elevated risk cases",
+            "Prepare counteroffer ladder with opening, midpoint, and walk-away thresholds.",
+            "Habitational package is the best fit for a tenant_occupied multifamily because it aligns dwelling protection with the current closing workflow.",
+            "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+          ],
+          "explainability_summary": "The conversational copilot is an interface over the existing MoE packets: it retains role context, cites expert outputs, and exposes reasoning steps so the answer can be challenged or audited.",
+          "privacy_summary": "Conversation memory follows the confidential privacy tier, respects consent scope ['routing', 'kyc', 'personalization', 'evidence_retention'], and limits release to role-approved details with audit logging.",
+          "compliance_summary": "Compliance posture spans 19 property gates, 4 transaction controls, residency status 'eligible', and payment risk 'low'.",
+          "natural_language_interfaces": [
+            "guided chat answers",
+            "role switcher for buyer, investor, insurance, visa, and compliance modes",
+            "context memory cards",
+            "reasoning trace with cited expert evidence"
+          ],
+          "release_status": "ready",
+          "standards_alignment": [
+            "ISO/IEC 42001",
+            "ISO/IEC 27701",
+            "ISO/IEC 27001",
+            "ISO/IEC 5259"
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         }
@@ -3691,7 +4083,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-20T21:03:33.892603+00:00"
+                "last_checked_utc": "2026-03-20T21:36:37.822769+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -3706,7 +4098,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-20T21:03:33.892612+00:00"
+                "last_checked_utc": "2026-03-20T21:36:37.822778+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -3719,7 +4111,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-20T21:03:33.892618+00:00"
+                "last_checked_utc": "2026-03-20T21:36:37.822783+00:00"
               }
             ],
             "workflow_stages": [
@@ -3889,7 +4281,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-fcce64d4 created for Athens Urban Block diligence.",
+              "detail": "Transaction deal-35e1191a created for Athens Urban Block diligence.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -3924,7 +4316,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-fcce64d4 for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-35e1191a for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -3939,7 +4331,7 @@
           "payment_instrument": {
             "instrument_type": "escrow_disbursement",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-96feadcb11",
+            "token_reference": "tok-2d70ce431c",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -3948,18 +4340,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-d3737ec3",
-              "identifier": "usr-d3737ec3"
+              "name": "usr-ddfcb2e1",
+              "identifier": "usr-ddfcb2e1"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-fcce64d4"
+              "identifier": "deal-35e1191a"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-bda62a0d"
+              "identifier": "req-41a57d07"
             }
           ],
           "fraud_probability": 0.54,
@@ -4029,7 +4421,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "review",
-          "explanation": "Payment deal-fcce64d4 was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-35e1191a was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -4061,8 +4453,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-d3737ec3",
-              "identifier": "usr-d3737ec3"
+              "name": "usr-ddfcb2e1",
+              "identifier": "usr-ddfcb2e1"
             },
             {
               "role": "servicing_entity",
@@ -4072,7 +4464,7 @@
             {
               "role": "transaction_context",
               "name": "approval",
-              "identifier": "req-bda62a0d"
+              "identifier": "req-41a57d07"
             }
           ],
           "acord_coverages": [
@@ -4174,7 +4566,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-bda62a0d.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-41a57d07.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'advisor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'approval'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -4501,7 +4893,7 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Athens Urban Block diligence to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-10bccff0 modeled Athens Urban Block diligence in Greece using purchase price 880,000, current value 898,000, occupancy 93%, rent 6,400/mo, renovation budget 76,000, insurance premium 4,020, and hold period 6 years. Best-case equity outcome is 1,070,903, downside annual cash flow is 20,338, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-9d7e3c0f modeled Athens Urban Block diligence in Greece using purchase price 880,000, current value 898,000, occupancy 93%, rent 6,400/mo, renovation budget 76,000, insurance premium 4,020, and hold period 6 years. Best-case equity outcome is 1,070,903, downside annual cash flow is 20,338, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
@@ -4670,6 +5062,202 @@
             "ISO/IEC 5259",
             "ISO 31000",
             "ISO/IEC 27001"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "copilot_decision": {
+          "request_id": "demo-request",
+          "active_role": "compliance_explainer",
+          "roles": [
+            {
+              "role_key": "buyer_advisor",
+              "title": "Buyer advisor",
+              "persona": "Guides owner-occupiers through shortlist fit, financing, and next steps.",
+              "focus": "Property fit, affordability, family relocation logistics, and transaction sequencing.",
+              "confidence": 0.64,
+              "summary": "Recommends Athens Balanced Income Asset because livability, financing readiness, and low-friction execution outperform the alternatives."
+            },
+            {
+              "role_key": "investor_strategist",
+              "title": "Investor strategist",
+              "persona": "Frames investments through risk-adjusted return and macro context.",
+              "focus": "Yield resilience, downside cases, market signals, and capital allocation discipline.",
+              "confidence": 0.63,
+              "summary": "Links Athens Balanced Income Asset to Advisor watchlist: Greece, Spain, UAE signals, emphasizing 12 months demand resilience and documented downside cases."
+            },
+            {
+              "role_key": "insurance_guide",
+              "title": "Insurance guide",
+              "persona": "Translates underwriting and servicing requirements into actionable coverage advice.",
+              "focus": "Coverage fit, premium tradeoffs, data minimization, and quote-release posture.",
+              "confidence": 0.84,
+              "summary": "Maps the property profile to homeowners with privacy-safe ACORD exchange controls and a released release posture."
+            },
+            {
+              "role_key": "visa_assistant",
+              "title": "Visa assistant",
+              "persona": "Explains residency eligibility and outstanding filing evidence.",
+              "focus": "Program fit, document readiness, source-of-funds checks, and counsel handoff readiness.",
+              "confidence": 0.91,
+              "summary": "Explains the Greece Golden Visa decision, including 8 tracked evidence items and the steps needed for filing readiness."
+            },
+            {
+              "role_key": "compliance_explainer",
+              "title": "Compliance explainer",
+              "persona": "Makes control outcomes understandable without hiding risk details.",
+              "focus": "Release gating, privacy boundaries, audit evidence, and explainability controls.",
+              "confidence": 0.94,
+              "summary": "Summarizes 19 policy gates, 4 transaction controls, and moderate payment risk before any sensitive action is released."
+            }
+          ],
+          "conversation": [
+            {
+              "speaker": "user",
+              "role": "Compliance explainer",
+              "text": "I need a clear recommendation for my advisor journey and I want to understand the risks before I move forward.",
+              "sources": [
+                "frontend intake",
+                "journey profile"
+              ]
+            },
+            {
+              "speaker": "assistant",
+              "role": "Compliance explainer",
+              "text": "My top recommendation is Athens Balanced Income Asset. The MoE system blended property, investment, finance, compliance, and market signals to reach a released release with 7 routed experts.",
+              "sources": [
+                "property_decision.recommendation",
+                "property_decision.selected_experts"
+              ]
+            },
+            {
+              "speaker": "assistant",
+              "role": "Compliance explainer",
+              "text": "Nothing is hidden: 0 policy gates still require attention (no elevated gates), transaction risk is moderate, and payment risk is moderate.",
+              "sources": [
+                "property_decision.policy_gates",
+                "transaction_decision.risk_rating",
+                "payment_decision.risk_level"
+              ]
+            }
+          ],
+          "memory": [
+            {
+              "label": "User role",
+              "value": "advisor",
+              "source": "profile",
+              "retention": "session + audit excerpt"
+            },
+            {
+              "label": "Primary objective",
+              "value": "advisor oversight for a cross-border acquisition",
+              "source": "profile",
+              "retention": "session"
+            },
+            {
+              "label": "Budget",
+              "value": "900,000 USD",
+              "source": "profile",
+              "retention": "session"
+            },
+            {
+              "label": "Top recommendation",
+              "value": "Athens Balanced Income Asset",
+              "source": "property decision",
+              "retention": "decision record"
+            },
+            {
+              "label": "Residency status",
+              "value": "eligible_with_review",
+              "source": "residency decision",
+              "retention": "decision record"
+            },
+            {
+              "label": "Insurance release",
+              "value": "released",
+              "source": "insurance decision",
+              "retention": "decision record"
+            }
+          ],
+          "reasoning_trace": [
+            {
+              "step": "Intent and role detection",
+              "experts": [
+                "ux_personalization",
+                "conversational_copilot"
+              ],
+              "detail": "The copilot aligns the response to the advisor journey, advisor oversight for a cross-border acquisition objective, and transaction_review stage before choosing an answer style."
+            },
+            {
+              "step": "MoE evidence retrieval",
+              "experts": [
+                "unified_compliance_risk_intelligence",
+                "compliance_validation",
+                "payment_intelligence",
+                "residency_eligibility"
+              ],
+              "detail": "Property, investment, finance, and compliance summaries are pulled first so the response cites governed recommendations instead of free-form opinion."
+            },
+            {
+              "step": "Role-specific synthesis",
+              "experts": [
+                "conversational_copilot",
+                "residency_eligibility",
+                "insurance_matching"
+              ],
+              "detail": "The copilot reframes the same evidence differently for buyer, investor, visa, insurance, or compliance conversations without changing the underlying facts."
+            },
+            {
+              "step": "Guarded release",
+              "experts": [
+                "compliance_validation",
+                "unified_compliance_risk_intelligence"
+              ],
+              "detail": "Before answering, the system checks privacy tier, consent scope, audit logging, and hold conditions so only policy-cleared details appear in the conversation."
+            }
+          ],
+          "guardrails": [
+            {
+              "control": "Context memory minimization",
+              "status": "active",
+              "detail": "Short-term memory stores only journey objectives, released decisions, and approved evidence references; raw PII stays outside the chat transcript."
+            },
+            {
+              "control": "Role-specific reasoning",
+              "status": "active",
+              "detail": "Every answer is conditioned on the selected role so buyers, investors, insurance users, and compliance reviewers get the same facts with different framing."
+            },
+            {
+              "control": "Explainability trace",
+              "status": "active",
+              "detail": "Each answer points back to MoE packets, expert summaries, and policy-gate outcomes instead of opaque free generation."
+            },
+            {
+              "control": "Compliance-aware release",
+              "status": "active",
+              "detail": "Responses inherit policy-gate results and currently track 0 elevated gates before export or partner release."
+            }
+          ],
+          "recommended_actions": [
+            "review elevated risk cases",
+            "Prepare counteroffer ladder with opening, midpoint, and walk-away thresholds.",
+            "Habitational package is the best fit for a tenant_occupied multifamily because it aligns dwelling protection with the current approval workflow.",
+            "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+          ],
+          "explainability_summary": "The conversational copilot is an interface over the existing MoE packets: it retains role context, cites expert outputs, and exposes reasoning steps so the answer can be challenged or audited.",
+          "privacy_summary": "Conversation memory follows the confidential privacy tier, respects consent scope ['routing', 'kyc', 'personalization', 'evidence_retention'], and limits release to role-approved details with audit logging.",
+          "compliance_summary": "Compliance posture spans 19 property gates, 4 transaction controls, residency status 'eligible_with_review', and payment risk 'moderate'.",
+          "natural_language_interfaces": [
+            "guided chat answers",
+            "role switcher for buyer, investor, insurance, visa, and compliance modes",
+            "context memory cards",
+            "reasoning trace with cited expert evidence"
+          ],
+          "release_status": "ready",
+          "standards_alignment": [
+            "ISO/IEC 42001",
+            "ISO/IEC 27701",
+            "ISO/IEC 27001",
+            "ISO/IEC 5259"
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         }
@@ -5283,7 +5871,7 @@
               "records",
               "jurisdiction"
             ],
-            "last_checked_utc": "2026-03-20T21:03:33.885885+00:00"
+            "last_checked_utc": "2026-03-20T21:36:37.816086+00:00"
           },
           {
             "document_id": "doc-disclosure",
@@ -5298,7 +5886,7 @@
               "records",
               "privacy"
             ],
-            "last_checked_utc": "2026-03-20T21:03:33.885896+00:00"
+            "last_checked_utc": "2026-03-20T21:36:37.816094+00:00"
           },
           {
             "document_id": "doc-finance",
@@ -5311,7 +5899,7 @@
               "records",
               "business_continuity"
             ],
-            "last_checked_utc": "2026-03-20T21:03:33.885901+00:00"
+            "last_checked_utc": "2026-03-20T21:36:37.816099+00:00"
           }
         ],
         "workflow_stages": [
@@ -5481,7 +6069,7 @@
         {
           "name": "transaction.intake.recorded",
           "status": "completed",
-          "detail": "Transaction deal-b6d1d460 created for Lisbon Green Quarter acquisition.",
+          "detail": "Transaction deal-d6754e91 created for Lisbon Green Quarter acquisition.",
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
         {
@@ -5516,7 +6104,7 @@
         "Lock release behind approval if the risk score remains above the configured threshold.",
         "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
       ],
-      "explanation": "Transaction deal-b6d1d460 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+      "explanation": "Transaction deal-d6754e91 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
       "standards_alignment": [
         "ISO/IEC 27001",
         "ISO 22301",
@@ -5531,7 +6119,7 @@
       "payment_instrument": {
         "instrument_type": "wire",
         "token_provider": "Banking / escrow token service",
-        "token_reference": "tok-14331e43e5",
+        "token_reference": "tok-3633974fea",
         "last4": "6789",
         "network": "ACH/Wire",
         "wallet_or_bank": "Escrow operating account",
@@ -5540,18 +6128,18 @@
       "participants": [
         {
           "role": "payer",
-          "name": "usr-9587785b",
-          "identifier": "usr-9587785b"
+          "name": "usr-81198cd0",
+          "identifier": "usr-81198cd0"
         },
         {
           "role": "beneficiary",
           "name": "EstateOS Escrow",
-          "identifier": "deal-b6d1d460"
+          "identifier": "deal-d6754e91"
         },
         {
           "role": "servicer",
           "name": "EstateOS Payment Ops",
-          "identifier": "req-bf961c2d"
+          "identifier": "req-1c0d3dff"
         }
       ],
       "fraud_probability": 0.36,
@@ -5621,7 +6209,7 @@
         "Match settlement references and escrow ledger entries before reconciliation close."
       ],
       "release_status": "released",
-      "explanation": "Payment deal-b6d1d460 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+      "explanation": "Payment deal-d6754e91 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
       "standards_alignment": [
         "PCI DSS",
         "ISO/IEC 27001",
@@ -5653,8 +6241,8 @@
       "acord_parties": [
         {
           "role": "applicant",
-          "name": "usr-9587785b",
-          "identifier": "usr-9587785b"
+          "name": "usr-81198cd0",
+          "identifier": "usr-81198cd0"
         },
         {
           "role": "servicing_entity",
@@ -5664,7 +6252,7 @@
         {
           "role": "transaction_context",
           "name": "closing",
-          "identifier": "req-bf961c2d"
+          "identifier": "req-1c0d3dff"
         }
       ],
       "acord_coverages": [
@@ -5766,7 +6354,7 @@
         }
       ],
       "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-bf961c2d.",
+      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-1c0d3dff.",
       "release_status": "released",
       "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
       "standards_alignment": [
@@ -6094,7 +6682,7 @@
       "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
       "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
       "recommendation": "Use the digital twin for Athens Urban Residential Block to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-      "explanation": "Digital twin twin-e13ff59e modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+      "explanation": "Digital twin twin-b3d397ff modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
       "standards_alignment": [
         "ISO/IEC 42001",
         "ISO/IEC 5259",
@@ -6263,6 +6851,202 @@
         "ISO/IEC 5259",
         "ISO 31000",
         "ISO/IEC 27001"
+      ],
+      "timestamp_utc": "2026-03-20T00:00:00+00:00"
+    },
+    "copilot_decision": {
+      "request_id": "demo-request",
+      "active_role": "investor_strategist",
+      "roles": [
+        {
+          "role_key": "buyer_advisor",
+          "title": "Buyer advisor",
+          "persona": "Guides owner-occupiers through shortlist fit, financing, and next steps.",
+          "focus": "Property fit, affordability, family relocation logistics, and transaction sequencing.",
+          "confidence": 0.67,
+          "summary": "Recommends Athens Urban Residential Block because livability, financing readiness, and low-friction execution outperform the alternatives."
+        },
+        {
+          "role_key": "investor_strategist",
+          "title": "Investor strategist",
+          "persona": "Frames investments through risk-adjusted return and macro context.",
+          "focus": "Yield resilience, downside cases, market signals, and capital allocation discipline.",
+          "confidence": 0.66,
+          "summary": "Links Athens Urban Residential Block to Mediterranean income markets signals, emphasizing 12 months demand resilience and documented downside cases."
+        },
+        {
+          "role_key": "insurance_guide",
+          "title": "Insurance guide",
+          "persona": "Translates underwriting and servicing requirements into actionable coverage advice.",
+          "focus": "Coverage fit, premium tradeoffs, data minimization, and quote-release posture.",
+          "confidence": 0.84,
+          "summary": "Maps the property profile to homeowners with privacy-safe ACORD exchange controls and a released release posture."
+        },
+        {
+          "role_key": "visa_assistant",
+          "title": "Visa assistant",
+          "persona": "Explains residency eligibility and outstanding filing evidence.",
+          "focus": "Program fit, document readiness, source-of-funds checks, and counsel handoff readiness.",
+          "confidence": 0.94,
+          "summary": "Explains the Greece Golden Visa decision, including 8 tracked evidence items and the steps needed for filing readiness."
+        },
+        {
+          "role_key": "compliance_explainer",
+          "title": "Compliance explainer",
+          "persona": "Makes control outcomes understandable without hiding risk details.",
+          "focus": "Release gating, privacy boundaries, audit evidence, and explainability controls.",
+          "confidence": 0.94,
+          "summary": "Summarizes 19 policy gates, 4 transaction controls, and low payment risk before any sensitive action is released."
+        }
+      ],
+      "conversation": [
+        {
+          "speaker": "user",
+          "role": "Investor strategist",
+          "text": "I need a clear recommendation for my investor journey and I want to understand the risks before I move forward.",
+          "sources": [
+            "frontend intake",
+            "journey profile"
+          ]
+        },
+        {
+          "speaker": "assistant",
+          "role": "Investor strategist",
+          "text": "My top recommendation is Athens Urban Residential Block. The MoE system blended property, investment, finance, compliance, and market signals to reach a released release with 10 routed experts.",
+          "sources": [
+            "property_decision.recommendation",
+            "property_decision.selected_experts"
+          ]
+        },
+        {
+          "speaker": "assistant",
+          "role": "Compliance explainer",
+          "text": "Nothing is hidden: 0 policy gates still require attention (no elevated gates), transaction risk is moderate, and payment risk is low.",
+          "sources": [
+            "property_decision.policy_gates",
+            "transaction_decision.risk_rating",
+            "payment_decision.risk_level"
+          ]
+        }
+      ],
+      "memory": [
+        {
+          "label": "User role",
+          "value": "investor",
+          "source": "profile",
+          "retention": "session + audit excerpt"
+        },
+        {
+          "label": "Primary objective",
+          "value": "cross-border property investment with residency options",
+          "source": "profile",
+          "retention": "session"
+        },
+        {
+          "label": "Budget",
+          "value": "850,000 USD",
+          "source": "profile",
+          "retention": "session"
+        },
+        {
+          "label": "Top recommendation",
+          "value": "Athens Urban Residential Block",
+          "source": "property decision",
+          "retention": "decision record"
+        },
+        {
+          "label": "Residency status",
+          "value": "eligible",
+          "source": "residency decision",
+          "retention": "decision record"
+        },
+        {
+          "label": "Insurance release",
+          "value": "released",
+          "source": "insurance decision",
+          "retention": "decision record"
+        }
+      ],
+      "reasoning_trace": [
+        {
+          "step": "Intent and role detection",
+          "experts": [
+            "ux_personalization",
+            "conversational_copilot"
+          ],
+          "detail": "The copilot aligns the response to the investor journey, cross-border property investment with residency options objective, and consideration stage before choosing an answer style."
+        },
+        {
+          "step": "MoE evidence retrieval",
+          "experts": [
+            "unified_compliance_risk_intelligence",
+            "payment_intelligence",
+            "financial_risk",
+            "compliance_validation"
+          ],
+          "detail": "Property, investment, finance, and compliance summaries are pulled first so the response cites governed recommendations instead of free-form opinion."
+        },
+        {
+          "step": "Role-specific synthesis",
+          "experts": [
+            "conversational_copilot",
+            "residency_eligibility",
+            "insurance_matching"
+          ],
+          "detail": "The copilot reframes the same evidence differently for buyer, investor, visa, insurance, or compliance conversations without changing the underlying facts."
+        },
+        {
+          "step": "Guarded release",
+          "experts": [
+            "compliance_validation",
+            "unified_compliance_risk_intelligence"
+          ],
+          "detail": "Before answering, the system checks privacy tier, consent scope, audit logging, and hold conditions so only policy-cleared details appear in the conversation."
+        }
+      ],
+      "guardrails": [
+        {
+          "control": "Context memory minimization",
+          "status": "active",
+          "detail": "Short-term memory stores only journey objectives, released decisions, and approved evidence references; raw PII stays outside the chat transcript."
+        },
+        {
+          "control": "Role-specific reasoning",
+          "status": "active",
+          "detail": "Every answer is conditioned on the selected role so buyers, investors, insurance users, and compliance reviewers get the same facts with different framing."
+        },
+        {
+          "control": "Explainability trace",
+          "status": "active",
+          "detail": "Each answer points back to MoE packets, expert summaries, and policy-gate outcomes instead of opaque free generation."
+        },
+        {
+          "control": "Compliance-aware release",
+          "status": "active",
+          "detail": "Responses inherit policy-gate results and currently track 0 elevated gates before export or partner release."
+        }
+      ],
+      "recommended_actions": [
+        "review elevated risk cases",
+        "Prepare counteroffer ladder with opening, midpoint, and walk-away thresholds.",
+        "Habitational package is the best fit for a tenant_occupied multifamily because it aligns dwelling protection with the current closing workflow.",
+        "Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls."
+      ],
+      "explainability_summary": "The conversational copilot is an interface over the existing MoE packets: it retains role context, cites expert outputs, and exposes reasoning steps so the answer can be challenged or audited.",
+      "privacy_summary": "Conversation memory follows the confidential privacy tier, respects consent scope ['routing', 'kyc', 'personalization', 'evidence_retention'], and limits release to role-approved details with audit logging.",
+      "compliance_summary": "Compliance posture spans 19 property gates, 4 transaction controls, residency status 'eligible', and payment risk 'low'.",
+      "natural_language_interfaces": [
+        "guided chat answers",
+        "role switcher for buyer, investor, insurance, visa, and compliance modes",
+        "context memory cards",
+        "reasoning trace with cited expert evidence"
+      ],
+      "release_status": "ready",
+      "standards_alignment": [
+        "ISO/IEC 42001",
+        "ISO/IEC 27701",
+        "ISO/IEC 27001",
+        "ISO/IEC 5259"
       ],
       "timestamp_utc": "2026-03-20T00:00:00+00:00"
     }

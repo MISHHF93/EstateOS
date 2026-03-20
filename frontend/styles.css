@@ -70,6 +70,7 @@ small {
 .profile-grid,
 .form-grid,
 .category-grid,
+.copilot-layout,
 .explanation-layout,
 .transaction-layout,
 .twin-layout,
@@ -310,6 +311,7 @@ label,
 .profile-grid,
 .form-grid,
 .category-grid,
+.copilot-layout,
 .explanation-layout,
 .transaction-layout,
 .insurance-layout,
@@ -480,6 +482,78 @@ input[type="range"] {
   align-items: stretch;
 }
 
+.copilot-layout {
+  grid-template-columns: minmax(300px, 1.25fr) repeat(3, minmax(220px, 1fr));
+}
+
+.copilot-card--primary {
+  background: linear-gradient(180deg, rgba(117, 213, 255, 0.18), rgba(255, 255, 255, 0.03));
+}
+
+.copilot-role-strip,
+.conversation-thread {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.copilot-role-strip {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin: 1rem 0 1.25rem;
+}
+
+.copilot-role-button {
+  border: 1px solid rgba(145, 181, 230, 0.22);
+  border-radius: 18px;
+  padding: 0.9rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, transform 160ms ease, background 160ms ease;
+}
+
+.copilot-role-button:hover,
+.copilot-role-button.active,
+.copilot-role-button:focus-visible {
+  border-color: rgba(117, 213, 255, 0.6);
+  background: rgba(21, 48, 82, 0.88);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.copilot-role-button span {
+  display: block;
+  color: var(--muted);
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.conversation-thread {
+  margin-top: 0.25rem;
+}
+
+.message-bubble {
+  padding: 1rem 1.1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(145, 181, 230, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.message-bubble--assistant {
+  background: rgba(117, 213, 255, 0.08);
+  border-color: rgba(117, 213, 255, 0.22);
+}
+
+.message-bubble--user {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.message-bubble small {
+  display: block;
+  margin-top: 0.55rem;
+}
+
 .emphasis-card,
 .transaction-card--primary {
   background: linear-gradient(180deg, rgba(47, 183, 255, 0.14), rgba(255, 255, 255, 0.03));
@@ -589,6 +663,7 @@ input[type="range"] {
 }
 
 @media (max-width: 1240px) {
+  .copilot-layout,
   .transaction-layout {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -624,6 +699,7 @@ input[type="range"] {
   .confidence-cluster,
   .meta-row,
   .metric-grid,
+  .copilot-layout,
   .transaction-layout {
     grid-template-columns: 1fr;
   }

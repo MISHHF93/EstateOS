@@ -433,6 +433,29 @@ const journeys = {
   }
 };
 
+const copilotRoleLibrary = {
+  buyer_advisor: {
+    title: "Buyer advisor",
+    focus: "Affordability, relocation readiness, and guided next steps."
+  },
+  investor_strategist: {
+    title: "Investor strategist",
+    focus: "Return resilience, downside framing, and market timing."
+  },
+  insurance_guide: {
+    title: "Insurance guide",
+    focus: "Coverage structure, underwriting readiness, and quote controls."
+  },
+  visa_assistant: {
+    title: "Visa assistant",
+    focus: "Eligibility, document gaps, and filing readiness."
+  },
+  compliance_explainer: {
+    title: "Compliance explainer",
+    focus: "Release gates, audit evidence, privacy, and explainability."
+  }
+};
+
 const expertMeta = {
   property: { label: "Property expert", icon: "Property" },
   investment: { label: "Investment expert", icon: "Investment" },
@@ -940,6 +963,7 @@ const marketIntelligenceProfiles = {
 
 const state = {
   activeJourney: "buyer",
+  activeCopilotRole: "buyer_advisor",
   objective: "relocate",
   risk: "balanced",
   explanationDepth: "guided",
@@ -989,6 +1013,14 @@ const steps = document.getElementById("journey-steps");
 const action = document.getElementById("journey-action");
 const risk = document.getElementById("journey-risk");
 const why = document.getElementById("journey-why");
+const copilotTitle = document.getElementById("copilot-title");
+const copilotStatusPill = document.getElementById("copilot-status-pill");
+const copilotSummary = document.getElementById("copilot-summary");
+const copilotRoleStrip = document.getElementById("copilot-role-strip");
+const copilotConversation = document.getElementById("copilot-conversation");
+const copilotMemoryList = document.getElementById("copilot-memory-list");
+const copilotReasoningList = document.getElementById("copilot-reasoning-list");
+const copilotGuardrailList = document.getElementById("copilot-guardrail-list");
 const expertStrip = document.getElementById("expert-strip");
 const journeyButtons = document.querySelectorAll(".journey-card");
 const investorType = document.getElementById("profile-investor-type");
@@ -1151,7 +1183,8 @@ function getBackendSync() {
     integration: packets.integration_decision,
     residency: packets.residency_decision,
     digitalTwin: packets.digital_twin_decision,
-    marketIntelligence: packets.market_intelligence_decision
+    marketIntelligence: packets.market_intelligence_decision,
+    copilot: packets.copilot_decision
   };
 }
 
@@ -1186,6 +1219,7 @@ function renderWiringStatus() {
     const residencyPacket = packets.residency_decision;
     const digitalTwinPacket = packets.digital_twin_decision;
     const marketPacket = packets.market_intelligence_decision;
+    const copilotPacket = packets.copilot_decision;
 
     wiringTitle.textContent = "Backend snapshot connected";
     wiringStatusPill.textContent = `${state.activeJourney} packets loaded`;
@@ -1231,6 +1265,11 @@ function renderWiringStatus() {
         "Market intelligence",
         `${marketPacket.forecasts.length} forecasts`,
         `${marketPacket.market_scope} • ${marketPacket.alerts.length} alerts live.`
+      ),
+      createWiringMetricCard(
+        "Conversational copilot",
+        `${copilotPacket.roles.length} roles`,
+        `${copilotPacket.active_role.replace(/_/g, " ")} active • ${copilotPacket.guardrails.length} guardrails traced.`
       )
     ].join("");
     return;
@@ -1246,7 +1285,7 @@ function renderWiringStatus() {
   wiringCardGrid.innerHTML = [
     createWiringMetricCard("Property decision", "Local prototype", "Frontend ranking and explainability remain interactive while the backend snapshot is unavailable."),
     createWiringMetricCard("Transaction decision", "Local prototype", "Deal controls, stage tracking, and workflow evidence are still rendered from browser-side defaults."),
-    createWiringMetricCard("Specialized engines", "Awaiting sync", "Residency, insurance, payments, integration routing, digital twin simulation, and predictive market signals will promote backend statuses when the snapshot loads.")
+    createWiringMetricCard("Specialized engines", "Awaiting sync", "Residency, insurance, payments, integration routing, digital twin simulation, predictive market signals, and conversational copilot roles will promote backend statuses when the snapshot loads.")
   ].join("");
 }
 
@@ -1364,6 +1403,7 @@ function populateStaticControls() {
 function applyJourneyDefaults(journeyKey) {
   const journey = journeys[journeyKey];
   state.activeJourney = journeyKey;
+  state.activeCopilotRole = journeyKey === "investor" ? "investor_strategist" : journeyKey === "advisor" ? "compliance_explainer" : "buyer_advisor";
   state.objective = journey.defaults.objective;
   state.risk = journey.defaults.risk;
   state.explanationDepth = journey.defaults.explanationDepth;
@@ -1831,6 +1871,174 @@ function renderContributions(topCandidate) {
         </div>
       `;
     })
+    .join("");
+}
+
+function buildLocalCopilotData(journey, topCandidate) {
+  const activeRole = state.activeCopilotRole;
+  const roleEntries = Object.entries(copilotRoleLibrary).map(([roleKey, meta]) => ({
+    role_key: roleKey,
+    title: meta.title,
+    focus: meta.focus,
+    confidence: roleKey === activeRole ? Number((topCandidate.aggregateScore || 0.9).toFixed(2)) : Number((Math.max((topCandidate.aggregateScore || 0.9) - 0.05, 0.72)).toFixed(2)),
+    summary:
+      roleKey === "buyer_advisor"
+        ? `${topCandidate.title} is framed around household fit, financing comfort, and relocation readiness.`
+        : roleKey === "investor_strategist"
+          ? `${topCandidate.title} is translated into resilient yield, macro timing, and downside language.`
+          : roleKey === "insurance_guide"
+            ? `Coverage advice focuses on ${topCandidate.insurance.title.toLowerCase()} and the documentation needed to place it safely.`
+            : roleKey === "visa_assistant"
+              ? `Residency guidance keeps ${topCandidate.visaPathway.title.toLowerCase()} and document readiness in focus.`
+              : `Control notes explain why ${topCandidate.title} remains releaseable under the current risk and privacy posture.`
+  }));
+
+  return {
+    active_role: activeRole,
+    roles: roleEntries,
+    conversation: [
+      {
+        speaker: "user",
+        role: copilotRoleLibrary[activeRole].title,
+        text: `Help me understand why ${topCandidate.title} is the right next step for my ${journey.title.toLowerCase()}.`,
+        sources: ["Adaptive intake", "Journey defaults"]
+      },
+      {
+        speaker: "assistant",
+        role: copilotRoleLibrary[activeRole].title,
+        text: `${topCandidate.why} I am using the ${copilotRoleLibrary[activeRole].title.toLowerCase()} lens so the answer matches your current objective and explanation depth.`,
+        sources: ["Ranked shortlist", "Role-specific framing"]
+      },
+      {
+        speaker: "assistant",
+        role: "Compliance explainer",
+        text: `Release confidence remains ${getReleaseTone().toLowerCase()}, and the explanation stays privacy-aware by surfacing only role-appropriate reasoning, memory, and next actions.`,
+        sources: ["Release posture", "Privacy controls"]
+      }
+    ],
+    memory: [
+      { label: "Persona", value: journey.title, source: "Journey state", retention: "Session" },
+      { label: "Objective", value: state.objective, source: "Adaptive controls", retention: "Session" },
+      { label: "Budget", value: currency(state.budget), source: "Adaptive controls", retention: "Session" },
+      { label: "Top listing", value: topCandidate.title, source: "Ranked shortlist", retention: "Decision record" },
+      { label: "Residency preference", value: state.residency ? "Enabled" : "Not prioritized", source: "Adaptive controls", retention: "Session" }
+    ],
+    reasoning_trace: [
+      {
+        step: "Role selection",
+        experts: ["UX personalization", "Conversational copilot"],
+        detail: `The copilot activates the ${copilotRoleLibrary[activeRole].title.toLowerCase()} voice to match the current journey and explanation depth.`
+      },
+      {
+        step: "Evidence synthesis",
+        experts: ["Property expert", "Finance expert", "Compliance expert"],
+        detail: `Property fit, financing posture, and compliance confidence are combined before any natural-language answer is drafted.`
+      },
+      {
+        step: "Guarded response",
+        experts: ["Compliance expert", "Recommendation expert"],
+        detail: `Only explainable, policy-safe details are released so the chat stays useful without bypassing privacy or control gates.`
+      }
+    ],
+    guardrails: [
+      {
+        control: "Short-term memory minimization",
+        status: "Active",
+        detail: "The prototype stores only intent, budget, and released recommendation context inside the conversational surface."
+      },
+      {
+        control: "Role-specific reasoning",
+        status: "Active",
+        detail: "Buyer, investor, insurance, visa, and compliance modes share the same facts but change the framing and next-best actions."
+      },
+      {
+        control: "Explainable release",
+        status: "Active",
+        detail: "Every answer ties back to recommendation rationale, risk posture, or governed workflow evidence."
+      }
+    ],
+    recommended_actions: journey.nextActions
+  };
+}
+
+function renderCopilot(journey, topCandidate) {
+  const backend = getBackendSync();
+  const packet = backend?.copilot || buildLocalCopilotData(journey, topCandidate);
+  const activeRole = packet.roles.some((role) => role.role_key === state.activeCopilotRole)
+    ? state.activeCopilotRole
+    : packet.active_role || state.activeCopilotRole;
+  const activeSummary = packet.roles.find((role) => role.role_key === activeRole) || packet.roles[0];
+
+  state.activeCopilotRole = activeSummary.role_key;
+  copilotTitle.textContent = activeSummary.title;
+  copilotStatusPill.textContent = backend ? `${packet.release_status} release` : "Frontend role synthesis";
+  copilotStatusPill.dataset.status = backend ? packet.release_status : "loaded";
+  copilotSummary.textContent = backend
+    ? `${activeSummary.summary} ${packet.explainability_summary}`
+    : `${activeSummary.summary} The local prototype keeps the same multi-role structure while backend packets are unavailable.`;
+
+  copilotRoleStrip.innerHTML = packet.roles
+    .map(
+      (role) => `
+        <button
+          class="copilot-role-button ${role.role_key === activeSummary.role_key ? "active" : ""}"
+          type="button"
+          data-copilot-role="${role.role_key}"
+          aria-pressed="${String(role.role_key === activeSummary.role_key)}"
+        >
+          <strong>${role.title}</strong>
+          <span>${role.focus}</span>
+        </button>
+      `
+    )
+    .join("");
+
+  copilotConversation.innerHTML = packet.conversation
+    .map(
+      (message) => `
+        <div class="message-bubble message-bubble--${message.speaker}">
+          <strong>${message.speaker === "assistant" ? message.role : "User"}</strong>
+          <p>${message.text}</p>
+          <small>Sources • ${message.sources.join(" • ")}</small>
+        </div>
+      `
+    )
+    .join("");
+
+  copilotMemoryList.innerHTML = packet.memory
+    .map(
+      (item) => `
+        <div class="stack-item">
+          <strong>${item.label}</strong>
+          <span>${item.retention}</span>
+          <p>${item.value} • Source: ${item.source}</p>
+        </div>
+      `
+    )
+    .join("");
+
+  copilotReasoningList.innerHTML = packet.reasoning_trace
+    .map(
+      (step) => `
+        <div class="stack-item">
+          <strong>${step.step}</strong>
+          <span>${step.experts.join(" • ")}</span>
+          <p>${step.detail}</p>
+        </div>
+      `
+    )
+    .join("");
+
+  copilotGuardrailList.innerHTML = packet.guardrails
+    .map(
+      (guardrail) => `
+        <div class="stack-item">
+          <strong>${guardrail.control}</strong>
+          <span>${guardrail.status}</span>
+          <p>${guardrail.detail}</p>
+        </div>
+      `
+    )
     .join("");
 }
 
@@ -3040,6 +3248,7 @@ function renderJourney() {
   renderValuation(rankedCandidates);
   renderGovernance();
   renderContributions(topCandidate);
+  renderCopilot(journey, topCandidate);
   renderDealBoard();
   renderDigitalTwinEngine();
   renderMarketIntelligenceEngine();
@@ -3063,6 +3272,13 @@ journeyButtons.forEach((card) => {
     applyJourneyDefaults(card.dataset.journey);
     renderJourney();
   });
+});
+
+copilotRoleStrip.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-copilot-role]");
+  if (!button) return;
+  state.activeCopilotRole = button.dataset.copilotRole;
+  renderJourney();
 });
 
 personaSelect.addEventListener("change", (event) => {
