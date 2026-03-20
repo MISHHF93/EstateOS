@@ -103,6 +103,22 @@ class ExpertOutput:
 
 
 @dataclass(frozen=True)
+class RankedRecommendation:
+    candidate_id: str
+    title: str
+    geography: str
+    category: str
+    summary: str
+    composite_score: float
+    confidence: float
+    expert_contributions: Dict[str, float]
+    why: str
+    investment_insight: str
+    visa_pathway: str
+    insurance_option: str
+
+
+@dataclass(frozen=True)
 class AuditEvent:
     name: str
     status: str
@@ -119,6 +135,7 @@ class DecisionPacket:
     detected_intents: Sequence[str]
     selected_experts: Sequence[ExpertDecision]
     expert_outputs: Sequence[ExpertOutput]
+    ranked_recommendations: Sequence[RankedRecommendation]
     policy_gates: Sequence[PolicyGateResult]
     audit_trail: Sequence[AuditEvent]
     recommendation: str
@@ -266,7 +283,198 @@ STANDARDS_ALIGNMENT: Sequence[str] = (
     "ISO/IEC 25010",
     "ISO 22301",
     "ISO 31000",
+    "ISO 9241-210",
 )
+
+
+RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
+    "buyer": (
+        {
+            "candidate_id": "lisbon-green-quarter",
+            "title": "Lisbon Green Quarter Apartment",
+            "geography": "Lisbon, Portugal",
+            "category": "property",
+            "summary": "Family-ready apartment with strong walkability, retrofit upside, and dependable insurance placement.",
+            "base_scores": {
+                "property_valuation": 0.92,
+                "investment_analysis": 0.74,
+                "residency_eligibility": 0.91,
+                "insurance_matching": 0.85,
+                "financial_risk": 0.84,
+                "compliance_validation": 0.95,
+                "ux_personalization": 0.86,
+            },
+            "price": 620000,
+            "investment_insight": "Balanced appreciation outlook with resilience under moderate financing stress.",
+            "visa_pathway": "Portugal D7 family relocation route is the clearest next step.",
+            "insurance_option": "Home, contents, and legal protection bundle with low hazard friction.",
+        },
+        {
+            "candidate_id": "porto-riverside-loft",
+            "title": "Porto Riverside Loft",
+            "geography": "Porto, Portugal",
+            "category": "property",
+            "summary": "Flexible lower-cost option with strong affordability and rental fallback support.",
+            "base_scores": {
+                "property_valuation": 0.83,
+                "investment_analysis": 0.77,
+                "residency_eligibility": 0.84,
+                "insurance_matching": 0.84,
+                "financial_risk": 0.89,
+                "compliance_validation": 0.94,
+                "ux_personalization": 0.81,
+            },
+            "price": 540000,
+            "investment_insight": "Best affordability and financing resilience in the buyer catalog.",
+            "visa_pathway": "Portugal D7 remains viable, especially when optional rental income matters.",
+            "insurance_option": "Standard property protection package with simpler underwriting requirements.",
+        },
+        {
+            "candidate_id": "cascais-coastal-townhome",
+            "title": "Cascais Coastal Townhome",
+            "geography": "Cascais, Portugal",
+            "category": "property",
+            "summary": "Premium lifestyle home with appreciation upside and more insurance complexity.",
+            "base_scores": {
+                "property_valuation": 0.88,
+                "investment_analysis": 0.78,
+                "residency_eligibility": 0.87,
+                "insurance_matching": 0.69,
+                "financial_risk": 0.7,
+                "compliance_validation": 0.94,
+                "ux_personalization": 0.83,
+            },
+            "price": 780000,
+            "investment_insight": "Premium appreciation story, but softer resilience under constrained financing.",
+            "visa_pathway": "Portugal relocation still fits, but household cost and protection review are needed.",
+            "insurance_option": "Enhanced coastal package with higher premium and more documentation.",
+        },
+    ),
+    "investor": (
+        {
+            "candidate_id": "athens-urban-block",
+            "title": "Athens Urban Residential Block",
+            "geography": "Athens, Greece",
+            "category": "property",
+            "summary": "Income-oriented multifamily opportunity with strong downside resilience and optional residency value.",
+            "base_scores": {
+                "property_valuation": 0.86,
+                "investment_analysis": 0.92,
+                "residency_eligibility": 0.83,
+                "insurance_matching": 0.81,
+                "financial_risk": 0.86,
+                "compliance_validation": 0.94,
+                "ux_personalization": 0.78,
+            },
+            "price": 880000,
+            "investment_insight": "Top blend of yield, occupancy resilience, and diversification in the current set.",
+            "visa_pathway": "Greece Golden Visa adjacency is attractive but should be monitored for policy shifts.",
+            "insurance_option": "Landlord plus catastrophe cover remains accessible with manageable exclusions.",
+        },
+        {
+            "candidate_id": "lisbon-urban-rental-pair",
+            "title": "Lisbon Urban Rental Pair",
+            "geography": "Lisbon, Portugal",
+            "category": "property",
+            "summary": "Balanced dual-asset strategy with efficient financing and optional future owner use.",
+            "base_scores": {
+                "property_valuation": 0.84,
+                "investment_analysis": 0.88,
+                "residency_eligibility": 0.79,
+                "insurance_matching": 0.83,
+                "financial_risk": 0.87,
+                "compliance_validation": 0.95,
+                "ux_personalization": 0.8,
+            },
+            "price": 760000,
+            "investment_insight": "Best flexibility and financing efficiency for a balanced portfolio lens.",
+            "visa_pathway": "Portugal residency is less central here, but optional relocation remains open.",
+            "insurance_option": "Portfolio landlord package with moderate carry and straightforward placement.",
+        },
+        {
+            "candidate_id": "dubai-marina-residence",
+            "title": "Dubai Marina Branded Residence",
+            "geography": "Dubai, UAE",
+            "category": "property",
+            "summary": "Premium globally mobile asset with high upside and higher insurance carry.",
+            "base_scores": {
+                "property_valuation": 0.9,
+                "investment_analysis": 0.89,
+                "residency_eligibility": 0.88,
+                "insurance_matching": 0.73,
+                "financial_risk": 0.75,
+                "compliance_validation": 0.93,
+                "ux_personalization": 0.79,
+            },
+            "price": 1200000,
+            "investment_insight": "Strong upside, but lower resilience when FX and premium operating costs widen.",
+            "visa_pathway": "UAE investor residence route is strong for globally mobile investors.",
+            "insurance_option": "High-value property coverage with premium documentation requirements.",
+        },
+    ),
+    "advisor": (
+        {
+            "candidate_id": "barcelona-family-office",
+            "title": "Barcelona Family Office Residence",
+            "geography": "Barcelona, Spain",
+            "category": "property",
+            "summary": "Documentation-friendly premium asset with a strong client narrative and controlled downside.",
+            "base_scores": {
+                "property_valuation": 0.87,
+                "investment_analysis": 0.8,
+                "residency_eligibility": 0.76,
+                "insurance_matching": 0.86,
+                "financial_risk": 0.84,
+                "compliance_validation": 0.97,
+                "ux_personalization": 0.82,
+            },
+            "price": 1050000,
+            "investment_insight": "Best suitability story when the client values clarity and documentation quality.",
+            "visa_pathway": "Spain residence planning requires current legal review before client release.",
+            "insurance_option": "Premium residence package with strong liability and contents coverage.",
+        },
+        {
+            "candidate_id": "athens-balanced-income",
+            "title": "Athens Balanced Income Asset",
+            "geography": "Athens, Greece",
+            "category": "property",
+            "summary": "Balanced recommendation that pairs yield support with clearer residency optionality.",
+            "base_scores": {
+                "property_valuation": 0.84,
+                "investment_analysis": 0.89,
+                "residency_eligibility": 0.84,
+                "insurance_matching": 0.8,
+                "financial_risk": 0.83,
+                "compliance_validation": 0.94,
+                "ux_personalization": 0.8,
+            },
+            "price": 890000,
+            "investment_insight": "Stronger than Barcelona when optional residency matters more than memo simplicity.",
+            "visa_pathway": "Greece residency planning remains a useful optional pathway for the client.",
+            "insurance_option": "Residential income cover plus catastrophe rider with moderate complexity.",
+        },
+        {
+            "candidate_id": "dubai-premium-diversifier",
+            "title": "Dubai Premium Diversifier",
+            "geography": "Dubai, UAE",
+            "category": "property",
+            "summary": "High-upside recommendation reserved for aggressive clients comfortable with premium carry.",
+            "base_scores": {
+                "property_valuation": 0.9,
+                "investment_analysis": 0.87,
+                "residency_eligibility": 0.89,
+                "insurance_matching": 0.71,
+                "financial_risk": 0.69,
+                "compliance_validation": 0.93,
+                "ux_personalization": 0.78,
+            },
+            "price": 1450000,
+            "investment_insight": "Only advisable when the client explicitly accepts cyclical and carry exposure.",
+            "visa_pathway": "UAE investor route is compelling but should be paired with suitability review.",
+            "insurance_option": "High-value diversified cover with the heaviest carrying cost of the three.",
+        },
+    ),
+}
 
 
 def detect_intents(user_prompt: str, profile: UserProfile) -> List[str]:
@@ -533,6 +741,109 @@ def build_expert_outputs(
     return outputs
 
 
+def build_ranking_weights(profile: UserProfile, context: RequestContext) -> Dict[str, float]:
+    weights: Dict[str, float] = {
+        "property_valuation": 0.18,
+        "investment_analysis": 0.18,
+        "residency_eligibility": 0.14,
+        "insurance_matching": 0.14,
+        "financial_risk": 0.16,
+        "compliance_validation": 0.14,
+        "ux_personalization": 0.06,
+    }
+
+    if profile.role == "buyer":
+        weights["property_valuation"] += 0.08
+        weights["financial_risk"] += 0.06
+    if profile.role == "investor":
+        weights["investment_analysis"] += 0.1
+        weights["property_valuation"] += 0.04
+    if profile.role == "advisor":
+        weights["compliance_validation"] += 0.1
+        weights["ux_personalization"] += 0.03
+
+    if profile.residency_interest:
+        weights["residency_eligibility"] += 0.08
+    if profile.financing_needed:
+        weights["financial_risk"] += 0.06
+    if context.cross_border:
+        weights["compliance_validation"] += 0.05
+    if profile.risk_tolerance == "conservative":
+        weights["insurance_matching"] += 0.04
+        weights["compliance_validation"] += 0.04
+    elif profile.risk_tolerance == "opportunistic":
+        weights["investment_analysis"] += 0.04
+        weights["property_valuation"] += 0.03
+
+    total = sum(weights.values())
+    return {key: round(value / total, 4) for key, value in weights.items()}
+
+
+def build_ranked_recommendations(
+    profile: UserProfile,
+    context: RequestContext,
+    selected_experts: Sequence[ExpertDecision],
+) -> List[RankedRecommendation]:
+    catalog_key = profile.role if profile.role in RECOMMENDATION_CATALOG else "buyer"
+    candidates = RECOMMENDATION_CATALOG[catalog_key]
+    active_experts = {decision.expert: decision.score for decision in selected_experts}
+    weights = build_ranking_weights(profile, context)
+    recommendations: List[RankedRecommendation] = []
+
+    for candidate in candidates:
+        base_scores = candidate["base_scores"]
+        expert_contributions: Dict[str, float] = {}
+        composite = 0.0
+
+        for expert_name, weight in weights.items():
+            if expert_name not in active_experts:
+                continue
+            raw_score = float(base_scores.get(expert_name, 0.0))
+            contribution = round(raw_score * weight, 4)
+            expert_contributions[expert_name] = contribution
+            composite += contribution
+
+        budget_gap = profile.investment_budget - int(candidate["price"])
+        if budget_gap >= 0:
+            composite += 0.03
+        elif abs(budget_gap) <= 150000:
+            composite -= 0.02
+        else:
+            composite -= 0.06
+
+        if profile.residency_interest:
+            composite += float(base_scores.get("residency_eligibility", 0.0)) * 0.03
+        if profile.financing_needed:
+            composite += float(base_scores.get("financial_risk", 0.0)) * 0.03
+        if context.climate_risk == "high":
+            composite -= (1 - float(base_scores.get("insurance_matching", 0.0))) * 0.04
+
+        top_factors = sorted(expert_contributions.items(), key=lambda item: item[1], reverse=True)[:3]
+        why = (
+            f"Ranked highly because {', '.join(name for name, _ in top_factors)} contributed most after "
+            f"adapting weights for role={profile.role}, risk={profile.risk_tolerance}, "
+            f"residency_interest={profile.residency_interest}, and financing_needed={profile.financing_needed}."
+        )
+        recommendations.append(
+            RankedRecommendation(
+                candidate_id=str(candidate["candidate_id"]),
+                title=str(candidate["title"]),
+                geography=str(candidate["geography"]),
+                category=str(candidate["category"]),
+                summary=str(candidate["summary"]),
+                composite_score=round(composite, 3),
+                confidence=round(min(composite + 0.08, 0.99), 2),
+                expert_contributions=expert_contributions,
+                why=why,
+                investment_insight=str(candidate["investment_insight"]),
+                visa_pathway=str(candidate["visa_pathway"]),
+                insurance_option=str(candidate["insurance_option"]),
+            )
+        )
+
+    return sorted(recommendations, key=lambda item: item.composite_score, reverse=True)
+
+
 def build_audit_trail(
     identity: IdentityContext,
     context: RequestContext,
@@ -563,9 +874,12 @@ def build_recommendation(
     profile: UserProfile,
     identity: IdentityContext,
     selected_experts: Sequence[ExpertDecision],
+    ranked_recommendations: Sequence[RankedRecommendation],
     release_status: str,
 ) -> str:
     expert_names = ", ".join(decision.expert for decision in selected_experts[:6])
+    top_recommendation = ranked_recommendations[0] if ranked_recommendations else None
+    top_title = top_recommendation.title if top_recommendation else "the top-ranked option"
     if release_status == "blocked":
         return (
             "Hold automated release, surface remediation tasks in the advisor console, and only continue after RBAC, "
@@ -578,17 +892,18 @@ def build_recommendation(
         )
     if profile.role == "investor":
         return (
-            f"Deliver a {profile.investor_type} investor brief that ranks assets by value, risk-adjusted return, residency "
-            f"alignment, insurability, and financing readiness using signals from {expert_names} while honoring {identity.privacy_tier} privacy controls."
+            f"Deliver a {profile.investor_type} investor brief led by {top_title}, ranking assets by value, risk-adjusted "
+            f"return, residency alignment, insurability, and financing readiness using signals from {expert_names} while honoring "
+            f"{identity.privacy_tier} privacy controls."
         )
     if profile.role == "advisor":
         return (
-            "Provide an approval-ready memo with expert-by-expert rationale, policy outcomes, assumptions, and human override "
-            f"options grounded in {expert_names}."
+            f"Provide an approval-ready memo centered on {top_title} with expert-by-expert rationale, policy outcomes, assumptions, "
+            f"and human override options grounded in {expert_names}."
         )
     return (
-        "Present a guided property decision journey that combines fair value, affordability, eligibility, insurance, and next "
-        f"steps using {expert_names}."
+        f"Present a guided property decision journey led by {top_title} that combines fair value, affordability, eligibility, "
+        f"insurance, and next steps using {expert_names}."
     )
 
 
@@ -597,12 +912,19 @@ def explain_packet(packet: DecisionPacket) -> str:
     top_expert_text = (
         f"Top-ranked expert was {highest.expert} at {highest.score:.2f}." if highest else "No experts selected."
     )
+    top_recommendation = packet.ranked_recommendations[0] if packet.ranked_recommendations else None
+    recommendation_text = (
+        f" Top-ranked recommendation was '{top_recommendation.title}' in {top_recommendation.geography} "
+        f"with composite score {top_recommendation.composite_score:.2f}."
+        if top_recommendation
+        else ""
+    )
     review_flags = [result.name for result in packet.policy_gates if result.status != "passed"]
     return (
         f"EstateOS ingested frontend profile signals for investor_type '{packet.profile.investor_type}', financial intent "
         f"'{packet.profile.financial_intent}', residency goal '{packet.profile.residency_goal}', and locale '{packet.context.locale}'. "
         f"The request was evaluated with auth assurance '{packet.identity.auth_assurance_level}', MFA={'on' if packet.identity.mfa_completed else 'off'}, "
-        f"KYC='{packet.identity.kyc_status}', and sanctions='{packet.identity.sanctions_status}'. {top_expert_text} "
+        f"KYC='{packet.identity.kyc_status}', and sanctions='{packet.identity.sanctions_status}'. {top_expert_text}{recommendation_text} "
         f"The routing layer combined synchronous and asynchronous experts, evaluated {len(packet.policy_gates)} policy gates, "
         f"and ended with release status '{packet.release_status}'. Review flags: {review_flags or ['none']}."
     )
@@ -622,8 +944,9 @@ def orchestrate(user_prompt: str, profile: UserProfile, identity: IdentityContex
         release_status = "released"
 
     expert_outputs = build_expert_outputs(profile, identity, context, experts)
+    ranked_recommendations = build_ranked_recommendations(profile, context, experts)
     audit_trail = build_audit_trail(identity, context, experts, policy_results, release_status)
-    recommendation = build_recommendation(profile, identity, experts, release_status)
+    recommendation = build_recommendation(profile, identity, experts, ranked_recommendations, release_status)
 
     packet = DecisionPacket(
         request_id=context.request_id,
@@ -633,6 +956,7 @@ def orchestrate(user_prompt: str, profile: UserProfile, identity: IdentityContex
         detected_intents=intents,
         selected_experts=experts,
         expert_outputs=expert_outputs,
+        ranked_recommendations=ranked_recommendations,
         policy_gates=policy_results,
         audit_trail=audit_trail,
         recommendation=recommendation,

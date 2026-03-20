@@ -8,6 +8,7 @@
   --accent: #75d5ff;
   --accent-strong: #2fb7ff;
   --success: #9be7b1;
+  --warning: #ffd479;
   --border: rgba(145, 181, 230, 0.22);
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
 }
@@ -30,6 +31,12 @@ body {
   color: var(--text);
 }
 
+button,
+input,
+select {
+  font: inherit;
+}
+
 .hero,
 .section,
 .footer {
@@ -46,7 +53,6 @@ body {
 .topbar,
 .hero-content,
 .workspace-grid,
-.decision-board,
 .persona-grid,
 .experts-grid,
 .compliance-grid,
@@ -55,7 +61,14 @@ body {
 .panel-grid,
 .decision-columns,
 .pillars,
-.profile-grid {
+.profile-grid,
+.form-grid,
+.category-grid,
+.explanation-layout,
+.adaptive-shell,
+.meta-row,
+.tag-row,
+.stack-list {
   display: grid;
   gap: 1rem;
 }
@@ -130,7 +143,13 @@ h2 {
 .hero-panel p,
 .decision-main p,
 .decision-rail li,
-.profile-context-card span {
+.profile-context-card span,
+.control-panel p,
+label,
+.helper-copy,
+.stack-item p,
+.rail-summary,
+.recommendation-item span {
   color: var(--muted);
   line-height: 1.65;
 }
@@ -144,7 +163,8 @@ h2 {
 .secondary,
 .chip,
 .pillars span,
-.status-pill {
+.status-pill,
+.tag-row span {
   border-radius: 999px;
   padding: 0.95rem 1.25rem;
   border: 1px solid var(--border);
@@ -158,7 +178,8 @@ h2 {
 }
 
 .secondary,
-.status-pill {
+.status-pill,
+.tag-row span {
   background: rgba(255, 255, 255, 0.02);
 }
 
@@ -169,7 +190,8 @@ h2 {
 .experts-grid article,
 .architecture-stack div,
 .journey-card,
-.profile-context-card {
+.profile-context-card,
+.control-panel {
   border: 1px solid var(--border);
   background: var(--surface);
   backdrop-filter: blur(16px);
@@ -188,16 +210,19 @@ h2 {
 .architecture-stack div,
 .decision-rail,
 .decision-main,
-.profile-context-card {
+.profile-context-card,
+.control-panel {
   padding: 1.5rem;
 }
 
-.panel-card strong,
 .panel-grid strong,
 .confidence-box strong,
-.profile-grid strong {
+.profile-grid strong,
+.range-value,
+.stack-item strong,
+.recommendation-item strong {
   display: block;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   margin: 0.35rem 0;
   color: var(--text);
 }
@@ -226,7 +251,14 @@ h2 {
 .compliance-grid,
 .decision-columns,
 .architecture-stack,
-.profile-grid {
+.profile-grid,
+.form-grid,
+.category-grid,
+.explanation-layout {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.journey-selector {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
@@ -234,17 +266,68 @@ h2 {
   padding: 1.35rem;
   cursor: pointer;
   transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  text-align: left;
+  color: inherit;
 }
 
 .journey-card:hover,
-.journey-card.active {
+.journey-card.active,
+.journey-card:focus-visible {
   transform: translateY(-2px);
   border-color: rgba(117, 213, 255, 0.7);
   background: rgba(24, 47, 79, 0.92);
+  outline: none;
 }
 
-.decision-board {
-  grid-template-columns: minmax(260px, 320px) 1fr;
+.adaptive-shell {
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+
+.control-panel {
+  position: sticky;
+  top: 1.25rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.form-grid label {
+  display: grid;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+select,
+input[type="range"] {
+  width: 100%;
+}
+
+select {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(145, 181, 230, 0.28);
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+}
+
+input[type="range"] {
+  accent-color: var(--accent-strong);
+}
+
+.toggle-row {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
+}
+
+.compact-card {
+  padding: 1.25rem;
+}
+
+.decision-board.enhanced-board {
+  grid-template-columns: minmax(250px, 310px) 1fr;
   overflow: hidden;
 }
 
@@ -264,11 +347,31 @@ h2 {
 }
 
 .decision-header,
-.profile-context-header {
+.profile-context-header,
+.card-heading,
+.recommendation-topline,
+.contribution-header {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  align-items: end;
+  align-items: flex-start;
+}
+
+.sticky-header {
+  position: sticky;
+  top: 1rem;
+  z-index: 1;
+  background: rgba(8, 17, 31, 0.82);
+  backdrop-filter: blur(18px);
+  border-radius: 20px;
+  padding: 1rem;
+  border: 1px solid rgba(145, 181, 230, 0.12);
+}
+
+.confidence-cluster {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
+  gap: 0.75rem;
 }
 
 .confidence-box {
@@ -278,7 +381,12 @@ h2 {
   border: 1px solid var(--border);
 }
 
-.expert-strip {
+.tone-soft strong {
+  color: var(--success);
+}
+
+.expert-strip,
+.tag-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
@@ -296,11 +404,60 @@ h2 {
   background: rgba(10, 21, 38, 0.92);
 }
 
-.profile-grid div {
+.profile-grid div,
+.stack-item,
+.recommendation-item {
   padding: 1rem;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(145, 181, 230, 0.18);
+}
+
+.top-summary-grid {
+  align-items: stretch;
+}
+
+.emphasis-card {
+  background: linear-gradient(180deg, rgba(47, 183, 255, 0.14), rgba(255, 255, 255, 0.03));
+}
+
+.recommendation-list {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.recommendation-item--featured {
+  border-color: rgba(117, 213, 255, 0.45);
+  background: rgba(20, 42, 72, 0.78);
+}
+
+.meta-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.stack-list {
+  gap: 0.85rem;
+}
+
+.stack-item span {
+  color: var(--warning);
+  font-size: 0.95rem;
+}
+
+.progress-track {
+  height: 0.55rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin: 0.6rem 0 0.85rem;
+}
+
+.progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent-strong), var(--success));
 }
 
 .dark-section {
@@ -336,19 +493,34 @@ h2 {
   color: var(--muted);
 }
 
-@media (max-width: 900px) {
-  .hero-content,
-  .decision-board {
+@media (max-width: 1100px) {
+  .adaptive-shell,
+  .decision-board.enhanced-board,
+  .hero-content {
     grid-template-columns: 1fr;
   }
 
+  .control-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 900px) {
   .topbar {
     grid-template-columns: 1fr;
   }
 
   .decision-header,
-  .profile-context-header {
+  .profile-context-header,
+  .card-heading,
+  .recommendation-topline,
+  .contribution-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .confidence-cluster,
+  .meta-row {
+    grid-template-columns: 1fr;
   }
 }

@@ -25,9 +25,9 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 
 | Platform layer | Key controls | Relevant standards |
 | --- | --- | --- |
-| Frontend/BFF | Strong authentication, consent capture, secure sessions, profile-context validation, accessibility, action logging. | ISO/IEC 27001, ISO/IEC 27701, ISO/IEC 25010 |
+| Frontend/BFF | Strong authentication, consent capture, secure sessions, profile-context validation, accessibility, progressive disclosure, explanation visibility, action logging. | ISO/IEC 27001, ISO/IEC 27701, ISO/IEC 25010, ISO 9241-210 |
 | Identity and trust plane | OIDC, MFA, RBAC, entitlements, KYC integration, AML scoring, sanctions screening, privacy-tier propagation. | ISO/IEC 27001, ISO/IEC 27701, SOC 2 Type 2 |
-| Router/orchestration | Intent traceability, deterministic routing policy, confidence thresholds, release gating, explanation generation, least-privilege response shaping. | ISO/IEC 25010, ISO 31000, SOC 2 Type 2 |
+| Router/orchestration | Intent traceability, deterministic routing policy, confidence thresholds, expert aggregation and ranking, release gating, explanation generation, least-privilege response shaping. | ISO/IEC 25010, ISO 9241-210, ISO 31000, SOC 2 Type 2 |
 | Expert microservices | Versioned models, scoped permissions, service isolation, evaluation metrics, contract tests. | ISO/IEC 27017, ISO/IEC 25010 |
 | Event backbone | Durable delivery, retry logic, idempotency, dead-letter handling, event traceability. | ISO 22301, ISO/IEC 25010 |
 | Data/evidence stores | Encryption, retention, lineage, immutable evidence, backup and recovery, data residency controls. | ISO/IEC 27001, ISO/IEC 27701, ISO 22301 |
