@@ -126,24 +126,29 @@ Technical scope:
 - valuation and ROI services,
 - stronger evidence and admin tooling.
 
-### 4.4 Stage D — Phase 3 full MoE platform
+### 4.4 Stage D — Phase 3 advanced intelligence platform
 
 Ship:
 
-- full expert router,
-- dynamic UX personalization,
-- forecasting,
-- broker / insurer / government integrations,
-- advanced document intelligence,
-- richer explainability and AI governance.
+- Autonomous Deal Execution Engine (Agentic AI Layer),
+- Digital Twin Properties & Simulation Engine,
+- Predictive Market Intelligence & Macro AI,
+- Conversational AI Copilot (Multi-Role Assistant),
+- On-Chain / Tokenization & Fractional Ownership Layer,
+- Advanced Document Intelligence & Legal Reasoning AI,
+- Global Compliance Graph & Regulatory Intelligence System,
+- Hyper-Personalization & Behavioral Modeling Engine,
+- Trust, Reputation, and Risk Scoring Network,
+- Open AI Marketplace & Third-Party Expert Plug-in Ecosystem.
 
 Technical scope:
 
-- production-grade expert orchestration,
-- Azure ML model governance,
-- Azure AI Search grounding,
-- partner integration hub,
-- stronger compliance telemetry and model observability.
+- production-grade agent orchestration and execution controls,
+- simulation infrastructure for digital twin property modeling,
+- macro and market intelligence pipelines,
+- legal reasoning and document-grounded AI workflows,
+- compliance graph services with global regulatory telemetry,
+- partner and third-party expert marketplace infrastructure.
 
 ## 5. Standards posture by phase
 

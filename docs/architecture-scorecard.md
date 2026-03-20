@@ -88,7 +88,7 @@ The repository remains aligned only if the MoE layer continues using the canonic
 | --- | --- |
 | MVP | listings, auth, search, deal workflow, payments, basic AI recommender, base KYC/compliance, Azure baseline |
 | Phase 2 | visa workflow engine, insurance integrations, valuation expert, ROI expert, admin/compliance workbench |
-| Phase 3 | full MoE routing, explainability expansion, dynamic UX personalization, forecasting, external partner/government integrations, advanced document intelligence |
+| Phase 3 | agentic deal execution, digital twins and simulation, predictive market/macro AI, conversational copilot, tokenization/fractional ownership, document intelligence/legal reasoning, compliance graph intelligence, hyper-personalization, trust/risk scoring, open AI marketplace |
 
 **Rule:** roadmap discussions should not present Phase 2 or Phase 3 capabilities as already delivered unless code and operational evidence exist for them.
 
