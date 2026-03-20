@@ -1026,6 +1026,25 @@ const backendSnapshot = {
   error: null
 };
 
+function getBackendPackets() {
+  return backendSnapshot.status === "ready" && backendSnapshot.data?.packets ? backendSnapshot.data.packets : null;
+}
+
+function getInvestorBackendSync() {
+  if (state.activeJourney !== "investor") return null;
+  const packets = getBackendPackets();
+  if (!packets) return null;
+
+  return {
+    property: packets.property_decision,
+    transaction: packets.transaction_decision,
+    payment: packets.payment_decision,
+    insurance: packets.insurance_decision,
+    integration: packets.integration_decision,
+    residency: packets.residency_decision
+  };
+}
+
 function currency(value) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -1427,6 +1446,38 @@ function buildActionText(topCandidate) {
 }
 
 function renderPropertyList(rankedCandidates) {
+  const backend = getInvestorBackendSync();
+  if (backend?.property?.ranked_recommendations?.length) {
+    propertyList.innerHTML = backend.property.ranked_recommendations
+      .map((candidate, index) => {
+        const delta = Math.round(candidate.composite_score * 100);
+        return `
+          <article class="recommendation-item ${index === 0 ? "recommendation-item--featured" : ""}">
+            <div class="recommendation-topline">
+              <strong>#${index + 1} ${candidate.title}</strong>
+              <span>${candidate.geography}</span>
+            </div>
+            <p>${candidate.summary}</p>
+            <div class="meta-row">
+              <span>Confidence ${Math.round(candidate.confidence * 100)}/100</span>
+              <span>Score ${delta}/100</span>
+              <span>Value band ${candidate.valuation_band}</span>
+            </div>
+            <div class="tag-row">
+              ${Object.entries(candidate.expert_contributions)
+                .slice(0, 4)
+                .map(([key, value]) => `<span>${key.replace(/_/g, " ")} ${Math.round(value * 100)}/100</span>`)
+                .join("")}
+            </div>
+            <p class="helper-copy">${candidate.why}</p>
+          </article>
+        `;
+      })
+      .join("");
+    propertyFitPill.textContent = `Top match: ${backend.property.ranked_recommendations[0].geography}`;
+    return;
+  }
+
   propertyList.innerHTML = rankedCandidates
     .map((candidate, index) => {
       const delta = Math.round(candidate.aggregateScore * 100);
@@ -1454,6 +1505,46 @@ function renderPropertyList(rankedCandidates) {
 }
 
 function renderInsights(rankedCandidates) {
+  const backend = getInvestorBackendSync();
+  if (backend?.property?.ranked_recommendations?.length) {
+    const recommendations = backend.property.ranked_recommendations.slice(0, 2);
+    insightList.innerHTML = recommendations
+      .map(
+        (candidate) => `
+          <div class="stack-item">
+            <strong>${candidate.title}</strong>
+            <p>${candidate.investment_insight}</p>
+          </div>
+        `
+      )
+      .join("");
+
+    visaList.innerHTML = recommendations
+      .map(
+        (candidate) => `
+          <div class="stack-item">
+            <strong>${candidate.title} • Residency path</strong>
+            <span>Backend packet</span>
+            <p>${candidate.visa_pathway}</p>
+          </div>
+        `
+      )
+      .join("");
+
+    insuranceList.innerHTML = recommendations
+      .map(
+        (candidate) => `
+          <div class="stack-item">
+            <strong>${candidate.title} • Insurance signal</strong>
+            <span>Backend packet</span>
+            <p>${candidate.insurance_option}</p>
+          </div>
+        `
+      )
+      .join("");
+    return;
+  }
+
   insightList.innerHTML = rankedCandidates
     .slice(0, 2)
     .map(
@@ -1494,6 +1585,23 @@ function renderInsights(rankedCandidates) {
 }
 
 function renderValuation(rankedCandidates) {
+  const backend = getInvestorBackendSync();
+  if (backend?.property?.ranked_recommendations?.length) {
+    valuationList.innerHTML = backend.property.ranked_recommendations
+      .slice(0, 2)
+      .map((candidate) => {
+        return `
+          <div class="stack-item">
+            <strong>${candidate.title} • ${candidate.valuation_band}</strong>
+            <span>${candidate.comparable_summary}</span>
+            <p>${candidate.trend_signal} ${candidate.location_intelligence}</p>
+          </div>
+        `;
+      })
+      .join("");
+    return;
+  }
+
   valuationList.innerHTML = rankedCandidates
     .slice(0, 2)
     .map((candidate) => {
@@ -1510,6 +1618,22 @@ function renderValuation(rankedCandidates) {
 }
 
 function renderGovernance() {
+  const backend = getInvestorBackendSync();
+  if (backend?.property?.governance_status?.length) {
+    governanceList.innerHTML = backend.property.governance_status
+      .map(
+        (profile) => `
+        <div class="stack-item">
+          <strong>${profile.framework} • ${profile.status}</strong>
+          <span>${profile.controls.join(" • ")}</span>
+          <p>${profile.explanation}</p>
+        </div>
+      `
+      )
+      .join("");
+    return;
+  }
+
   governanceList.innerHTML = governanceProfiles
     .map(
       (profile) => `
@@ -1524,6 +1648,29 @@ function renderGovernance() {
 }
 
 function renderContributions(topCandidate) {
+  const backend = getInvestorBackendSync();
+  const backendTopCandidate = backend?.property?.ranked_recommendations?.[0];
+  if (backendTopCandidate) {
+    contributionList.innerHTML = Object.entries(backendTopCandidate.expert_contributions)
+      .sort((a, b) => b[1] - a[1])
+      .map(([key, value]) => {
+        const percent = Math.round(value * 100);
+        const label = key.replace(/_/g, " ");
+        return `
+          <div class="stack-item contribution-item">
+            <div class="contribution-header">
+              <strong>${label}</strong>
+              <span>${percent}/100</span>
+            </div>
+            <div class="progress-track"><span style="width:${Math.max(percent, 8)}%"></span></div>
+            <p>Backend orchestration contribution from ${label} for ${backendTopCandidate.title}.</p>
+          </div>
+        `;
+      })
+      .join("");
+    return;
+  }
+
   const weights = buildWeights();
   const entries = Object.entries({ ...topCandidate.experts, recommendation: getRecommendationScore(topCandidate) })
     .map(([key, value]) => ({ key, value, weighted: value * weights[key] }))
@@ -1552,6 +1699,81 @@ function renderContributions(topCandidate) {
 }
 
 function renderDealBoard() {
+  const backend = getInvestorBackendSync();
+  if (backend?.transaction) {
+    const packet = backend.transaction;
+    const transaction = packet.transaction;
+    const stageInsights = [packet.pricing_strategy, packet.negotiation_insight, packet.document_validation, packet.risk_scoring];
+
+    dealTitle.textContent = transaction.deal_name;
+    dealSummary.textContent = packet.explanation;
+    dealRiskPill.textContent = packet.risk_rating;
+    dealTargetPrice.textContent = currency(transaction.target_price);
+    dealCloseWindow.textContent = `${transaction.urgency_days} calendar days`;
+    dealIntegrity.textContent = packet.workflow_integrity.sequential_integrity;
+    dealContinuity.textContent = packet.workflow_integrity.continuity_mode;
+
+    dealStageList.innerHTML = transaction.workflow_stages
+      .map(
+        (stage) => `
+          <div class="stage-item stage-item--${stage.status.replace(/\s+/g, "-")}">
+            <div class="stage-heading">
+              <strong>${stage.stage}</strong>
+              <span>${stage.status}</span>
+            </div>
+            <div class="progress-track"><span style="width:${Math.round(stage.completion * 100)}%"></span></div>
+            <p>${stage.blocker || stage.control_checks.join(" • ")}</p>
+            <small>Owner • ${stage.owner}</small>
+          </div>
+        `
+      )
+      .join("");
+
+    dealExpertList.innerHTML = stageInsights
+      .map(
+        (item) => `
+          <div class="stack-item">
+            <div class="recommendation-topline">
+              <strong>${item.headline}</strong>
+              <span>${item.priority} • ${Math.round(item.score * 100)}/100</span>
+            </div>
+            <p>${item.detail}</p>
+          </div>
+        `
+      )
+      .join("");
+
+    documentList.innerHTML = transaction.requested_documents
+      .map(
+        (document) => `
+          <div class="stack-item">
+            <div class="recommendation-topline">
+              <strong>${document.name}</strong>
+              <span>${document.status}</span>
+            </div>
+            <p>${document.issues.length ? document.issues.join(" • ") : `Document type ${document.document_type}.`}</p>
+            <small>Owner • ${document.owner}</small>
+          </div>
+        `
+      )
+      .join("");
+
+    complianceControlList.innerHTML = packet.compliance_controls
+      .map(
+        (control) => `
+          <div class="stack-item">
+            <div class="recommendation-topline">
+              <strong>${control.control}</strong>
+              <span>${control.status} • ${control.framework}</span>
+            </div>
+            <p>${control.detail}</p>
+          </div>
+        `
+      )
+      .join("");
+    return;
+  }
+
   const deal = journeys[state.activeJourney].deal;
   dealTitle.textContent = deal.name;
   dealSummary.textContent = deal.summary;
@@ -1739,6 +1961,60 @@ function evaluateResidencyProgram() {
 }
 
 function renderResidencyEngine() {
+  const backend = getInvestorBackendSync();
+  if (backend?.residency) {
+    const packet = backend.residency;
+    residencyProgramTitle.textContent = packet.program;
+    residencyStatusPill.textContent = packet.eligibility_status;
+    residencyStatusPill.dataset.status = packet.eligibility_status.toLowerCase().replace(/\s+/g, "-");
+    residencySummary.textContent = packet.explanation;
+    eligibilityScore.textContent = `${Math.round(packet.eligibility_score * 100)}/100`;
+    pathwayType.textContent = packet.pathway_type;
+    kycAmlSummary.textContent = packet.kyc_aml_summary;
+    privacySummary.textContent = packet.privacy_summary;
+    incomeValue.textContent = `${currency(packet.applicant.annual_income)} household income`;
+    assetsValue.textContent = `${currency(packet.applicant.liquid_assets)} liquid assets`;
+    propertyValueLabel.textContent = `${currency(packet.applicant.property_value)} property value`;
+
+    ruleCheckList.innerHTML = packet.rule_checks
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.name}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join("");
+
+    documentCheckList.innerHTML = packet.document_checks
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.document}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join("");
+
+    complianceWorkflowList.innerHTML = packet.compliance_workflow
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.step}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+          <small>Owner • ${item.owner}</small>
+        </div>
+      `)
+      .join("");
+    return;
+  }
+
   const result = evaluateResidencyProgram();
   residencyProgramTitle.textContent = result.program.program;
   residencyStatusPill.textContent = result.status;
@@ -1846,6 +2122,56 @@ function getInsuranceScenario() {
 }
 
 function renderInsuranceEngine() {
+  const backend = getInvestorBackendSync();
+  if (backend?.insurance) {
+    const packet = backend.insurance;
+    insuranceProgramTitle.textContent = `${packet.applicant.persona} insurance workspace`;
+    insuranceStatusPill.textContent = packet.release_status;
+    insuranceStatusPill.dataset.status = packet.release_status.toLowerCase().replace(/\s+/g, "-");
+    insuranceSummary.textContent = packet.explanation;
+    insuranceReadinessScore.textContent = `${Math.round((packet.recommendations.length / Math.max(packet.acord_coverages.length, 1)) * 100)}/100`;
+    insurancePrimaryPackage.textContent = packet.recommendations[0]?.coverage_type || "Coverage review";
+    insuranceAcordMode.textContent = packet.secure_exchange_summary;
+    insuranceNaicPosture.textContent = packet.naic_privacy_summary;
+
+    insuranceOptionList.innerHTML = packet.recommendations
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.coverage_type} • ${item.policy_form}</strong>
+            <span>${item.recommendation_level} • ${item.premium_estimate}</span>
+          </div>
+          <p>${item.rationale}</p>
+        </div>
+      `)
+      .join("");
+
+    insurancePayloadList.innerHTML = packet.acord_coverages
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.coverage_type}</strong>
+            <span>${item.acord_form}</span>
+          </div>
+          <p>${item.notes} • Insured amount ${currency(item.insured_amount)} • Deductible ${currency(item.deductible)}</p>
+        </div>
+      `)
+      .join("");
+
+    insuranceControlList.innerHTML = packet.secure_exchange_controls
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.control}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join("");
+    return;
+  }
+
   const result = getInsuranceScenario();
   insuranceProgramTitle.textContent = result.profileConfig.profileLabel;
   insuranceStatusPill.textContent = result.status;
@@ -1980,6 +2306,57 @@ function getPaymentScenario() {
 }
 
 function renderPaymentEngine() {
+  const backend = getInvestorBackendSync();
+  if (backend?.payment) {
+    const packet = backend.payment;
+    paymentProgramTitle.textContent = `${packet.payment_instrument.instrument_type} payment orchestration`;
+    paymentStatusPill.textContent = packet.risk_level;
+    paymentStatusPill.dataset.status = packet.risk_level.toLowerCase().replace(/\s+/g, "-");
+    paymentSummary.textContent = packet.explanation;
+    paymentAmountValue.textContent = `${currency(packet.payment_instrument.amount || state.paymentAmount)} payment amount`;
+    paymentFraudScore.textContent = `${Math.round(packet.fraud_probability * 100)}% probability`;
+    paymentBehaviorSummary.textContent = packet.payment_behavior_summary;
+    paymentEscrowSummary.textContent = packet.escrow_status;
+    paymentFrontendPosture.textContent = packet.frontend_security_posture;
+
+    paymentSignalList.innerHTML = packet.signals
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.category}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join("");
+
+    paymentEscrowList.innerHTML = packet.escrow_conditions
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.condition}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join("");
+
+    paymentReconciliationList.innerHTML = packet.reconciliation_entries
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.entry_type}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join("");
+    return;
+  }
+
   const result = getPaymentScenario();
   paymentProgramTitle.textContent = result.profile.label;
   paymentStatusPill.textContent = result.status;
@@ -2038,6 +2415,56 @@ function getIntegrationScenario() {
 }
 
 function renderIntegrationHub() {
+  const backend = getInvestorBackendSync();
+  if (backend?.integration) {
+    const packet = backend.integration;
+    integrationProgramTitle.textContent = packet.partner_system;
+    integrationStatusPill.textContent = packet.release_status;
+    integrationStatusPill.dataset.status = packet.release_status.toLowerCase().replace(/\s+/g, "-");
+    integrationSummary.textContent = packet.explanation;
+    integrationCanonicalModel.textContent = packet.canonical_contract;
+    integrationExpertChain.textContent = packet.expert_chain.join(" → ");
+    integrationSecurityPosture.textContent = packet.validation_results.map((item) => `${item.control}: ${item.status}`).join(" • ");
+    integrationRouteTarget.textContent = packet.routing_decisions[0]?.target || "Route pending";
+
+    integrationControlList.innerHTML = packet.validation_results
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.control}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join("");
+
+    integrationRouteList.innerHTML = packet.routing_decisions
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.target}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join("");
+
+    integrationEvidenceList.innerHTML = packet.compliance_evidence
+      .map((item, index) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>Evidence ${index + 1}</strong>
+            <span>Attached</span>
+          </div>
+          <p>${item}</p>
+        </div>
+      `)
+      .join("");
+    return;
+  }
+
   const result = getIntegrationScenario();
   integrationProgramTitle.textContent = result.label;
   integrationStatusPill.textContent = result.releaseStatus;
@@ -2086,6 +2513,27 @@ function renderIntegrationHub() {
 }
 
 function renderNextActions(journey, topCandidate) {
+  const backend = getInvestorBackendSync();
+  if (backend) {
+    const dynamicActions = [
+      ...backend.property.expert_outputs.slice(0, 3).flatMap((item) => item.next_actions),
+      ...backend.transaction.recommendations.slice(0, 2),
+      ...backend.payment.recommended_actions.slice(0, 2)
+    ];
+
+    nextActionsList.innerHTML = dynamicActions
+      .map(
+        (item) => `
+          <div class="stack-item action-item">
+            <strong>Next action</strong>
+            <p>${item}</p>
+          </div>
+        `
+      )
+      .join("");
+    return;
+  }
+
   const dynamicActions = [
     ...journey.nextActions,
     ...journey.deal.experts.slice(0, 2).map((item) => item.summary),
@@ -2109,30 +2557,54 @@ function renderJourney() {
   const journey = journeys[state.activeJourney];
   const rankedCandidates = rankCandidates();
   const topCandidate = rankedCandidates[0];
+  const backend = getInvestorBackendSync();
+  const backendTopCandidate = backend?.property?.ranked_recommendations?.[0];
 
   title.textContent = journey.title;
-  summary.textContent = journey.summary;
-  confidence.textContent = topCandidate.aggregateScore.toFixed(2);
-  releaseStatus.textContent = getReleaseTone();
-  headline.textContent = journey.headline;
-  subtitle.textContent = journey.subtitle;
-  investorType.textContent = journey.profile.investorType;
-  locationValue.textContent = journey.profile.location;
-  financialIntent.textContent = journey.profile.financialIntent;
-  residencyGoal.textContent = state.residency ? journey.profile.residencyGoal : "Not currently prioritized";
-  accessState.textContent = journey.profile.access;
+  summary.textContent = backend?.property?.explanation || journey.summary;
+  confidence.textContent = backendTopCandidate ? backendTopCandidate.confidence.toFixed(2) : topCandidate.aggregateScore.toFixed(2);
+  releaseStatus.textContent = backend?.property?.release_status || getReleaseTone();
+  headline.textContent = backend?.property?.recommendation || journey.headline;
+  subtitle.textContent = backend
+    ? `Backend snapshot verified for ${backend.property.profile.country} → ${backend.property.profile.target_region} with ${backend.property.selected_experts.length} experts and ${backend.property.policy_gates.length} policy gates.`
+    : journey.subtitle;
+  investorType.textContent = backend?.property?.profile?.investor_type?.replace(/_/g, " ") || journey.profile.investorType;
+  locationValue.textContent = backend ? `${backend.property.profile.country} → ${backend.property.profile.target_region}` : journey.profile.location;
+  financialIntent.textContent = backend?.property?.profile?.financial_intent || journey.profile.financialIntent;
+  residencyGoal.textContent = backend ? backend.property.profile.residency_goal : state.residency ? journey.profile.residencyGoal : "Not currently prioritized";
+  accessState.textContent = backend
+    ? `${backend.property.identity.rbac_roles.join(" / ")} • ${backend.property.identity.mfa_completed ? "MFA complete" : "MFA pending"}`
+    : journey.profile.access;
 
-  action.textContent = buildActionText(topCandidate);
-  risk.textContent = buildRiskText(topCandidate);
-  why.textContent = buildWhyText(topCandidate);
+  action.textContent = backend?.transaction?.recommendations?.[0] || buildActionText(topCandidate);
+  risk.textContent = backend
+    ? `${backend.property.expert_outputs[0].summary} Transaction risk is ${backend.transaction.risk_rating} and payment risk is ${backend.payment.risk_level}.`
+    : buildRiskText(topCandidate);
+  why.textContent = backendTopCandidate?.why || buildWhyText(topCandidate);
 
-  steps.innerHTML = journey.steps.map((item) => `<li>${item}</li>`).join("");
+  steps.innerHTML = backend
+    ? [
+        `Detected intents: ${backend.property.detected_intents.join(", ")}.`,
+        `Top recommendation: ${backendTopCandidate.title} in ${backendTopCandidate.geography}.`,
+        `Transaction release is ${backend.transaction.release_status} with ${backend.transaction.compliance_controls.length} tracked controls.`,
+        `Residency, insurance, payment, and integration engines rendered from backend packets.`
+      ]
+        .map((item) => `<li>${item}</li>`)
+        .join("")
+    : journey.steps.map((item) => `<li>${item}</li>`).join("");
 
-  const weights = buildWeights();
-  expertStrip.innerHTML = Object.entries(weights)
-    .sort((a, b) => b[1] - a[1])
-    .map(([key, value]) => `<span class="expert-pill">${expertMeta[key].icon} ${Math.round(value * 100)}%</span>`)
-    .join("");
+  if (backend) {
+    expertStrip.innerHTML = backend.property.selected_experts
+      .slice(0, 6)
+      .map((item) => `<span class="expert-pill">🧠 ${item.expert.replace(/_/g, " ")} ${Math.round(item.score * 100)}%</span>`)
+      .join("");
+  } else {
+    const weights = buildWeights();
+    expertStrip.innerHTML = Object.entries(weights)
+      .sort((a, b) => b[1] - a[1])
+      .map(([key, value]) => `<span class="expert-pill">${expertMeta[key].icon} ${Math.round(value * 100)}%</span>`)
+      .join("");
+  }
 
   renderPropertyList(rankedCandidates);
   renderInsights(rankedCandidates);
