@@ -1,54 +1,75 @@
 const journeys = {
   buyer: {
     title: "Buyer journey",
-    confidence: "0.91",
+    confidence: "0.93",
     steps: [
-      "Capture intent, budget, household profile, and target jurisdictions.",
+      "Capture investor type, current residence, financial intent, and residency goals from the frontend trust form.",
+      "Bind consent scope, MFA state, and KYC posture to the session before expert routing begins.",
       "Shortlist properties using location, amenities, commute, lifestyle, and financing constraints.",
-      "Blend pricing, insurance, and residency insights into a single recommendation.",
-      "Run identity, sanctions, privacy, and affordability checks before action release."
+      "Release recommendations only after RBAC, sanctions, privacy, and affordability checks pass."
     ],
     action:
       "Prioritize a Lisbon mixed-use apartment with green retrofit potential, then launch pre-qualification, RBI eligibility review, and bundled insurance intake in a guided next step.",
     risk:
-      "Overall posture is controlled. Climate exposure is moderate, affordability passes base and stressed scenarios, and no sanctions or KYC blockers are detected. The system recommends enhanced document verification for cross-border source-of-funds evidence.",
+      "Overall posture is controlled. Identity is verified, MFA is active for export actions, and no sanctions blockers are present. The system still recommends enhanced source-of-funds evidence because the residency pathway is cross-border.",
     why:
-      "The orchestrator selected property discovery, pricing, compliance, finance, insurance, and RBI experts because the user expressed both owner-occupier and residency objectives. Confidence increased because the selected asset satisfies budget, livability, financing, and migration thresholds simultaneously.",
-    experts: ["Property", "Pricing", "Compliance", "Finance", "Insurance", "RBI"]
+      "The orchestrator used buyer intent plus frontend-captured profile signals to activate property, finance, insurance, RBI, and compliance experts. Response detail is restricted to the user's entitlements and privacy tier so the recommendation remains personalized without exposing unnecessary data.",
+    experts: ["Property", "Pricing", "Compliance", "Finance", "Insurance", "RBI"],
+    profile: {
+      investorType: "Owner-occupier",
+      location: "United States → Portugal",
+      financialIntent: "Primary residence with moderate appreciation",
+      residencyGoal: "Family relocation in 12 months",
+      access: "Client RBAC • MFA on release"
+    }
   },
   investor: {
     title: "Investor journey",
-    confidence: "0.88",
+    confidence: "0.91",
     steps: [
-      "Model target returns, leverage limits, hold period, and acceptable jurisdictions.",
-      "Evaluate projected yield, vacancy resilience, currency and policy volatility, and exit scenarios.",
-      "Assess residency-by-investment pathways that align with capital allocation strategy.",
-      "Apply sanctions, AML, suitability, and concentration checks before recommendation release."
+      "Model investor category, target returns, leverage limits, hold period, and allowed jurisdictions.",
+      "Route profile, consent, KYC state, AML risk, and sanctions status into the MoE router.",
+      "Evaluate projected yield, vacancy resilience, currency volatility, and RBI fit across markets.",
+      "Apply step-up MFA, suitability, concentration, and policy release checks before recommendations are published."
     ],
     action:
       "Advance a diversified shortlist of residential assets in Dubai and Athens, with staggered capital deployment and jurisdiction-specific RBI documentation pathways.",
     risk:
-      "Posture is moderate. Yield outlook is attractive, but the system flags FX sensitivity and local policy change risk. The recommendation includes hedging review, enhanced legal diligence, and concentration caps before commitment.",
+      "Posture is moderate. Yield outlook is attractive, but the system flags FX sensitivity, policy-change risk, and medium AML risk. The recommendation therefore remains reviewable by an advisor before any partner-facing export occurs.",
     why:
-      "The router elevated pricing, finance, RBI, and risk experts after detecting a cross-border investment objective with multiple regulatory implications. The recommendation favors diversification because return targets can be met without overexposure to any single jurisdiction or asset class.",
-    experts: ["Pricing", "Finance", "RBI", "Risk", "Compliance"]
+      "The router elevated pricing, finance, RBI, and compliance experts after detecting a cross-border investment objective, residency intent, and institutional-style return goals. RBAC and privacy controls permit full portfolio analysis for this user while still masking raw KYC evidence from non-compliance roles.",
+    experts: ["Pricing", "Finance", "RBI", "Risk", "Compliance"],
+    profile: {
+      investorType: "Cross-border investor",
+      location: "United States → UAE / Greece",
+      financialIntent: "Income plus long-term appreciation",
+      residencyGoal: "Optional second residency",
+      access: "Investor RBAC • MFA on export"
+    }
   },
   advisor: {
     title: "Advisor console",
-    confidence: "0.94",
+    confidence: "0.96",
     steps: [
-      "Inspect user narrative, source documents, and model outputs in a unified evidence panel.",
+      "Inspect the client profile payload, consent receipt, sanctions result, and expert outputs in one evidence panel.",
+      "Confirm role entitlements and enforce step-up MFA before approving or exporting recommendations.",
       "Compare expert recommendations, confidence bands, and policy gate outcomes.",
-      "Apply human override, request more evidence, or approve the recommendation package.",
-      "Export the audit-ready rationale to client, committee, or insurer stakeholders."
+      "Approve, request more evidence, or hold the package with a complete audit trail."
     ],
     action:
       "Review the composite recommendation, approve the compliance-cleared option, and issue a client-ready memo with assumptions, sensitivity ranges, and insurer-ready intake data.",
     risk:
-      "Posture is strong. All critical policy checks passed, the explanation ledger is complete, and the system identifies only low-severity documentation follow-ups. Human override remains available for exceptional circumstances.",
+      "Posture is strong. All critical policy checks passed, the explanation ledger is complete, and only low-severity documentation follow-ups remain. Separation-of-duties controls prevent the same user from both clearing compliance and overriding sanctions outcomes.",
     why:
-      "The advisor experience emphasizes transparency over automation. EstateOS surfaces expert contributions, evidence provenance, and policy versions so humans can challenge or endorse AI output with a complete, traceable context.",
-    experts: ["All experts", "Audit ledger", "Policy gate", "Human review"]
+      "The advisor experience emphasizes transparent control over opaque automation. EstateOS surfaces expert contributions, evidence provenance, trust posture, and policy versions so humans can challenge or endorse AI output with full context and compliant release scope.",
+    experts: ["All experts", "Identity trust", "Policy gate", "Human review"],
+    profile: {
+      investorType: "Advisor-managed portfolio",
+      location: "Global client coverage",
+      financialIntent: "Suitability and portfolio oversight",
+      residencyGoal: "Jurisdiction-specific advisory",
+      access: "Advisor RBAC • Entitled approval"
+    }
   }
 };
 
@@ -60,6 +81,11 @@ const risk = document.getElementById("journey-risk");
 const why = document.getElementById("journey-why");
 const expertStrip = document.getElementById("expert-strip");
 const cards = document.querySelectorAll(".journey-card");
+const investorType = document.getElementById("profile-investor-type");
+const locationValue = document.getElementById("profile-location");
+const financialIntent = document.getElementById("profile-financial-intent");
+const residencyGoal = document.getElementById("profile-residency-goal");
+const accessState = document.getElementById("profile-access-state");
 
 function renderJourney(key) {
   const journey = journeys[key];
@@ -68,6 +94,11 @@ function renderJourney(key) {
   action.textContent = journey.action;
   risk.textContent = journey.risk;
   why.textContent = journey.why;
+  investorType.textContent = journey.profile.investorType;
+  locationValue.textContent = journey.profile.location;
+  financialIntent.textContent = journey.profile.financialIntent;
+  residencyGoal.textContent = journey.profile.residencyGoal;
+  accessState.textContent = journey.profile.access;
 
   steps.innerHTML = "";
   journey.steps.forEach((item) => {
