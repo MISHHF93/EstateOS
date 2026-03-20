@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at_utc": "2026-03-20T20:50:00.306213+00:00",
+    "generated_at_utc": "2026-03-20T21:03:33.896770+00:00",
     "generated_from": "backend.orchestration.build_demo_payloads",
     "normalized": true
   },
@@ -553,7 +553,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-20T20:50:00.289396+00:00"
+                "last_checked_utc": "2026-03-20T21:03:33.875760+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -568,7 +568,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-20T20:50:00.289407+00:00"
+                "last_checked_utc": "2026-03-20T21:03:33.875774+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -581,7 +581,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-20T20:50:00.289415+00:00"
+                "last_checked_utc": "2026-03-20T21:03:33.875779+00:00"
               }
             ],
             "workflow_stages": [
@@ -751,7 +751,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-55855cec created for Lisbon Green Quarter acquisition.",
+              "detail": "Transaction deal-2dcb3345 created for Lisbon Green Quarter acquisition.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -786,7 +786,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-55855cec for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-2dcb3345 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -801,7 +801,7 @@
           "payment_instrument": {
             "instrument_type": "wire",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-0d327e5280",
+            "token_reference": "tok-a4551c4a7a",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -810,18 +810,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-c2c4286c",
-              "identifier": "usr-c2c4286c"
+              "name": "usr-a5fa66bd",
+              "identifier": "usr-a5fa66bd"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-55855cec"
+              "identifier": "deal-2dcb3345"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-5aa5ca01"
+              "identifier": "req-29d633cf"
             }
           ],
           "fraud_probability": 0.36,
@@ -891,7 +891,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "released",
-          "explanation": "Payment deal-55855cec was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-2dcb3345 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -923,8 +923,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-c2c4286c",
-              "identifier": "usr-c2c4286c"
+              "name": "usr-a5fa66bd",
+              "identifier": "usr-a5fa66bd"
             },
             {
               "role": "servicing_entity",
@@ -934,7 +934,7 @@
             {
               "role": "transaction_context",
               "name": "closing",
-              "identifier": "req-5aa5ca01"
+              "identifier": "req-29d633cf"
             }
           ],
           "acord_coverages": [
@@ -1036,7 +1036,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-5aa5ca01.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-29d633cf.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'buyer', property type 'apartment', occupancy 'owner_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -1369,13 +1369,175 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Lisbon Green Quarter Apartment to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-c4d13519 modeled Lisbon Green Quarter Apartment in Portugal using purchase price 620,000, current value 628,000, occupancy 94%, rent 3,200/mo, renovation budget 38,000, insurance premium 2,256, and hold period 7 years. Best-case equity outcome is 535,249, downside annual cash flow is -7, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-cf85873d modeled Lisbon Green Quarter Apartment in Portugal using purchase price 620,000, current value 628,000, occupancy 94%, rent 3,200/mo, renovation budget 38,000, insurance premium 2,256, and hold period 7 years. Best-case equity outcome is 535,249, downside annual cash flow is -7, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
             "ISO/IEC 27001",
             "ISO 22301",
             "ISO 31000"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "market_intelligence_decision": {
+          "request_id": "demo-request",
+          "market_scope": "Portugal relocation corridor",
+          "investment_horizon_months": 18,
+          "strategy_bias": "capital_preservation_with_relocation_optionality",
+          "data_streams": [
+            {
+              "source": "Global macro and rate feed",
+              "cadence": "daily",
+              "coverage": "Global policy rates, inflation, FX, and mortgage benchmarks",
+              "freshness_sla": "<24h",
+              "features": [
+                "policy_rate_path",
+                "inflation_nowcast",
+                "currency_volatility",
+                "mortgage_spreads"
+              ]
+            },
+            {
+              "source": "Migration and mobility ledger",
+              "cadence": "weekly",
+              "coverage": "Origin-destination migration flows, visa demand, employer mobility, and household relocation intent",
+              "freshness_sla": "<7d",
+              "features": [
+                "net_inflows",
+                "household_composition",
+                "visa_interest",
+                "cross_border_demand"
+              ]
+            },
+            {
+              "source": "Supply-demand monitor",
+              "cadence": "daily",
+              "coverage": "Inventory, days on market, permit issuance, absorption, rent growth, and concessions",
+              "freshness_sla": "<24h",
+              "features": [
+                "active_inventory",
+                "new_supply",
+                "absorption_velocity",
+                "rent_growth"
+              ]
+            }
+          ],
+          "indicators": [
+            {
+              "name": "Interest-rate path",
+              "scope": "global",
+              "current_value": "plateauing",
+              "direction": "supportive",
+              "impact": "Financing-sensitive demand should improve as benchmark volatility cools.",
+              "explanation": "Rate expectations feed affordability curves, refinancing windows, and exit cap-rate assumptions."
+            },
+            {
+              "name": "Migration flow",
+              "scope": "Portugal",
+              "current_value": "inbound family relocation",
+              "direction": "positive",
+              "impact": "Cross-border household and investor inflows continue to support demand in gateway submarkets.",
+              "explanation": "Migration pressure acts as a leading signal for rental absorption, owner-occupier demand, and school-led family moves."
+            },
+            {
+              "name": "Supply pressure",
+              "scope": "Lisbon",
+              "current_value": "constrained",
+              "direction": "tight",
+              "impact": "Tighter supply keeps pricing firmer and reduces downside from inventory overhang.",
+              "explanation": "Permit activity, active listings, and absorption velocity are fused into the local supply-demand score."
+            },
+            {
+              "name": "Investor liquidity",
+              "scope": "Portugal relocation corridor",
+              "current_value": "healthy",
+              "direction": "stable",
+              "impact": "Capital availability remains selective but supportive for high-conviction assets.",
+              "explanation": "Liquidity gauges how quickly investors can transact or exit without excessive price concessions."
+            }
+          ],
+          "forecasts": [
+            {
+              "horizon": "6 months",
+              "price_growth": 0.046,
+              "rent_growth": 0.058,
+              "cap_rate_shift_bps": -5,
+              "demand_outlook": "accelerating",
+              "migration_pressure": "elevated",
+              "confidence": 0.82,
+              "explanation": "Short-range signal blends rate-path stabilization, migration-led demand, and current absorption into a tactical market posture."
+            },
+            {
+              "horizon": "12 months",
+              "price_growth": 0.059,
+              "rent_growth": 0.069,
+              "cap_rate_shift_bps": -8,
+              "demand_outlook": "strong",
+              "migration_pressure": "elevated",
+              "confidence": 0.79,
+              "explanation": "Base forecast captures easing affordability constraints, inbound migration, and slow supply replenishment across target markets."
+            },
+            {
+              "horizon": "18 months",
+              "price_growth": 0.076,
+              "rent_growth": 0.088,
+              "cap_rate_shift_bps": -10,
+              "demand_outlook": "selectively bullish",
+              "migration_pressure": "persistent",
+              "confidence": 0.74,
+              "explanation": "Longer-range outlook is produced from retrained horizon models combining macro, migration, rate, and supply-demand features for portfolio planning."
+            }
+          ],
+          "alerts": [
+            {
+              "title": "Rate sensitivity compressing",
+              "severity": "medium",
+              "signal": "Financing spreads are improving faster than active inventory is rebuilding.",
+              "action": "Promote financing-ready opportunities and surface affordability alerts in the frontend."
+            },
+            {
+              "title": "Migration-led demand cluster",
+              "severity": "high",
+              "signal": "Lisbon is seeing sustained demand from inbound family relocation patterns.",
+              "action": "Increase alerting for neighborhoods with school, transit, and visa-aligned demand concentration."
+            },
+            {
+              "title": "Supply imbalance watch",
+              "severity": "high",
+              "signal": "Supply-demand imbalance favors owners and income strategies, but underwriting should stay disciplined.",
+              "action": "Prioritize assets with resilient rent coverage and documented downside cases before broad market expansion."
+            }
+          ],
+          "pipeline_status": [
+            {
+              "stage": "Streaming ingest",
+              "status": "active",
+              "detail": "Macro, local-market, migration, and supply-demand feeds are normalized into a governed feature store."
+            },
+            {
+              "stage": "Feature engineering",
+              "status": "active",
+              "detail": "Interest-rate, inventory, migration, absorption, and affordability features are refreshed for daily inference."
+            },
+            {
+              "stage": "Model training",
+              "status": "scheduled",
+              "detail": "Horizon-specific forecasting models retrain weekly with champion-challenger validation and drift checks."
+            },
+            {
+              "stage": "Signal publication",
+              "status": "active",
+              "detail": "Forward-looking alerts and forecast summaries are published to investor, broker, and analyst workspaces."
+            }
+          ],
+          "signal_summary": "Macro intelligence for Portugal relocation corridor is moderately bullish: migration flows and tight supply support demand, while the plateauing rate regime improves forward pricing and rent resilience.",
+          "recommendation": "Use the market intelligence engine to surface 18-month signals, watch migration-led demand clusters in Lisbon, and alert users when rates or supply conditions materially change the underwriting case.",
+          "explanation": "The predictive market intelligence engine fused global rate expectations, Portugal migration flows, Lisbon supply-demand conditions, and investor-liquidity signals to generate 3 horizon forecasts and 3 alerts. Backend workflows continuously ingest market data streams, retrain forecasting models, and publish explainable forward-looking signals for investors, brokers, and analysts.",
+          "standards_alignment": [
+            "ISO/IEC 42001",
+            "ISO/IEC 5259",
+            "ISO 31000",
+            "ISO/IEC 27001"
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         }
@@ -1993,7 +2155,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-20T20:50:00.296697+00:00"
+                "last_checked_utc": "2026-03-20T21:03:33.885885+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -2008,7 +2170,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-20T20:50:00.296753+00:00"
+                "last_checked_utc": "2026-03-20T21:03:33.885896+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -2021,7 +2183,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-20T20:50:00.296760+00:00"
+                "last_checked_utc": "2026-03-20T21:03:33.885901+00:00"
               }
             ],
             "workflow_stages": [
@@ -2191,7 +2353,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-48c108a8 created for Lisbon Green Quarter acquisition.",
+              "detail": "Transaction deal-b6d1d460 created for Lisbon Green Quarter acquisition.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -2226,7 +2388,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-48c108a8 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-b6d1d460 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -2241,7 +2403,7 @@
           "payment_instrument": {
             "instrument_type": "wire",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-fdf7949635",
+            "token_reference": "tok-14331e43e5",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -2250,18 +2412,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-226090c5",
-              "identifier": "usr-226090c5"
+              "name": "usr-9587785b",
+              "identifier": "usr-9587785b"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-48c108a8"
+              "identifier": "deal-b6d1d460"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-9b07d595"
+              "identifier": "req-bf961c2d"
             }
           ],
           "fraud_probability": 0.36,
@@ -2331,7 +2493,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "released",
-          "explanation": "Payment deal-48c108a8 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-b6d1d460 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -2363,8 +2525,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-226090c5",
-              "identifier": "usr-226090c5"
+              "name": "usr-9587785b",
+              "identifier": "usr-9587785b"
             },
             {
               "role": "servicing_entity",
@@ -2374,7 +2536,7 @@
             {
               "role": "transaction_context",
               "name": "closing",
-              "identifier": "req-9b07d595"
+              "identifier": "req-bf961c2d"
             }
           ],
           "acord_coverages": [
@@ -2476,7 +2638,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-9b07d595.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-bf961c2d.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -2804,13 +2966,175 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Athens Urban Residential Block to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-b1d0433e modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-e13ff59e modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
             "ISO/IEC 27001",
             "ISO 22301",
             "ISO 31000"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "market_intelligence_decision": {
+          "request_id": "demo-request",
+          "market_scope": "Mediterranean income markets",
+          "investment_horizon_months": 24,
+          "strategy_bias": "income_resilience_and_optional_residency",
+          "data_streams": [
+            {
+              "source": "Global macro and rate feed",
+              "cadence": "daily",
+              "coverage": "Global policy rates, inflation, FX, and mortgage benchmarks",
+              "freshness_sla": "<24h",
+              "features": [
+                "policy_rate_path",
+                "inflation_nowcast",
+                "currency_volatility",
+                "mortgage_spreads"
+              ]
+            },
+            {
+              "source": "Migration and mobility ledger",
+              "cadence": "weekly",
+              "coverage": "Origin-destination migration flows, visa demand, employer mobility, and household relocation intent",
+              "freshness_sla": "<7d",
+              "features": [
+                "net_inflows",
+                "household_composition",
+                "visa_interest",
+                "cross_border_demand"
+              ]
+            },
+            {
+              "source": "Supply-demand monitor",
+              "cadence": "daily",
+              "coverage": "Inventory, days on market, permit issuance, absorption, rent growth, and concessions",
+              "freshness_sla": "<24h",
+              "features": [
+                "active_inventory",
+                "new_supply",
+                "absorption_velocity",
+                "rent_growth"
+              ]
+            }
+          ],
+          "indicators": [
+            {
+              "name": "Interest-rate path",
+              "scope": "global",
+              "current_value": "easing bias",
+              "direction": "supportive",
+              "impact": "Financing-sensitive demand should improve as benchmark volatility cools.",
+              "explanation": "Rate expectations feed affordability curves, refinancing windows, and exit cap-rate assumptions."
+            },
+            {
+              "name": "Migration flow",
+              "scope": "Southern Europe",
+              "current_value": "cross border investor and worker inflows",
+              "direction": "positive",
+              "impact": "Cross-border household and investor inflows continue to support demand in gateway submarkets.",
+              "explanation": "Migration pressure acts as a leading signal for rental absorption, owner-occupier demand, and school-led family moves."
+            },
+            {
+              "name": "Supply pressure",
+              "scope": "Athens",
+              "current_value": "tightening",
+              "direction": "tight",
+              "impact": "Tighter supply keeps pricing firmer and reduces downside from inventory overhang.",
+              "explanation": "Permit activity, active listings, and absorption velocity are fused into the local supply-demand score."
+            },
+            {
+              "name": "Investor liquidity",
+              "scope": "Mediterranean income markets",
+              "current_value": "healthy",
+              "direction": "stable",
+              "impact": "Capital availability remains selective but supportive for high-conviction assets.",
+              "explanation": "Liquidity gauges how quickly investors can transact or exit without excessive price concessions."
+            }
+          ],
+          "forecasts": [
+            {
+              "horizon": "6 months",
+              "price_growth": 0.071,
+              "rent_growth": 0.058,
+              "cap_rate_shift_bps": -15,
+              "demand_outlook": "accelerating",
+              "migration_pressure": "elevated",
+              "confidence": 0.82,
+              "explanation": "Short-range signal blends rate-path stabilization, migration-led demand, and current absorption into a tactical market posture."
+            },
+            {
+              "horizon": "12 months",
+              "price_growth": 0.064,
+              "rent_growth": 0.069,
+              "cap_rate_shift_bps": -20,
+              "demand_outlook": "strong",
+              "migration_pressure": "elevated",
+              "confidence": 0.79,
+              "explanation": "Base forecast captures easing affordability constraints, inbound migration, and slow supply replenishment across target markets."
+            },
+            {
+              "horizon": "24 months",
+              "price_growth": 0.081,
+              "rent_growth": 0.088,
+              "cap_rate_shift_bps": -25,
+              "demand_outlook": "selectively bullish",
+              "migration_pressure": "persistent",
+              "confidence": 0.74,
+              "explanation": "Longer-range outlook is produced from retrained horizon models combining macro, migration, rate, and supply-demand features for portfolio planning."
+            }
+          ],
+          "alerts": [
+            {
+              "title": "Rate sensitivity compressing",
+              "severity": "medium",
+              "signal": "Financing spreads are improving faster than active inventory is rebuilding.",
+              "action": "Promote financing-ready opportunities and surface affordability alerts in the frontend."
+            },
+            {
+              "title": "Migration-led demand cluster",
+              "severity": "high",
+              "signal": "Athens is seeing sustained demand from cross border investor and worker inflows patterns.",
+              "action": "Increase alerting for neighborhoods with school, transit, and visa-aligned demand concentration."
+            },
+            {
+              "title": "Supply imbalance watch",
+              "severity": "high",
+              "signal": "Supply-demand imbalance favors owners and income strategies, but underwriting should stay disciplined.",
+              "action": "Prioritize assets with resilient rent coverage and documented downside cases before broad market expansion."
+            }
+          ],
+          "pipeline_status": [
+            {
+              "stage": "Streaming ingest",
+              "status": "active",
+              "detail": "Macro, local-market, migration, and supply-demand feeds are normalized into a governed feature store."
+            },
+            {
+              "stage": "Feature engineering",
+              "status": "active",
+              "detail": "Interest-rate, inventory, migration, absorption, and affordability features are refreshed for daily inference."
+            },
+            {
+              "stage": "Model training",
+              "status": "scheduled",
+              "detail": "Horizon-specific forecasting models retrain weekly with champion-challenger validation and drift checks."
+            },
+            {
+              "stage": "Signal publication",
+              "status": "active",
+              "detail": "Forward-looking alerts and forecast summaries are published to investor, broker, and analyst workspaces."
+            }
+          ],
+          "signal_summary": "Macro intelligence for Mediterranean income markets is moderately bullish: migration flows and tight supply support demand, while the easing bias rate regime improves forward pricing and rent resilience.",
+          "recommendation": "Use the market intelligence engine to surface 24-month signals, watch migration-led demand clusters in Athens, and alert users when rates or supply conditions materially change the underwriting case.",
+          "explanation": "The predictive market intelligence engine fused global rate expectations, Southern Europe migration flows, Athens supply-demand conditions, and investor-liquidity signals to generate 3 horizon forecasts and 3 alerts. Backend workflows continuously ingest market data streams, retrain forecasting models, and publish explainable forward-looking signals for investors, brokers, and analysts.",
+          "standards_alignment": [
+            "ISO/IEC 42001",
+            "ISO/IEC 5259",
+            "ISO 31000",
+            "ISO/IEC 27001"
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         }
@@ -3367,7 +3691,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-20T20:50:00.302615+00:00"
+                "last_checked_utc": "2026-03-20T21:03:33.892603+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -3382,7 +3706,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-20T20:50:00.302623+00:00"
+                "last_checked_utc": "2026-03-20T21:03:33.892612+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -3395,7 +3719,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-20T20:50:00.302628+00:00"
+                "last_checked_utc": "2026-03-20T21:03:33.892618+00:00"
               }
             ],
             "workflow_stages": [
@@ -3565,7 +3889,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-89aaae06 created for Athens Urban Block diligence.",
+              "detail": "Transaction deal-fcce64d4 created for Athens Urban Block diligence.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -3600,7 +3924,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-89aaae06 for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-fcce64d4 for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -3615,7 +3939,7 @@
           "payment_instrument": {
             "instrument_type": "escrow_disbursement",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-e302bb92dc",
+            "token_reference": "tok-96feadcb11",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -3624,18 +3948,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-6db64716",
-              "identifier": "usr-6db64716"
+              "name": "usr-d3737ec3",
+              "identifier": "usr-d3737ec3"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-89aaae06"
+              "identifier": "deal-fcce64d4"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-ab08eee1"
+              "identifier": "req-bda62a0d"
             }
           ],
           "fraud_probability": 0.54,
@@ -3705,7 +4029,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "review",
-          "explanation": "Payment deal-89aaae06 was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-fcce64d4 was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -3737,8 +4061,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-6db64716",
-              "identifier": "usr-6db64716"
+              "name": "usr-d3737ec3",
+              "identifier": "usr-d3737ec3"
             },
             {
               "role": "servicing_entity",
@@ -3748,7 +4072,7 @@
             {
               "role": "transaction_context",
               "name": "approval",
-              "identifier": "req-ab08eee1"
+              "identifier": "req-bda62a0d"
             }
           ],
           "acord_coverages": [
@@ -3850,7 +4174,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-ab08eee1.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-bda62a0d.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'advisor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'approval'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -4177,13 +4501,175 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Athens Urban Block diligence to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-ac5b07b8 modeled Athens Urban Block diligence in Greece using purchase price 880,000, current value 898,000, occupancy 93%, rent 6,400/mo, renovation budget 76,000, insurance premium 4,020, and hold period 6 years. Best-case equity outcome is 1,070,903, downside annual cash flow is 20,338, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-10bccff0 modeled Athens Urban Block diligence in Greece using purchase price 880,000, current value 898,000, occupancy 93%, rent 6,400/mo, renovation budget 76,000, insurance premium 4,020, and hold period 6 years. Best-case equity outcome is 1,070,903, downside annual cash flow is 20,338, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
             "ISO/IEC 27001",
             "ISO 22301",
             "ISO 31000"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "market_intelligence_decision": {
+          "request_id": "demo-request",
+          "market_scope": "Advisor watchlist: Greece, Spain, UAE",
+          "investment_horizon_months": 12,
+          "strategy_bias": "risk_gated_allocation_and_client_memoing",
+          "data_streams": [
+            {
+              "source": "Global macro and rate feed",
+              "cadence": "daily",
+              "coverage": "Global policy rates, inflation, FX, and mortgage benchmarks",
+              "freshness_sla": "<24h",
+              "features": [
+                "policy_rate_path",
+                "inflation_nowcast",
+                "currency_volatility",
+                "mortgage_spreads"
+              ]
+            },
+            {
+              "source": "Migration and mobility ledger",
+              "cadence": "weekly",
+              "coverage": "Origin-destination migration flows, visa demand, employer mobility, and household relocation intent",
+              "freshness_sla": "<7d",
+              "features": [
+                "net_inflows",
+                "household_composition",
+                "visa_interest",
+                "cross_border_demand"
+              ]
+            },
+            {
+              "source": "Supply-demand monitor",
+              "cadence": "daily",
+              "coverage": "Inventory, days on market, permit issuance, absorption, rent growth, and concessions",
+              "freshness_sla": "<24h",
+              "features": [
+                "active_inventory",
+                "new_supply",
+                "absorption_velocity",
+                "rent_growth"
+              ]
+            }
+          ],
+          "indicators": [
+            {
+              "name": "Interest-rate path",
+              "scope": "global",
+              "current_value": "volatile to stable",
+              "direction": "mixed",
+              "impact": "Financing-sensitive demand should improve as benchmark volatility cools.",
+              "explanation": "Rate expectations feed affordability curves, refinancing windows, and exit cap-rate assumptions."
+            },
+            {
+              "name": "Migration flow",
+              "scope": "EMEA gateway markets",
+              "current_value": "capital plus mobility flows",
+              "direction": "positive",
+              "impact": "Cross-border household and investor inflows continue to support demand in gateway submarkets.",
+              "explanation": "Migration pressure acts as a leading signal for rental absorption, owner-occupier demand, and school-led family moves."
+            },
+            {
+              "name": "Supply pressure",
+              "scope": "Athens",
+              "current_value": "mixed",
+              "direction": "balanced",
+              "impact": "Tighter supply keeps pricing firmer and reduces downside from inventory overhang.",
+              "explanation": "Permit activity, active listings, and absorption velocity are fused into the local supply-demand score."
+            },
+            {
+              "name": "Investor liquidity",
+              "scope": "Advisor watchlist: Greece, Spain, UAE",
+              "current_value": "healthy",
+              "direction": "stable",
+              "impact": "Capital availability remains selective but supportive for high-conviction assets.",
+              "explanation": "Liquidity gauges how quickly investors can transact or exit without excessive price concessions."
+            }
+          ],
+          "forecasts": [
+            {
+              "horizon": "6 months",
+              "price_growth": 0.031,
+              "rent_growth": 0.028,
+              "cap_rate_shift_bps": 10,
+              "demand_outlook": "accelerating",
+              "migration_pressure": "elevated",
+              "confidence": 0.82,
+              "explanation": "Short-range signal blends rate-path stabilization, migration-led demand, and current absorption into a tactical market posture."
+            },
+            {
+              "horizon": "12 months",
+              "price_growth": 0.034,
+              "rent_growth": 0.039,
+              "cap_rate_shift_bps": 5,
+              "demand_outlook": "strong",
+              "migration_pressure": "elevated",
+              "confidence": 0.79,
+              "explanation": "Base forecast captures easing affordability constraints, inbound migration, and slow supply replenishment across target markets."
+            },
+            {
+              "horizon": "12 months",
+              "price_growth": 0.051,
+              "rent_growth": 0.058,
+              "cap_rate_shift_bps": 0,
+              "demand_outlook": "selectively bullish",
+              "migration_pressure": "persistent",
+              "confidence": 0.74,
+              "explanation": "Longer-range outlook is produced from retrained horizon models combining macro, migration, rate, and supply-demand features for portfolio planning."
+            }
+          ],
+          "alerts": [
+            {
+              "title": "Rate sensitivity compressing",
+              "severity": "medium",
+              "signal": "Financing spreads are improving faster than active inventory is rebuilding.",
+              "action": "Promote financing-ready opportunities and surface affordability alerts in the frontend."
+            },
+            {
+              "title": "Migration-led demand cluster",
+              "severity": "high",
+              "signal": "Athens is seeing sustained demand from capital plus mobility flows patterns.",
+              "action": "Increase alerting for neighborhoods with school, transit, and visa-aligned demand concentration."
+            },
+            {
+              "title": "Supply imbalance watch",
+              "severity": "low",
+              "signal": "Supply-demand imbalance favors owners and income strategies, but underwriting should stay disciplined.",
+              "action": "Prioritize assets with resilient rent coverage and documented downside cases before broad market expansion."
+            }
+          ],
+          "pipeline_status": [
+            {
+              "stage": "Streaming ingest",
+              "status": "active",
+              "detail": "Macro, local-market, migration, and supply-demand feeds are normalized into a governed feature store."
+            },
+            {
+              "stage": "Feature engineering",
+              "status": "active",
+              "detail": "Interest-rate, inventory, migration, absorption, and affordability features are refreshed for daily inference."
+            },
+            {
+              "stage": "Model training",
+              "status": "scheduled",
+              "detail": "Horizon-specific forecasting models retrain weekly with champion-challenger validation and drift checks."
+            },
+            {
+              "stage": "Signal publication",
+              "status": "active",
+              "detail": "Forward-looking alerts and forecast summaries are published to investor, broker, and analyst workspaces."
+            }
+          ],
+          "signal_summary": "Macro intelligence for Advisor watchlist: Greece, Spain, UAE is moderately bullish: migration flows and tight supply support demand, while the volatile to stable rate regime improves forward pricing and rent resilience.",
+          "recommendation": "Use the market intelligence engine to surface 12-month signals, watch migration-led demand clusters in Athens, and alert users when rates or supply conditions materially change the underwriting case.",
+          "explanation": "The predictive market intelligence engine fused global rate expectations, EMEA gateway markets migration flows, Athens supply-demand conditions, and investor-liquidity signals to generate 3 horizon forecasts and 3 alerts. Backend workflows continuously ingest market data streams, retrain forecasting models, and publish explainable forward-looking signals for investors, brokers, and analysts.",
+          "standards_alignment": [
+            "ISO/IEC 42001",
+            "ISO/IEC 5259",
+            "ISO 31000",
+            "ISO/IEC 27001"
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         }
@@ -4797,7 +5283,7 @@
               "records",
               "jurisdiction"
             ],
-            "last_checked_utc": "2026-03-20T20:50:00.296697+00:00"
+            "last_checked_utc": "2026-03-20T21:03:33.885885+00:00"
           },
           {
             "document_id": "doc-disclosure",
@@ -4812,7 +5298,7 @@
               "records",
               "privacy"
             ],
-            "last_checked_utc": "2026-03-20T20:50:00.296753+00:00"
+            "last_checked_utc": "2026-03-20T21:03:33.885896+00:00"
           },
           {
             "document_id": "doc-finance",
@@ -4825,7 +5311,7 @@
               "records",
               "business_continuity"
             ],
-            "last_checked_utc": "2026-03-20T20:50:00.296760+00:00"
+            "last_checked_utc": "2026-03-20T21:03:33.885901+00:00"
           }
         ],
         "workflow_stages": [
@@ -4995,7 +5481,7 @@
         {
           "name": "transaction.intake.recorded",
           "status": "completed",
-          "detail": "Transaction deal-48c108a8 created for Lisbon Green Quarter acquisition.",
+          "detail": "Transaction deal-b6d1d460 created for Lisbon Green Quarter acquisition.",
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
         {
@@ -5030,7 +5516,7 @@
         "Lock release behind approval if the risk score remains above the configured threshold.",
         "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
       ],
-      "explanation": "Transaction deal-48c108a8 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+      "explanation": "Transaction deal-b6d1d460 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
       "standards_alignment": [
         "ISO/IEC 27001",
         "ISO 22301",
@@ -5045,7 +5531,7 @@
       "payment_instrument": {
         "instrument_type": "wire",
         "token_provider": "Banking / escrow token service",
-        "token_reference": "tok-fdf7949635",
+        "token_reference": "tok-14331e43e5",
         "last4": "6789",
         "network": "ACH/Wire",
         "wallet_or_bank": "Escrow operating account",
@@ -5054,18 +5540,18 @@
       "participants": [
         {
           "role": "payer",
-          "name": "usr-226090c5",
-          "identifier": "usr-226090c5"
+          "name": "usr-9587785b",
+          "identifier": "usr-9587785b"
         },
         {
           "role": "beneficiary",
           "name": "EstateOS Escrow",
-          "identifier": "deal-48c108a8"
+          "identifier": "deal-b6d1d460"
         },
         {
           "role": "servicer",
           "name": "EstateOS Payment Ops",
-          "identifier": "req-9b07d595"
+          "identifier": "req-bf961c2d"
         }
       ],
       "fraud_probability": 0.36,
@@ -5135,7 +5621,7 @@
         "Match settlement references and escrow ledger entries before reconciliation close."
       ],
       "release_status": "released",
-      "explanation": "Payment deal-48c108a8 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+      "explanation": "Payment deal-b6d1d460 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
       "standards_alignment": [
         "PCI DSS",
         "ISO/IEC 27001",
@@ -5167,8 +5653,8 @@
       "acord_parties": [
         {
           "role": "applicant",
-          "name": "usr-226090c5",
-          "identifier": "usr-226090c5"
+          "name": "usr-9587785b",
+          "identifier": "usr-9587785b"
         },
         {
           "role": "servicing_entity",
@@ -5178,7 +5664,7 @@
         {
           "role": "transaction_context",
           "name": "closing",
-          "identifier": "req-9b07d595"
+          "identifier": "req-bf961c2d"
         }
       ],
       "acord_coverages": [
@@ -5280,7 +5766,7 @@
         }
       ],
       "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-9b07d595.",
+      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-bf961c2d.",
       "release_status": "released",
       "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
       "standards_alignment": [
@@ -5608,13 +6094,175 @@
       "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
       "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
       "recommendation": "Use the digital twin for Athens Urban Residential Block to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-      "explanation": "Digital twin twin-b1d0433e modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+      "explanation": "Digital twin twin-e13ff59e modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
       "standards_alignment": [
         "ISO/IEC 42001",
         "ISO/IEC 5259",
         "ISO/IEC 27001",
         "ISO 22301",
         "ISO 31000"
+      ],
+      "timestamp_utc": "2026-03-20T00:00:00+00:00"
+    },
+    "market_intelligence_decision": {
+      "request_id": "demo-request",
+      "market_scope": "Mediterranean income markets",
+      "investment_horizon_months": 24,
+      "strategy_bias": "income_resilience_and_optional_residency",
+      "data_streams": [
+        {
+          "source": "Global macro and rate feed",
+          "cadence": "daily",
+          "coverage": "Global policy rates, inflation, FX, and mortgage benchmarks",
+          "freshness_sla": "<24h",
+          "features": [
+            "policy_rate_path",
+            "inflation_nowcast",
+            "currency_volatility",
+            "mortgage_spreads"
+          ]
+        },
+        {
+          "source": "Migration and mobility ledger",
+          "cadence": "weekly",
+          "coverage": "Origin-destination migration flows, visa demand, employer mobility, and household relocation intent",
+          "freshness_sla": "<7d",
+          "features": [
+            "net_inflows",
+            "household_composition",
+            "visa_interest",
+            "cross_border_demand"
+          ]
+        },
+        {
+          "source": "Supply-demand monitor",
+          "cadence": "daily",
+          "coverage": "Inventory, days on market, permit issuance, absorption, rent growth, and concessions",
+          "freshness_sla": "<24h",
+          "features": [
+            "active_inventory",
+            "new_supply",
+            "absorption_velocity",
+            "rent_growth"
+          ]
+        }
+      ],
+      "indicators": [
+        {
+          "name": "Interest-rate path",
+          "scope": "global",
+          "current_value": "easing bias",
+          "direction": "supportive",
+          "impact": "Financing-sensitive demand should improve as benchmark volatility cools.",
+          "explanation": "Rate expectations feed affordability curves, refinancing windows, and exit cap-rate assumptions."
+        },
+        {
+          "name": "Migration flow",
+          "scope": "Southern Europe",
+          "current_value": "cross border investor and worker inflows",
+          "direction": "positive",
+          "impact": "Cross-border household and investor inflows continue to support demand in gateway submarkets.",
+          "explanation": "Migration pressure acts as a leading signal for rental absorption, owner-occupier demand, and school-led family moves."
+        },
+        {
+          "name": "Supply pressure",
+          "scope": "Athens",
+          "current_value": "tightening",
+          "direction": "tight",
+          "impact": "Tighter supply keeps pricing firmer and reduces downside from inventory overhang.",
+          "explanation": "Permit activity, active listings, and absorption velocity are fused into the local supply-demand score."
+        },
+        {
+          "name": "Investor liquidity",
+          "scope": "Mediterranean income markets",
+          "current_value": "healthy",
+          "direction": "stable",
+          "impact": "Capital availability remains selective but supportive for high-conviction assets.",
+          "explanation": "Liquidity gauges how quickly investors can transact or exit without excessive price concessions."
+        }
+      ],
+      "forecasts": [
+        {
+          "horizon": "6 months",
+          "price_growth": 0.071,
+          "rent_growth": 0.058,
+          "cap_rate_shift_bps": -15,
+          "demand_outlook": "accelerating",
+          "migration_pressure": "elevated",
+          "confidence": 0.82,
+          "explanation": "Short-range signal blends rate-path stabilization, migration-led demand, and current absorption into a tactical market posture."
+        },
+        {
+          "horizon": "12 months",
+          "price_growth": 0.064,
+          "rent_growth": 0.069,
+          "cap_rate_shift_bps": -20,
+          "demand_outlook": "strong",
+          "migration_pressure": "elevated",
+          "confidence": 0.79,
+          "explanation": "Base forecast captures easing affordability constraints, inbound migration, and slow supply replenishment across target markets."
+        },
+        {
+          "horizon": "24 months",
+          "price_growth": 0.081,
+          "rent_growth": 0.088,
+          "cap_rate_shift_bps": -25,
+          "demand_outlook": "selectively bullish",
+          "migration_pressure": "persistent",
+          "confidence": 0.74,
+          "explanation": "Longer-range outlook is produced from retrained horizon models combining macro, migration, rate, and supply-demand features for portfolio planning."
+        }
+      ],
+      "alerts": [
+        {
+          "title": "Rate sensitivity compressing",
+          "severity": "medium",
+          "signal": "Financing spreads are improving faster than active inventory is rebuilding.",
+          "action": "Promote financing-ready opportunities and surface affordability alerts in the frontend."
+        },
+        {
+          "title": "Migration-led demand cluster",
+          "severity": "high",
+          "signal": "Athens is seeing sustained demand from cross border investor and worker inflows patterns.",
+          "action": "Increase alerting for neighborhoods with school, transit, and visa-aligned demand concentration."
+        },
+        {
+          "title": "Supply imbalance watch",
+          "severity": "high",
+          "signal": "Supply-demand imbalance favors owners and income strategies, but underwriting should stay disciplined.",
+          "action": "Prioritize assets with resilient rent coverage and documented downside cases before broad market expansion."
+        }
+      ],
+      "pipeline_status": [
+        {
+          "stage": "Streaming ingest",
+          "status": "active",
+          "detail": "Macro, local-market, migration, and supply-demand feeds are normalized into a governed feature store."
+        },
+        {
+          "stage": "Feature engineering",
+          "status": "active",
+          "detail": "Interest-rate, inventory, migration, absorption, and affordability features are refreshed for daily inference."
+        },
+        {
+          "stage": "Model training",
+          "status": "scheduled",
+          "detail": "Horizon-specific forecasting models retrain weekly with champion-challenger validation and drift checks."
+        },
+        {
+          "stage": "Signal publication",
+          "status": "active",
+          "detail": "Forward-looking alerts and forecast summaries are published to investor, broker, and analyst workspaces."
+        }
+      ],
+      "signal_summary": "Macro intelligence for Mediterranean income markets is moderately bullish: migration flows and tight supply support demand, while the easing bias rate regime improves forward pricing and rent resilience.",
+      "recommendation": "Use the market intelligence engine to surface 24-month signals, watch migration-led demand clusters in Athens, and alert users when rates or supply conditions materially change the underwriting case.",
+      "explanation": "The predictive market intelligence engine fused global rate expectations, Southern Europe migration flows, Athens supply-demand conditions, and investor-liquidity signals to generate 3 horizon forecasts and 3 alerts. Backend workflows continuously ingest market data streams, retrain forecasting models, and publish explainable forward-looking signals for investors, brokers, and analysts.",
+      "standards_alignment": [
+        "ISO/IEC 42001",
+        "ISO/IEC 5259",
+        "ISO 31000",
+        "ISO/IEC 27001"
       ],
       "timestamp_utc": "2026-03-20T00:00:00+00:00"
     }

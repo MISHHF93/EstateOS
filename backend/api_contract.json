@@ -38,7 +38,12 @@
       "transaction_stage",
       "payment_method_type",
       "escrow_preference",
-      "payment_schedule"
+      "payment_schedule",
+      "market_scope",
+      "investment_horizon_months",
+      "strategy_bias",
+      "migration_preference",
+      "interest_rate_sensitivity"
     ],
     "trust_controls": [
       "OIDC/OAuth2 with step-up MFA",
@@ -72,7 +77,10 @@
         "settlement_permissions",
         "partner_id",
         "integration_profile",
-        "data_classification"
+        "data_classification",
+        "market_scope",
+        "forecast_horizon",
+        "signal_subscription_tier"
       ]
     }
   },
@@ -473,6 +481,74 @@
         "routing_decisions",
         "compliance_evidence",
         "release_status",
+        "explanation",
+        "standards_alignment"
+      ]
+    },
+    "MarketDataStream": {
+      "type": "object",
+      "required": [
+        "source",
+        "cadence",
+        "coverage",
+        "freshness_sla",
+        "features"
+      ]
+    },
+    "MarketIndicator": {
+      "type": "object",
+      "required": [
+        "name",
+        "scope",
+        "current_value",
+        "direction",
+        "impact",
+        "explanation"
+      ]
+    },
+    "ForecastScenario": {
+      "type": "object",
+      "required": [
+        "horizon",
+        "price_growth",
+        "rent_growth",
+        "cap_rate_shift_bps",
+        "demand_outlook",
+        "migration_pressure",
+        "confidence",
+        "explanation"
+      ]
+    },
+    "MarketAlert": {
+      "type": "object",
+      "required": [
+        "title",
+        "severity",
+        "signal",
+        "action"
+      ]
+    },
+    "ModelPipelineStatus": {
+      "type": "object",
+      "required": [
+        "stage",
+        "status",
+        "detail"
+      ]
+    },
+    "MarketIntelligenceDecision": {
+      "type": "object",
+      "required": [
+        "market_scope",
+        "investment_horizon_months",
+        "strategy_bias",
+        "data_streams",
+        "indicators",
+        "forecasts",
+        "alerts",
+        "pipeline_status",
+        "signal_summary",
+        "recommendation",
         "explanation",
         "standards_alignment"
       ]

@@ -872,6 +872,72 @@ const governanceProfiles = [
   }
 ];
 
+const marketIntelligenceProfiles = {
+  buyer: {
+    scope: "Portugal relocation corridor",
+    horizon: "18 months",
+    strategyBias: "Capital preservation with relocation optionality",
+    signalSummary: "Migration-led family demand and constrained Lisbon supply keep pricing resilient while a flatter rate path improves financing clarity.",
+    streams: [
+      "Daily macro rate and mortgage spread feed for affordability and refinancing signals.",
+      "Weekly relocation and migration ledger tracking family inflows, visa demand, and school-led moves.",
+      "Daily Lisbon inventory and absorption monitor for supply-demand imbalance detection."
+    ],
+    forecasts: [
+      "6-month view: pricing remains resilient and rent growth stays positive as inventory stays tight.",
+      "12-month view: easing affordability pressure supports owner-occupier demand in relocation-friendly districts.",
+      "Alert: neighborhoods with strong transit and school access should be prioritized when new supply stays constrained."
+    ],
+    pipeline: [
+      "Streaming ingest normalizes macro, local listing, migration, and affordability feeds.",
+      "Forecasting models retrain weekly with drift checks before publishing frontend alerts.",
+      "Investor, broker, and analyst surfaces receive explainable signals instead of raw black-box scores."
+    ]
+  },
+  investor: {
+    scope: "Mediterranean income markets",
+    horizon: "24 months",
+    strategyBias: "Income resilience and optional residency",
+    signalSummary: "Athens and Lisbon remain supported by migration and rental absorption, while rate easing improves cash-flow resilience for leveraged buyers.",
+    streams: [
+      "Daily global rates, FX, and inflation feeds for cap-rate and financing pressure modeling.",
+      "Weekly migration and investor mobility ledger across Greece, Portugal, and UAE corridors.",
+      "Daily supply-demand monitor covering inventory, absorption, concessions, and rent velocity."
+    ],
+    forecasts: [
+      "6-month view: yield strategies remain favored where supply tightness outpaces new completions.",
+      "12-month view: rents should stay constructive in gateway districts supported by cross-border inflows.",
+      "Alert: spread compression improves acquisition timing, but only for assets with resilient downside underwriting."
+    ],
+    pipeline: [
+      "Cross-market feature engineering combines rates, migration, supply, and liquidity signals.",
+      "Champion-challenger forecasting models retrain weekly and publish horizon-specific confidence scores.",
+      "Signals are shipped into investor watchlists and opportunity alerts for brokers and analysts."
+    ]
+  },
+  advisor: {
+    scope: "Advisor watchlist: Greece, Spain, UAE",
+    horizon: "12 months",
+    strategyBias: "Risk-gated allocation and client memoing",
+    signalSummary: "Macro conditions are improving, but advisors should focus on markets where migration demand remains durable and supply imbalances are still explainable to clients.",
+    streams: [
+      "Daily macro and credit feeds for rate-path, liquidity, and affordability scenario updates.",
+      "Weekly mobility and residency-intent signals for client demand clustering and jurisdiction watchlists.",
+      "Daily local supply, permit, and concession data for memo-ready downside framing."
+    ],
+    forecasts: [
+      "6-month view: advisory memos can lean cautiously constructive in gateway submarkets with disciplined supply.",
+      "12-month view: select income assets should benefit from better financing and persistent renter demand.",
+      "Alert: policy or rate volatility should trigger memo refreshes before client recommendations are exported."
+    ],
+    pipeline: [
+      "Analyst-facing ingestion continuously refreshes macro, migration, and local inventory signals.",
+      "Forecast validation compares active scenarios against prior memo assumptions and drift thresholds.",
+      "Published alerts are routed to broker and analyst consoles with clear rationale and severity labels."
+    ]
+  }
+};
+
 const state = {
   activeJourney: "buyer",
   objective: "relocate",
@@ -1044,6 +1110,16 @@ const twinReliability = document.getElementById("twin-reliability");
 const twinScenarioList = document.getElementById("twin-scenario-list");
 const twinOutlookList = document.getElementById("twin-outlook-list");
 const twinGovernanceList = document.getElementById("twin-governance-list");
+const marketProgramTitle = document.getElementById("market-program-title");
+const marketStatusPill = document.getElementById("market-status-pill");
+const marketSummary = document.getElementById("market-summary");
+const marketScope = document.getElementById("market-scope");
+const marketHorizon = document.getElementById("market-horizon");
+const marketStrategyBias = document.getElementById("market-strategy-bias");
+const marketSignalSummary = document.getElementById("market-signal-summary");
+const marketStreamList = document.getElementById("market-stream-list");
+const marketForecastList = document.getElementById("market-forecast-list");
+const marketPipelineList = document.getElementById("market-pipeline-list");
 const wiringTitle = document.getElementById("wiring-title");
 const wiringStatusPill = document.getElementById("wiring-status-pill");
 const wiringSummary = document.getElementById("wiring-summary");
@@ -1074,7 +1150,8 @@ function getBackendSync() {
     insurance: packets.insurance_decision,
     integration: packets.integration_decision,
     residency: packets.residency_decision,
-    digitalTwin: packets.digital_twin_decision
+    digitalTwin: packets.digital_twin_decision,
+    marketIntelligence: packets.market_intelligence_decision
   };
 }
 
@@ -1108,6 +1185,7 @@ function renderWiringStatus() {
     const integrationPacket = packets.integration_decision;
     const residencyPacket = packets.residency_decision;
     const digitalTwinPacket = packets.digital_twin_decision;
+    const marketPacket = packets.market_intelligence_decision;
 
     wiringTitle.textContent = "Backend snapshot connected";
     wiringStatusPill.textContent = `${state.activeJourney} packets loaded`;
@@ -1148,6 +1226,11 @@ function renderWiringStatus() {
         "Digital twin",
         `${digitalTwinPacket.scenarios.length} scenarios`,
         `${digitalTwinPacket.twin.property_name} • ${digitalTwinPacket.standards_alignment.slice(0, 2).join(" + ")}.`
+      ),
+      createWiringMetricCard(
+        "Market intelligence",
+        `${marketPacket.forecasts.length} forecasts`,
+        `${marketPacket.market_scope} • ${marketPacket.alerts.length} alerts live.`
       )
     ].join("");
     return;
@@ -1163,7 +1246,7 @@ function renderWiringStatus() {
   wiringCardGrid.innerHTML = [
     createWiringMetricCard("Property decision", "Local prototype", "Frontend ranking and explainability remain interactive while the backend snapshot is unavailable."),
     createWiringMetricCard("Transaction decision", "Local prototype", "Deal controls, stage tracking, and workflow evidence are still rendered from browser-side defaults."),
-    createWiringMetricCard("Specialized engines", "Awaiting sync", "Residency, insurance, payments, integration routing, and digital twin simulation will promote backend statuses when the snapshot loads.")
+    createWiringMetricCard("Specialized engines", "Awaiting sync", "Residency, insurance, payments, integration routing, digital twin simulation, and predictive market signals will promote backend statuses when the snapshot loads.")
   ].join("");
 }
 
@@ -2737,6 +2820,127 @@ function renderDigitalTwinEngine() {
 }
 
 
+function getMarketIntelligenceScenario() {
+  const profile = marketIntelligenceProfiles[state.activeJourney];
+  return {
+    ...profile,
+    scope: profile.scope,
+    signalSummary: profile.signalSummary
+  };
+}
+
+function renderMarketIntelligenceEngine() {
+  const backend = getBackendSync();
+
+  if (backend?.marketIntelligence) {
+    const packet = backend.marketIntelligence;
+    marketProgramTitle.textContent = packet.market_scope;
+    marketStatusPill.textContent = `${packet.forecasts.length} forecasts live`;
+    marketStatusPill.dataset.status = 'active';
+    marketSummary.textContent = `${packet.explanation} ${packet.recommendation}`;
+    marketScope.textContent = packet.market_scope;
+    marketHorizon.textContent = `${packet.investment_horizon_months} months`;
+    marketStrategyBias.textContent = packet.strategy_bias.replace(/_/g, ' ');
+    marketSignalSummary.textContent = packet.signal_summary;
+
+    marketStreamList.innerHTML = packet.data_streams
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.source}</strong>
+            <span>${item.cadence}</span>
+          </div>
+          <p>${item.coverage}</p>
+          <small>${item.freshness_sla} freshness • ${item.features.join(' • ')}</small>
+        </div>
+      `)
+      .join('');
+
+    marketForecastList.innerHTML = [
+      ...packet.forecasts.map((item) => ({
+        title: item.horizon,
+        status: `${Math.round(item.confidence * 100)}/100 confidence`,
+        detail: `${item.explanation} Price growth ${(item.price_growth * 100).toFixed(1)}% • Rent growth ${(item.rent_growth * 100).toFixed(1)}% • Cap-rate shift ${item.cap_rate_shift_bps} bps.`,
+      })),
+      ...packet.alerts.map((item) => ({
+        title: item.title,
+        status: item.severity,
+        detail: `${item.signal} ${item.action}`,
+      }))
+    ]
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.title}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join('');
+
+    marketPipelineList.innerHTML = packet.pipeline_status
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.stage}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join('');
+    return;
+  }
+
+  const local = getMarketIntelligenceScenario();
+  marketProgramTitle.textContent = local.scope;
+  marketStatusPill.textContent = 'Local forecast mode';
+  marketStatusPill.dataset.status = 'active';
+  marketSummary.textContent = `${local.signalSummary} The backend engine will replace this with governed forecasts, alerts, and ingestion pipeline health once the demo snapshot loads.`;
+  marketScope.textContent = local.scope;
+  marketHorizon.textContent = local.horizon;
+  marketStrategyBias.textContent = local.strategyBias;
+  marketSignalSummary.textContent = local.signalSummary;
+
+  marketStreamList.innerHTML = local.streams
+    .map((item, index) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>Stream ${index + 1}</strong>
+          <span>Continuous</span>
+        </div>
+        <p>${item}</p>
+      </div>
+    `)
+    .join('');
+
+  marketForecastList.innerHTML = local.forecasts
+    .map((item, index) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${index < 2 ? `Forecast ${index + 1}` : 'Alert'}</strong>
+          <span>${index < 2 ? 'Outlook' : 'Action'}</span>
+        </div>
+        <p>${item}</p>
+      </div>
+    `)
+    .join('');
+
+  marketPipelineList.innerHTML = local.pipeline
+    .map((item, index) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>Pipeline stage ${index + 1}</strong>
+          <span>Active</span>
+        </div>
+        <p>${item}</p>
+      </div>
+    `)
+    .join('');
+}
+
+
 function renderNextActions(journey, topCandidate) {
   const backend = getBackendSync();
   if (backend) {
@@ -2812,7 +3016,7 @@ function renderJourney() {
         `Detected intents: ${backend.property.detected_intents.join(", ")}.`,
         `Top recommendation: ${backendTopCandidate.title} in ${backendTopCandidate.geography}.`,
         `Transaction release is ${backend.transaction.release_status} with ${backend.transaction.compliance_controls.length} tracked controls.`,
-        `Residency, insurance, payment, integration, and digital twin engines rendered from backend packets.`
+        `Residency, insurance, payment, integration, digital twin, and market intelligence engines rendered from backend packets.`
       ]
         .map((item) => `<li>${item}</li>`)
         .join("")
@@ -2838,6 +3042,7 @@ function renderJourney() {
   renderContributions(topCandidate);
   renderDealBoard();
   renderDigitalTwinEngine();
+  renderMarketIntelligenceEngine();
   renderResidencyEngine();
   renderInsuranceEngine();
   renderPaymentEngine();

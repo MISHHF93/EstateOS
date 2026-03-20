@@ -29,6 +29,7 @@ REQUIRED_DECISION_KEYS = {
     "integration_decision",
     "residency_decision",
     "digital_twin_decision",
+    "market_intelligence_decision",
 }
 REQUIRED_JOURNEYS = {"buyer", "investor", "advisor"}
 
