@@ -44,7 +44,12 @@ This architecture is designed for complex real estate and investment workflows w
 - Blocks or conditions downstream responses when controls are not satisfied.
 - Produces remediation tasks and evidence requirements.
 
-### 2.8 UX Personalization Expert
+### 2.8 Unified Compliance & Risk Intelligence Expert
+- Continuously evaluates platform activity across real estate, payments, insurance, and residency workflows.
+- Enforces AML/KYC, sanctions screening, audit logging, and cross-workflow risk scoring before and after release actions.
+- Aligns control monitoring and treatment escalation to ISO/IEC 27001 and ISO 31000.
+
+### 2.9 UX Personalization Expert
 - Adapts presentation style and next actions to user role, confidence, blockers, and privacy tier.
 - Chooses whether to simplify, expand, redact, or escalate the decision narrative.
 
@@ -107,7 +112,8 @@ Route to:
 - Residency Eligibility Expert,
 - Financial Risk Expert,
 - Insurance Matching Expert,
-- Compliance Validation Expert.
+- Compliance Validation Expert,
+- Unified Compliance & Risk Intelligence Expert.
 
 ### 4.2 Homebuyer checking fair value and affordability
 Route to:
@@ -115,6 +121,7 @@ Route to:
 - Property Valuation Expert,
 - Financial Risk Expert,
 - Compliance Validation Expert,
+- Unified Compliance & Risk Intelligence Expert,
 - UX Personalization Expert.
 
 ### 4.3 High-risk coastal property insurance case
@@ -123,6 +130,7 @@ Route to:
 - Insurance Matching Expert,
 - Financial Risk Expert,
 - Compliance Validation Expert,
+- Unified Compliance & Risk Intelligence Expert,
 - advisor/human review workflow.
 
 ## 5. Explainability contract
@@ -147,7 +155,7 @@ The router then synthesizes these outputs into:
 
 This model fits the platform because it:
 - preserves domain depth instead of flattening all intelligence into one model,
-- supports independent governance and evaluation for each expert, including ISO/IEC 5259 data quality controls and ISO/IEC 42001 AI management controls,
+- supports independent governance and evaluation for each expert, including ISO/IEC 5259 data quality controls, ISO/IEC 42001 AI management controls, and ISO 31000-aligned risk treatment,
 - aligns naturally with microservices and event-driven infrastructure,
 - improves explainability through explicit expert selection,
 - makes regulatory gating and human review first-class concerns,

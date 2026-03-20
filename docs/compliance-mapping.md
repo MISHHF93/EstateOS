@@ -31,7 +31,7 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 | --- | --- | --- |
 | Frontend/BFF | Strong authentication, consent capture, secure sessions, profile-context validation, accessibility, progressive disclosure, explanation visibility, PCI-safe hosted payment fields, action logging. | ISO/IEC 27001, ISO/IEC 27701, PCI DSS, ISO/IEC 25010, ISO 9241-210 |
 | Identity and trust plane | OIDC, MFA, RBAC, entitlements, KYC integration, AML scoring, sanctions screening, privacy-tier propagation, payment authorization binding. | ISO/IEC 27001, ISO/IEC 27701, PCI DSS, SOC 2 Type 2 |
-| Router/orchestration | Intent traceability, deterministic routing policy, valuation and recommendation expert coordination, transaction-stage integrity checks, payment-fraud routing, escrow condition checks, confidence thresholds, expert aggregation and ranking, release gating, explanation generation, least-privilege response shaping. | ISO/IEC 25010, PCI DSS, ISO/IEC 5259, ISO/IEC 42001, ISO 9241-210, ISO 31000, SOC 2 Type 2 |
+| Router/orchestration | Intent traceability, deterministic routing policy, valuation and recommendation expert coordination, transaction-stage integrity checks, payment-fraud routing, escrow condition checks, confidence thresholds, expert aggregation and ranking, release gating, explanation generation, least-privilege response shaping, and unified compliance/risk surveillance across workflows. | ISO/IEC 25010, PCI DSS, ISO/IEC 5259, ISO/IEC 42001, ISO 9241-210, ISO 31000, SOC 2 Type 2 |
 | Expert microservices | Signed container images, versioned models, scoped permissions, service isolation, evaluation metrics, contract tests, rollout approvals, reconciliation jobs, chargeback handling. | ISO/IEC 27017, ISO/IEC 27018, PCI DSS, ISO/IEC 25010 |
 | Event backbone | Durable delivery, retry logic, idempotency, dead-letter handling, event traceability, settlement and reconciliation workflows, replay-safe recovery orchestration. | ISO 22301, PCI DSS, ISO/IEC 25010 |
 | Data/evidence stores | Encryption, retention, lineage, immutable evidence, backup and recovery, data residency controls, token vault references, PII minimization, reconciliation ledgers. | ISO/IEC 27001, ISO/IEC 27018, ISO/IEC 27701, PCI DSS, ISO 22301 |
@@ -64,6 +64,8 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 
 ### 4.5 Financial risk, payment intelligence, and compliance
 - Apply affordability, suitability, RBAC, MFA, KYC/AML, sanctions, fraud probability, payer-behavior, and escrow-condition checks before release.
+- Run a unified compliance and risk-intelligence layer that continuously evaluates platform activity across real estate, payments, insurance, and residency workflows.
+- Feed cross-workflow risk scoring, sanctions hits, and AML/KYC control failures into a common hold/escalation path aligned to ISO/IEC 27001 and ISO 31000.
 - Tokenize payment methods and keep cardholder data inside PSP-controlled components to reduce PCI DSS scope.
 - Reconcile authorizations, captures, refunds, and escrow transfers against immutable ledgers and settlement files.
 - Escalate low-confidence or high-risk cases to manual review.

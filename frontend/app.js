@@ -439,7 +439,7 @@ const expertMeta = {
   visa: { label: "Visa expert", icon: "Visa" },
   insurance: { label: "Insurance expert", icon: "Insurance" },
   finance: { label: "Finance expert", icon: "Finance" },
-  compliance: { label: "Compliance expert", icon: "Compliance" },
+  compliance: { label: "Unified compliance & risk expert", icon: "Compliance" },
   recommendation: { label: "Recommendation expert", icon: "Recommend" }
 };
 
