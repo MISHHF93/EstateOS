@@ -258,6 +258,41 @@ label,
   max-width: 780px;
 }
 
+.wiring-banner {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.wiring-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.wiring-card {
+  min-height: 100%;
+}
+
+.wiring-card--primary {
+  background: linear-gradient(135deg, rgba(68, 123, 255, 0.18), rgba(14, 20, 39, 0.92));
+}
+
+.wiring-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.wiring-metric span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.wiring-metric strong {
+  font-size: 1rem;
+}
+
 .workspace-grid,
 .persona-grid,
 .experts-grid,

@@ -2257,7 +2257,7 @@ def orchestrate_transaction(
     )
 
 
-def demo() -> None:
+def build_demo_payloads() -> Dict[str, object]:
     profile = UserProfile(
         role="investor",
         investor_type="cross_border",
@@ -2440,19 +2440,18 @@ def demo() -> None:
         identity,
     )
 
-    print(
-        json.dumps(
-            {
-                "property_decision": asdict(packet),
-                "transaction_decision": asdict(transaction_packet),
-                "payment_decision": asdict(payment_packet),
-                "insurance_decision": asdict(insurance_packet),
-                "integration_decision": asdict(integration_packet),
-                "residency_decision": asdict(residency_packet),
-            },
-            indent=2,
-        )
-    )
+    return {
+        "property_decision": asdict(packet),
+        "transaction_decision": asdict(transaction_packet),
+        "payment_decision": asdict(payment_packet),
+        "insurance_decision": asdict(insurance_packet),
+        "integration_decision": asdict(integration_packet),
+        "residency_decision": asdict(residency_packet),
+    }
+
+
+def demo() -> None:
+    print(json.dumps(build_demo_payloads(), indent=2))
 
 
 if __name__ == "__main__":

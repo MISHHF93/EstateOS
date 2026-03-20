@@ -108,6 +108,22 @@
           </p>
         </div>
 
+        <section class="wiring-banner" aria-label="System wiring status">
+          <article class="decision-card wiring-card wiring-card--primary">
+            <div class="card-heading">
+              <div>
+                <p class="eyebrow">System wiring</p>
+                <h3 id="wiring-title">Frontend fallback mode</h3>
+              </div>
+              <span class="status-pill" id="wiring-status-pill">Waiting for backend snapshot</span>
+            </div>
+            <p id="wiring-summary" class="helper-copy">
+              The frontend is ready to hydrate against backend orchestration packets once a generated demo snapshot is available.
+            </p>
+          </article>
+          <div class="wiring-grid" id="wiring-card-grid"></div>
+        </section>
+
         <div class="workspace-grid journey-selector" role="tablist" aria-label="Journey selection">
           <button class="journey-card active" type="button" data-journey="buyer" role="tab" aria-selected="true">
             <h3>Buyer journey</h3>

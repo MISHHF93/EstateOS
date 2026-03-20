@@ -1015,6 +1015,16 @@ const integrationRouteTarget = document.getElementById("integration-route-target
 const integrationControlList = document.getElementById("integration-control-list");
 const integrationRouteList = document.getElementById("integration-route-list");
 const integrationEvidenceList = document.getElementById("integration-evidence-list");
+const wiringTitle = document.getElementById("wiring-title");
+const wiringStatusPill = document.getElementById("wiring-status-pill");
+const wiringSummary = document.getElementById("wiring-summary");
+const wiringCardGrid = document.getElementById("wiring-card-grid");
+
+const backendSnapshot = {
+  status: "loading",
+  data: null,
+  error: null
+};
 
 function currency(value) {
   return new Intl.NumberFormat("en-US", {
@@ -1022,6 +1032,95 @@ function currency(value) {
     currency: "USD",
     maximumFractionDigits: 0
   }).format(value);
+}
+
+function createWiringMetricCard(titleText, statusText, detailText) {
+  return `
+    <article class="decision-card wiring-card">
+      <div class="wiring-metric">
+        <span>${titleText}</span>
+        <strong>${statusText}</strong>
+        <p>${detailText}</p>
+      </div>
+    </article>
+  `;
+}
+
+function renderWiringStatus() {
+  if (backendSnapshot.status === "ready" && backendSnapshot.data?.packets) {
+    const packets = backendSnapshot.data.packets;
+    const propertyPacket = packets.property_decision;
+    const transactionPacket = packets.transaction_decision;
+    const paymentPacket = packets.payment_decision;
+    const insurancePacket = packets.insurance_decision;
+    const integrationPacket = packets.integration_decision;
+    const residencyPacket = packets.residency_decision;
+
+    wiringTitle.textContent = "Backend snapshot connected";
+    wiringStatusPill.textContent = "Demo packets loaded";
+    wiringStatusPill.dataset.status = "loaded";
+    wiringSummary.textContent = `Loaded ${backendSnapshot.data.meta.generated_from} and hydrated the UI with release, risk, and routing signals from the Python orchestration reference. Generated ${backendSnapshot.data.meta.generated_at_utc}.`;
+    wiringCardGrid.innerHTML = [
+      createWiringMetricCard(
+        "Property decision",
+        propertyPacket.release_status,
+        `${propertyPacket.selected_experts.length} experts selected • ${propertyPacket.ranked_recommendations.length} ranked recommendations.`
+      ),
+      createWiringMetricCard(
+        "Transaction decision",
+        `${transactionPacket.risk_rating} risk`,
+        `Release ${transactionPacket.release_status} • ${transactionPacket.compliance_controls.length} controls tracked.`
+      ),
+      createWiringMetricCard(
+        "Payment decision",
+        paymentPacket.risk_level,
+        `${Math.round(paymentPacket.fraud_probability * 100)}% fraud probability • ${paymentPacket.escrow_status}.`
+      ),
+      createWiringMetricCard(
+        "Insurance decision",
+        insurancePacket.release_status,
+        `${insurancePacket.recommendations.length} recommendations • ${insurancePacket.secure_exchange_controls.length} exchange controls.`
+      ),
+      createWiringMetricCard(
+        "Residency decision",
+        residencyPacket.eligibility_status,
+        `${Math.round(residencyPacket.eligibility_score * 100)}/100 eligibility • ${residencyPacket.jurisdiction}.`
+      ),
+      createWiringMetricCard(
+        "Integration routing",
+        integrationPacket.release_status,
+        `${integrationPacket.partner_system} → ${integrationPacket.routing_decisions[0].target}.`
+      )
+    ].join("");
+    return;
+  }
+
+  wiringTitle.textContent = backendSnapshot.status === "error" ? "Backend snapshot unavailable" : "Frontend fallback mode";
+  wiringStatusPill.textContent = backendSnapshot.status === "error" ? "Using local fallback data" : "Waiting for backend snapshot";
+  wiringStatusPill.dataset.status = backendSnapshot.status;
+  wiringSummary.textContent =
+    backendSnapshot.status === "error"
+      ? `Could not load frontend/demo-packets.json, so the UI is using in-browser reference data only. ${backendSnapshot.error || ""}`.trim()
+      : "The frontend is ready to hydrate against backend orchestration packets once a generated demo snapshot is available.";
+  wiringCardGrid.innerHTML = [
+    createWiringMetricCard("Property decision", "Local prototype", "Frontend ranking and explainability remain interactive while the backend snapshot is unavailable."),
+    createWiringMetricCard("Transaction decision", "Local prototype", "Deal controls, stage tracking, and workflow evidence are still rendered from browser-side defaults."),
+    createWiringMetricCard("Specialized engines", "Awaiting sync", "Residency, insurance, payments, and integration routing will promote backend statuses when the snapshot loads.")
+  ].join("");
+}
+
+async function loadBackendSnapshot() {
+  try {
+    const response = await fetch("./demo-packets.json", { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    backendSnapshot.data = await response.json();
+    backendSnapshot.status = "ready";
+  } catch (error) {
+    backendSnapshot.status = "error";
+    backendSnapshot.error = error.message;
+  }
 }
 
 function populateStaticControls() {
@@ -2006,6 +2105,7 @@ function renderNextActions(journey, topCandidate) {
 }
 
 function renderJourney() {
+  renderWiringStatus();
   const journey = journeys[state.activeJourney];
   const rankedCandidates = rankCandidates();
   const topCandidate = rankedCandidates[0];
@@ -2207,6 +2307,12 @@ integrationPartnerSelect.addEventListener("change", (event) => {
   renderJourney();
 });
 
-populateStaticControls();
-applyJourneyDefaults("buyer");
-renderJourney();
+async function initializeApp() {
+  populateStaticControls();
+  applyJourneyDefaults("buyer");
+  renderJourney();
+  await loadBackendSnapshot();
+  renderJourney();
+}
+
+initializeApp();
