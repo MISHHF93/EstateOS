@@ -1,52 +1,221 @@
 # EstateOS
 
-EstateOS is a secure, scalable, AI-native decision infrastructure blueprint for real estate, finance, and migration. It combines a human-centered frontend with a Mixture-of-Experts (MoE) backend intelligence layer so buyers, investors, brokers, insurers, payment operators, migration advisors, and financial teams can operate from one trusted decision system across property discovery, pricing intelligence, investment analysis, residency-by-investment (RBI), insurance, payment and escrow intelligence, risk, compliance, and financial decision support.
+EstateOS is being shaped as **an AI-native real estate operating system powered by a Mixture-of-Experts (MoE) backbone**. The repository now treats the architecture you provided as the **authoritative target-state blueprint** for product, platform, AI orchestration, and compliance.
 
-## Platform pillars
+## Target product framing
 
-- **Human-centered UX/UI** grounded in ISO 9241-210 and ISO/IEC 25010 principles.
-- **Identity-aware trust fabric** that captures investor type, location, financial intent, residency goals, consent, and privacy preferences in the frontend and passes them into the backend router.
-- **Unified AI decision infrastructure** that routes work to specialist expert agents based on user intent, profile, identity assurance, contextual risk, and external partner integration needs across real estate, finance, and migration workflows.
-- **Azure-native deployment model** with modular microservices, event pipelines, and secure APIs.
-- **Compliance-by-design** aligned with ISO/IEC 27001, ISO/IEC 27017, ISO/IEC 27701, PCI DSS, ISO/IEC 5259, ISO/IEC 42001, SOC 2 Type 2, ISO 22301, ISO 31000, and adjacent privacy and AI-governance expectations.
-- **Transparent and auditable AI** with explainability, policy checks, fairness-aware ranking, and evidence capture on every decision path.
+EstateOS is positioned as:
 
-## Repository structure
+- **An AI-native real estate intelligence platform with MoE-driven decision support** for property, migration, insurance, compliance, and finance.
+- **A real estate operating system** where property discovery, investor workflows, residency-by-investment journeys, insurance flows, payments, documents, and compliance operate through one explainable control surface.
 
-- `backend/` – Python reference implementation of context-aware MoE orchestration, identity trust propagation, policy gating, explainability, and audit evidence generation.
-- `docs/architecture.md` – target-state full-stack architecture and Azure deployment pattern.
-- `docs/moe-platform-model.md` – MoE operating model, expert catalog, routing responsibilities, and identity-aware routing signals.
-- `docs/compliance-mapping.md` – standards alignment, controls, and evidence model.
+## Canonical platform architecture
+
+The target platform follows six major layers:
+
+1. **Frontend experience layer**
+   - Public marketing site.
+   - Property discovery application.
+   - Investor workspace.
+   - Residency / visa intake flow.
+   - Insurance journey.
+   - Broker / admin / compliance console.
+2. **API gateway / BFF layer**
+   - API gateway.
+   - Backend-for-frontend.
+   - Auth gateway.
+   - Rate limiting, consent, audit, and session hooks.
+3. **Core application services**
+   - Auth, users, listings, transactions, documents.
+   - Visa workflows, insurance, payments, compliance.
+   - Integrations, notifications, admin/reporting.
+4. **AI orchestration / MoE layer**
+   - Intent-aware router.
+   - Expert selection, aggregation, ranking, and explanation.
+   - Human-review and policy-release gating.
+5. **Data platform layer**
+   - PostgreSQL, Redis, Blob Storage, Service Bus, Azure AI Search, analytics, audit logs.
+6. **Security / compliance / governance layer**
+   - ISO/IEC 27001, 27017, 27018, 27701, 25010, 42001, 5259, 22301, 31000.
+   - PCI DSS, SOC 2 Type 2, ACORD/NAIC-aligned workflows, KYC/AML/sanctions/PEP.
+
+Detailed architecture guidance lives in `docs/architecture.md`.
+
+## Required implementation stack
+
+### Frontend target stack
+
+- **Next.js + React + TypeScript**.
+- **Tailwind CSS**.
+- **shadcn/ui**.
+- **TanStack Query**.
+- **Zustand or Redux Toolkit**.
+- **i18n** for multilingual support.
+- **Framer Motion** for subtle motion.
+- **Mapbox or Google Maps** for discovery experiences.
+- **Stripe Elements or payment SDKs** for PCI-aware payment surfaces.
+
+### Backend target stack
+
+- **FastAPI (Python)** as the primary AI-heavy backend foundation.
+- **Modular monolith first**, with a future path to service extraction.
+- **PostgreSQL** for OLTP.
+- **Redis** for caching and ephemeral workflow state.
+- **Azure Blob Storage** for documents and evidence.
+- **Azure Service Bus** for asynchronous workflows.
+- **Elasticsearch or Azure AI Search** for search and retrieval.
+- **Keycloak or Microsoft Entra External ID / Azure AD B2C** for identity.
+- **Temporal or Camunda** for workflow orchestration.
+
+## Current repository intent
+
+This repository is still a **reference implementation + architecture blueprint**, not yet the full production monorepo. Its current assets do three things:
+
+- document the authoritative target architecture,
+- provide a lightweight Python orchestration reference in `backend/orchestration.py`, and
+- provide a visual product-direction prototype in `frontend/`.
+
+## Canonical target repo structure
+
+The target repository shape we are now aligning toward is:
+
+```text
+realestate-moe-platform/
+├── apps/
+│   ├── web/
+│   ├── admin/
+│   └── mobile/
+├── services/
+│   ├── auth-service/
+│   ├── user-service/
+│   ├── listing-service/
+│   ├── transaction-service/
+│   ├── visa-service/
+│   ├── insurance-service/
+│   ├── payment-service/
+│   ├── compliance-service/
+│   ├── integration-service/
+│   ├── notification-service/
+│   └── ai-orchestrator/
+├── experts/
+│   ├── property-recommender/
+│   ├── valuation-expert/
+│   ├── roi-expert/
+│   ├── visa-expert/
+│   ├── insurance-expert/
+│   ├── fraud-expert/
+│   ├── compliance-expert/
+│   ├── ux-expert/
+│   ├── document-expert/
+│   └── market-forecast-expert/
+├── packages/
+│   ├── ui/
+│   ├── types/
+│   ├── config/
+│   └── shared-utils/
+├── infra/
+│   ├── terraform/
+│   ├── bicep/
+│   └── kubernetes/
+└── docs/
+```
+
+## Delivery model
+
+### MVP
+- Listings.
+- Auth.
+- Search.
+- Deal workflow.
+- Payments.
+- Basic AI recommender.
+- Base KYC/compliance.
+- Azure deployment baseline.
+
+### Phase 2
+- Visa workflow engine.
+- Insurance integrations.
+- Valuation expert.
+- ROI expert.
+- Admin/compliance workbench.
+
+### Phase 3
+- Full MoE routing.
+- Model explainability expansion.
+- Dynamic UX personalization.
+- Market forecasting.
+- Broker / insurer / government integrations.
+- Advanced document intelligence.
+
+A practical implementation roadmap is captured in `docs/implementation-roadmap.md`.
+
+## MoE expert model
+
+The canonical expert set is:
+
+1. Property Recommendation Expert.
+2. Property Valuation Expert.
+3. Investment ROI Expert.
+4. Residency / Visa Eligibility Expert.
+5. Insurance Recommendation Expert.
+6. Payment / Fraud / Financial Risk Expert.
+7. Compliance / AML / Sanctions Expert.
+8. UX Personalization Expert.
+9. Document Intelligence Expert.
+10. Market Forecast / Trend Expert.
+
+The router activates experts based on user type, location, property type, investment goal, residency intent, risk score, and transaction stage. See `docs/moe-platform-model.md`.
+
+## Azure deployment baseline
+
+The recommended Azure footprint is:
+
+- Azure Front Door.
+- Azure API Management.
+- Azure App Service or AKS.
+- Azure Database for PostgreSQL.
+- Azure Cache for Redis.
+- Azure Blob Storage.
+- Azure Service Bus.
+- Azure Key Vault.
+- Azure Monitor.
+- Microsoft Sentinel.
+- Azure AI Search.
+- Azure Machine Learning.
+- GitHub Actions or Azure DevOps.
+- Defender for Cloud.
+
+## Standards and control posture
+
+EstateOS should remain aligned to:
+
+- ISO/IEC 27001, 27017, 27018, 27701.
+- ISO/IEC 25010 and ISO 9241-210.
+- ISO/IEC 42001 and ISO/IEC 5259.
+- ISO 22301 and ISO 31000.
+- PCI DSS and SOC 2 Type 2.
+- ACORD-oriented interoperability.
+- NAIC-aligned privacy/security expectations.
+- KYC / AML / sanctions / PEP requirements.
+
+See `docs/compliance-mapping.md` for the control mapping baseline.
 
 ## Quick start
 
-Run the backend orchestration demo to inspect how a request is routed across real estate, finance, migration, and transaction specialists:
+Run the current orchestration reference implementation:
 
 ```bash
 python3 backend/orchestration.py
 ```
 
-## Core capabilities
+## Repository status after this update
 
-1. Property discovery with buyer and investor intent capture.
-2. Pricing intelligence with a valuation expert that scores market data, comparables, trends, and location intelligence.
-3. Investment analysis with yield, scenario, and downside modeling.
-4. Transaction intelligence with pricing strategy, negotiation guidance, document validation, workflow integrity checks, and deal risk scoring.
-5. Payment and financial intelligence for transaction risk, fraud probability, escrow condition monitoring, reconciliation, and payer behavior analysis.
-6. Residency-by-investment workflow planning by jurisdiction.
-7. Insurance recommendations aligned to user profile, property type, transaction context, ACORD-style secure exchange payloads, and NAIC-aligned privacy/security expectations.
-8. Risk assessment spanning fraud, cyber, property, climate, compliance, payment behavior, financial suitability, and transaction execution risk.
-9. Compliance validation for RBAC, MFA, KYC/AML, sanctions, privacy, records, explainability, PCI DSS tokenization boundaries, and business continuity.
-10. Financial decision support for affordability, leverage, returns, liquidity, scenario analysis, and payment release controls.
-11. Integration hub orchestration that connects banks, insurers, and government systems through canonical APIs enhanced by AI experts for validation, transformation, routing, interoperability, and compliance evidence.
+This update makes the provided architecture the explicit baseline for:
 
-## Architecture highlights
-
-- **Frontend experience layer:** role-aware journeys, identity/profile capture, secure payment and escrow widgets, insurance recommendation controls, explanation panels, confidence indicators, and audit-friendly action summaries.
-- **Identity and trust plane:** Microsoft Entra-backed identity, step-up MFA, entitlement checks, privacy-tier propagation, KYC/AML/sanctions state, and payment authorization context shared with the router.
-- **Expert mesh:** domain experts for valuation, listing recommendation, investment analysis, RBI, insurance, payment intelligence, financial risk, compliance, UX personalization, and integration payload governance.
-- **Policy guardrails:** every recommendation, payment action, and transaction release is checked against RBAC, MFA, identity, sanctions, privacy, PCI DSS segmentation, suitability, jurisdiction, and continuity rules before release.
-- **Evidence graph:** each decision stores inputs, experts consulted, policy outcomes, confidence, payment events, reconciliation outcomes, document checks, workflow integrity outcomes, and human approvals.
-- **Continuous learning:** offline evaluation, champion/challenger models, drift monitoring, and human feedback loops.
-
-See the architecture and compliance documents for the full design rationale.
+- product naming,
+- stack choices,
+- repo shape,
+- AI expert taxonomy,
+- phased rollout,
+- Azure deployment assumptions, and
+- standards alignment.
