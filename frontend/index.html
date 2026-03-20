@@ -15,6 +15,7 @@
           <a href="#journeys">Journeys</a>
           <a href="#experts">Experts</a>
           <a href="#compliance">Compliance</a>
+          <a href="#residency">Residency engine</a>
           <a href="#architecture">Architecture</a>
         </div>
       </nav>
@@ -22,10 +23,10 @@
       <section class="hero-content">
         <div>
           <p class="eyebrow">Secure • Scalable • AI-Native</p>
-          <h1>Deal intelligence that guides pricing, negotiation, document validation, and closing risk.</h1>
+          <h1>Deal intelligence that guides pricing, residency eligibility, negotiation, document validation, and closing risk.</h1>
           <p class="hero-copy">
-            EstateOS now pairs its property intelligence workspace with a transaction expert layer so every deal gets
-            pricing guidance, negotiation posture, document QA, risk scoring, and continuity-aware workflow controls.
+            EstateOS now pairs its property intelligence workspace with a residency-by-investment expert layer so every deal gets
+            pricing guidance, visa eligibility scoring, document QA, compliance workflow tracking, and continuity-aware workflow controls.
           </p>
           <div class="hero-actions">
             <a class="primary" href="#workspace">Launch adaptive workspace</a>
@@ -36,7 +37,7 @@
         <div class="hero-panel">
           <div class="panel-card">
             <span>Designed for trust</span>
-            <strong>ISO/IEC 27001 + ISO 22301 protected transaction execution</strong>
+            <strong>ISO/IEC 27001 + ISO/IEC 27701 protected residency and transaction execution</strong>
             <p>
               Every deal step keeps explainable AI recommendations, immutable audit evidence, and business continuity
               checkpoints in view for operators and advisors.
@@ -333,6 +334,100 @@
                       </div>
                     </div>
                     <div id="compliance-control-list" class="stack-list"></div>
+                  </article>
+                </section>
+
+                <section id="residency" class="residency-layout" aria-label="Residency and visa expert engine">
+                  <article class="decision-card residency-card residency-card--primary">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Residency/Visa expert engine</p>
+                        <h4 id="residency-program-title">Eligibility overview</h4>
+                      </div>
+                      <span class="status-pill" id="residency-status-pill">Eligible</span>
+                    </div>
+                    <p id="residency-summary" class="helper-copy"></p>
+                    <div class="form-grid residency-form">
+                      <label>
+                        Jurisdiction
+                        <select id="jurisdiction-select"></select>
+                      </label>
+                      <label>
+                        Annual income
+                        <input id="income-range" type="range" min="0" max="300000" step="5000" />
+                        <span class="range-value" id="income-value"></span>
+                      </label>
+                      <label>
+                        Liquid assets
+                        <input id="assets-range" type="range" min="0" max="1000000" step="10000" />
+                        <span class="range-value" id="assets-value"></span>
+                      </label>
+                      <label>
+                        Property value
+                        <input id="property-value-range" type="range" min="0" max="2000000" step="10000" />
+                        <span class="range-value" id="property-value"></span>
+                      </label>
+                      <label class="toggle-row">
+                        <input id="source-of-funds-toggle" type="checkbox" />
+                        <span>Source of funds verified</span>
+                      </label>
+                      <label class="toggle-row">
+                        <input id="criminal-record-toggle" type="checkbox" />
+                        <span>Criminal record clearance on file</span>
+                      </label>
+                      <label class="toggle-row">
+                        <input id="health-insurance-toggle" type="checkbox" />
+                        <span>Health insurance confirmation ready</span>
+                      </label>
+                    </div>
+                    <div class="metric-grid residency-metric-grid">
+                      <div class="metric-item">
+                        <span>Eligibility score</span>
+                        <strong id="eligibility-score"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>Pathway type</span>
+                        <strong id="pathway-type"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>KYC/AML posture</span>
+                        <strong id="kyc-aml-summary"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>Privacy controls</span>
+                        <strong id="privacy-summary"></strong>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="decision-card residency-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Jurisdiction rules</p>
+                        <h4>Eligibility checks</h4>
+                      </div>
+                    </div>
+                    <div id="rule-check-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card residency-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Document readiness</p>
+                        <h4>Missing evidence and review items</h4>
+                      </div>
+                    </div>
+                    <div id="document-check-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card residency-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Compliance workflow</p>
+                        <h4>KYC/AML and ISO/IEC 27701 controls</h4>
+                      </div>
+                    </div>
+                    <div id="compliance-workflow-list" class="stack-list"></div>
                   </article>
                 </section>
 

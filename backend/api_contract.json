@@ -1,6 +1,6 @@
 {
   "service": "EstateOS Unified Intelligence API",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "azure_pattern": {
     "entrypoints": [
       "Azure API Management",
@@ -177,6 +177,67 @@
         "controls",
         "explanation"
       ]
+    },
+    "ResidencyApplicantProfile": {
+      "type": "object",
+      "required": [
+        "applicant_id",
+        "citizenship_country",
+        "current_country",
+        "target_jurisdiction",
+        "household_size",
+        "dependents",
+        "annual_income",
+        "liquid_assets",
+        "property_budget",
+        "property_value",
+        "source_of_funds_verified",
+        "criminal_record_clear",
+        "health_insurance_ready",
+        "documents_on_file"
+      ]
+    },
+    "ResidencyEligibilityDecision": {
+      "type": "object",
+      "required": [
+        "program",
+        "jurisdiction",
+        "pathway_type",
+        "eligibility_status",
+        "eligibility_score",
+        "rule_checks",
+        "document_checks",
+        "compliance_workflow",
+        "kyc_aml_summary",
+        "privacy_summary",
+        "explanation",
+        "standards_alignment"
+      ]
+    },
+    "ResidencyRuleCheck": {
+      "type": "object",
+      "required": [
+        "name",
+        "status",
+        "detail"
+      ]
+    },
+    "ResidencyDocumentCheck": {
+      "type": "object",
+      "required": [
+        "document",
+        "status",
+        "detail"
+      ]
+    },
+    "ResidencyComplianceWorkflowStep": {
+      "type": "object",
+      "required": [
+        "step",
+        "owner",
+        "status",
+        "detail"
+      ]
     }
   },
   "endpoints": [
@@ -218,6 +279,19 @@
         "ISO/IEC 5259 data-quality scorecard",
         "ISO/IEC 42001 oversight state",
         "ranking fairness diagnostics"
+      ]
+    },
+    {
+      "path": "/v1/residency/eligibility/evaluate",
+      "method": "POST",
+      "purpose": "Evaluate residency-by-investment or relocation eligibility using jurisdiction rules, applicant finances, property value, document readiness, and compliance gates.",
+      "controls": [
+        "KYC state check",
+        "AML source-of-funds review",
+        "jurisdiction rule versioning",
+        "ISO/IEC 27701 privacy minimization",
+        "document completeness workflow",
+        "manual compliance sign-off for exceptions"
       ]
     },
     {
