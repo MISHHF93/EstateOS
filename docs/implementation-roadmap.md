@@ -80,9 +80,9 @@ Objectives:
 
 Recommended actions:
 
-- create `apps/`, `services/`, `experts/`, `packages/`, and `infra/` as the future monorepo roots,
-- migrate `frontend/` into `apps/web/` when the Next.js rebuild begins,
-- migrate orchestration logic from `backend/orchestration.py` into `services/ai-orchestrator/` when the FastAPI service is introduced,
+- keep `apps/`, `services/`, `experts/`, `packages/`, and `infra/` as the future monorepo roots and land new production-grade code there,
+- migrate `frontend/` into `apps/web/` when the Next.js rebuild begins, while treating the current `frontend/` folder as prototype-only,
+- migrate orchestration logic from `backend/orchestration.py` into `services/ai-orchestrator/` when the FastAPI service is introduced, while treating the current backend script as reference-only,
 - centralize types/contracts under `packages/types/`.
 
 ### 4.2 Stage B — MVP build
@@ -199,3 +199,8 @@ The next practical build steps should be:
 5. separate current prototype content into migration-safe folders,
 6. add infrastructure definitions under `infra/`,
 7. begin implementing the MVP feature set before Phase 2 or Phase 3 ambitions.
+
+
+## 8. Transition note
+
+The repository now already contains the scaffolded monorepo roots described above. Contributors should prefer those directories for new production-grade work and use `docs/repository-transition.md` as the operating guide for the migration state.
