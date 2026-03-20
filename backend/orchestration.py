@@ -10,7 +10,8 @@ This module provides a dependency-light Python blueprint for how EstateOS can:
 - build explainable property decisions,
 - orchestrate transaction experts for pricing, negotiation, document validation,
   workflow integrity, resilience, and risk scoring,
-- evaluate payment fraud, escrow conditions, PCI-safe frontend controls, and reconciliation posture.
+- evaluate payment fraud, escrow conditions, PCI-safe frontend controls, and reconciliation posture,
+- continuously score compliance and operational risk across real estate, payments, insurance, and residency workflows.
 """
 
 from __future__ import annotations
@@ -536,6 +537,32 @@ EXPERT_REGISTRY: Sequence[ExpertCard] = (
         execution_mode="sync",
     ),
     ExpertCard(
+        name="unified_compliance_risk_intelligence",
+        specialties=(
+            "continuous_control_monitoring",
+            "cross_workflow_risk_scoring",
+            "aml_kyc_enforcement",
+            "sanctions_screening",
+            "audit_logging",
+            "iso_27001_alignment",
+            "iso_31000_alignment",
+        ),
+        triggers=(
+            "compliance",
+            "risk",
+            "aml",
+            "kyc",
+            "sanctions",
+            "audit",
+            "payment",
+            "insurance",
+            "residency",
+        ),
+        compliance_dependencies=("all",),
+        min_confidence=0.84,
+        execution_mode="sync",
+    ),
+    ExpertCard(
         name="ux_personalization",
         specialties=("journey_guidance", "messaging", "next_best_action"),
         triggers=("help", "next", "summary", "compare", "guide"),
@@ -620,7 +647,7 @@ INTENT_EXPERT_MAP: Dict[str, str] = {
     "insurance": "insurance_matching",
     "payment": "payment_intelligence",
     "finance": "financial_risk",
-    "compliance": "compliance_validation",
+    "compliance": "unified_compliance_risk_intelligence",
 }
 
 POLICY_GATES: Dict[str, str] = {
@@ -1038,11 +1065,11 @@ def route_experts(
         intent_hit = 1 if expert.name in {INTENT_EXPERT_MAP.get(intent) for intent in intents} else 0
         profile_bonus = 0.04 if expert.name == "residency_eligibility" and profile.residency_interest else 0
         profile_bonus += 0.04 if expert.name == "financial_risk" and profile.financing_needed else 0
-        profile_bonus += 0.05 if expert.name == "compliance_validation" and profile.role == "advisor" else 0
+        profile_bonus += 0.05 if expert.name in {"compliance_validation", "unified_compliance_risk_intelligence"} and profile.role == "advisor" else 0
         profile_bonus += 0.03 if expert.name == "investment_analysis" and profile.role == "investor" else 0
-        context_bonus = 0.03 if context.cross_border and expert.name in {"residency_eligibility", "compliance_validation"} else 0
+        context_bonus = 0.03 if context.cross_border and expert.name in {"residency_eligibility", "compliance_validation", "unified_compliance_risk_intelligence"} else 0
         confidence = min(0.99, expert.min_confidence + trigger_hits * 0.05 + intent_hit * 0.08 + profile_bonus + context_bonus)
-        if trigger_hits or intent_hit or expert.name in {"compliance_validation", "ux_personalization"}:
+        if trigger_hits or intent_hit or expert.name in {"compliance_validation", "unified_compliance_risk_intelligence", "ux_personalization"}:
             selected.append(
                 ExpertDecision(
                     expert=expert.name,
@@ -1179,6 +1206,21 @@ def build_expert_outputs(
             confidence=0.93,
             evidence=("RBAC evaluation", "MFA state", "KYC/AML state", "audit retention check"),
             next_actions=("preserve evidence bundle", "route exceptions to review"),
+        ),
+        "unified_compliance_risk_intelligence": ExpertOutput(
+            expert="unified_compliance_risk_intelligence",
+            summary=(
+                "Continuous control monitoring unifies AML/KYC, sanctions screening, audit logging, and cross-domain risk scoring "
+                "across property, payment, insurance, and residency workflows."
+            ),
+            confidence=0.95,
+            evidence=(
+                "continuous activity risk graph",
+                "AML/KYC and sanctions screening ledger",
+                "immutable audit event chain",
+                "ISO/IEC 27001 and ISO 31000 control mappings",
+            ),
+            next_actions=("review elevated risk cases", "attach evidence bundle to any held workflow"),
         ),
         "ux_personalization": ExpertOutput(
             expert="ux_personalization",

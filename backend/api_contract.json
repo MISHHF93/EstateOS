@@ -1,6 +1,6 @@
 {
   "service": "EstateOS Unified Intelligence API",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "azure_pattern": {
     "entrypoints": [
       "Azure API Management",
@@ -401,6 +401,18 @@
         "PII minimization",
         "audit log",
         "ranked expert contribution trace"
+      ]
+    },
+    {
+      "path": "/v1/compliance/risk-intelligence/monitor",
+      "method": "POST",
+      "purpose": "Continuously evaluate platform activity across real estate, payments, insurance, and residency workflows while enforcing AML/KYC, sanctions screening, audit logging, and cross-domain risk scoring.",
+      "controls": [
+        "continuous AML/KYC posture checks",
+        "real-time sanctions and PEP screening linkage",
+        "immutable audit event chain",
+        "ISO/IEC 27001 control mapping",
+        "ISO 31000 risk treatment workflow"
       ]
     },
     {

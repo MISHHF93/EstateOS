@@ -2,7 +2,7 @@
 
 ## 1. Platform vision
 
-EstateOS is a full-stack real estate and investment platform where a seamless, role-aware frontend is backed by an Azure-native Mixture-of-Experts (MoE) decision mesh. The platform combines property discovery, a property intelligence and valuation expert system, a listing recommendation expert, investment analysis, residency-by-investment (RBI), insurance matching, payment and escrow intelligence, financial risk, transaction intelligence for pricing and negotiation, document validation, and compliance validation into one guided user experience while preserving explainability, auditability, workflow integrity, and secure control boundaries.
+EstateOS is a full-stack real estate and investment platform where a seamless, role-aware frontend is backed by an Azure-native Mixture-of-Experts (MoE) decision mesh. The platform combines property discovery, a property intelligence and valuation expert system, a listing recommendation expert, investment analysis, residency-by-investment (RBI), insurance matching, payment and escrow intelligence, financial risk, transaction intelligence for pricing and negotiation, document validation, compliance validation, and unified compliance/risk intelligence into one guided user experience while preserving explainability, auditability, workflow integrity, and secure control boundaries.
 
 ## 2. Full-stack experience architecture
 
@@ -131,6 +131,7 @@ The MoE backend is composed of independently deployable expert services with cle
 | Payment Intelligence Expert | Payment fraud probability, escrow conditions, payer behavior, settlement and reconciliation intelligence | Tokenized payment events, device telemetry, funding source, escrow milestones, chargeback history | Fraud score, release posture, reconciliation exceptions, escrow actions |
 | Financial Risk Expert | Affordability, leverage, liquidity, payment capacity | Income, liabilities, cash reserves, rates, FX | Affordability bands, stress tests, financing constraints |
 | Compliance Validation Expert | RBAC, MFA, KYC/AML, sanctions, privacy, records, release rules | Identity evidence, transactions, jurisdiction, consent | Release/hold decision, policy evidence, remediation tasks |
+| Unified Compliance & Risk Intelligence Expert | Continuous activity surveillance, audit logging, AML/KYC orchestration, sanctions screening, and cross-domain risk scoring | Platform telemetry, payment and escrow events, insurance workflows, residency cases, identity risk state | Elevated-risk alerts, risk scores, hold/allow decisions, audit evidence, ISO/IEC 27001 and ISO 31000 treatment cues |
 | UX Personalization Expert | Persona-specific message framing and next-best actions | Role, behavior, stage, confidence, blockers | Screen copy, workflow nudges, escalation paths |
 | Pricing Strategy Expert | Offer ladders, concession bands, and timing strategy | Deal stage, target value, urgency, market conditions | Opening offer, counter range, walk-away threshold |
 | Negotiation Insights Expert | Counterparty posture and concession sequencing | Counter history, seller motivation, approval rules | Negotiation posture, concession advice, escalation trigger |
@@ -159,7 +160,7 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 - determine required experts,
 - identify optional augmentation experts,
 - parallelize independent expert calls,
-- force compliance validation before release,
+- force compliance validation and unified risk-intelligence review before release,
 - escalate to human review when thresholds are crossed,
 - tokenize and isolate PAN-adjacent data so frontend and orchestration layers remain out of PCI card-data scope where possible,
 - redact or limit outputs based on privacy tier and entitlements,
@@ -168,10 +169,10 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 - enforce transaction stage order, document completeness, escrow checkpoints, continuity checkpoints, and approval segregation before a deal advances to closing.
 
 #### Example orchestration paths
-- **Cross-border investor in Portugal** → identity trust evaluation + valuation + investment + residency + payment intelligence + financial risk + insurance + compliance.
-- **Domestic homebuyer comparing list price vs value** → identity trust evaluation + valuation + financial risk + payment release review + compliance.
-- **High-risk insurance inquiry in a coastal flood zone** → identity trust evaluation + insurance + risk + compliance + advisor review.
-- **Escrow funding event with anomalous payer behavior** → identity trust evaluation + payment intelligence + financial risk + compliance + payment operations review.
+- **Cross-border investor in Portugal** → identity trust evaluation + valuation + investment + residency + payment intelligence + financial risk + insurance + compliance + unified compliance/risk intelligence.
+- **Domestic homebuyer comparing list price vs value** → identity trust evaluation + valuation + financial risk + payment release review + compliance + unified compliance/risk intelligence.
+- **High-risk insurance inquiry in a coastal flood zone** → identity trust evaluation + insurance + risk + compliance + unified compliance/risk intelligence + advisor review.
+- **Escrow funding event with anomalous payer behavior** → identity trust evaluation + payment intelligence + financial risk + compliance + unified compliance/risk intelligence + payment operations review.
 
 ### 4.4 Expert interaction model
 1. Frontend sends a workflow request to the BFF.
