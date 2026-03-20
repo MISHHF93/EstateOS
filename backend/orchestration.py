@@ -252,6 +252,75 @@ class TransactionDecisionPacket:
 
 
 @dataclass(frozen=True)
+class InsuranceApplicantProfile:
+    applicant_id: str
+    persona: str
+    property_type: str
+    occupancy: str
+    transaction_context: str
+    property_jurisdiction: str
+    estimated_property_value: int
+    mortgage_amount: int
+    household_size: int
+    dependents: int
+    landlord_exposure: bool
+    title_required: bool
+    life_priority: bool
+    prior_claims_count: int
+    privacy_consent: bool
+
+
+@dataclass(frozen=True)
+class ACORDParty:
+    role: str
+    name: str
+    identifier: str
+
+
+@dataclass(frozen=True)
+class ACORDCoverageRequest:
+    line_of_business: str
+    acord_form: str
+    coverage_type: str
+    insured_amount: int
+    deductible: int
+    notes: str
+
+
+@dataclass(frozen=True)
+class SecureExchangeControl:
+    control: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class InsuranceRecommendation:
+    coverage_type: str
+    recommendation_level: str
+    policy_form: str
+    premium_estimate: str
+    rationale: str
+    acord_payload_refs: Sequence[str]
+
+
+@dataclass(frozen=True)
+class InsuranceDecisionPacket:
+    request_id: str
+    applicant: InsuranceApplicantProfile
+    acord_parties: Sequence[ACORDParty]
+    acord_coverages: Sequence[ACORDCoverageRequest]
+    recommendations: Sequence[InsuranceRecommendation]
+    secure_exchange_controls: Sequence[SecureExchangeControl]
+    naic_privacy_summary: str
+    secure_exchange_summary: str
+    release_status: str
+    explanation: str
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+@dataclass(frozen=True)
 class ResidencyApplicantProfile:
     applicant_id: str
     citizenship_country: str
@@ -1399,6 +1468,158 @@ def evaluate_residency_eligibility(
     )
 
 
+def evaluate_insurance_options(
+    applicant: InsuranceApplicantProfile,
+    identity: IdentityContext,
+    context: RequestContext,
+) -> InsuranceDecisionPacket:
+    persona_map = {
+        "buyer": "buyer",
+        "investor": "investor",
+        "advisor": "advisor",
+    }
+    persona = persona_map.get(applicant.persona, "buyer")
+    property_form = {
+        "single_family": "HO-3",
+        "condo": "HO-6",
+        "townhouse": "DP-3",
+        "multifamily": "Habitational package",
+        "luxury": "High-value homeowners",
+    }.get(applicant.property_type, "HO-3")
+    owner_title = "Enhanced owner's title" if applicant.transaction_context in {"closing", "purchase"} and applicant.estimated_property_value >= 1000000 else "Owner's title"
+    landlord_form = "Landlord package" if applicant.landlord_exposure else "Deferred landlord endorsement"
+    life_form = "Term life with mortgage continuity rider" if applicant.life_priority else "Optional household continuity rider"
+
+    acord_parties = (
+        ACORDParty(role="applicant", name=identity.subject_id, identifier=applicant.applicant_id),
+        ACORDParty(role="servicing_entity", name="EstateOS Insurance Desk", identifier="estateos-insurance"),
+        ACORDParty(role="transaction_context", name=applicant.transaction_context, identifier=context.request_id),
+    )
+    acord_coverages = (
+        ACORDCoverageRequest(
+            line_of_business="property",
+            acord_form="ACORD 80",
+            coverage_type="homeowners",
+            insured_amount=applicant.estimated_property_value,
+            deductible=2500 if applicant.property_type in {"luxury", "multifamily"} else 1000,
+            notes="Captures dwelling, occupancy, mortgagee, and peril details for quote intake.",
+        ),
+        ACORDCoverageRequest(
+            line_of_business="title",
+            acord_form="ACORD 28",
+            coverage_type="title",
+            insured_amount=applicant.estimated_property_value,
+            deductible=0,
+            notes="Binds ownership, lender, and recording evidence to the closing packet.",
+        ),
+        ACORDCoverageRequest(
+            line_of_business="landlord",
+            acord_form="ACORD 101",
+            coverage_type="landlord",
+            insured_amount=max(applicant.estimated_property_value // 2, 100000),
+            deductible=2500,
+            notes="Supports rental, loss-of-rents, and premises-liability underwriting when leasing exposure exists.",
+        ),
+        ACORDCoverageRequest(
+            line_of_business="life",
+            acord_form="ACORD 103",
+            coverage_type="life_continuity",
+            insured_amount=max(applicant.mortgage_amount or applicant.estimated_property_value // 2, 150000),
+            deductible=0,
+            notes="Captures beneficiary and continuity needs when household or guarantor protection is requested.",
+        ),
+    )
+
+    recommendations = [
+        InsuranceRecommendation(
+            coverage_type="homeowners",
+            recommendation_level="primary",
+            policy_form=property_form,
+            premium_estimate="$188/mo est." if property_form == "HO-3" else "$146/mo est." if property_form == "HO-6" else "$322/mo est." if property_form == "Habitational package" else "$352/mo est.",
+            rationale=(
+                f"{property_form} is the best fit for a {applicant.occupancy} {applicant.property_type.replace('_', ' ')} because it aligns dwelling protection with the current {applicant.transaction_context} workflow."
+            ),
+            acord_payload_refs=("ACORD 80",),
+        ),
+        InsuranceRecommendation(
+            coverage_type="title",
+            recommendation_level="recommended" if applicant.title_required else "optional",
+            policy_form=owner_title,
+            premium_estimate="$2,280 one-time est." if owner_title.startswith("Enhanced") else "$1,950 one-time est.",
+            rationale="Title protection is recommended whenever acquisition, transfer, or refinance steps depend on clean ownership and lien status.",
+            acord_payload_refs=("ACORD 28",),
+        ),
+        InsuranceRecommendation(
+            coverage_type="landlord",
+            recommendation_level="primary" if applicant.landlord_exposure else "contingent",
+            policy_form=landlord_form,
+            premium_estimate="$322/mo est." if applicant.landlord_exposure else "$38/mo add-on est.",
+            rationale="Landlord coverage becomes primary when rent interruption, tenant liability, or premises claims could affect transaction economics.",
+            acord_payload_refs=("ACORD 101",),
+        ),
+        InsuranceRecommendation(
+            coverage_type="life_related",
+            recommendation_level="recommended" if applicant.life_priority else "optional",
+            policy_form=life_form,
+            premium_estimate="$61/mo est." if applicant.life_priority else "$28/mo add-on est.",
+            rationale="Life-related continuity coverage is recommended when household dependents, guarantors, or debt-service plans depend on insured income continuity.",
+            acord_payload_refs=("ACORD 103",),
+        ),
+    ]
+
+    secure_exchange_controls = [
+        SecureExchangeControl(
+            control="Consent and privacy notice",
+            status="active" if applicant.privacy_consent and context.has_consent else "review",
+            detail="NAIC-aligned notice, purpose limitation, and quote-sharing consent are checked before payload release.",
+        ),
+        SecureExchangeControl(
+            control="Encrypted carrier exchange",
+            status="active" if identity.mfa_completed else "review",
+            detail="ACORD payloads are exchanged using mTLS, field-level encryption, signed service identities, and correlation IDs.",
+        ),
+        SecureExchangeControl(
+            control="Access and servicing governance",
+            status="active" if "decision:view" in identity.entitlements else "blocked",
+            detail="Only entitled advisors, servicing staff, and approved partner roles can view recommendation details or request quotes.",
+        ),
+        SecureExchangeControl(
+            control="Audit and retention",
+            status="active",
+            detail="Quote packets, title evidence, underwriting assumptions, and retransmission attempts are written to immutable servicing logs.",
+        ),
+    ]
+
+    blocked = any(item.status == "blocked" for item in secure_exchange_controls)
+    review = any(item.status == "review" for item in secure_exchange_controls)
+    release_status = "blocked" if blocked else "review" if review else "released"
+    naic_privacy_summary = (
+        "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations."
+    )
+    secure_exchange_summary = (
+        f"EstateOS packages {len(acord_coverages)} ACORD-informed coverage payloads for {persona} servicing, encrypts transport, minimizes shared fields, and binds transmissions to request {context.request_id}."
+    )
+    explanation = (
+        f"Insurance review evaluated persona '{persona}', property type '{applicant.property_type}', occupancy '{applicant.occupancy}', and transaction context '{applicant.transaction_context}'. "
+        f"Recommendations include homeowners, title, landlord, and life-related options while preserving {identity.privacy_tier} privacy posture, MFA={'on' if identity.mfa_completed else 'off'}, and release status '{release_status}'."
+    )
+
+    return InsuranceDecisionPacket(
+        request_id=f"ins-{uuid.uuid4().hex[:8]}",
+        applicant=applicant,
+        acord_parties=acord_parties,
+        acord_coverages=acord_coverages,
+        recommendations=recommendations,
+        secure_exchange_controls=secure_exchange_controls,
+        naic_privacy_summary=naic_privacy_summary,
+        secure_exchange_summary=secure_exchange_summary,
+        release_status=release_status,
+        explanation=explanation,
+        standards_alignment=("ACORD", "NAIC Privacy/Security", "ISO/IEC 27001", "ISO/IEC 27701"),
+    )
+
+
+
 WORKFLOW_ORDER: Sequence[str] = (
     "intake",
     "pricing_review",
@@ -1745,6 +1966,27 @@ def demo() -> None:
         bcdr_tier="tier_1",
     )
     transaction_packet = orchestrate_transaction(transaction, identity, context)
+    insurance_packet = evaluate_insurance_options(
+        InsuranceApplicantProfile(
+            applicant_id=identity.subject_id,
+            persona=profile.role,
+            property_type="multifamily",
+            occupancy="tenant_occupied",
+            transaction_context="closing",
+            property_jurisdiction="Greece",
+            estimated_property_value=880000,
+            mortgage_amount=420000,
+            household_size=3,
+            dependents=2,
+            landlord_exposure=True,
+            title_required=True,
+            life_priority=True,
+            prior_claims_count=0,
+            privacy_consent=True,
+        ),
+        identity,
+        context,
+    )
     residency_packet = evaluate_residency_eligibility(
         ResidencyApplicantProfile(
             applicant_id=identity.subject_id,
@@ -1777,6 +2019,7 @@ def demo() -> None:
             {
                 "property_decision": asdict(packet),
                 "transaction_decision": asdict(transaction_packet),
+                "insurance_decision": asdict(insurance_packet),
                 "residency_decision": asdict(residency_packet),
             },
             indent=2,

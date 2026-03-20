@@ -563,6 +563,198 @@ const residencyPrograms = {
   }
 };
 
+const insuranceProfiles = {
+  buyer: {
+    profileLabel: "Owner-occupied family home",
+    secureExchange: "ACORD 80 homeowners intake + ACORD 28 evidence summary",
+    controls: [
+      "NAIC model-law aligned privacy notice and consent receipt before quote request.",
+      "Carrier data exchange is minimized to occupancy, construction, hazard, and mortgage fields required for underwriting.",
+      "Quote release requires MFA-backed identity, encrypted payload delivery, and immutable servicing logs."
+    ],
+    options: {
+      condo: {
+        homeowners: {
+          title: "HO-6 homeowners + contents protection",
+          fit: "Primary recommendation",
+          premium: "$146/mo est.",
+          summary: "Best for owner-occupied condos where interior improvements, contents, and loss-of-use need to sit alongside association coverage."
+        },
+        titlePolicy: {
+          title: "Owner's title insurance",
+          fit: "Recommended at closing",
+          premium: "$1,950 one-time est.",
+          summary: "Protects against title defects, recording errors, and unknown encumbrances before transfer completes."
+        },
+        landlord: {
+          title: "Deferred landlord endorsement",
+          fit: "Only if future rental is planned",
+          premium: "$38/mo add-on est.",
+          summary: "Useful when the buyer may convert the unit into a rental after residency or relocation changes."
+        },
+        life: {
+          title: "Level-term life / mortgage continuity cover",
+          fit: "Recommended for financed households",
+          premium: "$52/mo est.",
+          summary: "Creates payment continuity for dependents when the purchase relies on household income."
+        }
+      },
+      single_family: {
+        homeowners: {
+          title: "HO-3 homeowners + contents + liability",
+          fit: "Primary recommendation",
+          premium: "$188/mo est.",
+          summary: "Broad dwelling, contents, liability, and additional living expense protection fits family owner-occupiers best."
+        },
+        titlePolicy: {
+          title: "Owner's + enhanced title bundle",
+          fit: "Recommended at closing",
+          premium: "$2,280 one-time est.",
+          summary: "Adds stronger title-defect protection when permits, easements, or prior transfers need clean validation."
+        },
+        landlord: {
+          title: "Dwelling fire conversion option",
+          fit: "Optional fallback",
+          premium: "$44/mo add-on est.",
+          summary: "Useful when the property may become an interim rental during relocation timing changes."
+        },
+        life: {
+          title: "Family term life + mortgage rider",
+          fit: "Recommended for dependents",
+          premium: "$61/mo est.",
+          summary: "Pairs beneficiary protection with mortgage continuity for family relocation scenarios."
+        }
+      }
+    }
+  },
+  investor: {
+    profileLabel: "Income and landlord operator",
+    secureExchange: "ACORD 83 dwelling property / ACORD 101 underwriting data transfer",
+    controls: [
+      "NAIC-aligned service-provider oversight, breach escalation, and role-based quote access are enforced for partner workflows.",
+      "Tenant occupancy, peril, and prior-loss details are shared only under purpose-bound underwriting scopes.",
+      "Outbound quote packets require encryption in transit, carrier authorization checks, and audit-ready retransmission controls."
+    ],
+    options: {
+      multifamily: {
+        homeowners: {
+          title: "Limited habitational property package",
+          fit: "Secondary recommendation",
+          premium: "$228/mo est.",
+          summary: "A habitational property package can cover common areas or mixed-use owner occupancy, but landlord cover is usually primary."
+        },
+        titlePolicy: {
+          title: "Lender + owner title stack",
+          fit: "Required for debt-backed closing",
+          premium: "$3,480 one-time est.",
+          summary: "Supports clean transfer, lender protection, and post-close claim defense for encumbrance or survey defects."
+        },
+        landlord: {
+          title: "Landlord package + loss-of-rents + umbrella",
+          fit: "Primary recommendation",
+          premium: "$322/mo est.",
+          summary: "Best fit for rental assets because it combines property, premises liability, rent interruption, and catastrophe endorsements."
+        },
+        life: {
+          title: "Key-person / debt continuity life cover",
+          fit: "Recommended for guarantors",
+          premium: "$74/mo est.",
+          summary: "Reduces execution risk when lender covenants or family office structures depend on a principal earner or guarantor."
+        }
+      },
+      townhouse: {
+        homeowners: {
+          title: "DP-3 dwelling package",
+          fit: "Primary recommendation for single-rental stock",
+          premium: "$214/mo est.",
+          summary: "Covers dwelling risks, liability, and fair-rental-value loss for smaller landlord holdings."
+        },
+        titlePolicy: {
+          title: "Owner's title insurance",
+          fit: "Recommended at acquisition",
+          premium: "$2,640 one-time est.",
+          summary: "Keeps transfer defects and lien surprises from impairing yield or refinancing plans."
+        },
+        landlord: {
+          title: "Landlord liability + rent default add-on",
+          fit: "Primary recommendation",
+          premium: "$296/mo est.",
+          summary: "Pairs rent interruption, premises liability, and optional legal expense protection for active rental operators."
+        },
+        life: {
+          title: "Term life for debt-service continuity",
+          fit: "Recommended when leverage is used",
+          premium: "$58/mo est.",
+          summary: "Useful for investors with financing exposure or family reliance on portfolio cashflows."
+        }
+      }
+    }
+  },
+  advisor: {
+    profileLabel: "Suitability-led advisory coverage review",
+    secureExchange: "ACORD summary packet with title, property, and beneficiary disclosures for approval workflows",
+    controls: [
+      "NAIC-aligned consumer notice, access recertification, and secure disposal requirements are attached to the advisory packet.",
+      "Advisor release only exposes policy classes, exclusions, and underwriting blockers that fit entitlement scope.",
+      "Evidence routing preserves consent, redaction, and tamper-evident transmission controls for partner servicing teams."
+    ],
+    options: {
+      luxury: {
+        homeowners: {
+          title: "High-value homeowners + valuables schedule",
+          fit: "Primary recommendation",
+          premium: "$352/mo est.",
+          summary: "Designed for premium residences with higher contents values, broader liability expectations, and counsel-visible exclusions."
+        },
+        titlePolicy: {
+          title: "Enhanced title with fraud defense",
+          fit: "Recommended for approval-ready closing",
+          premium: "$3,120 one-time est.",
+          summary: "Extends title protection where premium assets need stronger fraud, recording, and ownership challenge defenses."
+        },
+        landlord: {
+          title: "Executive landlord contingency cover",
+          fit: "Optional if client may lease later",
+          premium: "$64/mo add-on est.",
+          summary: "Useful when premium residences may shift into limited rental use after client relocation or portfolio changes."
+        },
+        life: {
+          title: "High-limit term life + estate liquidity rider",
+          fit: "Recommended for family-office cases",
+          premium: "$96/mo est.",
+          summary: "Supports payment continuity, estate planning, and beneficiary protection for complex ownership structures."
+        }
+      },
+      condo: {
+        homeowners: {
+          title: "HO-6 plus liability and legal expense",
+          fit: "Primary recommendation",
+          premium: "$198/mo est.",
+          summary: "Fits premium advisory cases where internal finishes, contents, and association gap risk need explicit coverage."
+        },
+        titlePolicy: {
+          title: "Owner's title policy",
+          fit: "Recommended",
+          premium: "$2,040 one-time est.",
+          summary: "Provides strong closing defense without the broader cost profile of enhanced luxury title packages."
+        },
+        landlord: {
+          title: "Short-term lease endorsement",
+          fit: "Optional",
+          premium: "$42/mo add-on est.",
+          summary: "Adds controlled rental flexibility while preserving advisory clarity on exclusions and servicing limits."
+        },
+        life: {
+          title: "Term life / family protection",
+          fit: "Recommended when dependents rely on household income",
+          premium: "$55/mo est.",
+          summary: "Aligns payment continuity with family or beneficiary needs where leverage or relocation expenses are material."
+        }
+      }
+    }
+  }
+};
+
 const governanceProfiles = [
   {
     framework: "ISO/IEC 27001",
@@ -598,7 +790,14 @@ const state = {
   propertyValue: 620000,
   sourceOfFundsVerified: true,
   criminalRecordClear: true,
-  healthInsuranceReady: true
+  healthInsuranceReady: true,
+  insurancePropertyType: "single_family",
+  insuranceTransactionContext: "purchase",
+  insuranceOccupancy: "owner_occupied",
+  insuranceHouseholdRisk: "family_protection",
+  insuranceNeedsTitle: true,
+  insuranceNeedsLandlord: false,
+  insuranceNeedsLife: true
 };
 
 const title = document.getElementById("journey-title");
@@ -666,6 +865,23 @@ const privacySummary = document.getElementById("privacy-summary");
 const ruleCheckList = document.getElementById("rule-check-list");
 const documentCheckList = document.getElementById("document-check-list");
 const complianceWorkflowList = document.getElementById("compliance-workflow-list");
+const insuranceProgramTitle = document.getElementById("insurance-program-title");
+const insuranceStatusPill = document.getElementById("insurance-status-pill");
+const insuranceSummary = document.getElementById("insurance-summary");
+const insurancePropertyType = document.getElementById("insurance-property-type");
+const insuranceTransactionContext = document.getElementById("insurance-transaction-context");
+const insuranceOccupancy = document.getElementById("insurance-occupancy");
+const insuranceHouseholdRisk = document.getElementById("insurance-household-risk");
+const insuranceTitleToggle = document.getElementById("insurance-title-toggle");
+const insuranceLandlordToggle = document.getElementById("insurance-landlord-toggle");
+const insuranceLifeToggle = document.getElementById("insurance-life-toggle");
+const insuranceReadinessScore = document.getElementById("insurance-readiness-score");
+const insurancePrimaryPackage = document.getElementById("insurance-primary-package");
+const insuranceAcordMode = document.getElementById("insurance-acord-mode");
+const insuranceNaicPosture = document.getElementById("insurance-naic-posture");
+const insuranceOptionList = document.getElementById("insurance-option-list");
+const insurancePayloadList = document.getElementById("insurance-payload-list");
+const insuranceControlList = document.getElementById("insurance-control-list");
 
 function currency(value) {
   return new Intl.NumberFormat("en-US", {
@@ -699,6 +915,43 @@ function populateStaticControls() {
   ]
     .map(([value, label]) => `<option value="${value}">${label}</option>`)
     .join("");
+
+  insurancePropertyType.innerHTML = [
+    ["single_family", "Single-family home"],
+    ["condo", "Condo / apartment"],
+    ["townhouse", "Townhouse"],
+    ["multifamily", "Multifamily / rental block"],
+    ["luxury", "Luxury residence"]
+  ]
+    .map(([value, label]) => `<option value="${value}">${label}</option>`)
+    .join("");
+
+  insuranceTransactionContext.innerHTML = [
+    ["purchase", "Purchase / offer stage"],
+    ["closing", "Closing and title binding"],
+    ["refinance", "Refinance / restructure"],
+    ["portfolio", "Portfolio review"]
+  ]
+    .map(([value, label]) => `<option value="${value}">${label}</option>`)
+    .join("");
+
+  insuranceOccupancy.innerHTML = [
+    ["owner_occupied", "Owner occupied"],
+    ["second_home", "Second home"],
+    ["tenant_occupied", "Tenant occupied"],
+    ["mixed_use", "Mixed use / flexible"]
+  ]
+    .map(([value, label]) => `<option value="${value}">${label}</option>`)
+    .join("");
+
+  insuranceHouseholdRisk.innerHTML = [
+    ["family_protection", "Family protection"],
+    ["asset_preservation", "Asset preservation"],
+    ["debt_continuity", "Debt continuity"],
+    ["estate_planning", "Estate planning"]
+  ]
+    .map(([value, label]) => `<option value="${value}">${label}</option>`)
+    .join("");
 }
 
 function applyJourneyDefaults(journeyKey) {
@@ -726,6 +979,20 @@ function applyJourneyDefaults(journeyKey) {
   sourceOfFundsToggle.checked = state.sourceOfFundsVerified;
   criminalRecordToggle.checked = state.criminalRecordClear;
   healthInsuranceToggle.checked = state.healthInsuranceReady;
+  state.insurancePropertyType = journeyKey === "investor" ? "multifamily" : journeyKey === "advisor" ? "luxury" : "single_family";
+  state.insuranceTransactionContext = journeyKey === "advisor" ? "closing" : "purchase";
+  state.insuranceOccupancy = journeyKey === "investor" ? "tenant_occupied" : "owner_occupied";
+  state.insuranceHouseholdRisk = journeyKey === "investor" ? "asset_preservation" : journeyKey === "advisor" ? "estate_planning" : "family_protection";
+  state.insuranceNeedsTitle = true;
+  state.insuranceNeedsLandlord = journeyKey === "investor";
+  state.insuranceNeedsLife = journeyKey !== "investor" || state.financing;
+  insurancePropertyType.value = state.insurancePropertyType;
+  insuranceTransactionContext.value = state.insuranceTransactionContext;
+  insuranceOccupancy.value = state.insuranceOccupancy;
+  insuranceHouseholdRisk.value = state.insuranceHouseholdRisk;
+  insuranceTitleToggle.checked = state.insuranceNeedsTitle;
+  insuranceLandlordToggle.checked = state.insuranceNeedsLandlord;
+  insuranceLifeToggle.checked = state.insuranceNeedsLife;
   populateObjectives();
   objectiveSelect.value = state.objective;
 }
@@ -1240,6 +1507,109 @@ function renderResidencyEngine() {
     .join("");
 }
 
+function getInsuranceScenario() {
+  const profileConfig = insuranceProfiles[state.activeJourney];
+  const options = profileConfig.options[state.insurancePropertyType] || profileConfig.options.single_family || profileConfig.options.condo || Object.values(profileConfig.options)[0];
+  const optionList = [
+    { key: "homeowners", label: state.insurancePropertyType === "multifamily" ? "Property package" : "Homeowners" },
+    { key: "titlePolicy", label: "Title" },
+    { key: "landlord", label: "Landlord" },
+    { key: "life", label: "Life / continuity" }
+  ].filter((item) => item.key !== "landlord" || state.insuranceNeedsLandlord)
+    .filter((item) => item.key !== "titlePolicy" || state.insuranceNeedsTitle)
+    .filter((item) => item.key !== "life" || state.insuranceNeedsLife)
+    .map((item) => ({ ...item, ...options[item.key] }));
+
+  const readinessBase = 0.61
+    + (state.insuranceNeedsTitle ? 0.06 : 0)
+    + (state.insuranceNeedsLife ? 0.05 : 0)
+    + (state.insuranceNeedsLandlord ? 0.05 : 0)
+    + (state.insuranceOccupancy === "owner_occupied" ? 0.05 : 0)
+    + (state.insuranceTransactionContext === "closing" ? 0.04 : state.insuranceTransactionContext === "portfolio" ? -0.02 : 0)
+    + (state.risk === "conservative" ? 0.05 : state.risk === "opportunistic" ? -0.02 : 0)
+    + (state.insuranceHouseholdRisk === "estate_planning" ? 0.03 : state.insuranceHouseholdRisk === "debt_continuity" ? 0.02 : 0);
+  const readiness = Math.max(0.48, Math.min(0.97, readinessBase));
+  const status = readiness >= 0.8 ? "Release ready" : readiness >= 0.68 ? "Reviewable" : "Escalate";
+  const payload = [
+    {
+      title: "ACORD intake packet",
+      status: profileConfig.secureExchange,
+      detail: `Captures applicant, dwelling, occupancy, mortgage, title, and prior-loss fields with the minimum attributes required for ${state.insuranceTransactionContext} workflows.`
+    },
+    {
+      title: "Secure exchange envelope",
+      status: "mTLS + field encryption + correlation ID",
+      detail: "Outbound servicing traffic uses encrypted transport, message signing, and redaction-aware payload profiles before partner delivery."
+    },
+    {
+      title: "Release governance",
+      status: state.explanationDepth === "full" ? "Full evidence packet" : "Scoped decision summary",
+      detail: "Quote assumptions, exclusions, carrier appetite, and underwriting blockers are released according to role, consent scope, and privacy tier."
+    }
+  ];
+  const primary = optionList[0];
+  return {
+    profileConfig,
+    options: optionList,
+    readiness,
+    status,
+    summary: `${profileConfig.profileLabel} guidance maps user profile, ${state.insurancePropertyType.replace(/_/g, " ")}, ${state.insuranceTransactionContext} timing, and ${state.insuranceHouseholdRisk.replace(/_/g, " ")} priorities into a policy stack that keeps homeowners, title, landlord, and life-related recommendations visible in one view.`,
+    acordMode: profileConfig.secureExchange,
+    naicPosture: "Purpose-bound sharing • encrypted exchange • role-based servicing • disposal controls",
+    primaryPackage: primary ? primary.title : "Coverage review",
+    payload,
+    controls: profileConfig.controls
+  };
+}
+
+function renderInsuranceEngine() {
+  const result = getInsuranceScenario();
+  insuranceProgramTitle.textContent = result.profileConfig.profileLabel;
+  insuranceStatusPill.textContent = result.status;
+  insuranceStatusPill.dataset.status = result.status.toLowerCase().replace(/\s+/g, "-");
+  insuranceSummary.textContent = result.summary;
+  insuranceReadinessScore.textContent = `${Math.round(result.readiness * 100)}/100`;
+  insurancePrimaryPackage.textContent = result.primaryPackage;
+  insuranceAcordMode.textContent = result.acordMode;
+  insuranceNaicPosture.textContent = result.naicPosture;
+
+  insuranceOptionList.innerHTML = result.options
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.label} • ${item.title}</strong>
+          <span>${item.fit} • ${item.premium}</span>
+        </div>
+        <p>${item.summary}</p>
+      </div>
+    `)
+    .join("");
+
+  insurancePayloadList.innerHTML = result.payload
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.title}</strong>
+          <span>${item.status}</span>
+        </div>
+        <p>${item.detail}</p>
+      </div>
+    `)
+    .join("");
+
+  insuranceControlList.innerHTML = result.controls
+    .map((item, index) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>Control ${index + 1}</strong>
+          <span>NAIC aligned</span>
+        </div>
+        <p>${item}</p>
+      </div>
+    `)
+    .join("");
+}
+
 function renderNextActions(journey, topCandidate) {
   const dynamicActions = [
     ...journey.nextActions,
@@ -1295,6 +1665,7 @@ function renderJourney() {
   renderContributions(topCandidate);
   renderDealBoard();
   renderResidencyEngine();
+  renderInsuranceEngine();
   renderNextActions(journey, topCandidate);
 
   budgetValue.textContent = `${currency(state.budget)} budget cap`;
@@ -1380,6 +1751,41 @@ criminalRecordToggle.addEventListener("change", (event) => {
 
 healthInsuranceToggle.addEventListener("change", (event) => {
   state.healthInsuranceReady = event.target.checked;
+  renderJourney();
+});
+
+insurancePropertyType.addEventListener("change", (event) => {
+  state.insurancePropertyType = event.target.value;
+  renderJourney();
+});
+
+insuranceTransactionContext.addEventListener("change", (event) => {
+  state.insuranceTransactionContext = event.target.value;
+  renderJourney();
+});
+
+insuranceOccupancy.addEventListener("change", (event) => {
+  state.insuranceOccupancy = event.target.value;
+  renderJourney();
+});
+
+insuranceHouseholdRisk.addEventListener("change", (event) => {
+  state.insuranceHouseholdRisk = event.target.value;
+  renderJourney();
+});
+
+insuranceTitleToggle.addEventListener("change", (event) => {
+  state.insuranceNeedsTitle = event.target.checked;
+  renderJourney();
+});
+
+insuranceLandlordToggle.addEventListener("change", (event) => {
+  state.insuranceNeedsLandlord = event.target.checked;
+  renderJourney();
+});
+
+insuranceLifeToggle.addEventListener("change", (event) => {
+  state.insuranceNeedsLife = event.target.checked;
   renderJourney();
 });
 
