@@ -5,7 +5,7 @@ const journeys = {
     confidence: 0.94,
     releaseStatus: "Ready with transaction review",
     headline: "Personalized shortlist shaped by property, finance, visa, insurance, pricing, and transaction experts",
-    subtitle: "The workspace keeps property guidance and deal execution in the same flow so users can see what happens next.",
+    subtitle: "The workspace reflects the target Next.js product surface while keeping property guidance, expert routing, and deal execution in the same flow.",
     steps: [
       "Capture investor type, relocation timeline, budget, and privacy preferences from the adaptive intake panel.",
       "Route the request through property, finance, visa, insurance, pricing, and transaction-risk experts based on stated goals.",
@@ -149,7 +149,7 @@ const journeys = {
     confidence: 0.92,
     releaseStatus: "Reviewable with advisor",
     headline: "Portfolio-style comparison that blends return, jurisdiction, negotiation posture, and diligence signals",
-    subtitle: "Investors get richer downside framing and stage-aware controls before capital is committed.",
+    subtitle: "Investors get richer downside framing, explainability, and stage-aware controls before capital is committed.",
     steps: [
       "Capture return goals, hold period, cross-border intent, and diversification preferences.",
       "Aggregate investment, pricing, visa, insurance, finance, and compliance outputs into one ranking model.",

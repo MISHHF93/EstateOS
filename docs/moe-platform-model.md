@@ -1,192 +1,224 @@
 # EstateOS Mixture-of-Experts Platform Model
 
-## 1. Operating idea
+## 1. Operating model
 
-EstateOS uses a practical Mixture-of-Experts (MoE) architecture: many specialized AI and rules-based expert services coordinated by one intelligent routing layer. The router chooses the right experts, in the right sequence, for the right user and situation.
+EstateOS uses a **Mixture-of-Experts (MoE)** model in which one router selects specialized expert systems based on user context, intent, geography, risk, and transaction stage. The router is responsible for choosing the right experts, coordinating them, and returning one explainable, policy-safe result.
 
-This architecture is designed for complex real estate and investment workflows where no single model should independently decide across valuation, residency, insurance, financial suitability, and compliance.
+## 2. Router activation signals
 
-## 2. Expert catalog
+The router should decide which experts activate based on:
 
-### 2.1 Property Valuation Expert
-- Estimates fair market value.
-- Selects comparable sales and rental references.
-- Scores market trends and location intelligence.
-- Provides confidence bands and market positioning explanation.
+- user type,
+- location,
+- property type,
+- investment goal,
+- residency intent,
+- risk score,
+- transaction stage.
 
-### 2.2 Listing Recommendation Expert
-- Ranks listings against user preferences and expert outputs.
-- Applies fairness, explainability, and tie-break policies before release.
-- Produces a why-this-rank explanation for each listing.
+The router should also consider:
 
-### 2.3 Investment Analysis Expert
-- Evaluates yield, IRR, DSCR, leverage, and downside scenarios.
-- Compares acquisition options across markets and holding periods.
-- Detects concentration and liquidity risk patterns.
+- identity assurance,
+- RBAC and entitlements,
+- KYC / AML / sanctions status,
+- consent scope,
+- privacy tier,
+- jurisdictional constraints,
+- required human-review thresholds.
 
-### 2.4 Residency Eligibility Expert
-- Checks residency-by-investment pathways by jurisdiction.
-- Evaluates applicant fit, budget thresholds, and likely blockers.
-- Flags mandatory legal review conditions.
+## 3. Canonical expert definitions
 
-### 2.5 Insurance Matching Expert
-- Assesses insurability and coverage fit.
-- Maps property characteristics to peril and underwriting signals.
-- Produces ACORD-oriented intake structure and quote readiness status.
+### 3.1 Property Recommendation Expert
 
-### 2.6 Financial Risk Expert
-- Measures affordability, payment capacity, FX exposure, and financing stress.
-- Runs rate and liquidity scenarios.
-- Identifies product suitability concerns.
+This expert ranks listings using:
 
-### 2.7 Compliance Validation Expert
-- Performs RBAC, MFA, KYC, AML, sanctions, privacy, retention, and release checks.
-- Blocks or conditions downstream responses when controls are not satisfied.
-- Produces remediation tasks and evidence requirements.
+- stated preferences,
+- budget,
+- neighborhood fit,
+- lifestyle match,
+- investor profile.
 
-### 2.8 Unified Compliance & Risk Intelligence Expert
-- Continuously evaluates platform activity across real estate, payments, insurance, and residency workflows.
-- Enforces AML/KYC, sanctions screening, audit logging, and cross-workflow risk scoring before and after release actions.
-- Aligns control monitoring and treatment escalation to ISO/IEC 27001 and ISO 31000.
+### 3.2 Property Valuation Expert
 
-### 2.9 UX Personalization Expert
-- Adapts presentation style and next actions to user role, confidence, blockers, and privacy tier.
-- Chooses whether to simplify, expand, redact, or escalate the decision narrative.
+This expert uses:
 
-## 3. Router responsibilities
+- comparable properties,
+- local market trends,
+- historical data,
+- supply and demand signals.
 
-The router is more than a simple dispatcher. It acts as the orchestration brain for all expert interactions.
+### 3.3 Investment ROI Expert
 
-### 3.1 The router decides
-- which experts are required,
-- which experts are optional enhancements,
-- whether experts run in parallel or sequence,
-- when compliance must interrupt the flow,
-- whether human review is mandatory,
-- how much detail can be released to the current actor,
-- how outputs are merged into one user-facing response.
+This expert calculates:
 
-### 3.2 Routing signals
-The router considers:
-- user intent,
-- role and permissions,
-- investor type,
-- geography and jurisdiction,
-- location of the user and location of the property,
-- profile completeness,
-- financial intent,
-- residency goals,
-- transaction stage,
-- trust posture from the identity layer,
-- risk level,
-- confidence thresholds,
-- service health and latency budgets,
-- policy dependencies.
+- rental yield,
+- appreciation potential,
+- cap rate,
+- occupancy assumptions,
+- downside scenarios.
 
-### 3.3 Identity-aware gating
-Before selecting experts for full execution, the router checks:
-- authentication assurance level,
-- MFA completion for the requested action,
-- RBAC roles and fine-grained entitlements,
-- KYC state and beneficial ownership completeness,
-- AML risk tier,
-- sanctions/PEP screening status,
-- privacy tier and consent scope,
-- data residency restrictions.
+### 3.4 Residency / Visa Eligibility Expert
 
-### 3.4 Mandatory controls
-Regardless of the user journey, the router always ensures:
-- compliance validation before release,
-- audit and evidence persistence,
-- explanation generation,
-- traceability to model and policy versions,
-- least-privilege release of sensitive content.
+This expert evaluates:
+
+- country-specific thresholds,
+- ownership requirements,
+- applicant profile,
+- family / dependent suitability,
+- document completeness.
+
+### 3.5 Insurance Recommendation Expert
+
+This expert recommends:
+
+- homeowners insurance,
+- landlord insurance,
+- renters insurance,
+- title coverage,
+- mortgage-protection coverage,
+- related life-insurance referral paths where appropriate.
+
+### 3.6 Payment / Fraud / Financial Risk Expert
+
+This expert checks:
+
+- transaction anomalies,
+- chargeback risk,
+- payment velocity,
+- identity/payment mismatch,
+- cross-border risk indicators.
+
+### 3.7 Compliance / AML / Sanctions Expert
+
+This expert handles:
+
+- KYC / AML,
+- sanctions screening,
+- PEP screening,
+- beneficial ownership,
+- transaction monitoring,
+- jurisdictional flags.
+
+### 3.8 UX Personalization Expert
+
+This expert adapts:
+
+- onboarding path,
+- page sequencing,
+- prompts,
+- educational content,
+- CTA timing.
+
+### 3.9 Document Intelligence Expert
+
+This expert processes:
+
+- uploaded IDs,
+- proofs of funds,
+- contracts,
+- deeds,
+- insurance paperwork,
+- visa documents.
+
+### 3.10 Market Forecast / Trend Expert
+
+This expert surfaces:
+
+- trend alerts,
+- neighborhood outlook,
+- pricing heatmaps,
+- investment caution flags.
 
 ## 4. Example routing patterns
 
-### 4.1 Investor exploring Portugal with residency goals
-Route to:
-- identity trust service,
-- Property Valuation Expert,
-- Investment Analysis Expert,
-- Residency Eligibility Expert,
-- Financial Risk Expert,
-- Insurance Matching Expert,
-- Compliance Validation Expert,
-- Unified Compliance & Risk Intelligence Expert.
+### 4.1 International investor
 
-### 4.2 Homebuyer checking fair value and affordability
-Route to:
-- identity trust service,
-- Property Valuation Expert,
-- Financial Risk Expert,
-- Compliance Validation Expert,
-- Unified Compliance & Risk Intelligence Expert,
-- UX Personalization Expert.
+**User:** international investor
+**Intent:** buy property in Dubai and explore residency
 
-### 4.3 High-risk coastal property insurance case
-Route to:
-- identity trust service,
-- Insurance Matching Expert,
-- Financial Risk Expert,
-- Compliance Validation Expert,
-- Unified Compliance & Risk Intelligence Expert,
-- advisor/human review workflow.
+The router activates:
 
-## 5. Explainability contract
+- Property Recommendation Expert,
+- Investment ROI Expert,
+- Residency / Visa Eligibility Expert,
+- Compliance / AML / Sanctions Expert,
+- Insurance Recommendation Expert.
 
-Every expert returns structured output with:
-- domain summary,
+### 4.2 First-time renter
+
+**User:** first-time renter
+**Intent:** find an apartment and get renters insurance
+
+The router activates:
+
+- Property Recommendation Expert,
+- UX Personalization Expert,
+- Insurance Recommendation Expert,
+- Payment / Fraud / Financial Risk Expert.
+
+## 5. Router responsibilities
+
+The router must:
+
+- detect intent and stage,
+- assemble identity and trust context,
+- select one or more experts,
+- run independent experts in parallel when safe,
+- force compliance-aware release gating,
+- aggregate and rank results,
+- generate risk explanations,
+- escalate to human review when thresholds are crossed,
+- preserve evidence for audit and governance.
+
+## 6. Explainability contract
+
+Every expert should return:
+
+- a domain summary,
 - key factors,
 - confidence,
 - evidence references,
 - policy dependencies,
-- next actions,
-- release scope constraints.
+- next steps,
+- release constraints where relevant.
 
-The router then synthesizes these outputs into:
+The router should then produce:
+
 - a final recommendation,
-- a why-this-was-selected explanation,
-- a what-is-blocking-release explanation,
-- a recommended next step or escalation,
-- a trust-state summary that explains how identity and privacy affected the result.
+- a why-this-result explanation,
+- any blocking or hold reasons,
+- a trust-state summary,
+- and an action-oriented next-step recommendation.
 
-## 6. Why MoE fits EstateOS
+## 7. Why this model fits EstateOS
 
 This model fits the platform because it:
-- preserves domain depth instead of flattening all intelligence into one model,
-- supports independent governance and evaluation for each expert, including ISO/IEC 5259 data quality controls, ISO/IEC 42001 AI management controls, and ISO 31000-aligned risk treatment,
-- aligns naturally with microservices and event-driven infrastructure,
-- improves explainability through explicit expert selection,
-- makes regulatory gating and human review first-class concerns,
-- allows profile- and trust-aware personalization without losing compliance boundaries.
 
-## 7. Azure implementation concept
+- keeps domain intelligence specialized,
+- supports modular backend decomposition,
+- improves explainability,
+- enables regulatory gating,
+- supports phased rollout from MVP to full orchestration,
+- and aligns naturally to Azure-native event-driven services.
 
-A reference deployment uses:
-- API Management for secure ingress,
-- Entra External ID for authentication, MFA, and role claims,
-- AKS for router and expert services,
-- Service Bus and Event Grid for asynchronous coordination,
-- Azure Functions for event handlers and evidence generation,
-- Azure SQL, Cosmos DB, and Data Lake for state and evidence,
-- Azure Monitor, Sentinel, Purview, and Key Vault for operations and security.
+## 8. Maturity path
 
-### 7.1 Deployment fabric
-- Build every expert and routing component as a container image, publish it to Azure Container Registry, and deploy it to AKS or Azure Container Apps based on latency, cost, and isolation needs.
-- Separate CPU-bound orchestration services from GPU-bound inference pools so scaling decisions follow real workload characteristics.
-- Use service-mesh controls for mutual TLS, traffic shaping, retries, canaries, and per-expert policy enforcement.
+### 8.1 MVP
 
-### 7.2 Model versioning and rollout
-- Register model checkpoints, prompt templates, retrieval indexes, and safety policies in Azure Machine Learning so the router can target approved bundles by immutable version.
-- Run champion/challenger evaluations before promotion and keep the previous production bundle available for instant rollback.
-- Attach model version IDs, container digests, and evaluation baselines to the evidence packet for every routed decision.
+- Property Recommendation Expert only, or recommendation plus basic compliance checks.
+- Human-readable explanations.
+- Initial identity, search, and deal workflow integration.
 
-### 7.3 Monitoring pipeline
-- Correlate router traces, expert latency, token usage, queue depth, confidence shifts, and policy outcomes with OpenTelemetry data in Azure Monitor and Application Insights.
-- Run drift, quality, and safety monitoring pipelines on historical inference logs and sampled decisions.
-- Escalate anomalies to security and platform operations through Sentinel and established incident runbooks.
+### 8.2 Phase 2
 
-## 8. One-sentence summary
+- Add Valuation, ROI, Visa, and Insurance experts.
+- Add admin/compliance workbench.
+- Add stronger evidence capture.
 
-EstateOS applies specialized expert intelligence through one auditable routing layer so users get the right property, investment, residency, insurance, financial, and compliance guidance for their exact context, trust posture, and privacy constraints.
+### 8.3 Phase 3
+
+- Full expert routing.
+- Dynamic UX personalization.
+- Document intelligence.
+- Market forecasting.
+- Rich model governance and explainability.
