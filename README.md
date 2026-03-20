@@ -41,7 +41,7 @@ The target platform follows six major layers:
 
 Detailed architecture guidance lives in `docs/architecture.md`, the exact source-of-truth blueprint now lives in `docs/authoritative-blueprint.md`, and the repository migration rules now live in `docs/repository-transition.md`.
 A repo-wide alignment checklist now lives in `docs/blueprint-alignment.md` so contributors can quickly validate that new work still matches the locked MoE real estate platform direction. `docs/platform-manifest.md` adds a concise implementation-facing contract that maps the authoritative blueprint to repository guardrails and delivery phases.
-`docs/architecture-scorecard.md` adds a direct alignment verdict and an acceptance checklist that contributors can use to verify that new work still abides by the requested platform architecture.
+`docs/architecture-scorecard.md` adds a direct alignment verdict and an acceptance checklist that contributors can use to verify that new work still abides by the requested platform architecture. `docs/current-state-alignment-audit.md` now captures the more exact current-state answer: EstateOS abides to the blueprint as a governed scaffold/reference implementation, not yet as a fully delivered production platform.
 
 ## Required implementation stack
 
@@ -211,6 +211,12 @@ Run the current orchestration reference implementation:
 
 ```bash
 python3 backend/orchestration.py
+```
+
+Run the repository-level architecture alignment check:
+
+```bash
+python3 scripts/check_architecture_alignment.py
 ```
 
 ## Repository status after this update
