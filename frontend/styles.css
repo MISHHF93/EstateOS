@@ -581,3 +581,55 @@ input[type="range"] {
     grid-template-columns: 1fr;
   }
 }
+
+.residency-layout {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1.4fr repeat(3, minmax(0, 1fr));
+  margin-top: 1.5rem;
+}
+
+.residency-card--primary {
+  grid-column: span 2;
+}
+
+.residency-form {
+  margin-top: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.residency-metric-grid {
+  margin-top: 1.25rem;
+}
+
+.status-pill[data-status="eligible"] {
+  border-color: rgba(155, 231, 177, 0.45);
+  color: var(--success);
+}
+
+.status-pill[data-status="eligible-with-review"] {
+  border-color: rgba(255, 212, 121, 0.45);
+  color: var(--warning);
+}
+
+.status-pill[data-status="ineligible"] {
+  border-color: rgba(255, 159, 159, 0.45);
+  color: var(--danger);
+}
+
+@media (max-width: 1180px) {
+  .residency-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .residency-card--primary {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .residency-layout,
+  .residency-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

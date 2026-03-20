@@ -509,6 +509,60 @@ const propertyIntelligence = {
   }
 };
 
+const residencyPrograms = {
+  Portugal: {
+    program: "Portugal D7 Residency",
+    pathwayType: "Passive-income residency",
+    minimumPropertyValue: 0,
+    minimumAnnualIncome: 12000,
+    minimumLiquidAssets: 36000,
+    documents: ["Passport", "Proof of income", "Bank statements", "Health insurance", "Criminal record", "Proof of address"],
+    reviewDocuments: ["Portuguese tax number", "Lease or property deed", "Family dependents pack"],
+    workflow: [
+      "KYC identity verification",
+      "AML source-of-funds review",
+      "Document authenticity validation",
+      "Privacy minimization and consent logging",
+      "Counsel filing review"
+    ],
+    notes: "Property helps the file but recurring income and accommodation evidence remain the core gate."
+  },
+  Greece: {
+    program: "Greece Golden Visa",
+    pathwayType: "Property-led residency",
+    minimumPropertyValue: 250000,
+    minimumAnnualIncome: 0,
+    minimumLiquidAssets: 50000,
+    documents: ["Passport", "Property purchase agreement", "Proof of funds", "Health insurance", "Criminal record"],
+    reviewDocuments: ["Land registry extract", "Greek tax number", "Family dependents pack"],
+    workflow: [
+      "KYC identity verification",
+      "AML source-of-funds review",
+      "Property title and valuation validation",
+      "Privacy minimization and consent logging",
+      "Compliance sign-off before filing"
+    ],
+    notes: "Property value and own-funds traceability are the main automated checks before counsel review."
+  },
+  UAE: {
+    program: "UAE Property Investor Visa",
+    pathwayType: "Property investor residence",
+    minimumPropertyValue: 205000,
+    minimumAnnualIncome: 0,
+    minimumLiquidAssets: 75000,
+    documents: ["Passport", "Property title deed", "Proof of funds", "Health insurance", "Bank statements"],
+    reviewDocuments: ["Emirates ID application pack", "Utility bill", "Family dependents pack"],
+    workflow: [
+      "KYC identity verification",
+      "AML source-of-funds review",
+      "Property ownership confirmation",
+      "Privacy minimization and consent logging",
+      "Operational visa issuance handoff"
+    ],
+    notes: "Higher property values can improve pathway strength, but title deed quality and source-of-funds evidence are usually decisive."
+  }
+};
+
 const governanceProfiles = [
   {
     framework: "ISO/IEC 27001",
@@ -537,7 +591,14 @@ const state = {
   explanationDepth: "guided",
   budget: 650000,
   residency: true,
-  financing: true
+  financing: true,
+  jurisdiction: "Portugal",
+  annualIncome: 145000,
+  liquidAssets: 280000,
+  propertyValue: 620000,
+  sourceOfFundsVerified: true,
+  criminalRecordClear: true,
+  healthInsuranceReady: true
 };
 
 const title = document.getElementById("journey-title");
@@ -585,6 +646,26 @@ const dealStageList = document.getElementById("deal-stage-list");
 const dealExpertList = document.getElementById("deal-expert-list");
 const documentList = document.getElementById("document-list");
 const complianceControlList = document.getElementById("compliance-control-list");
+const jurisdictionSelect = document.getElementById("jurisdiction-select");
+const incomeRange = document.getElementById("income-range");
+const incomeValue = document.getElementById("income-value");
+const assetsRange = document.getElementById("assets-range");
+const assetsValue = document.getElementById("assets-value");
+const propertyValueRange = document.getElementById("property-value-range");
+const propertyValueLabel = document.getElementById("property-value");
+const sourceOfFundsToggle = document.getElementById("source-of-funds-toggle");
+const criminalRecordToggle = document.getElementById("criminal-record-toggle");
+const healthInsuranceToggle = document.getElementById("health-insurance-toggle");
+const residencyProgramTitle = document.getElementById("residency-program-title");
+const residencyStatusPill = document.getElementById("residency-status-pill");
+const residencySummary = document.getElementById("residency-summary");
+const eligibilityScore = document.getElementById("eligibility-score");
+const pathwayType = document.getElementById("pathway-type");
+const kycAmlSummary = document.getElementById("kyc-aml-summary");
+const privacySummary = document.getElementById("privacy-summary");
+const ruleCheckList = document.getElementById("rule-check-list");
+const documentCheckList = document.getElementById("document-check-list");
+const complianceWorkflowList = document.getElementById("compliance-workflow-list");
 
 function currency(value) {
   return new Intl.NumberFormat("en-US", {
@@ -597,6 +678,10 @@ function currency(value) {
 function populateStaticControls() {
   personaSelect.innerHTML = Object.entries(journeys)
     .map(([key, journey]) => `<option value="${key}">${journey.title}</option>`)
+    .join("");
+
+  jurisdictionSelect.innerHTML = Object.keys(residencyPrograms)
+    .map((jurisdiction) => `<option value="${jurisdiction}">${jurisdiction}</option>`)
     .join("");
 
   riskSelect.innerHTML = [
@@ -632,6 +717,15 @@ function applyJourneyDefaults(journeyKey) {
   budgetRange.value = state.budget;
   residencyToggle.checked = state.residency;
   financingToggle.checked = state.financing;
+  state.jurisdiction = journeyKey === "investor" ? "Greece" : journeyKey === "advisor" ? "UAE" : "Portugal";
+  state.propertyValue = Math.min(Math.max(journey.candidates[0].price, 0), Number(propertyValueRange.max || 2000000));
+  jurisdictionSelect.value = state.jurisdiction;
+  incomeRange.value = state.annualIncome;
+  assetsRange.value = state.liquidAssets;
+  propertyValueRange.value = state.propertyValue;
+  sourceOfFundsToggle.checked = state.sourceOfFundsVerified;
+  criminalRecordToggle.checked = state.criminalRecordClear;
+  healthInsuranceToggle.checked = state.healthInsuranceReady;
   populateObjectives();
   objectiveSelect.value = state.objective;
 }
@@ -977,6 +1071,175 @@ function renderDealBoard() {
     .join("");
 }
 
+function evaluateResidencyProgram() {
+  const program = residencyPrograms[state.jurisdiction];
+  const requiredDocsOnFile = [
+    state.sourceOfFundsVerified ? program.documents[2] || "Proof of funds" : null,
+    state.healthInsuranceReady ? "Health insurance" : null,
+    state.criminalRecordClear ? "Criminal record" : null
+  ].filter(Boolean);
+
+  const ruleChecks = [
+    {
+      name: "Property threshold",
+      status: state.propertyValue >= program.minimumPropertyValue ? "Pass" : "Review",
+      detail: program.minimumPropertyValue
+        ? `Property value ${currency(state.propertyValue)} vs. minimum ${currency(program.minimumPropertyValue)}.`
+        : "No minimum property purchase is required for the base pathway."
+    },
+    {
+      name: "Income threshold",
+      status: state.annualIncome >= program.minimumAnnualIncome ? "Pass" : "Review",
+      detail: `Annual income ${currency(state.annualIncome)} vs. minimum ${currency(program.minimumAnnualIncome)}.`
+    },
+    {
+      name: "Liquid asset threshold",
+      status: state.liquidAssets >= program.minimumLiquidAssets ? "Pass" : "Review",
+      detail: `Liquid assets ${currency(state.liquidAssets)} vs. minimum ${currency(program.minimumLiquidAssets)}.`
+    },
+    {
+      name: "Source-of-funds check",
+      status: state.sourceOfFundsVerified ? "Pass" : "Review",
+      detail: "KYC/AML workflow requires source-of-funds evidence before the case can be released externally."
+    },
+    {
+      name: "Criminal record check",
+      status: state.criminalRecordClear ? "Pass" : "Block",
+      detail: "Jurisdiction filing remains blocked until criminal record clearance is on file."
+    },
+    {
+      name: "Health insurance check",
+      status: state.healthInsuranceReady ? "Pass" : "Review",
+      detail: "Coverage confirmation is tracked because filing packets often require proof of insurance."
+    }
+  ];
+
+  const documentChecks = [
+    ...program.documents.map((document) => ({
+      document,
+      status:
+        document === "Health insurance"
+          ? state.healthInsuranceReady
+            ? "Ready"
+            : "Missing"
+          : document === "Criminal record"
+            ? state.criminalRecordClear
+              ? "Ready"
+              : "Missing"
+            : document === "Proof of funds" || document === "Bank statements" || document === "Proof of income"
+              ? state.sourceOfFundsVerified
+                ? "Ready"
+                : "Missing"
+              : "Ready",
+      detail: requiredDocsOnFile.includes(document) || !["Health insurance", "Criminal record", "Proof of funds", "Bank statements", "Proof of income"].includes(document)
+        ? "Document is in the controlled evidence bundle or modeled as available."
+        : "Document needs collection or refresh before submission."
+    })),
+    ...program.reviewDocuments.map((document) => ({
+      document,
+      status: "Recommended",
+      detail: "Supplemental evidence improves legal review, family processing, or property traceability."
+    }))
+  ];
+
+  const workflow = program.workflow.map((step, index) => {
+    const lower = step.toLowerCase();
+    const status = lower.includes("kyc")
+      ? "Completed"
+      : lower.includes("aml")
+        ? state.sourceOfFundsVerified
+          ? "Completed"
+          : "Review"
+        : lower.includes("privacy")
+          ? "Completed"
+          : lower.includes("filing") || lower.includes("sign-off")
+            ? documentChecks.some((item) => item.status === "Missing")
+              ? "Blocked"
+              : "Ready"
+            : state.propertyValue >= program.minimumPropertyValue
+              ? "Ready"
+              : "Review";
+
+    return {
+      step: `${index + 1}. ${step}`,
+      owner: lower.includes("privacy") ? "Privacy office" : lower.includes("aml") ? "AML analyst" : lower.includes("kyc") ? "Compliance ops" : lower.includes("filing") || lower.includes("sign-off") ? "Jurisdiction counsel" : "Residency operations",
+      status,
+      detail: "Workflow is tracked with KYC/AML evidence, document review states, and ISO/IEC 27701 privacy controls."
+    };
+  });
+
+  const blocked = ruleChecks.some((item) => item.status === "Block");
+  const reviewCount = ruleChecks.filter((item) => item.status === "Review").length + documentChecks.filter((item) => item.status === "Missing").length;
+  const status = blocked ? "Ineligible" : reviewCount ? "Eligible with review" : "Eligible";
+  const score = Math.max(0.48, Math.min(0.99, 0.58 + ruleChecks.filter((item) => item.status === "Pass").length * 0.06 - reviewCount * 0.04 - (blocked ? 0.18 : 0)));
+
+  return {
+    program,
+    status,
+    score,
+    ruleChecks,
+    documentChecks,
+    workflow,
+    kycAml: state.sourceOfFundsVerified
+      ? "KYC complete • AML source-of-funds matched"
+      : "KYC complete • AML source-of-funds pending",
+    privacy: "ISO/IEC 27701 purpose limitation • consent-scoped sharing • retention-aware evidence handling",
+    summary: `${program.program} evaluates income, liquid assets, property value, and document readiness before routing cases into counsel and compliance review. ${program.notes}`
+  };
+}
+
+function renderResidencyEngine() {
+  const result = evaluateResidencyProgram();
+  residencyProgramTitle.textContent = result.program.program;
+  residencyStatusPill.textContent = result.status;
+  residencyStatusPill.dataset.status = result.status.toLowerCase().replace(/\s+/g, "-");
+  residencySummary.textContent = result.summary;
+  eligibilityScore.textContent = `${Math.round(result.score * 100)}/100`;
+  pathwayType.textContent = result.program.pathwayType;
+  kycAmlSummary.textContent = result.kycAml;
+  privacySummary.textContent = result.privacy;
+  incomeValue.textContent = `${currency(state.annualIncome)} household income`;
+  assetsValue.textContent = `${currency(state.liquidAssets)} liquid assets`;
+  propertyValueLabel.textContent = `${currency(state.propertyValue)} property value`;
+
+  ruleCheckList.innerHTML = result.ruleChecks
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.name}</strong>
+          <span>${item.status}</span>
+        </div>
+        <p>${item.detail}</p>
+      </div>
+    `)
+    .join("");
+
+  documentCheckList.innerHTML = result.documentChecks
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.document}</strong>
+          <span>${item.status}</span>
+        </div>
+        <p>${item.detail}</p>
+      </div>
+    `)
+    .join("");
+
+  complianceWorkflowList.innerHTML = result.workflow
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.step}</strong>
+          <span>${item.status}</span>
+        </div>
+        <p>${item.detail}</p>
+        <small>Owner • ${item.owner}</small>
+      </div>
+    `)
+    .join("");
+}
+
 function renderNextActions(journey, topCandidate) {
   const dynamicActions = [
     ...journey.nextActions,
@@ -1031,6 +1294,7 @@ function renderJourney() {
   renderGovernance();
   renderContributions(topCandidate);
   renderDealBoard();
+  renderResidencyEngine();
   renderNextActions(journey, topCandidate);
 
   budgetValue.textContent = `${currency(state.budget)} budget cap`;
@@ -1081,6 +1345,41 @@ residencyToggle.addEventListener("change", (event) => {
 
 financingToggle.addEventListener("change", (event) => {
   state.financing = event.target.checked;
+  renderJourney();
+});
+
+jurisdictionSelect.addEventListener("change", (event) => {
+  state.jurisdiction = event.target.value;
+  renderJourney();
+});
+
+incomeRange.addEventListener("input", (event) => {
+  state.annualIncome = Number(event.target.value);
+  renderJourney();
+});
+
+assetsRange.addEventListener("input", (event) => {
+  state.liquidAssets = Number(event.target.value);
+  renderJourney();
+});
+
+propertyValueRange.addEventListener("input", (event) => {
+  state.propertyValue = Number(event.target.value);
+  renderJourney();
+});
+
+sourceOfFundsToggle.addEventListener("change", (event) => {
+  state.sourceOfFundsVerified = event.target.checked;
+  renderJourney();
+});
+
+criminalRecordToggle.addEventListener("change", (event) => {
+  state.criminalRecordClear = event.target.checked;
+  renderJourney();
+});
+
+healthInsuranceToggle.addEventListener("change", (event) => {
+  state.healthInsuranceReady = event.target.checked;
   renderJourney();
 });
 

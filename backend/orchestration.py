@@ -251,6 +251,80 @@ class TransactionDecisionPacket:
     timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
+@dataclass(frozen=True)
+class ResidencyApplicantProfile:
+    applicant_id: str
+    citizenship_country: str
+    current_country: str
+    target_jurisdiction: str
+    household_size: int
+    dependents: int
+    annual_income: int
+    liquid_assets: int
+    property_budget: int
+    property_value: int
+    source_of_funds_verified: bool
+    criminal_record_clear: bool
+    health_insurance_ready: bool
+    documents_on_file: Sequence[str]
+
+
+@dataclass(frozen=True)
+class ResidencyRule:
+    program_name: str
+    jurisdiction: str
+    pathway_type: str
+    minimum_property_value: int
+    minimum_annual_income: int
+    minimum_liquid_assets: int
+    financing_allowed: bool
+    required_documents: Sequence[str]
+    review_documents: Sequence[str]
+    compliance_workflow: Sequence[str]
+    notes: Sequence[str]
+
+
+@dataclass(frozen=True)
+class ResidencyRuleCheck:
+    name: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class ResidencyDocumentCheck:
+    document: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class ResidencyComplianceStep:
+    step: str
+    owner: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class ResidencyEligibilityPacket:
+    request_id: str
+    applicant: ResidencyApplicantProfile
+    program: str
+    jurisdiction: str
+    pathway_type: str
+    eligibility_status: str
+    eligibility_score: float
+    rule_checks: Sequence[ResidencyRuleCheck]
+    document_checks: Sequence[ResidencyDocumentCheck]
+    compliance_workflow: Sequence[ResidencyComplianceStep]
+    kyc_aml_summary: str
+    privacy_summary: str
+    explanation: str
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
 EXPERT_REGISTRY: Sequence[ExpertCard] = (
     ExpertCard(
         name="property_valuation",
@@ -443,6 +517,94 @@ STANDARDS_ALIGNMENT: Sequence[str] = (
     "ISO 31000",
     "ISO 9241-210",
 )
+
+RESIDENCY_RULES: Dict[str, ResidencyRule] = {
+    "Portugal": ResidencyRule(
+        program_name="Portugal D7 Residency",
+        jurisdiction="Portugal",
+        pathway_type="passive-income residency",
+        minimum_property_value=0,
+        minimum_annual_income=12000,
+        minimum_liquid_assets=36000,
+        financing_allowed=True,
+        required_documents=(
+            "passport",
+            "proof_of_income",
+            "bank_statements",
+            "health_insurance",
+            "criminal_record",
+            "proof_of_address",
+        ),
+        review_documents=("tax_number", "lease_or_property_deed", "family_dependents_pack"),
+        compliance_workflow=(
+            "KYC identity verification",
+            "AML source-of-funds review",
+            "Document authenticity validation",
+            "Privacy minimization and consent logging",
+            "Manual legal review before submission",
+        ),
+        notes=(
+            "Property purchase can strengthen relocation evidence but is not the minimum eligibility lever.",
+            "Income and proof-of-accommodation evidence should be mapped for each dependent.",
+        ),
+    ),
+    "Greece": ResidencyRule(
+        program_name="Greece Golden Visa",
+        jurisdiction="Greece",
+        pathway_type="property-led residency",
+        minimum_property_value=250000,
+        minimum_annual_income=0,
+        minimum_liquid_assets=50000,
+        financing_allowed=False,
+        required_documents=(
+            "passport",
+            "property_purchase_agreement",
+            "proof_of_funds",
+            "health_insurance",
+            "criminal_record",
+        ),
+        review_documents=("land_registry_extract", "tax_number", "family_dependents_pack"),
+        compliance_workflow=(
+            "KYC identity verification",
+            "AML source-of-funds review",
+            "Property title and valuation validation",
+            "Privacy minimization and consent logging",
+            "Manual compliance sign-off before filing",
+        ),
+        notes=(
+            "Financed acquisitions are typically escalated because own-funds evidence must be clear.",
+            "Property thresholds can vary by asset type and locality, so local counsel still validates the file.",
+        ),
+    ),
+    "UAE": ResidencyRule(
+        program_name="UAE Property Investor Visa",
+        jurisdiction="UAE",
+        pathway_type="property investor residence",
+        minimum_property_value=205000,
+        minimum_annual_income=0,
+        minimum_liquid_assets=75000,
+        financing_allowed=True,
+        required_documents=(
+            "passport",
+            "property_title_deed",
+            "proof_of_funds",
+            "health_insurance",
+            "bank_statements",
+        ),
+        review_documents=("emirates_id_application_pack", "utility_bill", "family_dependents_pack"),
+        compliance_workflow=(
+            "KYC identity verification",
+            "AML source-of-funds review",
+            "Property ownership confirmation",
+            "Privacy minimization and consent logging",
+            "Operational compliance handoff for visa issuance",
+        ),
+        notes=(
+            "Higher-value tiers may unlock longer-duration residence benefits.",
+            "Title deed quality and source-of-funds evidence are usually the main release gates.",
+        ),
+    ),
+}
 
 RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
     "buyer": (
@@ -1103,6 +1265,140 @@ def orchestrate(user_prompt: str, profile: UserProfile, identity: IdentityContex
     return DecisionPacket(**{**asdict(packet), "explanation": explain_packet(packet)})
 
 
+def evaluate_residency_eligibility(
+    applicant: ResidencyApplicantProfile,
+    identity: IdentityContext,
+) -> ResidencyEligibilityPacket:
+    rule = RESIDENCY_RULES.get(applicant.target_jurisdiction)
+    if not rule:
+        raise ValueError(f"Unsupported jurisdiction: {applicant.target_jurisdiction}")
+
+    documents_on_file = set(applicant.documents_on_file)
+    rule_checks = [
+        ResidencyRuleCheck(
+            name="property_value",
+            status="passed" if applicant.property_value >= rule.minimum_property_value else "review",
+            detail=(
+                f"Property value {applicant.property_value:,} compared with threshold {rule.minimum_property_value:,}."
+                if rule.minimum_property_value
+                else "This pathway does not require a minimum property value for baseline eligibility."
+            ),
+        ),
+        ResidencyRuleCheck(
+            name="annual_income",
+            status="passed" if applicant.annual_income >= rule.minimum_annual_income else "review",
+            detail=f"Annual income {applicant.annual_income:,} compared with threshold {rule.minimum_annual_income:,}.",
+        ),
+        ResidencyRuleCheck(
+            name="liquid_assets",
+            status="passed" if applicant.liquid_assets >= rule.minimum_liquid_assets else "review",
+            detail=f"Liquid assets {applicant.liquid_assets:,} compared with threshold {rule.minimum_liquid_assets:,}.",
+        ),
+        ResidencyRuleCheck(
+            name="source_of_funds",
+            status="passed" if applicant.source_of_funds_verified and identity.aml_risk != "high" else "review",
+            detail="Source-of-funds evidence is matched with AML posture before release.",
+        ),
+        ResidencyRuleCheck(
+            name="criminal_record",
+            status="passed" if applicant.criminal_record_clear else "blocked",
+            detail="Criminal record evidence must be clear for filing and downstream partner submission.",
+        ),
+        ResidencyRuleCheck(
+            name="health_insurance",
+            status="passed" if applicant.health_insurance_ready else "review",
+            detail="Health insurance readiness is checked because consular and residence filing often require coverage.",
+        ),
+    ]
+
+    document_checks = [
+        ResidencyDocumentCheck(
+            document=document,
+            status="ready" if document in documents_on_file else "missing",
+            detail="Document is present in the controlled evidence bundle." if document in documents_on_file else "Document still needs collection or validation.",
+        )
+        for document in rule.required_documents
+    ]
+    document_checks.extend(
+        ResidencyDocumentCheck(
+            document=document,
+            status="review" if document in documents_on_file else "recommended",
+            detail="Supplemental document is available for accelerated review." if document in documents_on_file else "Supplemental evidence is recommended for smoother counsel review.",
+        )
+        for document in rule.review_documents
+    )
+
+    compliance_workflow = []
+    for index, step in enumerate(rule.compliance_workflow):
+        if "KYC" in step:
+            status = "completed" if identity.kyc_status in {"approved", "enhanced_review"} else "in_progress"
+            owner = "Compliance ops"
+        elif "AML" in step:
+            status = "completed" if applicant.source_of_funds_verified and identity.aml_risk != "high" else "review"
+            owner = "AML analyst"
+        elif "Privacy" in step:
+            status = "completed" if identity.privacy_tier in {"confidential", "restricted"} else "in_progress"
+            owner = "Privacy office"
+        elif "legal" in step.lower() or "sign-off" in step.lower():
+            status = "ready" if all(item.status != "missing" for item in document_checks[: len(rule.required_documents)]) else "blocked"
+            owner = "Jurisdiction counsel"
+        else:
+            status = "ready" if applicant.property_value >= rule.minimum_property_value else "review"
+            owner = "Residency operations"
+        compliance_workflow.append(
+            ResidencyComplianceStep(
+                step=f"{index + 1}. {step}",
+                owner=owner,
+                status=status,
+                detail="Workflow is tracked in an auditable queue aligned with KYC/AML and ISO/IEC 27701 privacy controls.",
+            )
+        )
+
+    passed = sum(1 for item in rule_checks if item.status == "passed")
+    reviews = sum(1 for item in rule_checks if item.status == "review")
+    missing_docs = sum(1 for item in document_checks if item.status == "missing")
+
+    if any(item.status == "blocked" for item in rule_checks):
+        eligibility_status = "ineligible"
+    elif reviews or missing_docs:
+        eligibility_status = "eligible_with_review"
+    else:
+        eligibility_status = "eligible"
+
+    score = max(0.0, min(0.99, 0.52 + passed * 0.07 - reviews * 0.04 - missing_docs * 0.03))
+    kyc_aml_summary = (
+        f"KYC status is {identity.kyc_status}, AML risk is {identity.aml_risk}, sanctions status is {identity.sanctions_status}, "
+        f"and source-of-funds verification is {'complete' if applicant.source_of_funds_verified else 'pending'}."
+    )
+    privacy_summary = (
+        f"ISO/IEC 27701-aligned handling keeps residency evidence purpose-bound under the {identity.privacy_tier} privacy tier, "
+        "with document minimization, consent-scoped sharing, and retention-aware compliance workflows."
+    )
+    explanation = (
+        f"{rule.program_name} in {rule.jurisdiction} was evaluated for a household of {applicant.household_size} with property value {applicant.property_value:,}, "
+        f"annual income {applicant.annual_income:,}, and liquid assets {applicant.liquid_assets:,}. "
+        f"Eligibility ended as '{eligibility_status}' because {passed} rule checks passed, {reviews} need review, and {missing_docs} required documents are still missing. "
+        f"Compliance workflow steps preserve KYC/AML gates, document authenticity review, and ISO/IEC 27701 privacy controls before any external filing."
+    )
+
+    return ResidencyEligibilityPacket(
+        request_id=f"res-{uuid.uuid4().hex[:8]}",
+        applicant=applicant,
+        program=rule.program_name,
+        jurisdiction=rule.jurisdiction,
+        pathway_type=rule.pathway_type,
+        eligibility_status=eligibility_status,
+        eligibility_score=round(score, 2),
+        rule_checks=rule_checks,
+        document_checks=document_checks,
+        compliance_workflow=compliance_workflow,
+        kyc_aml_summary=kyc_aml_summary,
+        privacy_summary=privacy_summary,
+        explanation=explanation,
+        standards_alignment=("KYC/AML", "ISO/IEC 27701", "ISO/IEC 27001", "ISO 22301"),
+    )
+
+
 WORKFLOW_ORDER: Sequence[str] = (
     "intake",
     "pricing_review",
@@ -1449,12 +1745,39 @@ def demo() -> None:
         bcdr_tier="tier_1",
     )
     transaction_packet = orchestrate_transaction(transaction, identity, context)
+    residency_packet = evaluate_residency_eligibility(
+        ResidencyApplicantProfile(
+            applicant_id=identity.subject_id,
+            citizenship_country="United States",
+            current_country="United States",
+            target_jurisdiction="Greece",
+            household_size=3,
+            dependents=2,
+            annual_income=145000,
+            liquid_assets=280000,
+            property_budget=900000,
+            property_value=880000,
+            source_of_funds_verified=True,
+            criminal_record_clear=True,
+            health_insurance_ready=True,
+            documents_on_file=(
+                "passport",
+                "property_purchase_agreement",
+                "proof_of_funds",
+                "health_insurance",
+                "criminal_record",
+                "tax_number",
+            ),
+        ),
+        identity,
+    )
 
     print(
         json.dumps(
             {
                 "property_decision": asdict(packet),
                 "transaction_decision": asdict(transaction_packet),
+                "residency_decision": asdict(residency_packet),
             },
             indent=2,
         )
