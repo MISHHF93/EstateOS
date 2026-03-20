@@ -524,6 +524,68 @@ class PaymentDecisionPacket:
 
 
 @dataclass(frozen=True)
+class TokenizationAsset:
+    asset_id: str
+    property_name: str
+    jurisdiction: str
+    legal_wrapper: str
+    domicile: str
+    asset_value: int
+    valuation_basis: str
+    currency: str
+    minimum_investment: int
+    target_raise: int
+    unit_price: int
+    total_units: int
+    sponsor_equity_pct: float
+    retail_allocation_pct: float
+    lockup_period_days: int
+    transfer_policy: str
+
+
+@dataclass(frozen=True)
+class TokenizationComplianceCheck:
+    name: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class FractionalOwnershipRecord:
+    investor_label: str
+    investor_class: str
+    beneficial_owner_reference: str
+    wallet_reference: str
+    units: int
+    ownership_pct: float
+    status: str
+
+
+@dataclass(frozen=True)
+class TokenizationLedgerEvent:
+    event_type: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class TokenizationDecisionPacket:
+    request_id: str
+    asset: TokenizationAsset
+    offering_status: str
+    eligibility_summary: str
+    distribution_policy: str
+    compliance_checks: Sequence[TokenizationComplianceCheck]
+    ownership_records: Sequence[FractionalOwnershipRecord]
+    ledger_events: Sequence[TokenizationLedgerEvent]
+    recommended_actions: Sequence[str]
+    release_status: str
+    explanation: str
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+@dataclass(frozen=True)
 class PartnerIntegrationRequest:
     partner_system: str
     domain: str
@@ -2638,6 +2700,168 @@ def orchestrate_transaction(
     )
 
 
+def evaluate_tokenization(
+    profile: UserProfile,
+    identity: IdentityContext,
+    context: RequestContext,
+    transaction: TransactionCase,
+    asset_name: str,
+    legal_wrapper: str,
+    domicile: str,
+    target_raise: int,
+    minimum_investment: int,
+    sponsor_equity_pct: float,
+    retail_allocation_pct: float,
+    lockup_period_days: int,
+    transfer_policy: str,
+    distribution_policy: str,
+) -> TokenizationDecisionPacket:
+    unit_price = minimum_investment
+    total_units = max(target_raise // max(unit_price, 1), 1)
+    asset_value = max(transaction.purchase_price, target_raise)
+    valuation_basis = (
+        "last_transaction_plus_holdback"
+        if transaction.stage in {"document_validation", "approval"}
+        else "latest_appraisal_or_board_approved_nav"
+    )
+
+    compliance_checks = (
+        TokenizationComplianceCheck(
+            name="KYC / beneficial owner verification",
+            status="passed" if identity.kyc_status == "approved" else "review",
+            detail="Primary subscription is blocked until controller and beneficial-owner evidence remain current.",
+        ),
+        TokenizationComplianceCheck(
+            name="AML / sanctions / source-of-funds",
+            status="passed" if identity.sanctions_status == "clear" else "blocked",
+            detail="Cross-border flows require sanctions clearance, source-of-funds evidence, and ongoing transaction monitoring.",
+        ),
+        TokenizationComplianceCheck(
+            name="Securities eligibility and transfer restrictions",
+            status="review" if context.cross_border else "passed",
+            detail="Investor class, jurisdiction, and holding-period rules control whether subscription or transfer can be released.",
+        ),
+        TokenizationComplianceCheck(
+            name="Cash settlement and cap-table reconciliation",
+            status="passed" if transaction.stage in {"document_validation", "approval", "closing"} else "review",
+            detail="Units are only allocated after escrow settlement, administrator reconciliation, and legal-ledger synchronization.",
+        ),
+    )
+
+    ownership_records = (
+        FractionalOwnershipRecord(
+            investor_label="Sponsor reserve",
+            investor_class="sponsor",
+            beneficial_owner_reference="bo-sponsor-core",
+            wallet_reference="custody-sponsor-001",
+            units=max(int(total_units * sponsor_equity_pct), 1),
+            ownership_pct=round(sponsor_equity_pct * 100, 2),
+            status="locked",
+        ),
+        FractionalOwnershipRecord(
+            investor_label="Qualified investor allocation",
+            investor_class="qualified",
+            beneficial_owner_reference=f"bo-{identity.subject_id}",
+            wallet_reference="custody-qualified-queue",
+            units=max(int(total_units * retail_allocation_pct * 0.55), 1),
+            ownership_pct=round(retail_allocation_pct * 55, 2),
+            status="subscribed",
+        ),
+        FractionalOwnershipRecord(
+            investor_label="Retail waitlist pool",
+            investor_class="retail",
+            beneficial_owner_reference="bo-retail-whitelist",
+            wallet_reference="custody-retail-queue",
+            units=max(int(total_units * retail_allocation_pct * 0.45), 1),
+            ownership_pct=round(retail_allocation_pct * 45, 2),
+            status="pending_whitelist",
+        ),
+    )
+
+    ledger_events = (
+        TokenizationLedgerEvent(
+            event_type="offering_created",
+            status="recorded",
+            detail=f"{asset_name} is wrapped through {legal_wrapper} in {domicile} with a governed unit supply.",
+        ),
+        TokenizationLedgerEvent(
+            event_type="subscription_reservation",
+            status="recorded",
+            detail="Reserved units stay non-transferable until disclosures, investor classification, and payment evidence are complete.",
+        ),
+        TokenizationLedgerEvent(
+            event_type="cash_settlement",
+            status="pending" if transaction.stage != "closing" else "cleared",
+            detail="Escrow, subscription funds, and administrator ledger references must reconcile before allocation finality.",
+        ),
+        TokenizationLedgerEvent(
+            event_type="mint_or_allocation",
+            status="gated",
+            detail="Digital units are minted or allocated only after legal-ledger approval, not directly from frontend intent alone.",
+        ),
+        TokenizationLedgerEvent(
+            event_type="secondary_transfer_policy",
+            status="active",
+            detail=transfer_policy,
+        ),
+    )
+
+    release_status = (
+        "Advisor review before release"
+        if profile.role == "advisor"
+        else "Review before release" if context.cross_border else "Release ready with whitelist controls"
+    )
+    eligibility_summary = (
+        "Fractional investment is available only to investors who pass KYC, AML, beneficial-owner, and jurisdiction-specific securities checks."
+    )
+    explanation = (
+        f"EstateOS models tokenization for {asset_name} as a governed securities-style workflow. The frontend can market units, show distributions, and collect subscriptions, "
+        f"but the backend remains authoritative for investor eligibility, cap-table integrity, settlement reconciliation, and transfer restrictions under {legal_wrapper}."
+    )
+
+    return TokenizationDecisionPacket(
+        request_id=context.request_id,
+        asset=TokenizationAsset(
+            asset_id=f"asset-{transaction.transaction_id}",
+            property_name=asset_name,
+            jurisdiction=transaction.jurisdiction,
+            legal_wrapper=legal_wrapper,
+            domicile=domicile,
+            asset_value=asset_value,
+            valuation_basis=valuation_basis,
+            currency="USD",
+            minimum_investment=minimum_investment,
+            target_raise=target_raise,
+            unit_price=unit_price,
+            total_units=total_units,
+            sponsor_equity_pct=sponsor_equity_pct,
+            retail_allocation_pct=retail_allocation_pct,
+            lockup_period_days=lockup_period_days,
+            transfer_policy=transfer_policy,
+        ),
+        offering_status="subscription_window_open",
+        eligibility_summary=eligibility_summary,
+        distribution_policy=distribution_policy,
+        compliance_checks=compliance_checks,
+        ownership_records=ownership_records,
+        ledger_events=ledger_events,
+        recommended_actions=(
+            "Keep legal-ledger, cash-ledger, and token-ledger reconciliation in the same approval workflow.",
+            "Require jurisdiction-aware whitelist review before any secondary transfer.",
+            "Publish investor statements and audit evidence after each issuance, distribution, or redemption cycle.",
+        ),
+        release_status=release_status,
+        explanation=explanation,
+        standards_alignment=(
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "SOC 2 Type 2",
+            "PCI DSS",
+            "KYC/AML/sanctions/beneficial ownership controls",
+        ),
+    )
+
+
 DEMO_JOURNEY_SCENARIOS = {
     "buyer": {
         "user_prompt": "I want a family relocation property in Portugal with financing guidance, transaction controls, and residency readiness.",
@@ -2758,6 +2982,18 @@ DEMO_JOURNEY_SCENARIOS = {
             "interest_rate_regime": "plateauing",
             "migration_trend": "inbound_family_relocation",
             "supply_pressure": "constrained",
+        },
+        "tokenization": {
+            "asset_name": "Lisbon Green Quarter Apartment Income SPV",
+            "legal_wrapper": "Portugal SPV with nominee ledger",
+            "domicile": "Portugal",
+            "target_raise": 300000,
+            "minimum_investment": 10000,
+            "sponsor_equity_pct": 0.35,
+            "retail_allocation_pct": 0.4,
+            "lockup_period_days": 365,
+            "transfer_policy": "Transfers require whitelist approval, cooling-off checks, and administrator reconciliation.",
+            "distribution_policy": "Quarterly distributions after reserve retention, tax withholding, and administrator sign-off.",
         },
     },
     "investor": {
@@ -2880,6 +3116,18 @@ DEMO_JOURNEY_SCENARIOS = {
             "migration_trend": "cross_border_investor_and_worker_inflows",
             "supply_pressure": "tightening",
         },
+        "tokenization": {
+            "asset_name": "Athens Urban Residential Block Token Offering",
+            "legal_wrapper": "Luxembourg feeder SPV with transfer-agent controls",
+            "domicile": "Luxembourg",
+            "target_raise": 520000,
+            "minimum_investment": 25000,
+            "sponsor_equity_pct": 0.3,
+            "retail_allocation_pct": 0.45,
+            "lockup_period_days": 540,
+            "transfer_policy": "Secondary transfers require buyer KYC refresh, suitability review, whitelist approval, and settlement finality.",
+            "distribution_policy": "Quarterly net-rent distributions with reserve top-ups and annual tax-statement delivery.",
+        },
     },
     "advisor": {
         "user_prompt": "I need an advisor-ready transaction cockpit with document exceptions, payment controls, insurance placement readiness, and integration evidence.",
@@ -2999,6 +3247,18 @@ DEMO_JOURNEY_SCENARIOS = {
             "interest_rate_regime": "volatile_to_stable",
             "migration_trend": "capital_plus_mobility_flows",
             "supply_pressure": "mixed",
+        },
+        "tokenization": {
+            "asset_name": "Athens Urban Block Governance Share Class",
+            "legal_wrapper": "Greek property SPV with regulated registrar sync",
+            "domicile": "Greece",
+            "target_raise": 400000,
+            "minimum_investment": 50000,
+            "sponsor_equity_pct": 0.32,
+            "retail_allocation_pct": 0.28,
+            "lockup_period_days": 730,
+            "transfer_policy": "Advisor-reviewed transfers require IC policy approval, whitelist refresh, and dual-control release.",
+            "distribution_policy": "Semiannual distributions after lender covenant checks, reserve holds, and board approval.",
         },
     },
 }
@@ -3499,6 +3759,13 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         context,
         **scenario["market_intelligence"],
     )
+    tokenization_packet = evaluate_tokenization(
+        profile,
+        identity,
+        context,
+        transaction,
+        **scenario["tokenization"],
+    )
     copilot_packet = evaluate_conversational_copilot(
         profile,
         identity,
@@ -3521,6 +3788,7 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         "residency_decision": asdict(residency_packet),
         "digital_twin_decision": asdict(digital_twin_packet),
         "market_intelligence_decision": asdict(market_intelligence_packet),
+        "tokenization_decision": asdict(tokenization_packet),
         "copilot_decision": asdict(copilot_packet),
     }
 
