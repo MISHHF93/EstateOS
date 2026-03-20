@@ -16,6 +16,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+import json
+import subprocess
 import sys
 
 
@@ -63,6 +65,59 @@ def require_text(relative_path: str, required_snippets: list[str], description: 
     )
 
 
+def require_json(relative_path: str, description: str) -> CheckResult:
+    path = ROOT / relative_path
+    if not path.exists():
+        return CheckResult(
+            name=f"json:{relative_path}",
+            ok=False,
+            detail=f"{description} (missing file)",
+        )
+
+    try:
+        json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return CheckResult(
+            name=f"json:{relative_path}",
+            ok=False,
+            detail=f"{description} (invalid JSON: {exc})",
+        )
+
+    return CheckResult(
+        name=f"json:{relative_path}",
+        ok=True,
+        detail=description,
+    )
+
+
+def require_command(command: list[str], description: str) -> CheckResult:
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=ROOT,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except OSError as exc:
+        return CheckResult(
+            name=f"command:{' '.join(command)}",
+            ok=False,
+            detail=f"{description} (command failed to start: {exc})",
+        )
+
+    detail = description
+    if completed.returncode != 0:
+        stderr = completed.stderr.strip() or completed.stdout.strip() or "no output"
+        detail = f"{description} (exit {completed.returncode}: {stderr})"
+
+    return CheckResult(
+        name=f"command:{' '.join(command)}",
+        ok=completed.returncode == 0,
+        detail=detail,
+    )
+
+
 def build_checks() -> list[CheckResult]:
     checks: list[CheckResult] = []
 
@@ -100,6 +155,9 @@ def build_checks() -> list[CheckResult]:
         ("infra/terraform", "Terraform infra root exists"),
         ("infra/bicep", "Bicep infra root exists"),
         ("infra/kubernetes", "Kubernetes infra root exists"),
+        ("frontend/index.html", "prototype frontend entrypoint exists"),
+        ("frontend/app.js", "prototype frontend behavior file exists"),
+        ("frontend/styles.css", "prototype frontend stylesheet exists"),
     ]:
         checks.append(require_path(relative_path, description))
 
@@ -280,6 +338,10 @@ def build_checks() -> list[CheckResult]:
                 ],
                 "reference orchestration implementation reflects the requested control model",
             ),
+            require_json(
+                "backend/api_contract.json",
+                "API contract remains valid JSON",
+            ),
             require_text(
                 "backend/api_contract.json",
                 [
@@ -293,6 +355,14 @@ def build_checks() -> list[CheckResult]:
                     "DecisionRelease",
                 ],
                 "API contract preserves Azure-native and trust-context expectations",
+            ),
+            require_command(
+                ["python3", "backend/orchestration.py"],
+                "README quick-start orchestration command executes successfully",
+            ),
+            require_command(
+                ["python3", "-m", "json.tool", "backend/api_contract.json"],
+                "API contract can be parsed by the standard JSON tooling referenced by contributors",
             ),
         ]
     )
