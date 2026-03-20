@@ -10,6 +10,7 @@ EstateOS is a full-stack real estate and investment platform where a seamless, r
 - Deliver one cohesive journey for buyers, investors, brokers, insurers, and advisors instead of fragmented point tools.
 - Hide backend orchestration complexity while surfacing confidence, assumptions, and required next actions.
 - Support progressive disclosure so novice users get guidance and professionals get evidence-rich detail.
+- Adapt layout, recommendation density, and explanation depth in real time based on persona, intent, budget, and trust posture in line with ISO 9241-210 human-centered design principles.
 - Make every AI-assisted outcome traceable to the data sources, experts, policies, and approvals behind it.
 - Capture user profile context early so investor type, location, financial intent, and residency goals directly shape routing and policy decisions.
 
@@ -35,7 +36,7 @@ EstateOS is a full-stack real estate and investment platform where a seamless, r
 - **Presentation layer:** web UI built as modular micro-frontends or feature slices for search, valuation, residency, insurance, finance, and compliance.
 - **Identity capture layer:** profile forms and consent modules collect investor type, residence, target location, financial intent, residency goals, and privacy preferences and package them as a profile-context payload.
 - **Experience orchestration layer:** a backend-for-frontend (BFF) exposes user-ready view models, explanation cards, action states, and trust-state banners.
-- **Design system:** reusable trust patterns including confidence badges, policy banners, evidence drawers, human-review indicators, and privacy notices.
+- **Design system:** reusable trust patterns including confidence badges, policy banners, evidence drawers, human-review indicators, privacy notices, and “why this recommendation” ledgers.
 - **State model:** session state maintains user intent, profile completion, portfolio context, documents, trust posture, and decision milestones.
 - **Observability hooks:** every critical action emits telemetry, consent events, and user journey checkpoints.
 
@@ -151,6 +152,7 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 - escalate to human review when thresholds are crossed,
 - redact or limit outputs based on privacy tier and entitlements,
 - compose a single response with evidence and rationale.
+- aggregate and rank candidate properties, investment insights, visa pathways, and insurance options into a single explainable recommendation board.
 
 #### Example orchestration paths
 - **Cross-border investor in Portugal** → identity trust evaluation + valuation + investment + residency + financial risk + insurance + compliance.

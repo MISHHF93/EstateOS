@@ -1,10 +1,23 @@
 {
   "service": "EstateOS Unified Intelligence API",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "azure_pattern": {
-    "entrypoints": ["Azure API Management", "Azure Front Door", "Private endpoints"],
-    "runtime": ["Azure Kubernetes Service", "Azure Container Apps", "Azure Functions"],
-    "data": ["Azure SQL", "Cosmos DB", "Data Lake Storage Gen2", "Azure AI Search"],
+    "entrypoints": [
+      "Azure API Management",
+      "Azure Front Door",
+      "Private endpoints"
+    ],
+    "runtime": [
+      "Azure Kubernetes Service",
+      "Azure Container Apps",
+      "Azure Functions"
+    ],
+    "data": [
+      "Azure SQL",
+      "Cosmos DB",
+      "Data Lake Storage Gen2",
+      "Azure AI Search"
+    ],
     "security": [
       "Microsoft Entra External ID",
       "Key Vault",
@@ -31,7 +44,11 @@
       "purpose-bound privacy tiers"
     ],
     "router_contract": {
-      "required_headers": ["Authorization", "x-correlation-id", "x-journey-stage"],
+      "required_headers": [
+        "Authorization",
+        "x-correlation-id",
+        "x-journey-stage"
+      ],
       "required_context": [
         "subject_id",
         "auth_assurance_level",
@@ -78,8 +95,25 @@
         "recommendation",
         "release_status",
         "selected_experts",
+        "ranked_recommendations",
+        "explanation",
         "policy_gates",
         "audit_trail"
+      ]
+    },
+    "RankedRecommendation": {
+      "type": "object",
+      "required": [
+        "candidate_id",
+        "title",
+        "geography",
+        "composite_score",
+        "confidence",
+        "expert_contributions",
+        "why",
+        "investment_insight",
+        "visa_pathway",
+        "insurance_option"
       ]
     }
   },
@@ -105,18 +139,20 @@
         "RBAC",
         "entitlement check",
         "PII minimization",
-        "audit log"
+        "audit log",
+        "ranked expert contribution trace"
       ]
     },
     {
       "path": "/v1/properties/recommendations",
       "method": "POST",
-      "purpose": "Generate guided property discovery and pricing recommendations personalized by investor type and location.",
+      "purpose": "Generate ranked property suggestions plus linked investment, visa, and insurance guidance personalized by investor type and location.",
       "controls": [
         "KYC state check",
         "explainability payload",
         "consent receipt",
-        "privacy tier enforcement"
+        "privacy tier enforcement",
+        "why-this-rank explanation payload"
       ]
     },
     {

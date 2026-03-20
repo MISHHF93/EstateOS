@@ -11,8 +11,8 @@
       <nav class="topbar">
         <div class="brand">EstateOS</div>
         <div class="topbar-links">
+          <a href="#workspace">Workspace</a>
           <a href="#journeys">Journeys</a>
-          <a href="#identity">Identity</a>
           <a href="#experts">Experts</a>
           <a href="#compliance">Compliance</a>
           <a href="#architecture">Architecture</a>
@@ -22,39 +22,42 @@
       <section class="hero-content">
         <div>
           <p class="eyebrow">Secure • Scalable • AI-Native</p>
-          <h1>Real estate decisions powered by a transparent Mixture-of-Experts system.</h1>
+          <h1>Human-centered property guidance from a transparent AI expert network.</h1>
           <p class="hero-copy">
-            EstateOS turns fragmented property, finance, insurance, migration, and compliance workflows into a single,
-            human-centered operating system for buyers, investors, brokers, insurers, and advisors.
+            EstateOS now adapts each workspace in real time from multiple AI experts, helping users discover properties,
+            compare investment signals, understand visa pathways, and evaluate insurance readiness with clear reasoning.
           </p>
           <div class="hero-actions">
-            <a class="primary" href="#workspace">Explore intelligence workspace</a>
+            <a class="primary" href="#workspace">Launch adaptive workspace</a>
             <a class="secondary" href="#architecture">Review Azure architecture</a>
           </div>
         </div>
 
         <div class="hero-panel">
           <div class="panel-card">
-            <span>Decision transparency</span>
-            <strong>Identity-aware expert routing</strong>
-            <p>Profile context, RBAC, MFA, KYC/AML, sanctions, and privacy tiers shape every release decision.</p>
+            <span>Designed for trust</span>
+            <strong>ISO 9241-210 aligned decision support</strong>
+            <p>
+              Progressive disclosure, plain-language explanations, accessible controls, and next-best actions keep
+              complex cross-border decisions understandable.
+            </p>
           </div>
           <div class="panel-grid">
             <div>
-              <span>Trust posture</span>
-              <strong>Bound to session</strong>
+              <span>Adaptive mode</span>
+              <strong>Persona + intent aware</strong>
             </div>
             <div>
-              <span>Eligibility confidence</span>
-              <strong>High</strong>
+              <span>Recommendation source</span>
+              <strong>Multi-expert ranking</strong>
             </div>
             <div>
-              <span>Privacy tier</span>
-              <strong>Purpose-bound</strong>
+              <span>Explanation depth</span>
+              <strong>User controlled</strong>
             </div>
             <div>
               <span>Audit trace</span>
-              <strong>Complete</strong>
+              <strong>Why always visible</strong>
             </div>
           </div>
         </div>
@@ -64,55 +67,77 @@
     <main>
       <section id="workspace" class="section workspace">
         <div class="section-heading">
-          <p class="eyebrow">Unified workspace</p>
-          <h2>Complex decisions become guided journeys.</h2>
+          <p class="eyebrow">Adaptive intelligence workspace</p>
+          <h2>One workspace that reshapes itself around the user.</h2>
           <p>
-            The interface adapts to the user role while keeping a shared backbone of explainability, approvals, privacy,
-            and next-best actions.
+            EstateOS combines multiple expert outputs into a ranked recommendation board so users can see the best-fit
+            property, supporting investment logic, residency pathway, and insurance options in one place.
           </p>
         </div>
 
-        <div class="workspace-grid">
-          <article class="journey-card active" data-journey="buyer">
+        <div class="workspace-grid journey-selector" role="tablist" aria-label="Journey selection">
+          <button class="journey-card active" type="button" data-journey="buyer" role="tab" aria-selected="true">
             <h3>Buyer journey</h3>
-            <p>Discover properties, compare affordability, validate identity, and understand insurance and migration implications.</p>
-          </article>
-          <article class="journey-card" data-journey="investor">
+            <p>Guided discovery for affordability, property fit, relocation planning, and risk clarity.</p>
+          </button>
+          <button class="journey-card" type="button" data-journey="investor" role="tab" aria-selected="false">
             <h3>Investor journey</h3>
-            <p>Assess yield, jurisdictional RBI options, scenario stress, and liquidity risks before commitment.</p>
-          </article>
-          <article class="journey-card" data-journey="advisor">
+            <p>Yield-oriented analysis with portfolio, residency, and insurance signals ranked together.</p>
+          </button>
+          <button class="journey-card" type="button" data-journey="advisor" role="tab" aria-selected="false">
             <h3>Advisor console</h3>
-            <p>Review model rationale, trust posture, apply human override, and export compliant recommendations.</p>
-          </article>
+            <p>Evidence-first oversight with explanation layers, controls, and approval-ready summaries.</p>
+          </button>
         </div>
 
-        <div class="decision-board">
-          <aside class="decision-rail">
-            <span class="chip">Live orchestration</span>
-            <h3 id="journey-title">Buyer journey</h3>
-            <ul id="journey-steps"></ul>
-          </aside>
-
-          <section class="decision-main">
-            <div class="decision-header">
-              <div>
-                <p class="eyebrow">AI decision fabric</p>
-                <h3>Transparent expert collaboration</h3>
-              </div>
-              <div class="confidence-box">
-                <span>Composite confidence</span>
-                <strong id="journey-confidence">0.93</strong>
-              </div>
+        <div class="adaptive-shell">
+          <aside class="control-panel" aria-labelledby="control-panel-title">
+            <div class="panel-heading">
+              <p class="eyebrow">Profile capture</p>
+              <h3 id="control-panel-title">Personalization controls</h3>
+              <p>
+                Users can tune objectives and explanation depth while the system preserves a shared trust and compliance
+                backbone.
+              </p>
             </div>
 
-            <div class="expert-strip" id="expert-strip"></div>
+            <div class="form-grid" id="identity">
+              <label>
+                Persona
+                <select id="persona-select"></select>
+              </label>
+              <label>
+                Objective
+                <select id="objective-select"></select>
+              </label>
+              <label>
+                Risk tolerance
+                <select id="risk-select"></select>
+              </label>
+              <label>
+                Explanation depth
+                <select id="explanation-select"></select>
+              </label>
+              <label>
+                Investment budget
+                <input id="budget-range" type="range" min="300000" max="2000000" step="50000" />
+                <span class="range-value" id="budget-value"></span>
+              </label>
+              <label class="toggle-row">
+                <input id="residency-toggle" type="checkbox" />
+                <span>Pursuing residency or visa pathway</span>
+              </label>
+              <label class="toggle-row">
+                <input id="financing-toggle" type="checkbox" />
+                <span>Needs financing guidance</span>
+              </label>
+            </div>
 
-            <div class="profile-context-card" id="identity">
+            <div class="profile-context-card compact-card">
               <div class="profile-context-header">
                 <div>
-                  <p class="eyebrow">Frontend profile → backend router</p>
-                  <h4>Identity and trust context</h4>
+                  <p class="eyebrow">Trust context</p>
+                  <h4>Identity and release posture</h4>
                 </div>
                 <span class="status-pill">RBAC • MFA • KYC/AML • Privacy</span>
               </div>
@@ -139,19 +164,117 @@
                 </div>
               </div>
             </div>
+          </aside>
 
-            <div class="decision-columns">
-              <div class="decision-card">
-                <h4>Recommended action</h4>
-                <p id="journey-action"></p>
-              </div>
-              <div class="decision-card">
-                <h4>Risk and compliance posture</h4>
-                <p id="journey-risk"></p>
-              </div>
-              <div class="decision-card">
-                <h4>Why the system chose this path</h4>
-                <p id="journey-why"></p>
+          <section class="adaptive-main" aria-live="polite">
+            <div class="decision-board enhanced-board">
+              <aside class="decision-rail">
+                <span class="chip">Live orchestration</span>
+                <h3 id="journey-title">Buyer journey</h3>
+                <p id="journey-summary" class="rail-summary"></p>
+                <ul id="journey-steps"></ul>
+              </aside>
+
+              <div class="decision-main">
+                <div class="decision-header sticky-header">
+                  <div>
+                    <p class="eyebrow">AI decision fabric</p>
+                    <h3 id="recommendation-headline">Transparent expert collaboration</h3>
+                    <p id="recommendation-subtitle"></p>
+                  </div>
+                  <div class="confidence-cluster">
+                    <div class="confidence-box">
+                      <span>Composite confidence</span>
+                      <strong id="journey-confidence">0.93</strong>
+                    </div>
+                    <div class="confidence-box tone-soft">
+                      <span>Release status</span>
+                      <strong id="release-status">Ready to release</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="expert-strip" id="expert-strip"></div>
+
+                <div class="decision-columns top-summary-grid">
+                  <div class="decision-card emphasis-card">
+                    <h4>Recommended action</h4>
+                    <p id="journey-action"></p>
+                  </div>
+                  <div class="decision-card">
+                    <h4>Risk and compliance posture</h4>
+                    <p id="journey-risk"></p>
+                  </div>
+                  <div class="decision-card">
+                    <h4>Why this path is recommended</h4>
+                    <p id="journey-why"></p>
+                  </div>
+                </div>
+
+                <section class="category-grid" aria-label="Recommendation categories">
+                  <article class="decision-card category-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Property suggestions</p>
+                        <h4>Ranked shortlist</h4>
+                      </div>
+                      <span class="status-pill" id="property-fit-pill">Best fit</span>
+                    </div>
+                    <div class="recommendation-list" id="property-list"></div>
+                  </article>
+
+                  <article class="decision-card category-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Investment insight</p>
+                        <h4>Return and resilience</h4>
+                      </div>
+                    </div>
+                    <div id="insight-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card category-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Visa pathways</p>
+                        <h4>Residency guidance</h4>
+                      </div>
+                    </div>
+                    <div id="visa-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card category-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Insurance options</p>
+                        <h4>Coverage fit</h4>
+                      </div>
+                    </div>
+                    <div id="insurance-list" class="stack-list"></div>
+                  </article>
+                </section>
+
+                <section class="explanation-layout">
+                  <article class="decision-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Why ranked this way</p>
+                        <h4>Expert contribution ledger</h4>
+                      </div>
+                    </div>
+                    <div id="contribution-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Human-centered guidance</p>
+                        <h4>Next-best actions</h4>
+                      </div>
+                    </div>
+                    <div id="next-actions" class="stack-list"></div>
+                  </article>
+                </section>
               </div>
             </div>
           </section>
@@ -254,7 +377,7 @@
           </div>
           <div>
             <span>Intelligence layer</span>
-            <strong>Intent parser • Expert router • Explanation engine • Policy gate • Audit ledger</strong>
+            <strong>Intent parser • Expert router • Aggregation engine • Explanation engine • Policy gate • Audit ledger</strong>
           </div>
           <div>
             <span>Domain services</span>
