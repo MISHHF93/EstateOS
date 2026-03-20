@@ -1,42 +1,156 @@
 {
   "service": "EstateOS Unified Intelligence API",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "azure_pattern": {
     "entrypoints": ["Azure API Management", "Azure Front Door", "Private endpoints"],
     "runtime": ["Azure Kubernetes Service", "Azure Container Apps", "Azure Functions"],
     "data": ["Azure SQL", "Cosmos DB", "Data Lake Storage Gen2", "Azure AI Search"],
-    "security": ["Microsoft Entra ID", "Key Vault", "Defender for Cloud", "Microsoft Sentinel"]
+    "security": [
+      "Microsoft Entra External ID",
+      "Key Vault",
+      "Defender for Cloud",
+      "Microsoft Purview",
+      "Microsoft Sentinel"
+    ]
+  },
+  "identity_and_access": {
+    "frontend_capture": [
+      "investor_type",
+      "location",
+      "financial_intent",
+      "residency_goal",
+      "consent_scope",
+      "privacy_preferences"
+    ],
+    "trust_controls": [
+      "OIDC/OAuth2 with step-up MFA",
+      "RBAC plus entitlement checks",
+      "KYC status propagation",
+      "AML risk scoring",
+      "sanctions screening status",
+      "purpose-bound privacy tiers"
+    ],
+    "router_contract": {
+      "required_headers": ["Authorization", "x-correlation-id", "x-journey-stage"],
+      "required_context": [
+        "subject_id",
+        "auth_assurance_level",
+        "mfa_completed",
+        "rbac_roles",
+        "entitlements",
+        "kyc_status",
+        "aml_risk",
+        "sanctions_status",
+        "privacy_tier"
+      ]
+    }
+  },
+  "schemas": {
+    "ProfileContext": {
+      "type": "object",
+      "required": [
+        "role",
+        "investor_type",
+        "location",
+        "financial_intent",
+        "residency_goal",
+        "consent_scope",
+        "privacy_preferences"
+      ]
+    },
+    "IdentityTrustContext": {
+      "type": "object",
+      "required": [
+        "subject_id",
+        "auth_assurance_level",
+        "mfa_completed",
+        "rbac_roles",
+        "entitlements",
+        "kyc_status",
+        "aml_risk",
+        "sanctions_status",
+        "privacy_tier"
+      ]
+    },
+    "DecisionRelease": {
+      "type": "object",
+      "required": [
+        "recommendation",
+        "release_status",
+        "selected_experts",
+        "policy_gates",
+        "audit_trail"
+      ]
+    }
   },
   "endpoints": [
     {
+      "path": "/v1/identity/profile-context",
+      "method": "POST",
+      "purpose": "Capture frontend profile, privacy, and trust context before MoE routing.",
+      "controls": [
+        "OIDC session binding",
+        "step-up MFA",
+        "consent receipt",
+        "PII classification",
+        "audit log"
+      ]
+    },
+    {
       "path": "/v1/intelligence/route",
       "method": "POST",
-      "purpose": "Detect user intent and select MoE experts for a session.",
-      "controls": ["JWT auth", "RBAC", "PII minimization", "audit log"]
+      "purpose": "Detect user intent and select MoE experts using profile and identity trust context.",
+      "controls": [
+        "JWT auth",
+        "RBAC",
+        "entitlement check",
+        "PII minimization",
+        "audit log"
+      ]
     },
     {
       "path": "/v1/properties/recommendations",
       "method": "POST",
-      "purpose": "Generate guided property discovery and pricing recommendations.",
-      "controls": ["KYC state check", "explainability payload", "consent receipt"]
+      "purpose": "Generate guided property discovery and pricing recommendations personalized by investor type and location.",
+      "controls": [
+        "KYC state check",
+        "explainability payload",
+        "consent receipt",
+        "privacy tier enforcement"
+      ]
     },
     {
       "path": "/v1/rbi/eligibility",
       "method": "POST",
-      "purpose": "Evaluate residency-by-investment pathways by jurisdiction.",
-      "controls": ["sanctions screening", "jurisdiction rules engine", "records retention"]
+      "purpose": "Evaluate residency-by-investment pathways by jurisdiction and residency goals.",
+      "controls": [
+        "sanctions screening",
+        "AML review",
+        "jurisdiction rules engine",
+        "records retention"
+      ]
     },
     {
       "path": "/v1/insurance/options",
       "method": "POST",
       "purpose": "Return coverage options and ACORD-aligned intake data.",
-      "controls": ["licensing check", "carrier access policy", "PII tokenization"]
+      "controls": [
+        "licensing check",
+        "carrier access policy",
+        "PII tokenization",
+        "purpose limitation"
+      ]
     },
     {
       "path": "/v1/compliance/release",
       "method": "POST",
       "purpose": "Run final release gate for decisions and generate audit evidence.",
-      "controls": ["immutable evidence", "human approval", "policy versioning"]
+      "controls": [
+        "immutable evidence",
+        "human approval",
+        "policy versioning",
+        "SOC 2 evidence linkage"
+      ]
     }
   ]
 }

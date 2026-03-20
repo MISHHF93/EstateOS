@@ -34,13 +34,13 @@ This architecture is designed for complex real estate and investment workflows w
 - Identifies product suitability concerns.
 
 ### 2.6 Compliance Validation Expert
-- Performs KYC, AML, sanctions, privacy, retention, and release checks.
+- Performs RBAC, MFA, KYC, AML, sanctions, privacy, retention, and release checks.
 - Blocks or conditions downstream responses when controls are not satisfied.
 - Produces remediation tasks and evidence requirements.
 
 ### 2.7 UX Personalization Expert
-- Adapts presentation style and next actions to user role, confidence, and blockers.
-- Chooses whether to simplify, expand, or escalate the decision narrative.
+- Adapts presentation style and next actions to user role, confidence, blockers, and privacy tier.
+- Chooses whether to simplify, expand, redact, or escalate the decision narrative.
 
 ## 3. Router responsibilities
 
@@ -52,32 +52,50 @@ The router is more than a simple dispatcher. It acts as the orchestration brain 
 - whether experts run in parallel or sequence,
 - when compliance must interrupt the flow,
 - whether human review is mandatory,
+- how much detail can be released to the current actor,
 - how outputs are merged into one user-facing response.
 
 ### 3.2 Routing signals
 The router considers:
 - user intent,
 - role and permissions,
+- investor type,
 - geography and jurisdiction,
+- location of the user and location of the property,
 - profile completeness,
+- financial intent,
+- residency goals,
 - transaction stage,
-- property characteristics,
+- trust posture from the identity layer,
 - risk level,
 - confidence thresholds,
 - service health and latency budgets,
 - policy dependencies.
 
-### 3.3 Mandatory controls
+### 3.3 Identity-aware gating
+Before selecting experts for full execution, the router checks:
+- authentication assurance level,
+- MFA completion for the requested action,
+- RBAC roles and fine-grained entitlements,
+- KYC state and beneficial ownership completeness,
+- AML risk tier,
+- sanctions/PEP screening status,
+- privacy tier and consent scope,
+- data residency restrictions.
+
+### 3.4 Mandatory controls
 Regardless of the user journey, the router always ensures:
 - compliance validation before release,
 - audit and evidence persistence,
 - explanation generation,
-- traceability to model and policy versions.
+- traceability to model and policy versions,
+- least-privilege release of sensitive content.
 
 ## 4. Example routing patterns
 
 ### 4.1 Investor exploring Portugal with residency goals
 Route to:
+- identity trust service,
 - Property Valuation Expert,
 - Investment Analysis Expert,
 - Residency Eligibility Expert,
@@ -87,6 +105,7 @@ Route to:
 
 ### 4.2 Homebuyer checking fair value and affordability
 Route to:
+- identity trust service,
 - Property Valuation Expert,
 - Financial Risk Expert,
 - Compliance Validation Expert,
@@ -94,6 +113,7 @@ Route to:
 
 ### 4.3 High-risk coastal property insurance case
 Route to:
+- identity trust service,
 - Insurance Matching Expert,
 - Financial Risk Expert,
 - Compliance Validation Expert,
@@ -107,13 +127,15 @@ Every expert returns structured output with:
 - confidence,
 - evidence references,
 - policy dependencies,
-- next actions.
+- next actions,
+- release scope constraints.
 
 The router then synthesizes these outputs into:
 - a final recommendation,
 - a why-this-was-selected explanation,
 - a what-is-blocking-release explanation,
-- a recommended next step or escalation.
+- a recommended next step or escalation,
+- a trust-state summary that explains how identity and privacy affected the result.
 
 ## 6. Why MoE fits EstateOS
 
@@ -122,18 +144,20 @@ This model fits the platform because it:
 - supports independent governance and evaluation for each expert,
 - aligns naturally with microservices and event-driven infrastructure,
 - improves explainability through explicit expert selection,
-- makes regulatory gating and human review first-class concerns.
+- makes regulatory gating and human review first-class concerns,
+- allows profile- and trust-aware personalization without losing compliance boundaries.
 
 ## 7. Azure implementation concept
 
 A reference deployment uses:
 - API Management for secure ingress,
+- Entra External ID for authentication, MFA, and role claims,
 - AKS for router and expert services,
 - Service Bus and Event Grid for asynchronous coordination,
 - Azure Functions for event handlers and evidence generation,
 - Azure SQL, Cosmos DB, and Data Lake for state and evidence,
-- Azure Monitor, Sentinel, and Key Vault for operations and security.
+- Azure Monitor, Sentinel, Purview, and Key Vault for operations and security.
 
 ## 8. One-sentence summary
 
-EstateOS applies specialized expert intelligence through one auditable routing layer so users get the right property, investment, residency, insurance, financial, and compliance guidance for their exact context.
+EstateOS applies specialized expert intelligence through one auditable routing layer so users get the right property, investment, residency, insurance, financial, and compliance guidance for their exact context, trust posture, and privacy constraints.
