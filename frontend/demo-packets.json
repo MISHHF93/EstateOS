@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at_utc": "2026-03-20T21:36:37.827473+00:00",
+    "generated_at_utc": "2026-03-20T21:46:31.155227+00:00",
     "generated_from": "backend.orchestration.build_demo_payloads",
     "normalized": true
   },
@@ -553,7 +553,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-20T21:36:37.809237+00:00"
+                "last_checked_utc": "2026-03-20T21:46:31.136946+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -568,7 +568,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-20T21:36:37.809253+00:00"
+                "last_checked_utc": "2026-03-20T21:46:31.136957+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -581,7 +581,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-20T21:36:37.809258+00:00"
+                "last_checked_utc": "2026-03-20T21:46:31.136962+00:00"
               }
             ],
             "workflow_stages": [
@@ -751,7 +751,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-2c802b41 created for Lisbon Green Quarter acquisition.",
+              "detail": "Transaction deal-b45e5c47 created for Lisbon Green Quarter acquisition.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -786,7 +786,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-2c802b41 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-b45e5c47 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -801,7 +801,7 @@
           "payment_instrument": {
             "instrument_type": "wire",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-763c450a0e",
+            "token_reference": "tok-76bf272a7a",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -810,18 +810,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-a739c83c",
-              "identifier": "usr-a739c83c"
+              "name": "usr-e2b8e8d2",
+              "identifier": "usr-e2b8e8d2"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-2c802b41"
+              "identifier": "deal-b45e5c47"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-72a8929d"
+              "identifier": "req-0379ccce"
             }
           ],
           "fraud_probability": 0.36,
@@ -891,7 +891,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "released",
-          "explanation": "Payment deal-2c802b41 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-b45e5c47 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -923,8 +923,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-a739c83c",
-              "identifier": "usr-a739c83c"
+              "name": "usr-e2b8e8d2",
+              "identifier": "usr-e2b8e8d2"
             },
             {
               "role": "servicing_entity",
@@ -934,7 +934,7 @@
             {
               "role": "transaction_context",
               "name": "closing",
-              "identifier": "req-72a8929d"
+              "identifier": "req-0379ccce"
             }
           ],
           "acord_coverages": [
@@ -1036,7 +1036,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-72a8929d.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-0379ccce.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'buyer', property type 'apartment', occupancy 'owner_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -1369,7 +1369,7 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Lisbon Green Quarter Apartment to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-885c3c48 modeled Lisbon Green Quarter Apartment in Portugal using purchase price 620,000, current value 628,000, occupancy 94%, rent 3,200/mo, renovation budget 38,000, insurance premium 2,256, and hold period 7 years. Best-case equity outcome is 535,249, downside annual cash flow is -7, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-4af277d2 modeled Lisbon Green Quarter Apartment in Portugal using purchase price 620,000, current value 628,000, occupancy 94%, rent 3,200/mo, renovation budget 38,000, insurance premium 2,256, and hold period 7 years. Best-case equity outcome is 535,249, downside annual cash flow is -7, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
@@ -1538,6 +1538,123 @@
             "ISO/IEC 5259",
             "ISO 31000",
             "ISO/IEC 27001"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "tokenization_decision": {
+          "request_id": "demo-request",
+          "asset": {
+            "asset_id": "asset-deal-b45e5c47",
+            "property_name": "Lisbon Green Quarter Apartment Income SPV",
+            "jurisdiction": "Portugal",
+            "legal_wrapper": "Portugal SPV with nominee ledger",
+            "domicile": "Portugal",
+            "asset_value": 620000,
+            "valuation_basis": "last_transaction_plus_holdback",
+            "currency": "USD",
+            "minimum_investment": 10000,
+            "target_raise": 300000,
+            "unit_price": 10000,
+            "total_units": 30,
+            "sponsor_equity_pct": 0.35,
+            "retail_allocation_pct": 0.4,
+            "lockup_period_days": 365,
+            "transfer_policy": "Transfers require whitelist approval, cooling-off checks, and administrator reconciliation."
+          },
+          "offering_status": "subscription_window_open",
+          "eligibility_summary": "Fractional investment is available only to investors who pass KYC, AML, beneficial-owner, and jurisdiction-specific securities checks.",
+          "distribution_policy": "Quarterly distributions after reserve retention, tax withholding, and administrator sign-off.",
+          "compliance_checks": [
+            {
+              "name": "KYC / beneficial owner verification",
+              "status": "passed",
+              "detail": "Primary subscription is blocked until controller and beneficial-owner evidence remain current."
+            },
+            {
+              "name": "AML / sanctions / source-of-funds",
+              "status": "passed",
+              "detail": "Cross-border flows require sanctions clearance, source-of-funds evidence, and ongoing transaction monitoring."
+            },
+            {
+              "name": "Securities eligibility and transfer restrictions",
+              "status": "review",
+              "detail": "Investor class, jurisdiction, and holding-period rules control whether subscription or transfer can be released."
+            },
+            {
+              "name": "Cash settlement and cap-table reconciliation",
+              "status": "passed",
+              "detail": "Units are only allocated after escrow settlement, administrator reconciliation, and legal-ledger synchronization."
+            }
+          ],
+          "ownership_records": [
+            {
+              "investor_label": "Sponsor reserve",
+              "investor_class": "sponsor",
+              "beneficial_owner_reference": "bo-sponsor-core",
+              "wallet_reference": "custody-sponsor-001",
+              "units": 10,
+              "ownership_pct": 35.0,
+              "status": "locked"
+            },
+            {
+              "investor_label": "Qualified investor allocation",
+              "investor_class": "qualified",
+              "beneficial_owner_reference": "bo-usr-e2b8e8d2",
+              "wallet_reference": "custody-qualified-queue",
+              "units": 6,
+              "ownership_pct": 22.0,
+              "status": "subscribed"
+            },
+            {
+              "investor_label": "Retail waitlist pool",
+              "investor_class": "retail",
+              "beneficial_owner_reference": "bo-retail-whitelist",
+              "wallet_reference": "custody-retail-queue",
+              "units": 5,
+              "ownership_pct": 18.0,
+              "status": "pending_whitelist"
+            }
+          ],
+          "ledger_events": [
+            {
+              "event_type": "offering_created",
+              "status": "recorded",
+              "detail": "Lisbon Green Quarter Apartment Income SPV is wrapped through Portugal SPV with nominee ledger in Portugal with a governed unit supply."
+            },
+            {
+              "event_type": "subscription_reservation",
+              "status": "recorded",
+              "detail": "Reserved units stay non-transferable until disclosures, investor classification, and payment evidence are complete."
+            },
+            {
+              "event_type": "cash_settlement",
+              "status": "pending",
+              "detail": "Escrow, subscription funds, and administrator ledger references must reconcile before allocation finality."
+            },
+            {
+              "event_type": "mint_or_allocation",
+              "status": "gated",
+              "detail": "Digital units are minted or allocated only after legal-ledger approval, not directly from frontend intent alone."
+            },
+            {
+              "event_type": "secondary_transfer_policy",
+              "status": "active",
+              "detail": "Transfers require whitelist approval, cooling-off checks, and administrator reconciliation."
+            }
+          ],
+          "recommended_actions": [
+            "Keep legal-ledger, cash-ledger, and token-ledger reconciliation in the same approval workflow.",
+            "Require jurisdiction-aware whitelist review before any secondary transfer.",
+            "Publish investor statements and audit evidence after each issuance, distribution, or redemption cycle."
+          ],
+          "release_status": "Review before release",
+          "explanation": "EstateOS models tokenization for Lisbon Green Quarter Apartment Income SPV as a governed securities-style workflow. The frontend can market units, show distributions, and collect subscriptions, but the backend remains authoritative for investor eligibility, cap-table integrity, settlement reconciliation, and transfer restrictions under Portugal SPV with nominee ledger.",
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "SOC 2 Type 2",
+            "PCI DSS",
+            "KYC/AML/sanctions/beneficial ownership controls"
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
@@ -2351,7 +2468,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-20T21:36:37.816086+00:00"
+                "last_checked_utc": "2026-03-20T21:46:31.143895+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -2366,7 +2483,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-20T21:36:37.816094+00:00"
+                "last_checked_utc": "2026-03-20T21:46:31.143903+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -2379,7 +2496,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-20T21:36:37.816099+00:00"
+                "last_checked_utc": "2026-03-20T21:46:31.143909+00:00"
               }
             ],
             "workflow_stages": [
@@ -2549,7 +2666,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-d6754e91 created for Lisbon Green Quarter acquisition.",
+              "detail": "Transaction deal-29db749c created for Lisbon Green Quarter acquisition.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -2584,7 +2701,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-d6754e91 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-29db749c for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -2599,7 +2716,7 @@
           "payment_instrument": {
             "instrument_type": "wire",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-3633974fea",
+            "token_reference": "tok-78716aace8",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -2608,18 +2725,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-81198cd0",
-              "identifier": "usr-81198cd0"
+              "name": "usr-5115fe9e",
+              "identifier": "usr-5115fe9e"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-d6754e91"
+              "identifier": "deal-29db749c"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-1c0d3dff"
+              "identifier": "req-0ca80cdf"
             }
           ],
           "fraud_probability": 0.36,
@@ -2689,7 +2806,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "released",
-          "explanation": "Payment deal-d6754e91 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-29db749c was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -2721,8 +2838,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-81198cd0",
-              "identifier": "usr-81198cd0"
+              "name": "usr-5115fe9e",
+              "identifier": "usr-5115fe9e"
             },
             {
               "role": "servicing_entity",
@@ -2732,7 +2849,7 @@
             {
               "role": "transaction_context",
               "name": "closing",
-              "identifier": "req-1c0d3dff"
+              "identifier": "req-0ca80cdf"
             }
           ],
           "acord_coverages": [
@@ -2834,7 +2951,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-1c0d3dff.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-0ca80cdf.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -3162,7 +3279,7 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Athens Urban Residential Block to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-b3d397ff modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-924c3221 modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
@@ -3331,6 +3448,123 @@
             "ISO/IEC 5259",
             "ISO 31000",
             "ISO/IEC 27001"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "tokenization_decision": {
+          "request_id": "demo-request",
+          "asset": {
+            "asset_id": "asset-deal-29db749c",
+            "property_name": "Athens Urban Residential Block Token Offering",
+            "jurisdiction": "Portugal",
+            "legal_wrapper": "Luxembourg feeder SPV with transfer-agent controls",
+            "domicile": "Luxembourg",
+            "asset_value": 620000,
+            "valuation_basis": "last_transaction_plus_holdback",
+            "currency": "USD",
+            "minimum_investment": 25000,
+            "target_raise": 520000,
+            "unit_price": 25000,
+            "total_units": 20,
+            "sponsor_equity_pct": 0.3,
+            "retail_allocation_pct": 0.45,
+            "lockup_period_days": 540,
+            "transfer_policy": "Secondary transfers require buyer KYC refresh, suitability review, whitelist approval, and settlement finality."
+          },
+          "offering_status": "subscription_window_open",
+          "eligibility_summary": "Fractional investment is available only to investors who pass KYC, AML, beneficial-owner, and jurisdiction-specific securities checks.",
+          "distribution_policy": "Quarterly net-rent distributions with reserve top-ups and annual tax-statement delivery.",
+          "compliance_checks": [
+            {
+              "name": "KYC / beneficial owner verification",
+              "status": "passed",
+              "detail": "Primary subscription is blocked until controller and beneficial-owner evidence remain current."
+            },
+            {
+              "name": "AML / sanctions / source-of-funds",
+              "status": "passed",
+              "detail": "Cross-border flows require sanctions clearance, source-of-funds evidence, and ongoing transaction monitoring."
+            },
+            {
+              "name": "Securities eligibility and transfer restrictions",
+              "status": "review",
+              "detail": "Investor class, jurisdiction, and holding-period rules control whether subscription or transfer can be released."
+            },
+            {
+              "name": "Cash settlement and cap-table reconciliation",
+              "status": "passed",
+              "detail": "Units are only allocated after escrow settlement, administrator reconciliation, and legal-ledger synchronization."
+            }
+          ],
+          "ownership_records": [
+            {
+              "investor_label": "Sponsor reserve",
+              "investor_class": "sponsor",
+              "beneficial_owner_reference": "bo-sponsor-core",
+              "wallet_reference": "custody-sponsor-001",
+              "units": 6,
+              "ownership_pct": 30.0,
+              "status": "locked"
+            },
+            {
+              "investor_label": "Qualified investor allocation",
+              "investor_class": "qualified",
+              "beneficial_owner_reference": "bo-usr-5115fe9e",
+              "wallet_reference": "custody-qualified-queue",
+              "units": 4,
+              "ownership_pct": 24.75,
+              "status": "subscribed"
+            },
+            {
+              "investor_label": "Retail waitlist pool",
+              "investor_class": "retail",
+              "beneficial_owner_reference": "bo-retail-whitelist",
+              "wallet_reference": "custody-retail-queue",
+              "units": 4,
+              "ownership_pct": 20.25,
+              "status": "pending_whitelist"
+            }
+          ],
+          "ledger_events": [
+            {
+              "event_type": "offering_created",
+              "status": "recorded",
+              "detail": "Athens Urban Residential Block Token Offering is wrapped through Luxembourg feeder SPV with transfer-agent controls in Luxembourg with a governed unit supply."
+            },
+            {
+              "event_type": "subscription_reservation",
+              "status": "recorded",
+              "detail": "Reserved units stay non-transferable until disclosures, investor classification, and payment evidence are complete."
+            },
+            {
+              "event_type": "cash_settlement",
+              "status": "pending",
+              "detail": "Escrow, subscription funds, and administrator ledger references must reconcile before allocation finality."
+            },
+            {
+              "event_type": "mint_or_allocation",
+              "status": "gated",
+              "detail": "Digital units are minted or allocated only after legal-ledger approval, not directly from frontend intent alone."
+            },
+            {
+              "event_type": "secondary_transfer_policy",
+              "status": "active",
+              "detail": "Secondary transfers require buyer KYC refresh, suitability review, whitelist approval, and settlement finality."
+            }
+          ],
+          "recommended_actions": [
+            "Keep legal-ledger, cash-ledger, and token-ledger reconciliation in the same approval workflow.",
+            "Require jurisdiction-aware whitelist review before any secondary transfer.",
+            "Publish investor statements and audit evidence after each issuance, distribution, or redemption cycle."
+          ],
+          "release_status": "Review before release",
+          "explanation": "EstateOS models tokenization for Athens Urban Residential Block Token Offering as a governed securities-style workflow. The frontend can market units, show distributions, and collect subscriptions, but the backend remains authoritative for investor eligibility, cap-table integrity, settlement reconciliation, and transfer restrictions under Luxembourg feeder SPV with transfer-agent controls.",
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "SOC 2 Type 2",
+            "PCI DSS",
+            "KYC/AML/sanctions/beneficial ownership controls"
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
@@ -4083,7 +4317,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-20T21:36:37.822769+00:00"
+                "last_checked_utc": "2026-03-20T21:46:31.150628+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -4098,7 +4332,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-20T21:36:37.822778+00:00"
+                "last_checked_utc": "2026-03-20T21:46:31.150635+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -4111,7 +4345,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-20T21:36:37.822783+00:00"
+                "last_checked_utc": "2026-03-20T21:46:31.150640+00:00"
               }
             ],
             "workflow_stages": [
@@ -4281,7 +4515,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-35e1191a created for Athens Urban Block diligence.",
+              "detail": "Transaction deal-3facbffa created for Athens Urban Block diligence.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -4316,7 +4550,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-35e1191a for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-3facbffa for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -4331,7 +4565,7 @@
           "payment_instrument": {
             "instrument_type": "escrow_disbursement",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-2d70ce431c",
+            "token_reference": "tok-87f756c8a6",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -4340,18 +4574,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-ddfcb2e1",
-              "identifier": "usr-ddfcb2e1"
+              "name": "usr-5ca7a317",
+              "identifier": "usr-5ca7a317"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-35e1191a"
+              "identifier": "deal-3facbffa"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-41a57d07"
+              "identifier": "req-73639d52"
             }
           ],
           "fraud_probability": 0.54,
@@ -4421,7 +4655,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "review",
-          "explanation": "Payment deal-35e1191a was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-3facbffa was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -4453,8 +4687,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-ddfcb2e1",
-              "identifier": "usr-ddfcb2e1"
+              "name": "usr-5ca7a317",
+              "identifier": "usr-5ca7a317"
             },
             {
               "role": "servicing_entity",
@@ -4464,7 +4698,7 @@
             {
               "role": "transaction_context",
               "name": "approval",
-              "identifier": "req-41a57d07"
+              "identifier": "req-73639d52"
             }
           ],
           "acord_coverages": [
@@ -4566,7 +4800,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-41a57d07.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-73639d52.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'advisor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'approval'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -4893,7 +5127,7 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Athens Urban Block diligence to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-9d7e3c0f modeled Athens Urban Block diligence in Greece using purchase price 880,000, current value 898,000, occupancy 93%, rent 6,400/mo, renovation budget 76,000, insurance premium 4,020, and hold period 6 years. Best-case equity outcome is 1,070,903, downside annual cash flow is 20,338, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-9e3a8745 modeled Athens Urban Block diligence in Greece using purchase price 880,000, current value 898,000, occupancy 93%, rent 6,400/mo, renovation budget 76,000, insurance premium 4,020, and hold period 6 years. Best-case equity outcome is 1,070,903, downside annual cash flow is 20,338, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
@@ -5062,6 +5296,123 @@
             "ISO/IEC 5259",
             "ISO 31000",
             "ISO/IEC 27001"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "tokenization_decision": {
+          "request_id": "demo-request",
+          "asset": {
+            "asset_id": "asset-deal-3facbffa",
+            "property_name": "Athens Urban Block Governance Share Class",
+            "jurisdiction": "Greece",
+            "legal_wrapper": "Greek property SPV with regulated registrar sync",
+            "domicile": "Greece",
+            "asset_value": 880000,
+            "valuation_basis": "last_transaction_plus_holdback",
+            "currency": "USD",
+            "minimum_investment": 50000,
+            "target_raise": 400000,
+            "unit_price": 50000,
+            "total_units": 8,
+            "sponsor_equity_pct": 0.32,
+            "retail_allocation_pct": 0.28,
+            "lockup_period_days": 730,
+            "transfer_policy": "Advisor-reviewed transfers require IC policy approval, whitelist refresh, and dual-control release."
+          },
+          "offering_status": "subscription_window_open",
+          "eligibility_summary": "Fractional investment is available only to investors who pass KYC, AML, beneficial-owner, and jurisdiction-specific securities checks.",
+          "distribution_policy": "Semiannual distributions after lender covenant checks, reserve holds, and board approval.",
+          "compliance_checks": [
+            {
+              "name": "KYC / beneficial owner verification",
+              "status": "passed",
+              "detail": "Primary subscription is blocked until controller and beneficial-owner evidence remain current."
+            },
+            {
+              "name": "AML / sanctions / source-of-funds",
+              "status": "passed",
+              "detail": "Cross-border flows require sanctions clearance, source-of-funds evidence, and ongoing transaction monitoring."
+            },
+            {
+              "name": "Securities eligibility and transfer restrictions",
+              "status": "review",
+              "detail": "Investor class, jurisdiction, and holding-period rules control whether subscription or transfer can be released."
+            },
+            {
+              "name": "Cash settlement and cap-table reconciliation",
+              "status": "passed",
+              "detail": "Units are only allocated after escrow settlement, administrator reconciliation, and legal-ledger synchronization."
+            }
+          ],
+          "ownership_records": [
+            {
+              "investor_label": "Sponsor reserve",
+              "investor_class": "sponsor",
+              "beneficial_owner_reference": "bo-sponsor-core",
+              "wallet_reference": "custody-sponsor-001",
+              "units": 2,
+              "ownership_pct": 32.0,
+              "status": "locked"
+            },
+            {
+              "investor_label": "Qualified investor allocation",
+              "investor_class": "qualified",
+              "beneficial_owner_reference": "bo-usr-5ca7a317",
+              "wallet_reference": "custody-qualified-queue",
+              "units": 1,
+              "ownership_pct": 15.4,
+              "status": "subscribed"
+            },
+            {
+              "investor_label": "Retail waitlist pool",
+              "investor_class": "retail",
+              "beneficial_owner_reference": "bo-retail-whitelist",
+              "wallet_reference": "custody-retail-queue",
+              "units": 1,
+              "ownership_pct": 12.6,
+              "status": "pending_whitelist"
+            }
+          ],
+          "ledger_events": [
+            {
+              "event_type": "offering_created",
+              "status": "recorded",
+              "detail": "Athens Urban Block Governance Share Class is wrapped through Greek property SPV with regulated registrar sync in Greece with a governed unit supply."
+            },
+            {
+              "event_type": "subscription_reservation",
+              "status": "recorded",
+              "detail": "Reserved units stay non-transferable until disclosures, investor classification, and payment evidence are complete."
+            },
+            {
+              "event_type": "cash_settlement",
+              "status": "pending",
+              "detail": "Escrow, subscription funds, and administrator ledger references must reconcile before allocation finality."
+            },
+            {
+              "event_type": "mint_or_allocation",
+              "status": "gated",
+              "detail": "Digital units are minted or allocated only after legal-ledger approval, not directly from frontend intent alone."
+            },
+            {
+              "event_type": "secondary_transfer_policy",
+              "status": "active",
+              "detail": "Advisor-reviewed transfers require IC policy approval, whitelist refresh, and dual-control release."
+            }
+          ],
+          "recommended_actions": [
+            "Keep legal-ledger, cash-ledger, and token-ledger reconciliation in the same approval workflow.",
+            "Require jurisdiction-aware whitelist review before any secondary transfer.",
+            "Publish investor statements and audit evidence after each issuance, distribution, or redemption cycle."
+          ],
+          "release_status": "Advisor review before release",
+          "explanation": "EstateOS models tokenization for Athens Urban Block Governance Share Class as a governed securities-style workflow. The frontend can market units, show distributions, and collect subscriptions, but the backend remains authoritative for investor eligibility, cap-table integrity, settlement reconciliation, and transfer restrictions under Greek property SPV with regulated registrar sync.",
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "SOC 2 Type 2",
+            "PCI DSS",
+            "KYC/AML/sanctions/beneficial ownership controls"
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
@@ -5871,7 +6222,7 @@
               "records",
               "jurisdiction"
             ],
-            "last_checked_utc": "2026-03-20T21:36:37.816086+00:00"
+            "last_checked_utc": "2026-03-20T21:46:31.143895+00:00"
           },
           {
             "document_id": "doc-disclosure",
@@ -5886,7 +6237,7 @@
               "records",
               "privacy"
             ],
-            "last_checked_utc": "2026-03-20T21:36:37.816094+00:00"
+            "last_checked_utc": "2026-03-20T21:46:31.143903+00:00"
           },
           {
             "document_id": "doc-finance",
@@ -5899,7 +6250,7 @@
               "records",
               "business_continuity"
             ],
-            "last_checked_utc": "2026-03-20T21:36:37.816099+00:00"
+            "last_checked_utc": "2026-03-20T21:46:31.143909+00:00"
           }
         ],
         "workflow_stages": [
@@ -6069,7 +6420,7 @@
         {
           "name": "transaction.intake.recorded",
           "status": "completed",
-          "detail": "Transaction deal-d6754e91 created for Lisbon Green Quarter acquisition.",
+          "detail": "Transaction deal-29db749c created for Lisbon Green Quarter acquisition.",
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
         {
@@ -6104,7 +6455,7 @@
         "Lock release behind approval if the risk score remains above the configured threshold.",
         "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
       ],
-      "explanation": "Transaction deal-d6754e91 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+      "explanation": "Transaction deal-29db749c for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
       "standards_alignment": [
         "ISO/IEC 27001",
         "ISO 22301",
@@ -6119,7 +6470,7 @@
       "payment_instrument": {
         "instrument_type": "wire",
         "token_provider": "Banking / escrow token service",
-        "token_reference": "tok-3633974fea",
+        "token_reference": "tok-78716aace8",
         "last4": "6789",
         "network": "ACH/Wire",
         "wallet_or_bank": "Escrow operating account",
@@ -6128,18 +6479,18 @@
       "participants": [
         {
           "role": "payer",
-          "name": "usr-81198cd0",
-          "identifier": "usr-81198cd0"
+          "name": "usr-5115fe9e",
+          "identifier": "usr-5115fe9e"
         },
         {
           "role": "beneficiary",
           "name": "EstateOS Escrow",
-          "identifier": "deal-d6754e91"
+          "identifier": "deal-29db749c"
         },
         {
           "role": "servicer",
           "name": "EstateOS Payment Ops",
-          "identifier": "req-1c0d3dff"
+          "identifier": "req-0ca80cdf"
         }
       ],
       "fraud_probability": 0.36,
@@ -6209,7 +6560,7 @@
         "Match settlement references and escrow ledger entries before reconciliation close."
       ],
       "release_status": "released",
-      "explanation": "Payment deal-d6754e91 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+      "explanation": "Payment deal-29db749c was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
       "standards_alignment": [
         "PCI DSS",
         "ISO/IEC 27001",
@@ -6241,8 +6592,8 @@
       "acord_parties": [
         {
           "role": "applicant",
-          "name": "usr-81198cd0",
-          "identifier": "usr-81198cd0"
+          "name": "usr-5115fe9e",
+          "identifier": "usr-5115fe9e"
         },
         {
           "role": "servicing_entity",
@@ -6252,7 +6603,7 @@
         {
           "role": "transaction_context",
           "name": "closing",
-          "identifier": "req-1c0d3dff"
+          "identifier": "req-0ca80cdf"
         }
       ],
       "acord_coverages": [
@@ -6354,7 +6705,7 @@
         }
       ],
       "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-1c0d3dff.",
+      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-0ca80cdf.",
       "release_status": "released",
       "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
       "standards_alignment": [
@@ -6682,7 +7033,7 @@
       "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
       "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
       "recommendation": "Use the digital twin for Athens Urban Residential Block to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-      "explanation": "Digital twin twin-b3d397ff modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+      "explanation": "Digital twin twin-924c3221 modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
       "standards_alignment": [
         "ISO/IEC 42001",
         "ISO/IEC 5259",
@@ -6851,6 +7202,123 @@
         "ISO/IEC 5259",
         "ISO 31000",
         "ISO/IEC 27001"
+      ],
+      "timestamp_utc": "2026-03-20T00:00:00+00:00"
+    },
+    "tokenization_decision": {
+      "request_id": "demo-request",
+      "asset": {
+        "asset_id": "asset-deal-29db749c",
+        "property_name": "Athens Urban Residential Block Token Offering",
+        "jurisdiction": "Portugal",
+        "legal_wrapper": "Luxembourg feeder SPV with transfer-agent controls",
+        "domicile": "Luxembourg",
+        "asset_value": 620000,
+        "valuation_basis": "last_transaction_plus_holdback",
+        "currency": "USD",
+        "minimum_investment": 25000,
+        "target_raise": 520000,
+        "unit_price": 25000,
+        "total_units": 20,
+        "sponsor_equity_pct": 0.3,
+        "retail_allocation_pct": 0.45,
+        "lockup_period_days": 540,
+        "transfer_policy": "Secondary transfers require buyer KYC refresh, suitability review, whitelist approval, and settlement finality."
+      },
+      "offering_status": "subscription_window_open",
+      "eligibility_summary": "Fractional investment is available only to investors who pass KYC, AML, beneficial-owner, and jurisdiction-specific securities checks.",
+      "distribution_policy": "Quarterly net-rent distributions with reserve top-ups and annual tax-statement delivery.",
+      "compliance_checks": [
+        {
+          "name": "KYC / beneficial owner verification",
+          "status": "passed",
+          "detail": "Primary subscription is blocked until controller and beneficial-owner evidence remain current."
+        },
+        {
+          "name": "AML / sanctions / source-of-funds",
+          "status": "passed",
+          "detail": "Cross-border flows require sanctions clearance, source-of-funds evidence, and ongoing transaction monitoring."
+        },
+        {
+          "name": "Securities eligibility and transfer restrictions",
+          "status": "review",
+          "detail": "Investor class, jurisdiction, and holding-period rules control whether subscription or transfer can be released."
+        },
+        {
+          "name": "Cash settlement and cap-table reconciliation",
+          "status": "passed",
+          "detail": "Units are only allocated after escrow settlement, administrator reconciliation, and legal-ledger synchronization."
+        }
+      ],
+      "ownership_records": [
+        {
+          "investor_label": "Sponsor reserve",
+          "investor_class": "sponsor",
+          "beneficial_owner_reference": "bo-sponsor-core",
+          "wallet_reference": "custody-sponsor-001",
+          "units": 6,
+          "ownership_pct": 30.0,
+          "status": "locked"
+        },
+        {
+          "investor_label": "Qualified investor allocation",
+          "investor_class": "qualified",
+          "beneficial_owner_reference": "bo-usr-5115fe9e",
+          "wallet_reference": "custody-qualified-queue",
+          "units": 4,
+          "ownership_pct": 24.75,
+          "status": "subscribed"
+        },
+        {
+          "investor_label": "Retail waitlist pool",
+          "investor_class": "retail",
+          "beneficial_owner_reference": "bo-retail-whitelist",
+          "wallet_reference": "custody-retail-queue",
+          "units": 4,
+          "ownership_pct": 20.25,
+          "status": "pending_whitelist"
+        }
+      ],
+      "ledger_events": [
+        {
+          "event_type": "offering_created",
+          "status": "recorded",
+          "detail": "Athens Urban Residential Block Token Offering is wrapped through Luxembourg feeder SPV with transfer-agent controls in Luxembourg with a governed unit supply."
+        },
+        {
+          "event_type": "subscription_reservation",
+          "status": "recorded",
+          "detail": "Reserved units stay non-transferable until disclosures, investor classification, and payment evidence are complete."
+        },
+        {
+          "event_type": "cash_settlement",
+          "status": "pending",
+          "detail": "Escrow, subscription funds, and administrator ledger references must reconcile before allocation finality."
+        },
+        {
+          "event_type": "mint_or_allocation",
+          "status": "gated",
+          "detail": "Digital units are minted or allocated only after legal-ledger approval, not directly from frontend intent alone."
+        },
+        {
+          "event_type": "secondary_transfer_policy",
+          "status": "active",
+          "detail": "Secondary transfers require buyer KYC refresh, suitability review, whitelist approval, and settlement finality."
+        }
+      ],
+      "recommended_actions": [
+        "Keep legal-ledger, cash-ledger, and token-ledger reconciliation in the same approval workflow.",
+        "Require jurisdiction-aware whitelist review before any secondary transfer.",
+        "Publish investor statements and audit evidence after each issuance, distribution, or redemption cycle."
+      ],
+      "release_status": "Review before release",
+      "explanation": "EstateOS models tokenization for Athens Urban Residential Block Token Offering as a governed securities-style workflow. The frontend can market units, show distributions, and collect subscriptions, but the backend remains authoritative for investor eligibility, cap-table integrity, settlement reconciliation, and transfer restrictions under Luxembourg feeder SPV with transfer-agent controls.",
+      "standards_alignment": [
+        "ISO/IEC 27001",
+        "ISO/IEC 27701",
+        "SOC 2 Type 2",
+        "PCI DSS",
+        "KYC/AML/sanctions/beneficial ownership controls"
       ],
       "timestamp_utc": "2026-03-20T00:00:00+00:00"
     },

@@ -43,7 +43,11 @@
       "investment_horizon_months",
       "strategy_bias",
       "migration_preference",
-      "interest_rate_sensitivity"
+      "interest_rate_sensitivity",
+      "investor_classification",
+      "beneficial_owner_attestation",
+      "wallet_preference",
+      "fractional_transfer_intent"
     ],
     "trust_controls": [
       "OIDC/OAuth2 with step-up MFA",
@@ -80,7 +84,11 @@
         "data_classification",
         "market_scope",
         "forecast_horizon",
-        "signal_subscription_tier"
+        "signal_subscription_tier",
+        "investor_eligibility_tier",
+        "beneficial_owner_status",
+        "wallet_custody_mode",
+        "fractional_offering_scope"
       ]
     }
   },
@@ -613,6 +621,71 @@
         "compliance_summary",
         "natural_language_interfaces",
         "release_status",
+        "standards_alignment"
+      ]
+    },
+    "TokenizationAsset": {
+      "type": "object",
+      "required": [
+        "asset_id",
+        "property_name",
+        "jurisdiction",
+        "legal_wrapper",
+        "domicile",
+        "asset_value",
+        "valuation_basis",
+        "currency",
+        "minimum_investment",
+        "target_raise",
+        "unit_price",
+        "total_units",
+        "sponsor_equity_pct",
+        "retail_allocation_pct",
+        "lockup_period_days",
+        "transfer_policy"
+      ]
+    },
+    "TokenizationComplianceCheck": {
+      "type": "object",
+      "required": [
+        "name",
+        "status",
+        "detail"
+      ]
+    },
+    "FractionalOwnershipRecord": {
+      "type": "object",
+      "required": [
+        "investor_label",
+        "investor_class",
+        "beneficial_owner_reference",
+        "wallet_reference",
+        "units",
+        "ownership_pct",
+        "status"
+      ]
+    },
+    "TokenizationLedgerEvent": {
+      "type": "object",
+      "required": [
+        "event_type",
+        "status",
+        "detail"
+      ]
+    },
+    "TokenizationDecision": {
+      "type": "object",
+      "required": [
+        "asset",
+        "offering_status",
+        "eligibility_summary",
+        "distribution_policy",
+        "compliance_checks",
+        "ownership_records",
+        "ledger_events",
+        "recommended_actions",
+        "release_status",
+        "explanation",
         "standards_alignment"
       ]
     }

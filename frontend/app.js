@@ -3224,7 +3224,7 @@ function renderJourney() {
         `Detected intents: ${backend.property.detected_intents.join(", ")}.`,
         `Top recommendation: ${backendTopCandidate.title} in ${backendTopCandidate.geography}.`,
         `Transaction release is ${backend.transaction.release_status} with ${backend.transaction.compliance_controls.length} tracked controls.`,
-        `Residency, insurance, payment, integration, digital twin, and market intelligence engines rendered from backend packets.`
+        `Residency, insurance, payment, integration, digital twin, market intelligence, and tokenization design surfaces rendered from backend packets or governed frontend content.`
       ]
         .map((item) => `<li>${item}</li>`)
         .join("")

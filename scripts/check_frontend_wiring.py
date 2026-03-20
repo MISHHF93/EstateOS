@@ -30,6 +30,7 @@ REQUIRED_DECISION_KEYS = {
     "residency_decision",
     "digital_twin_decision",
     "market_intelligence_decision",
+    "tokenization_decision",
     "copilot_decision",
 }
 REQUIRED_JOURNEYS = {"buyer", "investor", "advisor"}
