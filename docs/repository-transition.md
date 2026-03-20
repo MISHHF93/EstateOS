@@ -132,3 +132,18 @@ All future implementation work should continue to align to the following locked 
 - Azure-native deployment using Front Door, API Management, PostgreSQL, Redis, Blob Storage, Service Bus, Key Vault, Monitor, Sentinel, Azure AI Search, and Azure Machine Learning,
 - the ten-expert MoE model and router-based orchestration contract,
 - compliance alignment spanning ISO/IEC 27001, 27017, 27018, 27701, 25010, 42001, 5259, ISO 9241-210, ISO 22301, ISO 31000, PCI DSS, SOC 2 Type 2, ACORD, NAIC-aligned controls, and KYC/AML/sanctions requirements.
+
+## 6. Alignment review checklist
+
+Before merging changes, contributors should confirm:
+
+1. production web changes land under `apps/web/` unless they are intentionally prototype-only,
+2. production backend changes land under `services/` unless they are intentionally reference-only,
+3. shared contracts and policies are promoted into `packages/` when reuse is expected,
+4. the modular-monolith-first backend strategy is preserved,
+5. the ten-expert MoE taxonomy remains the conceptual baseline,
+6. Azure remains the default infrastructure target,
+7. trust, privacy, audit, and compliance implications are documented for new platform capabilities,
+8. delivery priorities do not skip ahead of the MVP → Phase 2 → Phase 3 roadmap without explicit justification.
+
+For the full repo-wide interpretation, use `docs/blueprint-alignment.md` as the quick alignment gate before larger architecture or implementation changes.
