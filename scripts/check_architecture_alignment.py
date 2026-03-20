@@ -151,6 +151,7 @@ def build_checks() -> list[CheckResult]:
                 [
                     "ISO/IEC 42001",
                     "ISO/IEC 5259",
+                    "ISO 9241-210",
                     "PCI DSS",
                     "SOC 2 Type 2",
                     "ACORD",
@@ -159,6 +160,17 @@ def build_checks() -> list[CheckResult]:
                     "PEP",
                 ],
                 "compliance mapping preserves the required governance posture",
+            ),
+            require_text(
+                "docs/blueprint-traceability-matrix.md",
+                [
+                    "Frontend experience layer",
+                    "API gateway / BFF layer",
+                    "International investor and first-time renter routing examples",
+                    "Service Bus/Event Grid",
+                    "Phase 2 and Phase 3 capabilities are preserved as explicit future scope",
+                ],
+                "traceability matrix ties each major blueprint requirement to concrete repository evidence",
             ),
             require_text(
                 "services/ai-orchestrator/README.md",
