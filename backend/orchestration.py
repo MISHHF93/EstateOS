@@ -638,6 +638,65 @@ class ResidencyEligibilityPacket:
     timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
+@dataclass(frozen=True)
+class CopilotRoleSummary:
+    role_key: str
+    title: str
+    persona: str
+    focus: str
+    confidence: float
+    summary: str
+
+
+@dataclass(frozen=True)
+class CopilotMessage:
+    speaker: str
+    role: str
+    text: str
+    sources: Sequence[str]
+
+
+@dataclass(frozen=True)
+class CopilotMemoryItem:
+    label: str
+    value: str
+    source: str
+    retention: str
+
+
+@dataclass(frozen=True)
+class CopilotReasoningStep:
+    step: str
+    experts: Sequence[str]
+    detail: str
+
+
+@dataclass(frozen=True)
+class CopilotGuardrail:
+    control: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class CopilotDecisionPacket:
+    request_id: str
+    active_role: str
+    roles: Sequence[CopilotRoleSummary]
+    conversation: Sequence[CopilotMessage]
+    memory: Sequence[CopilotMemoryItem]
+    reasoning_trace: Sequence[CopilotReasoningStep]
+    guardrails: Sequence[CopilotGuardrail]
+    recommended_actions: Sequence[str]
+    explainability_summary: str
+    privacy_summary: str
+    compliance_summary: str
+    natural_language_interfaces: Sequence[str]
+    release_status: str
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
 EXPERT_REGISTRY: Sequence[ExpertCard] = (
     ExpertCard(
         name="property_valuation",
@@ -745,6 +804,14 @@ EXPERT_REGISTRY: Sequence[ExpertCard] = (
         min_confidence=0.52,
         execution_mode="sync",
     ),
+    ExpertCard(
+        name="conversational_copilot",
+        specialties=("natural_language_interface", "context_memory", "role_switching", "explainable_reasoning"),
+        triggers=("assistant", "copilot", "chat", "conversation", "explain", "guide"),
+        compliance_dependencies=("privacy", "explainability", "records", "ai_management"),
+        min_confidence=0.66,
+        execution_mode="sync",
+    ),
 )
 
 TRANSACTION_EXPERTS: Sequence[ExpertCard] = (
@@ -817,6 +884,11 @@ INTENT_KEYWORDS: Dict[str, str] = {
     "kyc": "compliance",
     "aml": "compliance",
     "sanctions": "compliance",
+    "assistant": "copilot",
+    "copilot": "copilot",
+    "chat": "copilot",
+    "conversation": "copilot",
+    "explain": "copilot",
 }
 
 INTENT_EXPERT_MAP: Dict[str, str] = {
@@ -830,6 +902,7 @@ INTENT_EXPERT_MAP: Dict[str, str] = {
     "finance": "financial_risk",
     "compliance": "unified_compliance_risk_intelligence",
     "market_intelligence": "market_intelligence",
+    "copilot": "conversational_copilot",
 }
 
 POLICY_GATES: Dict[str, str] = {
@@ -1468,6 +1541,13 @@ def build_expert_outputs(
             confidence=0.78,
             evidence=("persona mapping", "journey stage", "explanation depth preference"),
             next_actions=("adjust explanation depth", "surface guided tasks"),
+        ),
+        "conversational_copilot": ExpertOutput(
+            expert="conversational_copilot",
+            summary="A multi-role copilot can answer in natural language, preserve short-term context memory, and explain how MoE outputs shaped each answer.",
+            confidence=0.88,
+            evidence=("role-to-expert routing policy", "conversation memory state", "reasoning trace with cited expert summaries"),
+            next_actions=("switch copilot role", "review cited reasoning trace"),
         ),
     }
     return [output_map[item.expert] for item in experts if item.expert in output_map]
@@ -3089,6 +3169,207 @@ def evaluate_market_intelligence(
     )
 
 
+COPILOT_ROLE_LIBRARY: Dict[str, Dict[str, str]] = {
+    "buyer_advisor": {
+        "title": "Buyer advisor",
+        "persona": "Relocating buyer",
+        "focus": "Livability, affordability, timing, and next transaction steps.",
+    },
+    "investor_strategist": {
+        "title": "Investor strategist",
+        "persona": "Yield-oriented allocator",
+        "focus": "Returns, downside resilience, market timing, and portfolio fit.",
+    },
+    "insurance_guide": {
+        "title": "Insurance guide",
+        "persona": "Coverage planner",
+        "focus": "Coverage structures, underwriting readiness, privacy-safe quote routing.",
+    },
+    "visa_assistant": {
+        "title": "Visa assistant",
+        "persona": "Residency applicant",
+        "focus": "Eligibility, documentation gaps, counsel handoffs, and filing readiness.",
+    },
+    "compliance_explainer": {
+        "title": "Compliance explainer",
+        "persona": "Risk and control reviewer",
+        "focus": "Why gates passed or held, what evidence exists, and what can be released.",
+    },
+}
+
+
+def evaluate_conversational_copilot(
+    profile: UserProfile,
+    identity: IdentityContext,
+    context: RequestContext,
+    property_packet: DecisionPacket,
+    transaction_packet: TransactionDecisionPacket,
+    residency_packet: ResidencyEligibilityPacket,
+    insurance_packet: InsuranceDecisionPacket,
+    payment_packet: PaymentDecisionPacket,
+    market_packet: MarketIntelligencePacket,
+) -> CopilotDecisionPacket:
+    def value(item: object, key: str):
+        return item[key] if isinstance(item, dict) else getattr(item, key)
+
+    active_role = {
+        "buyer": "buyer_advisor",
+        "investor": "investor_strategist",
+        "advisor": "compliance_explainer",
+    }.get(profile.role, "buyer_advisor")
+    top_recommendation = property_packet.ranked_recommendations[0]
+    insurance_recommendation = insurance_packet.recommendations[0]
+    elevated_gate_count = sum(1 for gate in property_packet.policy_gates if value(gate, "status") != "passed")
+    held_controls = [value(gate, "name") for gate in property_packet.policy_gates if value(gate, "status") != "passed"]
+
+    role_summaries = (
+        CopilotRoleSummary(
+            role_key="buyer_advisor",
+            title="Buyer advisor",
+            persona="Guides owner-occupiers through shortlist fit, financing, and next steps.",
+            focus="Property fit, affordability, family relocation logistics, and transaction sequencing.",
+            confidence=round(value(top_recommendation, "confidence"), 2),
+            summary=f"Recommends {value(top_recommendation, 'title')} because livability, financing readiness, and low-friction execution outperform the alternatives.",
+        ),
+        CopilotRoleSummary(
+            role_key="investor_strategist",
+            title="Investor strategist",
+            persona="Frames investments through risk-adjusted return and macro context.",
+            focus="Yield resilience, downside cases, market signals, and capital allocation discipline.",
+            confidence=round(min(0.99, value(top_recommendation, "composite_score") + 0.03), 2),
+            summary=f"Links {value(top_recommendation, 'title')} to {market_packet.market_scope} signals, emphasizing {market_packet.forecasts[1].horizon} demand resilience and documented downside cases.",
+        ),
+        CopilotRoleSummary(
+            role_key="insurance_guide",
+            title="Insurance guide",
+            persona="Translates underwriting and servicing requirements into actionable coverage advice.",
+            focus="Coverage fit, premium tradeoffs, data minimization, and quote-release posture.",
+            confidence=0.84,
+            summary=f"Maps the property profile to {insurance_recommendation.coverage_type} with privacy-safe ACORD exchange controls and a {insurance_packet.release_status} release posture.",
+        ),
+        CopilotRoleSummary(
+            role_key="visa_assistant",
+            title="Visa assistant",
+            persona="Explains residency eligibility and outstanding filing evidence.",
+            focus="Program fit, document readiness, source-of-funds checks, and counsel handoff readiness.",
+            confidence=round(residency_packet.eligibility_score, 2),
+            summary=f"Explains the {residency_packet.program} decision, including {len(residency_packet.document_checks)} tracked evidence items and the steps needed for filing readiness.",
+        ),
+        CopilotRoleSummary(
+            role_key="compliance_explainer",
+            title="Compliance explainer",
+            persona="Makes control outcomes understandable without hiding risk details.",
+            focus="Release gating, privacy boundaries, audit evidence, and explainability controls.",
+            confidence=0.94,
+            summary=f"Summarizes {len(property_packet.policy_gates)} policy gates, {len(transaction_packet.compliance_controls)} transaction controls, and {payment_packet.risk_level} payment risk before any sensitive action is released.",
+        ),
+    )
+
+    conversation = (
+        CopilotMessage(
+            speaker="user",
+            role=COPILOT_ROLE_LIBRARY[active_role]["title"],
+            text=f"I need a clear recommendation for my {profile.role} journey and I want to understand the risks before I move forward.",
+            sources=("frontend intake", "journey profile"),
+        ),
+        CopilotMessage(
+            speaker="assistant",
+            role=COPILOT_ROLE_LIBRARY[active_role]["title"],
+            text=(
+                f"My top recommendation is {value(top_recommendation, 'title')}. The MoE system blended property, investment, finance, compliance, "
+                f"and market signals to reach a {property_packet.release_status} release with {len(property_packet.selected_experts)} routed experts."
+            ),
+            sources=("property_decision.recommendation", "property_decision.selected_experts"),
+        ),
+        CopilotMessage(
+            speaker="assistant",
+            role="Compliance explainer",
+            text=(
+                f"Nothing is hidden: {elevated_gate_count} policy gates still require attention ({', '.join(held_controls) if held_controls else 'no elevated gates'}), "
+                f"transaction risk is {transaction_packet.risk_rating}, and payment risk is {payment_packet.risk_level}."
+            ),
+            sources=("property_decision.policy_gates", "transaction_decision.risk_rating", "payment_decision.risk_level"),
+        ),
+    )
+
+    memory = (
+        CopilotMemoryItem(label="User role", value=profile.role, source="profile", retention="session + audit excerpt"),
+        CopilotMemoryItem(label="Primary objective", value=profile.intent, source="profile", retention="session"),
+        CopilotMemoryItem(label="Budget", value=f"{profile.investment_budget:,} USD", source="profile", retention="session"),
+        CopilotMemoryItem(label="Top recommendation", value=value(top_recommendation, "title"), source="property decision", retention="decision record"),
+        CopilotMemoryItem(label="Residency status", value=residency_packet.eligibility_status, source="residency decision", retention="decision record"),
+        CopilotMemoryItem(label="Insurance release", value=insurance_packet.release_status, source="insurance decision", retention="decision record"),
+    )
+
+    reasoning_trace = (
+        CopilotReasoningStep(
+            step="Intent and role detection",
+            experts=("ux_personalization", "conversational_copilot"),
+            detail=f"The copilot aligns the response to the {profile.role} journey, {profile.intent} objective, and {context.journey_stage} stage before choosing an answer style.",
+        ),
+        CopilotReasoningStep(
+            step="MoE evidence retrieval",
+            experts=tuple(value(item, "expert") for item in property_packet.selected_experts[:4]),
+            detail="Property, investment, finance, and compliance summaries are pulled first so the response cites governed recommendations instead of free-form opinion.",
+        ),
+        CopilotReasoningStep(
+            step="Role-specific synthesis",
+            experts=("conversational_copilot", "residency_eligibility", "insurance_matching"),
+            detail="The copilot reframes the same evidence differently for buyer, investor, visa, insurance, or compliance conversations without changing the underlying facts.",
+        ),
+        CopilotReasoningStep(
+            step="Guarded release",
+            experts=("compliance_validation", "unified_compliance_risk_intelligence"),
+            detail="Before answering, the system checks privacy tier, consent scope, audit logging, and hold conditions so only policy-cleared details appear in the conversation.",
+        ),
+    )
+
+    guardrails = (
+        CopilotGuardrail(control="Context memory minimization", status="active", detail="Short-term memory stores only journey objectives, released decisions, and approved evidence references; raw PII stays outside the chat transcript."),
+        CopilotGuardrail(control="Role-specific reasoning", status="active", detail="Every answer is conditioned on the selected role so buyers, investors, insurance users, and compliance reviewers get the same facts with different framing."),
+        CopilotGuardrail(control="Explainability trace", status="active", detail="Each answer points back to MoE packets, expert summaries, and policy-gate outcomes instead of opaque free generation."),
+        CopilotGuardrail(control="Compliance-aware release", status="review" if elevated_gate_count else "active", detail=f"Responses inherit policy-gate results and currently track {elevated_gate_count} elevated gates before export or partner release."),
+    )
+
+    recommended_actions = (
+        value(property_packet.expert_outputs[0], "next_actions")[0],
+        transaction_packet.recommendations[0],
+        insurance_packet.recommendations[0].rationale,
+        residency_packet.compliance_workflow[-1].detail,
+    )
+    explainability_summary = (
+        "The conversational copilot is an interface over the existing MoE packets: it retains role context, cites expert outputs, and exposes reasoning steps so the answer can be challenged or audited."
+    )
+    privacy_summary = (
+        f"Conversation memory follows the {identity.privacy_tier} privacy tier, respects consent scope {list(identity.consent_scope)}, and limits release to role-approved details with audit logging."
+    )
+    compliance_summary = (
+        f"Compliance posture spans {len(property_packet.policy_gates)} property gates, {len(transaction_packet.compliance_controls)} transaction controls, residency status '{residency_packet.eligibility_status}', and payment risk '{payment_packet.risk_level}'."
+    )
+
+    return CopilotDecisionPacket(
+        request_id=f"cop-{uuid.uuid4().hex[:8]}",
+        active_role=active_role,
+        roles=role_summaries,
+        conversation=conversation,
+        memory=memory,
+        reasoning_trace=reasoning_trace,
+        guardrails=guardrails,
+        recommended_actions=recommended_actions,
+        explainability_summary=explainability_summary,
+        privacy_summary=privacy_summary,
+        compliance_summary=compliance_summary,
+        natural_language_interfaces=(
+            "guided chat answers",
+            "role switcher for buyer, investor, insurance, visa, and compliance modes",
+            "context memory cards",
+            "reasoning trace with cited expert evidence",
+        ),
+        release_status="review" if elevated_gate_count else "ready",
+        standards_alignment=("ISO/IEC 42001", "ISO/IEC 27701", "ISO/IEC 27001", "ISO/IEC 5259"),
+    )
+
+
 def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
     scenario = DEMO_JOURNEY_SCENARIOS.get(journey_key, DEMO_JOURNEY_SCENARIOS["investor"])
 
@@ -3218,6 +3499,17 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         context,
         **scenario["market_intelligence"],
     )
+    copilot_packet = evaluate_conversational_copilot(
+        profile,
+        identity,
+        context,
+        packet,
+        transaction_packet,
+        residency_packet,
+        insurance_packet,
+        payment_packet,
+        market_intelligence_packet,
+    )
 
     return {
         "journey_key": journey_key,
@@ -3229,6 +3521,7 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         "residency_decision": asdict(residency_packet),
         "digital_twin_decision": asdict(digital_twin_packet),
         "market_intelligence_decision": asdict(market_intelligence_packet),
+        "copilot_decision": asdict(copilot_packet),
     }
 
 

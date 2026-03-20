@@ -552,6 +552,69 @@
         "explanation",
         "standards_alignment"
       ]
+    },
+    "CopilotRoleSummary": {
+      "type": "object",
+      "required": [
+        "role_key",
+        "title",
+        "persona",
+        "focus",
+        "confidence",
+        "summary"
+      ]
+    },
+    "CopilotMessage": {
+      "type": "object",
+      "required": [
+        "speaker",
+        "role",
+        "text",
+        "sources"
+      ]
+    },
+    "CopilotMemoryItem": {
+      "type": "object",
+      "required": [
+        "label",
+        "value",
+        "source",
+        "retention"
+      ]
+    },
+    "CopilotReasoningStep": {
+      "type": "object",
+      "required": [
+        "step",
+        "experts",
+        "detail"
+      ]
+    },
+    "CopilotGuardrail": {
+      "type": "object",
+      "required": [
+        "control",
+        "status",
+        "detail"
+      ]
+    },
+    "CopilotDecision": {
+      "type": "object",
+      "required": [
+        "active_role",
+        "roles",
+        "conversation",
+        "memory",
+        "reasoning_trace",
+        "guardrails",
+        "recommended_actions",
+        "explainability_summary",
+        "privacy_summary",
+        "compliance_summary",
+        "natural_language_interfaces",
+        "release_status",
+        "standards_alignment"
+      ]
     }
   },
   "endpoints": [
@@ -578,6 +641,19 @@
         "PII minimization",
         "audit log",
         "ranked expert contribution trace"
+      ]
+    },
+    {
+      "path": "/v1/copilot/conversations/respond",
+      "method": "POST",
+      "purpose": "Run the multi-role conversational copilot so buyers, investors, insurance users, visa applicants, and compliance reviewers can query MoE decisions in natural language with context memory and explainable role-specific reasoning.",
+      "controls": [
+        "role-aware prompt routing",
+        "short-term memory minimization",
+        "explainability trace attachment",
+        "privacy tier enforcement",
+        "audit logging for each response turn",
+        "compliance-gated response shaping"
       ]
     },
     {
