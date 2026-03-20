@@ -18,6 +18,8 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 | ISO/IEC 27701 | Privacy information management for consent, purpose limitation, data subject rights, retention, deletion, and controller/processor accountability. | Consent receipts, RoPA, retention matrix, deletion logs, privacy impact assessments. |
 | SOC 2 Type 2 | Evidence-backed control operation for security, availability, confidentiality, processing integrity, and privacy over time. | Control test results, ticket evidence, access logs, monitoring records, exception approvals. |
 | ISO/IEC 25010 | Quality requirements for usability, reliability, maintainability, security, performance efficiency, and functional suitability across the platform. | Architecture decision records, NFR scorecards, quality gates, test evidence. |
+| ISO/IEC 5259 | Data quality controls for market feeds, comparable sets, ranking features, freshness, provenance, and remediation. | Data quality scorecards, source lineage, freshness monitors, exception logs. |
+| ISO/IEC 42001 | AI management system for valuation and recommendation models, including ownership, fairness review, human oversight, and release approvals. | AI inventory, risk treatments, oversight thresholds, model review minutes. |
 | ISO 22301 | Business continuity planning for critical APIs, asynchronous workflows, failover, backup, and manual continuity procedures. | BIA outputs, DR runbooks, failover tests, tabletop exercise records. |
 | ISO 31000 | Risk governance for product, operational, cyber, model, legal, and market risks, with treatment plans and KRIs. | Risk taxonomy, treatment records, KRI dashboards, governance minutes. |
 
@@ -27,7 +29,7 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 | --- | --- | --- |
 | Frontend/BFF | Strong authentication, consent capture, secure sessions, profile-context validation, accessibility, progressive disclosure, explanation visibility, action logging. | ISO/IEC 27001, ISO/IEC 27701, ISO/IEC 25010, ISO 9241-210 |
 | Identity and trust plane | OIDC, MFA, RBAC, entitlements, KYC integration, AML scoring, sanctions screening, privacy-tier propagation. | ISO/IEC 27001, ISO/IEC 27701, SOC 2 Type 2 |
-| Router/orchestration | Intent traceability, deterministic routing policy, confidence thresholds, expert aggregation and ranking, release gating, explanation generation, least-privilege response shaping. | ISO/IEC 25010, ISO 9241-210, ISO 31000, SOC 2 Type 2 |
+| Router/orchestration | Intent traceability, deterministic routing policy, valuation and recommendation expert coordination, confidence thresholds, expert aggregation and ranking, release gating, explanation generation, least-privilege response shaping. | ISO/IEC 25010, ISO/IEC 5259, ISO/IEC 42001, ISO 9241-210, ISO 31000, SOC 2 Type 2 |
 | Expert microservices | Versioned models, scoped permissions, service isolation, evaluation metrics, contract tests. | ISO/IEC 27017, ISO/IEC 25010 |
 | Event backbone | Durable delivery, retry logic, idempotency, dead-letter handling, event traceability. | ISO 22301, ISO/IEC 25010 |
 | Data/evidence stores | Encryption, retention, lineage, immutable evidence, backup and recovery, data residency controls. | ISO/IEC 27001, ISO/IEC 27701, ISO 22301 |
@@ -42,9 +44,10 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 
 ### 4.2 Property valuation and investment analysis
 - Verify market data provenance and freshness before model use.
-- Preserve comparable-set rationale and scenario assumptions in the decision packet.
-- Require model risk evidence for release of pricing or ROI-driven recommendations.
-- Apply suitability rules using investor type and financial intent before releasing ranking outputs.
+- Preserve comparable-set rationale, trend features, and location-intelligence assumptions in the decision packet.
+- Require ISO/IEC 5259 evidence for data completeness, comparability, and remediation when pricing or ranking outputs are released.
+- Apply suitability and fairness rules using investor type and financial intent before releasing ranked outputs.
+- Record ISO/IEC 42001 ownership, human-oversight triggers, and explainability artifacts for valuation and recommendation models.
 
 ### 4.3 Residency eligibility
 - Version jurisdiction content and legal rules.
@@ -68,7 +71,7 @@ A complete recommendation should preserve:
 2. Frontend-captured profile context and trust posture.
 3. Consent and purpose-binding state.
 4. Data sources, freshness, and lineage references.
-5. Experts selected, scores, and model versions.
+5. Experts selected, scores, model versions, and ranking feature contributions.
 6. Policy gates evaluated and their outcomes.
 7. Final recommendation, explanation, and confidence/uncertainty.
 8. Human approvals, overrides, and rationale.

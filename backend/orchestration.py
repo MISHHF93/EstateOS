@@ -112,10 +112,23 @@ class RankedRecommendation:
     composite_score: float
     confidence: float
     expert_contributions: Dict[str, float]
+    valuation_band: str
+    comparable_summary: str
+    trend_signal: str
+    location_intelligence: str
+    recommendation_rationale: str
     why: str
     investment_insight: str
     visa_pathway: str
     insurance_option: str
+
+
+@dataclass(frozen=True)
+class ModelGovernanceStatus:
+    framework: str
+    status: str
+    controls: Sequence[str]
+    explanation: str
 
 
 @dataclass(frozen=True)
@@ -141,6 +154,7 @@ class DecisionPacket:
     recommendation: str
     explanation: str
     release_status: str
+    governance_status: Sequence[ModelGovernanceStatus]
     azure_services: Sequence[str]
     standards_alignment: Sequence[str]
     timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
@@ -149,9 +163,9 @@ class DecisionPacket:
 EXPERT_REGISTRY: Sequence[ExpertCard] = (
     ExpertCard(
         name="property_valuation",
-        specialties=("valuation", "comparables", "market_position"),
-        triggers=("property", "home", "price", "valuation", "market"),
-        compliance_dependencies=("privacy", "data_residency", "model_risk"),
+        specialties=("valuation", "comparables", "market_position", "trend_analysis", "location_intelligence"),
+        triggers=("property", "home", "price", "valuation", "market", "comparables", "trend", "location"),
+        compliance_dependencies=("privacy", "data_residency", "model_risk", "data_quality", "explainability"),
         min_confidence=0.58,
         execution_mode="sync",
     ),
@@ -161,6 +175,14 @@ EXPERT_REGISTRY: Sequence[ExpertCard] = (
         triggers=("yield", "return", "roi", "investment", "cashflow"),
         compliance_dependencies=("privacy", "suitability", "model_risk"),
         min_confidence=0.60,
+        execution_mode="sync",
+    ),
+    ExpertCard(
+        name="listing_recommendation",
+        specialties=("ranking", "preference_matching", "fairness_checks", "explainable_ordering"),
+        triggers=("recommend", "rank", "match", "preference", "shortlist"),
+        compliance_dependencies=("privacy", "suitability", "fairness", "explainability", "ai_management"),
+        min_confidence=0.62,
         execution_mode="sync",
     ),
     ExpertCard(
@@ -215,6 +237,9 @@ INTENT_KEYWORDS: Dict[str, str] = {
     "yield": "investment",
     "roi": "investment",
     "investment": "investment",
+    "recommend": "recommendation",
+    "rank": "recommendation",
+    "preference": "recommendation",
     "residency": "residency",
     "visa": "residency",
     "citizenship": "residency",
@@ -233,6 +258,7 @@ INTENT_EXPERT_MAP: Dict[str, str] = {
     "property_search": "property_valuation",
     "valuation": "property_valuation",
     "investment": "investment_analysis",
+    "recommendation": "listing_recommendation",
     "residency": "residency_eligibility",
     "insurance": "insurance_matching",
     "finance": "financial_risk",
@@ -249,6 +275,10 @@ POLICY_GATES: Dict[str, str] = {
     "jurisdiction": "Verify local property ownership, residency-by-investment, cross-border disclosure, and servicing rules.",
     "licensing": "Ensure insurance distribution and advisory actions fit the servicing entity permissions.",
     "model_risk": "Record model lineage, confidence, bias review, and evaluation thresholds for AI-assisted outputs.",
+    "data_quality": "Apply ISO/IEC 5259-aligned controls for data provenance, completeness, freshness, comparability, and traceable remediation.",
+    "fairness": "Measure ranking fairness, disparate impact, and preference weighting drift before releasing recommendations.",
+    "explainability": "Preserve user-facing reasons, comparable-set rationale, and feature contribution summaries for each decision.",
+    "ai_management": "Operate the AI management system under ISO/IEC 42001 with documented ownership, risk treatment, and human oversight.",
     "risk_thresholds": "Block release when fraud, climate, cyber, session, or financial risks exceed threshold.",
     "records": "Write immutable audit logs with inputs, outputs, lineage, approvals, and identity state.",
     "suitability": "Check affordability, investor category, and product suitability against client profile and constraints.",
@@ -281,6 +311,8 @@ STANDARDS_ALIGNMENT: Sequence[str] = (
     "ISO/IEC 27701",
     "SOC 2 Type 2",
     "ISO/IEC 25010",
+    "ISO/IEC 5259",
+    "ISO/IEC 42001",
     "ISO 22301",
     "ISO 31000",
     "ISO 9241-210",
@@ -298,6 +330,7 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
             "base_scores": {
                 "property_valuation": 0.92,
                 "investment_analysis": 0.74,
+                "listing_recommendation": 0.93,
                 "residency_eligibility": 0.91,
                 "insurance_matching": 0.85,
                 "financial_risk": 0.84,
@@ -305,6 +338,11 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
                 "ux_personalization": 0.86,
             },
             "price": 620000,
+            "valuation_band": "$600k-$645k",
+            "comparable_summary": "Supported by three central Lisbon family apartment comparables with similar retrofit profiles.",
+            "trend_signal": "Urban family stock remains supply-constrained with stable pricing momentum.",
+            "location_intelligence": "Strong transit, school access, and low-friction daily mobility improve long-term fit.",
+            "recommendation_rationale": "Recommendation expert favors this listing because user preferences, value confidence, and location quality align cleanly.",
             "investment_insight": "Balanced appreciation outlook with resilience under moderate financing stress.",
             "visa_pathway": "Portugal D7 family relocation route is the clearest next step.",
             "insurance_option": "Home, contents, and legal protection bundle with low hazard friction.",
@@ -318,6 +356,7 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
             "base_scores": {
                 "property_valuation": 0.83,
                 "investment_analysis": 0.77,
+                "listing_recommendation": 0.84,
                 "residency_eligibility": 0.84,
                 "insurance_matching": 0.84,
                 "financial_risk": 0.89,
@@ -325,6 +364,11 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
                 "ux_personalization": 0.81,
             },
             "price": 540000,
+            "valuation_band": "$520k-$555k",
+            "comparable_summary": "Backed by lower-entry riverside loft sales and resilient rent-comp comparables.",
+            "trend_signal": "Moderate appreciation with stronger affordability retention than premium districts.",
+            "location_intelligence": "Transit and rental fallback raise flexibility for mixed family and investment use.",
+            "recommendation_rationale": "Recommendation expert places it second because finance fit is excellent but family relocation signals are slightly weaker.",
             "investment_insight": "Best affordability and financing resilience in the buyer catalog.",
             "visa_pathway": "Portugal D7 remains viable, especially when optional rental income matters.",
             "insurance_option": "Standard property protection package with simpler underwriting requirements.",
@@ -338,6 +382,7 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
             "base_scores": {
                 "property_valuation": 0.88,
                 "investment_analysis": 0.78,
+                "listing_recommendation": 0.79,
                 "residency_eligibility": 0.87,
                 "insurance_matching": 0.69,
                 "financial_risk": 0.7,
@@ -345,6 +390,11 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
                 "ux_personalization": 0.83,
             },
             "price": 780000,
+            "valuation_band": "$745k-$805k",
+            "comparable_summary": "Premium coastal townhome comps support value, but insurance-adjusted carrying costs vary more widely.",
+            "trend_signal": "Premium submarket demand is healthy, though pricing is more sensitive to macro shocks.",
+            "location_intelligence": "Lifestyle appeal is high, but coastal exposure slightly weakens all-weather resilience.",
+            "recommendation_rationale": "Recommendation expert penalizes this listing for insurance friction and budget stretch despite strong lifestyle appeal.",
             "investment_insight": "Premium appreciation story, but softer resilience under constrained financing.",
             "visa_pathway": "Portugal relocation still fits, but household cost and protection review are needed.",
             "insurance_option": "Enhanced coastal package with higher premium and more documentation.",
@@ -360,6 +410,7 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
             "base_scores": {
                 "property_valuation": 0.86,
                 "investment_analysis": 0.92,
+                "listing_recommendation": 0.9,
                 "residency_eligibility": 0.83,
                 "insurance_matching": 0.81,
                 "financial_risk": 0.86,
@@ -367,6 +418,11 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
                 "ux_personalization": 0.78,
             },
             "price": 880000,
+            "valuation_band": "$845k-$910k",
+            "comparable_summary": "Comparable multifamily-style blocks and stabilized rent rolls support the value range.",
+            "trend_signal": "Yield-driven demand remains constructive despite moderate market volatility.",
+            "location_intelligence": "Dense urban amenities and diversified occupancy drivers improve resilience.",
+            "recommendation_rationale": "Recommendation expert ranks this first because yield, resilience, and diversification best match the investor profile.",
             "investment_insight": "Top blend of yield, occupancy resilience, and diversification in the current set.",
             "visa_pathway": "Greece Golden Visa adjacency is attractive but should be monitored for policy shifts.",
             "insurance_option": "Landlord plus catastrophe cover remains accessible with manageable exclusions.",
@@ -380,6 +436,7 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
             "base_scores": {
                 "property_valuation": 0.84,
                 "investment_analysis": 0.88,
+                "listing_recommendation": 0.85,
                 "residency_eligibility": 0.79,
                 "insurance_matching": 0.83,
                 "financial_risk": 0.87,
@@ -387,6 +444,11 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
                 "ux_personalization": 0.8,
             },
             "price": 760000,
+            "valuation_band": "$735k-$785k",
+            "comparable_summary": "Two-unit Lisbon rental comparables indicate stable income pricing with manageable vacancy assumptions.",
+            "trend_signal": "Balanced market momentum with moderate regulatory watchpoints.",
+            "location_intelligence": "Central urban access and flexible exit paths support optional future owner use.",
+            "recommendation_rationale": "Recommendation expert keeps it near the top because flexibility and capital efficiency are strong.",
             "investment_insight": "Best flexibility and financing efficiency for a balanced portfolio lens.",
             "visa_pathway": "Portugal residency is less central here, but optional relocation remains open.",
             "insurance_option": "Portfolio landlord package with moderate carry and straightforward placement.",
@@ -400,6 +462,7 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
             "base_scores": {
                 "property_valuation": 0.9,
                 "investment_analysis": 0.89,
+                "listing_recommendation": 0.76,
                 "residency_eligibility": 0.88,
                 "insurance_matching": 0.73,
                 "financial_risk": 0.75,
@@ -407,6 +470,11 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
                 "ux_personalization": 0.79,
             },
             "price": 1200000,
+            "valuation_band": "$1.16M-$1.24M",
+            "comparable_summary": "Premium branded residence comps confirm upside but with a wider premium-market spread.",
+            "trend_signal": "Momentum is favorable yet more cyclical than the Mediterranean income plays.",
+            "location_intelligence": "Liquidity and prestige are strong, but FX and carrying cost sensitivity are higher.",
+            "recommendation_rationale": "Recommendation expert lowers the rank because premium carry and budget pressure reduce fit.",
             "investment_insight": "Strong upside, but lower resilience when FX and premium operating costs widen.",
             "visa_pathway": "UAE investor residence route is strong for globally mobile investors.",
             "insurance_option": "High-value property coverage with premium documentation requirements.",
@@ -422,6 +490,7 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
             "base_scores": {
                 "property_valuation": 0.87,
                 "investment_analysis": 0.8,
+                "listing_recommendation": 0.88,
                 "residency_eligibility": 0.76,
                 "insurance_matching": 0.86,
                 "financial_risk": 0.84,
@@ -429,6 +498,11 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
                 "ux_personalization": 0.82,
             },
             "price": 1050000,
+            "valuation_band": "$1.01M-$1.08M",
+            "comparable_summary": "Premium residence comparables support pricing with strong documentation quality.",
+            "trend_signal": "Steady prime-market demand with comparatively controlled downside.",
+            "location_intelligence": "Dense services, strong client usability, and clear documentation raise advisor confidence.",
+            "recommendation_rationale": "Recommendation expert favors this listing because it is easiest to defend in a suitability-led memo.",
             "investment_insight": "Best suitability story when the client values clarity and documentation quality.",
             "visa_pathway": "Spain residence planning requires current legal review before client release.",
             "insurance_option": "Premium residence package with strong liability and contents coverage.",
@@ -442,6 +516,7 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
             "base_scores": {
                 "property_valuation": 0.84,
                 "investment_analysis": 0.89,
+                "listing_recommendation": 0.86,
                 "residency_eligibility": 0.84,
                 "insurance_matching": 0.8,
                 "financial_risk": 0.83,
@@ -449,6 +524,11 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
                 "ux_personalization": 0.8,
             },
             "price": 890000,
+            "valuation_band": "$860k-$915k",
+            "comparable_summary": "Comparable income assets and rent comps support a balanced valuation case.",
+            "trend_signal": "Healthy income demand with moderate policy watchlist exposure.",
+            "location_intelligence": "Residency optionality and urban access strengthen client optionality.",
+            "recommendation_rationale": "Recommendation expert keeps this close because the preference mix between yield and residency is compelling.",
             "investment_insight": "Stronger than Barcelona when optional residency matters more than memo simplicity.",
             "visa_pathway": "Greece residency planning remains a useful optional pathway for the client.",
             "insurance_option": "Residential income cover plus catastrophe rider with moderate complexity.",
@@ -462,6 +542,7 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
             "base_scores": {
                 "property_valuation": 0.9,
                 "investment_analysis": 0.87,
+                "listing_recommendation": 0.74,
                 "residency_eligibility": 0.89,
                 "insurance_matching": 0.71,
                 "financial_risk": 0.69,
@@ -469,6 +550,11 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
                 "ux_personalization": 0.78,
             },
             "price": 1450000,
+            "valuation_band": "$1.39M-$1.49M",
+            "comparable_summary": "High-end comparables support the value range but show wider volatility bands.",
+            "trend_signal": "Premium growth potential remains strong but is more cyclical under rate or FX shocks.",
+            "location_intelligence": "Global mobility is attractive, though cost-to-fit is weakest for conservative advisory use.",
+            "recommendation_rationale": "Recommendation expert places it last because suitability and premium carry outweigh upside for this persona.",
             "investment_insight": "Only advisable when the client explicitly accepts cyclical and carry exposure.",
             "visa_pathway": "UAE investor route is compelling but should be paired with suitability review.",
             "insurance_option": "High-value diversified cover with the heaviest carrying cost of the three.",
@@ -511,6 +597,8 @@ def score_expert(
         profile_bonus += 0.14
     if expert.name == "investment_analysis" and profile.investor_type in {"institutional", "cross_border"}:
         profile_bonus += 0.08
+    if expert.name == "listing_recommendation":
+        profile_bonus += 0.12
     if expert.name == "residency_eligibility" and profile.residency_interest:
         profile_bonus += 0.20
     if expert.name == "residency_eligibility" and context.cross_border:
@@ -521,6 +609,12 @@ def score_expert(
         profile_bonus += 0.14
     if expert.name == "property_valuation" and context.market_volatility in {"medium", "high"}:
         profile_bonus += 0.10
+    if expert.name == "property_valuation" and context.cross_border:
+        profile_bonus += 0.06
+    if expert.name == "listing_recommendation" and profile.residency_interest:
+        profile_bonus += 0.05
+    if expert.name == "listing_recommendation" and context.cross_border:
+        profile_bonus += 0.04
     if expert.name == "ux_personalization":
         profile_bonus += 0.10
     if expert.name == "compliance_validation":
@@ -559,6 +653,17 @@ def route_experts(
                     execution_mode=expert.execution_mode,
                 )
             )
+    if not any(choice.expert == "listing_recommendation" for choice in selections) and any(
+        choice.expert in {"property_valuation", "investment_analysis", "residency_eligibility"} for choice in selections
+    ):
+        selections.append(
+            ExpertDecision(
+                expert="listing_recommendation",
+                score=0.83,
+                rationale="Added to rank listings against explicit user preferences, valuation confidence, and explainability controls.",
+                execution_mode="sync",
+            )
+        )
     if not any(choice.expert == "compliance_validation" for choice in selections):
         selections.append(
             ExpertDecision(
@@ -630,6 +735,14 @@ def evaluate_policy_gates(
             status = "blocked"
         elif dependency == "risk_thresholds" and context.climate_risk == "high" and profile.risk_tolerance == "conservative":
             status = "review"
+        elif dependency == "data_quality" and context.market_volatility == "high":
+            status = "review"
+        elif dependency == "fairness" and profile.role == "advisor" and "decision:approve" not in entitlement_set:
+            status = "review"
+        elif dependency == "explainability" and identity.privacy_tier == "restricted":
+            status = "review"
+        elif dependency == "ai_management" and context.journey_stage in {"approval", "release"} and not identity.mfa_completed:
+            status = "blocked"
         elif dependency == "data_residency" and context.cross_border and identity.privacy_tier == "restricted":
             status = "review"
         results.append(
@@ -656,11 +769,11 @@ def build_expert_outputs(
                     expert=decision.expert,
                     summary=(
                         f"Estimated fair-value band prepared for the {context.property_type} in {context.property_country} "
-                        f"with volatility awareness for a {profile.investor_type} {profile.role}."
+                        f"using market data, comparable sets, trend signals, and location intelligence for a {profile.investor_type} {profile.role}."
                     ),
                     confidence=round(max(decision.score - 0.03, 0.5), 2),
-                    evidence=("listing metadata", "market comparables", "local market momentum"),
-                    next_actions=("Review comparable sales", "Inspect pricing assumptions"),
+                    evidence=("listing metadata", "market comparables", "trend features", "location intelligence"),
+                    next_actions=("Review comparable sales", "Inspect trend and location assumptions"),
                 )
             )
         elif decision.expert == "investment_analysis":
@@ -674,6 +787,19 @@ def build_expert_outputs(
                     confidence=round(max(decision.score - 0.02, 0.5), 2),
                     evidence=("rent comps", "rate assumptions", "cash-flow scenarios"),
                     next_actions=("Compare target hold periods", "Review downside scenario"),
+                )
+            )
+        elif decision.expert == "listing_recommendation":
+            outputs.append(
+                ExpertOutput(
+                    expert=decision.expert,
+                    summary=(
+                        "Preference-aware ranking combined valuation confidence, market trends, comparables, location intelligence, "
+                        "fairness checks, and user goals into an explainable listing order."
+                    ),
+                    confidence=round(max(decision.score - 0.03, 0.5), 2),
+                    evidence=("preference profile", "ranking feature weights", "fairness diagnostics"),
+                    next_actions=("Inspect why-this-rank ledger", "Review preference weighting and tie-breaks"),
                 )
             )
         elif decision.expert == "residency_eligibility":
@@ -743,30 +869,39 @@ def build_expert_outputs(
 
 def build_ranking_weights(profile: UserProfile, context: RequestContext) -> Dict[str, float]:
     weights: Dict[str, float] = {
-        "property_valuation": 0.18,
-        "investment_analysis": 0.18,
-        "residency_eligibility": 0.14,
-        "insurance_matching": 0.14,
-        "financial_risk": 0.16,
-        "compliance_validation": 0.14,
-        "ux_personalization": 0.06,
+        "property_valuation": 0.17,
+        "investment_analysis": 0.16,
+        "listing_recommendation": 0.16,
+        "residency_eligibility": 0.13,
+        "insurance_matching": 0.12,
+        "financial_risk": 0.14,
+        "compliance_validation": 0.08,
+        "ux_personalization": 0.04,
     }
 
     if profile.role == "buyer":
         weights["property_valuation"] += 0.08
+        weights["listing_recommendation"] += 0.08
         weights["financial_risk"] += 0.06
     if profile.role == "investor":
         weights["investment_analysis"] += 0.1
+        weights["listing_recommendation"] += 0.05
         weights["property_valuation"] += 0.04
     if profile.role == "advisor":
         weights["compliance_validation"] += 0.1
+        weights["listing_recommendation"] += 0.04
         weights["ux_personalization"] += 0.03
 
     if profile.residency_interest:
         weights["residency_eligibility"] += 0.08
+        weights["listing_recommendation"] += 0.02
     if profile.financing_needed:
         weights["financial_risk"] += 0.06
+    else:
+        weights["listing_recommendation"] += 0.02
     if context.cross_border:
+        weights["property_valuation"] += 0.02
+        weights["listing_recommendation"] += 0.03
         weights["compliance_validation"] += 0.05
     if profile.risk_tolerance == "conservative":
         weights["insurance_matching"] += 0.04
@@ -774,6 +909,8 @@ def build_ranking_weights(profile: UserProfile, context: RequestContext) -> Dict
     elif profile.risk_tolerance == "opportunistic":
         weights["investment_analysis"] += 0.04
         weights["property_valuation"] += 0.03
+    else:
+        weights["listing_recommendation"] += 0.02
 
     total = sum(weights.values())
     return {key: round(value / total, 4) for key, value in weights.items()}
@@ -834,6 +971,11 @@ def build_ranked_recommendations(
                 composite_score=round(composite, 3),
                 confidence=round(min(composite + 0.08, 0.99), 2),
                 expert_contributions=expert_contributions,
+                valuation_band=str(candidate["valuation_band"]),
+                comparable_summary=str(candidate["comparable_summary"]),
+                trend_signal=str(candidate["trend_signal"]),
+                location_intelligence=str(candidate["location_intelligence"]),
+                recommendation_rationale=str(candidate["recommendation_rationale"]),
                 why=why,
                 investment_insight=str(candidate["investment_insight"]),
                 visa_pathway=str(candidate["visa_pathway"]),
@@ -842,6 +984,47 @@ def build_ranked_recommendations(
         )
 
     return sorted(recommendations, key=lambda item: item.composite_score, reverse=True)
+
+
+def build_governance_status(
+    profile: UserProfile,
+    identity: IdentityContext,
+    context: RequestContext,
+    policy_results: Sequence[PolicyGateResult],
+) -> List[ModelGovernanceStatus]:
+    review_required = any(result.status != "passed" for result in policy_results)
+    iso_5259_status = "review" if review_required and context.market_volatility == "high" else "active"
+    iso_42001_status = "review" if review_required and identity.aml_risk == "high" else "active"
+    return [
+        ModelGovernanceStatus(
+            framework="ISO/IEC 5259",
+            status=iso_5259_status,
+            controls=(
+                "market-data freshness scoring",
+                "comparable-set completeness checks",
+                "location signal provenance",
+                "ranking fairness sampling",
+            ),
+            explanation=(
+                "Data quality governance monitors market feeds, comparables, trend features, and location intelligence "
+                "before valuation and ranking outputs are released."
+            ),
+        ),
+        ModelGovernanceStatus(
+            framework="ISO/IEC 42001",
+            status=iso_42001_status,
+            controls=(
+                "AI inventory and ownership",
+                "human oversight thresholds",
+                "explainability ledger",
+                "risk treatment and approval workflow",
+            ),
+            explanation=(
+                "The AI management layer records accountable owners, ranking/valuation risks, fairness checks, and "
+                "manual review triggers for sensitive releases."
+            ),
+        ),
+    ]
 
 
 def build_audit_trail(
@@ -892,8 +1075,8 @@ def build_recommendation(
         )
     if profile.role == "investor":
         return (
-            f"Deliver a {profile.investor_type} investor brief led by {top_title}, ranking assets by value, risk-adjusted "
-            f"return, residency alignment, insurability, and financing readiness using signals from {expert_names} while honoring "
+            f"Deliver a {profile.investor_type} investor brief led by {top_title}, ranking assets by fair value, comparable-set strength, "
+            f"risk-adjusted return, location intelligence, residency alignment, insurability, and financing readiness using signals from {expert_names} while honoring "
             f"{identity.privacy_tier} privacy controls."
         )
     if profile.role == "advisor":
@@ -902,7 +1085,7 @@ def build_recommendation(
             f"and human override options grounded in {expert_names}."
         )
     return (
-        f"Present a guided property decision journey led by {top_title} that combines fair value, affordability, eligibility, "
+        f"Present a guided property decision journey led by {top_title} that combines fair value, comparables, trends, location intelligence, affordability, eligibility, "
         f"insurance, and next steps using {expert_names}."
     )
 
@@ -926,7 +1109,7 @@ def explain_packet(packet: DecisionPacket) -> str:
         f"The request was evaluated with auth assurance '{packet.identity.auth_assurance_level}', MFA={'on' if packet.identity.mfa_completed else 'off'}, "
         f"KYC='{packet.identity.kyc_status}', and sanctions='{packet.identity.sanctions_status}'. {top_expert_text}{recommendation_text} "
         f"The routing layer combined synchronous and asynchronous experts, evaluated {len(packet.policy_gates)} policy gates, "
-        f"and ended with release status '{packet.release_status}'. Review flags: {review_flags or ['none']}."
+        f"applied ISO/IEC 5259 and ISO/IEC 42001 governance controls, and ended with release status '{packet.release_status}'. Review flags: {review_flags or ['none']}."
     )
 
 
@@ -948,6 +1131,8 @@ def orchestrate(user_prompt: str, profile: UserProfile, identity: IdentityContex
     audit_trail = build_audit_trail(identity, context, experts, policy_results, release_status)
     recommendation = build_recommendation(profile, identity, experts, ranked_recommendations, release_status)
 
+    governance_status = build_governance_status(profile, identity, context, policy_results)
+
     packet = DecisionPacket(
         request_id=context.request_id,
         profile=profile,
@@ -962,6 +1147,7 @@ def orchestrate(user_prompt: str, profile: UserProfile, identity: IdentityContex
         recommendation=recommendation,
         explanation="",
         release_status=release_status,
+        governance_status=governance_status,
         azure_services=AZURE_SERVICES,
         standards_alignment=STANDARDS_ALIGNMENT,
     )

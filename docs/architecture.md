@@ -2,7 +2,7 @@
 
 ## 1. Platform vision
 
-EstateOS is a full-stack real estate and investment platform where a seamless, role-aware frontend is backed by an Azure-native Mixture-of-Experts (MoE) decision mesh. The platform combines property discovery, valuation, investment analysis, residency-by-investment (RBI), insurance matching, financial risk, and compliance validation into one guided user experience while preserving explainability, auditability, and secure control boundaries.
+EstateOS is a full-stack real estate and investment platform where a seamless, role-aware frontend is backed by an Azure-native Mixture-of-Experts (MoE) decision mesh. The platform combines property discovery, a property intelligence and valuation expert system, a listing recommendation expert, investment analysis, residency-by-investment (RBI), insurance matching, financial risk, and compliance validation into one guided user experience while preserving explainability, auditability, and secure control boundaries.
 
 ## 2. Full-stack experience architecture
 
@@ -11,7 +11,7 @@ EstateOS is a full-stack real estate and investment platform where a seamless, r
 - Hide backend orchestration complexity while surfacing confidence, assumptions, and required next actions.
 - Support progressive disclosure so novice users get guidance and professionals get evidence-rich detail.
 - Adapt layout, recommendation density, and explanation depth in real time based on persona, intent, budget, and trust posture in line with ISO 9241-210 human-centered design principles.
-- Make every AI-assisted outcome traceable to the data sources, experts, policies, and approvals behind it.
+- Make every AI-assisted outcome traceable to the data sources, comparables, trend features, location signals, experts, policies, and approvals behind it.
 - Capture user profile context early so investor type, location, financial intent, and residency goals directly shape routing and policy decisions.
 
 ### 2.2 Frontend domains
@@ -119,7 +119,8 @@ The MoE backend is composed of independently deployable expert services with cle
 
 | Expert service | Core responsibility | Typical inputs | Example outputs |
 | --- | --- | --- | --- |
-| Property Valuation Expert | Property fair value, comparables, uncertainty, market positioning | Listing data, MLS feeds, geospatial signals, comps | Value range, comp rationale, market confidence |
+| Property Valuation Expert | Property fair value, comparables, uncertainty, trends, and location intelligence | Listing data, MLS feeds, geospatial signals, comps, market feeds | Value range, comp rationale, trend/location explanation, market confidence |
+| Listing Recommendation Expert | Preference-aware ranking of listings across expert outputs | User goals, valuation confidence, comps, trends, location signals, fairness diagnostics | Ranked listings, why-this-rank rationale, preference-fit explanation |
 | Investment Analysis Expert | Yield, IRR, DSCR, appreciation scenarios, portfolio fit | Rent comps, financing terms, taxes, macro signals | Scenario rankings, downside cases, ROI explanation |
 | Residency Eligibility Expert | RBI/visa pathway screening by jurisdiction | Nationality, family profile, capital budget, legal constraints | Eligible pathways, steps, exclusions, human-review flags |
 | Insurance Matching Expert | Insurability and coverage fit | Property attributes, peril data, occupancy, jurisdiction | Coverage shortlist, exclusions, quote readiness |
@@ -152,7 +153,7 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 - escalate to human review when thresholds are crossed,
 - redact or limit outputs based on privacy tier and entitlements,
 - compose a single response with evidence and rationale.
-- aggregate and rank candidate properties, investment insights, visa pathways, and insurance options into a single explainable recommendation board.
+- aggregate and rank candidate properties, investment insights, visa pathways, and insurance options into a single explainable recommendation board driven by a dedicated recommendation expert.
 
 #### Example orchestration paths
 - **Cross-border investor in Portugal** → identity trust evaluation + valuation + investment + residency + financial risk + insurance + compliance.
@@ -248,7 +249,12 @@ Each event and final response should carry:
 - RBAC, MFA, audit evidence, and exception approvals map directly to SOC 2 security, confidentiality, and privacy criteria.
 - Router outputs are privacy-tiered so only permitted explanation depth reaches each user role.
 
-### 7.3 ISO/IEC 25010 quality alignment
+### 7.3 ISO/IEC 5259 and ISO/IEC 42001 AI governance alignment
+- ISO/IEC 5259 data quality controls govern market feeds, comparable sets, trend features, and location intelligence before valuation or ranking outputs are released.
+- ISO/IEC 42001 AI management controls define accountable owners, fairness reviews, human oversight triggers, and evidence requirements for valuation and recommendation models.
+- Both standards extend the existing evidence model so every ranked listing includes traceable data provenance, quality status, and explainability artifacts.
+
+### 7.4 ISO/IEC 25010 quality alignment
 The architecture explicitly supports:
 - **Functional suitability:** expert specialization and policy-aware routing.
 - **Performance efficiency:** parallel expert execution and event-driven decoupling.
