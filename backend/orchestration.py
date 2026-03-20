@@ -11,7 +11,8 @@ This module provides a dependency-light Python blueprint for how EstateOS can:
 - orchestrate transaction experts for pricing, negotiation, document validation,
   workflow integrity, resilience, and risk scoring,
 - evaluate payment fraud, escrow conditions, PCI-safe frontend controls, and reconciliation posture,
-- continuously score compliance and operational risk across real estate, payments, insurance, and residency workflows.
+- continuously score compliance and operational risk across real estate, payments, insurance, and residency workflows,
+- validate, transform, and route partner API payloads through an expert-augmented integration hub.
 """
 
 from __future__ import annotations
@@ -398,6 +399,47 @@ class PaymentDecisionPacket:
 
 
 @dataclass(frozen=True)
+class PartnerIntegrationRequest:
+    partner_system: str
+    domain: str
+    canonical_contract: str
+    payload_summary: str
+    requested_action: str
+    data_classification: str
+    consent_scope: Sequence[str]
+
+
+@dataclass(frozen=True)
+class IntegrationValidationResult:
+    control: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class IntegrationRoutingDecision:
+    target: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class IntegrationDecisionPacket:
+    request_id: str
+    partner_system: str
+    domain: str
+    canonical_contract: str
+    expert_chain: Sequence[str]
+    validation_results: Sequence[IntegrationValidationResult]
+    routing_decisions: Sequence[IntegrationRoutingDecision]
+    compliance_evidence: Sequence[str]
+    release_status: str
+    explanation: str
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+@dataclass(frozen=True)
 class ResidencyApplicantProfile:
     applicant_id: str
     citizenship_country: str
@@ -705,6 +747,58 @@ STANDARDS_ALIGNMENT: Sequence[str] = (
     "ISO 31000",
     "ISO 9241-210",
 )
+
+INTEGRATION_PROFILES = {
+    "banking_core": {
+        "domain": "banking",
+        "expert_chain": ("payment_intelligence", "financial_risk", "compliance_validation"),
+        "route_target": "escrow_settlement_orchestrator",
+        "fallback_target": "payment_operations_review",
+        "controls": (
+            "Canonical payment instruction schema validation",
+            "Token alias and beneficiary verification",
+            "Fraud, sanctions, and approval gate before settlement release",
+        ),
+        "evidence": (
+            "ISO 20022/NACHA field mapping ledger",
+            "PCI DSS tokenization boundary evidence",
+            "AML/KYC and approval trace",
+        ),
+    },
+    "insurance_exchange": {
+        "domain": "insurance",
+        "expert_chain": ("insurance_matching", "unified_compliance_risk_intelligence", "compliance_validation"),
+        "route_target": "carrier_quote_exchange",
+        "fallback_target": "advisor_underwriting_review",
+        "controls": (
+            "ACORD-style coverage schema validation",
+            "Purpose-bound field release and NAIC privacy checks",
+            "Hazard and underwriting readiness enrichment",
+        ),
+        "evidence": (
+            "ACORD payload mapping ledger",
+            "NAIC-aligned privacy release record",
+            "Underwriting readiness trace",
+        ),
+    },
+    "government_registry": {
+        "domain": "government",
+        "expert_chain": ("residency_eligibility", "document_validation", "compliance_validation"),
+        "route_target": "jurisdiction_submission_gateway",
+        "fallback_target": "legal_migration_review",
+        "controls": (
+            "Jurisdiction filing schema and version validation",
+            "Document completeness and source-of-funds review",
+            "Cross-border privacy and sanctions controls before submission",
+        ),
+        "evidence": (
+            "Jurisdiction schema version ledger",
+            "ISO/IEC 27701 cross-border handling evidence",
+            "Manual sign-off record for regulated filings",
+        ),
+    },
+}
+
 
 RESIDENCY_RULES: Dict[str, ResidencyRule] = {
     "Portugal": ResidencyRule(
@@ -1473,6 +1567,70 @@ def orchestrate(user_prompt: str, profile: UserProfile, identity: IdentityContex
         standards_alignment=STANDARDS_ALIGNMENT,
     )
     return DecisionPacket(**{**asdict(packet), "explanation": explain_packet(packet)})
+
+
+def evaluate_integration_request(
+    request: PartnerIntegrationRequest,
+    identity: IdentityContext,
+    context: RequestContext,
+) -> IntegrationDecisionPacket:
+    profile = INTEGRATION_PROFILES.get(request.partner_system, INTEGRATION_PROFILES["banking_core"])
+    validation_results = [
+        IntegrationValidationResult(
+            control="Partner domain alignment",
+            status="passed" if request.domain == profile["domain"] else "review",
+            detail=f"Partner declared domain '{request.domain}' and adapter profile expects '{profile['domain']}'.",
+        ),
+        IntegrationValidationResult(
+            control="Consent and privacy scope",
+            status="passed" if bool(request.consent_scope) and context.has_consent else "blocked",
+            detail="Payload release requires purpose-bound consent and an active session consent state.",
+        ),
+        IntegrationValidationResult(
+            control="Identity and trust posture",
+            status="passed" if identity.mfa_completed and identity.kyc_status == "verified" else "review",
+            detail="Step-up MFA and verified identity improve confidence before external partner delivery.",
+        ),
+        IntegrationValidationResult(
+            control="Data classification handling",
+            status="passed" if request.data_classification in {"confidential", "restricted", "internal"} else "review",
+            detail=f"Payload classification '{request.data_classification}' is checked against partner transport and storage controls.",
+        ),
+    ]
+
+    routing_decisions = [
+        IntegrationRoutingDecision(
+            target=str(profile["route_target"]),
+            status="release_ready" if all(item.status == "passed" for item in validation_results[:2]) else "conditional_review",
+            detail=f"Canonical contract {request.canonical_contract} is routed into the primary adapter when validation and policy checks pass.",
+        ),
+        IntegrationRoutingDecision(
+            target=str(profile["fallback_target"]),
+            status="standby",
+            detail="Fallback routing preserves interoperability evidence and hands exceptions to the correct human or secondary workflow.",
+        ),
+    ]
+
+    blocked = any(item.status == "blocked" for item in validation_results)
+    release_status = "held" if blocked else "release_ready"
+    explanation = (
+        f"Integration hub normalized the {request.partner_system} payload into {request.canonical_contract}, "
+        f"ran expert chain {', '.join(profile['expert_chain'])}, and produced a {release_status} decision "
+        "with schema, trust, privacy, and routing evidence attached."
+    )
+    return IntegrationDecisionPacket(
+        request_id=context.request_id,
+        partner_system=request.partner_system,
+        domain=request.domain,
+        canonical_contract=request.canonical_contract,
+        expert_chain=profile["expert_chain"],
+        validation_results=validation_results,
+        routing_decisions=routing_decisions,
+        compliance_evidence=profile["evidence"],
+        release_status=release_status,
+        explanation=explanation,
+        standards_alignment=("ISO/IEC 27001", "ISO/IEC 27701", "ISO/IEC 42001", "PCI DSS"),
+    )
 
 
 def evaluate_residency_eligibility(
@@ -2244,6 +2402,19 @@ def demo() -> None:
         identity,
         context,
     )
+    integration_packet = evaluate_integration_request(
+        PartnerIntegrationRequest(
+            partner_system="government_registry",
+            domain="government",
+            canonical_contract="CanonicalJurisdictionSubmission.v1",
+            payload_summary="Residency filing package for property-led eligibility and land-registry verification",
+            requested_action="submit_filing",
+            data_classification="restricted",
+            consent_scope=("residency", "compliance", "document_exchange"),
+        ),
+        identity,
+        context,
+    )
     residency_packet = evaluate_residency_eligibility(
         ResidencyApplicantProfile(
             applicant_id=identity.subject_id,
@@ -2278,6 +2449,7 @@ def demo() -> None:
                 "transaction_decision": asdict(transaction_packet),
                 "payment_decision": asdict(payment_packet),
                 "insurance_decision": asdict(insurance_packet),
+                "integration_decision": asdict(integration_packet),
                 "residency_decision": asdict(residency_packet),
             },
             indent=2,

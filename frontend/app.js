@@ -785,6 +785,72 @@ const paymentProfiles = {
   }
 };
 
+const integrationProfiles = {
+  banking_core: {
+    label: "Banking core settlement adapter",
+    summary: "Banking messages are normalized into a canonical funds-movement contract before finance, payment-risk, and compliance experts approve downstream settlement or escrow actions.",
+    canonicalModel: "CanonicalPaymentInstruction v1",
+    expertChain: ["Payment intelligence", "Finance", "Compliance"],
+    security: "mTLS • field encryption • token vault aliasing",
+    routeTarget: "Escrow and settlement orchestration",
+    controls: [
+      { title: "Schema and balance validation", status: "Pass", detail: "The adapter verifies account alias references, amount tolerances, settlement windows, and beneficiary fields before the payload is accepted." },
+      { title: "Expert transformation", status: "Active", detail: "Finance and payment experts enrich ISO 20022, ACH, or PSP payloads into the EstateOS canonical contract with traceable field mappings." },
+      { title: "Release gate", status: "Policy enforced", detail: "Fraud score, sanctions posture, entitlements, and dual approval state are checked before the instruction reaches escrow release workflows." }
+    ],
+    routes: [
+      { title: "Primary route", status: "Escrow orchestration", detail: "Approved instructions feed the payment risk service, escrow ledger, and reconciliation engine with the same correlation ID." },
+      { title: "Fallback route", status: "Manual review queue", detail: "Out-of-policy amounts or unsettled funding paths move into analyst review without breaking the evidence chain." }
+    ],
+    evidence: [
+      { title: "Interoperability record", status: "ISO 20022 + NACHA mapping", detail: "Canonical field lineage captures how external banking fields were transformed for internal use." },
+      { title: "Compliance record", status: "PCI DSS + AML/KYC", detail: "Token references, sanctions checks, and settlement approvals are retained in the audit ledger." }
+    ]
+  },
+  insurance_exchange: {
+    label: "Carrier and broker exchange adapter",
+    summary: "Carrier connectivity uses ACORD-style canonical payloads so underwriting, exposure, and policy recommendations can be validated by insurance and compliance experts before any quote request is routed externally.",
+    canonicalModel: "CanonicalCoverageExchange v1",
+    expertChain: ["Insurance", "Risk", "Compliance"],
+    security: "mTLS • signed envelopes • redaction policy",
+    routeTarget: "Quote matching and underwriting intake",
+    controls: [
+      { title: "Coverage payload validation", status: "Pass", detail: "ACORD-aligned dwelling, occupancy, peril, and applicant fields are checked against canonical schema and consent scope." },
+      { title: "Expert augmentation", status: "Active", detail: "Insurance and risk experts add hazard, underwriting readiness, and policy-fit metadata before partner delivery." },
+      { title: "Privacy boundary", status: "Purpose bound", detail: "Only role-approved fields are released to brokers or carriers, with NAIC-aligned sharing and retention controls." }
+    ],
+    routes: [
+      { title: "Primary route", status: "Carrier marketplace", detail: "Release-ready requests flow to the insurer workspace and partner APIs with quote correlation and evidence references." },
+      { title: "Fallback route", status: "Advisory escalation", detail: "Complex or surplus-lines cases route to an advisor desk with the same normalized payload and control trace." }
+    ],
+    evidence: [
+      { title: "Interoperability record", status: "ACORD mapping", detail: "Coverage, party, and loss-history fields keep a canonical-to-partner mapping ledger for downstream audits." },
+      { title: "Compliance record", status: "NAIC + ISO/IEC 27701", detail: "Consent receipts, field-level redaction choices, and partner release decisions are preserved." }
+    ]
+  },
+  government_registry: {
+    label: "Government registry and residency adapter",
+    summary: "Government and registry interfaces normalize property, identity, and filing data so residency, document, and compliance experts can validate submissions before routing them to public-sector systems.",
+    canonicalModel: "CanonicalJurisdictionSubmission v1",
+    expertChain: ["Residency", "Document QA", "Compliance"],
+    security: "private endpoints • signed submissions • jurisdiction vaulting",
+    routeTarget: "Residency filing and land-registry submission",
+    controls: [
+      { title: "Jurisdiction rule validation", status: "Pass", detail: "The adapter checks local filing versions, mandatory supporting documents, and residency-specific business rules before submission." },
+      { title: "Expert transformation", status: "Active", detail: "Residency and document experts translate user-facing evidence into jurisdiction-specific filing packages with explainable exception flags." },
+      { title: "Cross-border compliance", status: "Policy enforced", detail: "Data residency, source-of-funds, sanctions, and retention rules determine whether the payload can be released or must be held." }
+    ],
+    routes: [
+      { title: "Primary route", status: "Public-sector connector", detail: "Eligible payloads route through API Management to registry, visa, or municipal APIs with signed service identities." },
+      { title: "Fallback route", status: "Counsel review", detail: "Jurisdiction mismatches or missing evidence pause submission and send a guided remediation package to legal or migration teams." }
+    ],
+    evidence: [
+      { title: "Interoperability record", status: "Schema version ledger", detail: "Each submission stores the jurisdiction contract version, transformed fields, and exception notes used at release time." },
+      { title: "Compliance record", status: "ISO/IEC 27001 + 27701", detail: "Consent scope, cross-border transfer controls, and manual sign-off records remain attached to the filing event." }
+    ]
+  }
+};
+
 const governanceProfiles = [
   {
     framework: "ISO/IEC 27001",
@@ -834,7 +900,8 @@ const state = {
   paymentSettlementTiming: "same_day",
   paymentTrustedDevice: true,
   paymentCrossBorder: false,
-  paymentManualReview: false
+  paymentManualReview: false,
+  integrationPartner: "banking_core"
 };
 
 const title = document.getElementById("journey-title");
@@ -937,6 +1004,17 @@ const paymentFrontendPosture = document.getElementById("payment-frontend-posture
 const paymentSignalList = document.getElementById("payment-signal-list");
 const paymentEscrowList = document.getElementById("payment-escrow-list");
 const paymentReconciliationList = document.getElementById("payment-reconciliation-list");
+const integrationProgramTitle = document.getElementById("integration-program-title");
+const integrationStatusPill = document.getElementById("integration-status-pill");
+const integrationSummary = document.getElementById("integration-summary");
+const integrationPartnerSelect = document.getElementById("integration-partner-select");
+const integrationCanonicalModel = document.getElementById("integration-canonical-model");
+const integrationExpertChain = document.getElementById("integration-expert-chain");
+const integrationSecurityPosture = document.getElementById("integration-security-posture");
+const integrationRouteTarget = document.getElementById("integration-route-target");
+const integrationControlList = document.getElementById("integration-control-list");
+const integrationRouteList = document.getElementById("integration-route-list");
+const integrationEvidenceList = document.getElementById("integration-evidence-list");
 
 function currency(value) {
   return new Intl.NumberFormat("en-US", {
@@ -1036,6 +1114,11 @@ function populateStaticControls() {
   ]
     .map(([value, label]) => `<option value="${value}">${label}</option>`)
     .join("");
+
+
+  integrationPartnerSelect.innerHTML = Object.entries(integrationProfiles)
+    .map(([value, profile]) => `<option value="${value}">${profile.label}</option>`)
+    .join("");
 }
 
 function applyJourneyDefaults(journeyKey) {
@@ -1084,6 +1167,7 @@ function applyJourneyDefaults(journeyKey) {
   state.paymentTrustedDevice = true;
   state.paymentCrossBorder = journeyKey !== "buyer";
   state.paymentManualReview = journeyKey === "advisor";
+  state.integrationPartner = journeyKey === "buyer" ? "banking_core" : journeyKey === "investor" ? "government_registry" : "insurance_exchange";
   paymentMethodSelect.value = state.paymentMethod;
   paymentEscrowStage.value = state.paymentEscrowStage;
   paymentAmountRange.value = state.paymentAmount;
@@ -1091,6 +1175,7 @@ function applyJourneyDefaults(journeyKey) {
   paymentDeviceTrusted.checked = state.paymentTrustedDevice;
   paymentCrossBorder.checked = state.paymentCrossBorder;
   paymentManualReview.checked = state.paymentManualReview;
+  integrationPartnerSelect.value = state.integrationPartner;
   populateObjectives();
   objectiveSelect.value = state.objective;
 }
@@ -1844,6 +1929,63 @@ function renderPaymentEngine() {
     .join("");
 }
 
+function getIntegrationScenario() {
+  const profile = integrationProfiles[state.integrationPartner];
+  const releaseStatus = state.explanationDepth === "full" || state.activeJourney === "advisor" ? "Evidence ready" : state.integrationPartner === "government_registry" ? "Jurisdiction review" : "Release ready";
+  return {
+    ...profile,
+    releaseStatus
+  };
+}
+
+function renderIntegrationHub() {
+  const result = getIntegrationScenario();
+  integrationProgramTitle.textContent = result.label;
+  integrationStatusPill.textContent = result.releaseStatus;
+  integrationStatusPill.dataset.status = result.releaseStatus.toLowerCase().replace(/\s+/g, "-");
+  integrationSummary.textContent = result.summary;
+  integrationCanonicalModel.textContent = result.canonicalModel;
+  integrationExpertChain.textContent = result.expertChain.join(" → ");
+  integrationSecurityPosture.textContent = result.security;
+  integrationRouteTarget.textContent = result.routeTarget;
+
+  integrationControlList.innerHTML = result.controls
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.title}</strong>
+          <span>${item.status}</span>
+        </div>
+        <p>${item.detail}</p>
+      </div>
+    `)
+    .join("");
+
+  integrationRouteList.innerHTML = result.routes
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.title}</strong>
+          <span>${item.status}</span>
+        </div>
+        <p>${item.detail}</p>
+      </div>
+    `)
+    .join("");
+
+  integrationEvidenceList.innerHTML = result.evidence
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.title}</strong>
+          <span>${item.status}</span>
+        </div>
+        <p>${item.detail}</p>
+      </div>
+    `)
+    .join("");
+}
+
 function renderNextActions(journey, topCandidate) {
   const dynamicActions = [
     ...journey.nextActions,
@@ -1901,6 +2043,7 @@ function renderJourney() {
   renderResidencyEngine();
   renderInsuranceEngine();
   renderPaymentEngine();
+  renderIntegrationHub();
   renderNextActions(journey, topCandidate);
 
   budgetValue.textContent = `${currency(state.budget)} budget cap`;
@@ -2056,6 +2199,11 @@ paymentCrossBorder.addEventListener("change", (event) => {
 
 paymentManualReview.addEventListener("change", (event) => {
   state.paymentManualReview = event.target.checked;
+  renderJourney();
+});
+
+integrationPartnerSelect.addEventListener("change", (event) => {
+  state.integrationPartner = event.target.value;
   renderJourney();
 });
 
