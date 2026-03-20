@@ -12,6 +12,8 @@ Unlike the broader narrative docs, this file is meant to answer a narrower quest
 
 **Verdict:** Yes, at the repository-governance level.
 
+More precisely: EstateOS currently abides by the requested architecture as a **governed scaffold and reference implementation**, not as a fully delivered production system. See `docs/current-state-alignment-audit.md` for the current-state nuance and explicit boundary between what is already aligned versus what remains roadmap or scaffold.
+
 EstateOS currently abides by the requested architecture as a **blueprint and scaffolding repository** rather than as a fully implemented production platform. The repo now preserves the requested direction in four ways:
 
 1. the user-provided architecture is captured as the source of truth in `docs/authoritative-blueprint.md`,
