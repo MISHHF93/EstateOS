@@ -424,6 +424,7 @@ The architecture should preserve the following mappings:
 ### 11.3 Phase 3
 
 - Autonomous Deal Execution Engine (Agentic AI Layer),
+  - detailed governed execution design: `docs/autonomous-deal-execution-engine.md`,
 - Digital Twin Properties & Simulation Engine,
 - Predictive Market Intelligence & Macro AI,
 - Conversational AI Copilot (Multi-Role Assistant),

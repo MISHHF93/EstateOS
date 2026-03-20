@@ -157,7 +157,7 @@ realestate-moe-platform/
 - Trust, Reputation, and Risk Scoring Network.
 - Open AI Marketplace & Third-Party Expert Plug-in Ecosystem.
 
-A practical implementation roadmap is captured in `docs/implementation-roadmap.md`, and the repository transition expectations are captured in `docs/repository-transition.md`.
+A practical implementation roadmap is captured in `docs/implementation-roadmap.md`, and the repository transition expectations are captured in `docs/repository-transition.md`. `docs/autonomous-deal-execution-engine.md` adds the detailed Phase 3 design for the governed agentic transaction layer, including approvals, policy gates, auditability, and semi-autonomous deal execution boundaries.
 
 ## MoE expert model
 

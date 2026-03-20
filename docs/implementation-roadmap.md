@@ -150,6 +150,8 @@ Technical scope:
 - compliance graph services with global regulatory telemetry,
 - partner and third-party expert marketplace infrastructure.
 
+The target design for the semi-autonomous transaction layer is specified in `docs/autonomous-deal-execution-engine.md`, covering agent roles, workflow control, approval gating, audit evidence, and ISO/IEC 27001 plus ISO 31000 alignment expectations.
+
 ## 5. Standards posture by phase
 
 ### 5.1 MVP
