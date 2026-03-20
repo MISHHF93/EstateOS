@@ -14,7 +14,7 @@ OUTPUT_PATH = ROOT / "frontend" / "demo-packets.json"
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from backend.orchestration import build_demo_payloads
+from backend.orchestration import DEMO_JOURNEY_SCENARIOS, build_demo_payloads
 
 IDENTIFIER_OVERRIDES = {
     "request_id": "demo-request",
@@ -43,13 +43,25 @@ def normalize(value):
 
 
 def main() -> None:
+    journeys = {
+        journey_key: {
+            "meta": {
+                "journey_key": journey_key,
+                "normalized": True,
+            },
+            "packets": normalize(build_demo_payloads(journey_key)),
+        }
+        for journey_key in DEMO_JOURNEY_SCENARIOS
+    }
+
     payload = {
         "meta": {
             "generated_at_utc": datetime.now(timezone.utc).isoformat(),
             "generated_from": "backend.orchestration.build_demo_payloads",
             "normalized": True,
         },
-        "packets": normalize(build_demo_payloads()),
+        "journeys": journeys,
+        "packets": journeys["investor"]["packets"],
     }
     OUTPUT_PATH.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     print(f"Exported demo packets to {OUTPUT_PATH.relative_to(ROOT)}")
