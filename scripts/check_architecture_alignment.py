@@ -7,8 +7,9 @@ repository still preserves the requested blueprint through:
 
 - canonical monorepo directory scaffolding,
 - authoritative architecture documentation,
-- documented service and expert boundaries, and
-- reference implementation artifacts that reflect the expected control model.
+- documented service and expert boundaries,
+- reference implementation artifacts that reflect the expected control model, and
+- explicit current-state caveats so the repo does not over-claim production completeness.
 """
 
 from __future__ import annotations
@@ -26,10 +27,6 @@ class CheckResult:
     name: str
     ok: bool
     detail: str
-
-
-def read_text(relative_path: str) -> str:
-    return (ROOT / relative_path).read_text(encoding="utf-8")
 
 
 def require_path(relative_path: str, description: str) -> CheckResult:
@@ -115,12 +112,17 @@ def build_checks() -> list[CheckResult]:
                     "Next.js + React + TypeScript",
                     "FastAPI (Python)",
                     "Azure Front Door",
+                    "docs/current-state-alignment-audit.md",
+                    "docs/blueprint-traceability-matrix.md",
                 ],
-                "root README preserves product framing, stack, and Azure baseline",
+                "root README preserves product framing, stack, Azure baseline, and current-state audit references",
             ),
             require_text(
                 "docs/authoritative-blueprint.md",
                 [
+                    "Backend-for-frontend (BFF)",
+                    "Property search and maps.",
+                    "Documents / eSignature / deal room.",
                     "Property Recommendation Expert",
                     "Property Valuation Expert",
                     "Investment ROI Expert",
@@ -131,10 +133,41 @@ def build_checks() -> list[CheckResult]:
                     "UX Personalization Expert",
                     "Document Intelligence Expert",
                     "Market Forecast / Trend Expert",
-                    "API gateway",
-                    "Backend-for-frontend (BFF)",
+                    "international investor",
+                    "first-time renter",
+                    "Mapbox or Google Maps",
+                    "Stripe Elements or payment SDKs where relevant.",
+                    "Azure Front Door",
+                    "Azure Machine Learning",
+                    "ISO/IEC 42001",
+                    "ISO/IEC 5259",
                 ],
-                "authoritative blueprint captures the canonical layered architecture and ten-expert taxonomy",
+                "authoritative blueprint captures the layered architecture, ten-expert taxonomy, routing examples, stack decisions, Azure layout, and AI-governance controls",
+            ),
+            require_text(
+                "docs/architecture.md",
+                [
+                    "investor dashboard",
+                    "payments / escrow UI",
+                    "documents / eSignature / deal room",
+                    "rate limiting",
+                    "consent hooks",
+                    "audit hooks",
+                    "feature store / ML data layer",
+                    "SOC 2 Type 2",
+                ],
+                "architecture doc preserves the requested layered UX, control-plane, data-platform, and governance requirements",
+            ),
+            require_text(
+                "docs/platform-manifest.md",
+                [
+                    "property discovery and maps",
+                    "broker / admin / compliance operations",
+                    "policy and human-review gating",
+                    "data quality, lineage, and auditability",
+                    "payment flows should remain PCI-aware and tokenized",
+                ],
+                "platform manifest preserves operational guardrails for UX, orchestration, data governance, and payment/compliance controls",
             ),
             require_text(
                 "docs/blueprint-alignment.md",
@@ -143,8 +176,9 @@ def build_checks() -> list[CheckResult]:
                     "modular monolith first",
                     "orchestration entrypoints should converge under `services/ai-orchestrator/`",
                     "All infrastructure additions should preserve this Azure-native direction",
+                    "trust, audit, privacy, and compliance implications",
                 ],
-                "alignment guide encodes repository guardrails",
+                "alignment guide encodes repository guardrails and contributor obligations",
             ),
             require_text(
                 "docs/compliance-mapping.md",
@@ -158,6 +192,8 @@ def build_checks() -> list[CheckResult]:
                     "NAIC",
                     "sanctions",
                     "PEP",
+                    "beneficial ownership",
+                    "incident response",
                 ],
                 "compliance mapping preserves the required governance posture",
             ),
@@ -169,8 +205,55 @@ def build_checks() -> list[CheckResult]:
                     "International investor and first-time renter routing examples",
                     "Service Bus/Event Grid",
                     "Phase 2 and Phase 3 capabilities are preserved as explicit future scope",
+                    "not yet the final fully implemented production platform",
                 ],
-                "traceability matrix ties each major blueprint requirement to concrete repository evidence",
+                "traceability matrix ties each major blueprint requirement to concrete repository evidence and current-state caveats",
+            ),
+            require_text(
+                "docs/current-state-alignment-audit.md",
+                [
+                    "yes at the repository-governance and reference-implementation level",
+                    "frontend/` as a prototype rather than a production `apps/web/` Next.js app",
+                    "BFF/API layer is documented rather than materialized",
+                    "governed scaffold",
+                ],
+                "current-state audit truthfully distinguishes architectural alignment from full production completeness",
+            ),
+            require_text(
+                "docs/architecture-scorecard.md",
+                [
+                    "Aligned as scaffold",
+                    "Aligned as architectural rule",
+                    "Aligned as governance baseline",
+                    "Does it avoid overstating current implementation maturity relative to the roadmap phase actually delivered?",
+                ],
+                "architecture scorecard preserves the layer-by-layer verdict and anti-overclaim guardrail",
+            ),
+            require_text(
+                "apps/web/README.md",
+                [
+                    "public marketing pages",
+                    "property discovery and maps",
+                    "investor workspace",
+                    "residency / visa intake",
+                    "insurance flows",
+                    "payments / escrow UI",
+                    "documents / eSignature / deal-room workflows",
+                    "AI insights, recommendations, and risk explanations",
+                    "Next.js App Router",
+                    "Stripe Elements or equivalent payment SDKs",
+                ],
+                "web app README preserves the required frontend zones and locked stack guidance",
+            ),
+            require_text(
+                "apps/admin/README.md",
+                [
+                    "brokers, administrators, compliance reviewers, and support teams",
+                    "KYC / AML / sanctions oversight",
+                    "payment / escrow monitoring",
+                    "explainability and release-gating visibility",
+                ],
+                "admin app README preserves the operator/compliance console remit",
             ),
             require_text(
                 "services/ai-orchestrator/README.md",
@@ -180,6 +263,7 @@ def build_checks() -> list[CheckResult]:
                     "explainability generation",
                     "policy and release gating",
                     "audit-packet assembly",
+                    "human-review escalation hooks",
                 ],
                 "AI orchestrator service README preserves router responsibilities",
             ),
@@ -192,6 +276,7 @@ def build_checks() -> list[CheckResult]:
                     "emit auditable event records",
                     "evaluate payment fraud, escrow conditions",
                     "continuously score compliance and operational risk",
+                    "validate, transform, and route partner API payloads",
                 ],
                 "reference orchestration implementation reflects the requested control model",
             ),

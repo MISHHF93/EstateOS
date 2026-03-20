@@ -63,7 +63,7 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 - Apply NAIC-aligned privacy, third-party oversight, incident logging, and secure disposal expectations to insurer data exchange.
 
 ### 4.5 Financial risk, payment intelligence, and compliance
-- Apply affordability, suitability, RBAC, MFA, KYC/AML, sanctions, PEP, fraud probability, payer-behavior, and escrow-condition checks before release.
+- Apply affordability, suitability, RBAC, MFA, KYC/AML, sanctions, PEP, beneficial ownership, fraud probability, payer-behavior, and escrow-condition checks before release.
 - Run a unified compliance and risk-intelligence layer that continuously evaluates platform activity across real estate, payments, insurance, and residency workflows.
 - Feed cross-workflow risk scoring, sanctions hits, and AML/KYC control failures into a common hold/escalation path aligned to ISO/IEC 27001 and ISO 31000.
 - Tokenize payment methods and keep cardholder data inside PSP-controlled components to reduce PCI DSS scope.
