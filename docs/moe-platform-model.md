@@ -1,79 +1,139 @@
-# What MoE Means in Our Platform
+# EstateOS Mixture-of-Experts Platform Model
 
-## Simple model
+## 1. Operating idea
 
-Instead of one big AI model that tries to do everything, the platform is designed as:
+EstateOS uses a practical Mixture-of-Experts (MoE) architecture: many specialized AI and rules-based expert services coordinated by one intelligent routing layer. The router chooses the right experts, in the right sequence, for the right user and situation.
 
-- many specialized experts
-- one router that decides which expert or combination of experts to use
+This architecture is designed for complex real estate and investment workflows where no single model should independently decide across valuation, residency, insurance, financial suitability, and compliance.
 
-This is a practical **Mixture of Experts (MoE)** approach for the EstateOS platform.
+## 2. Expert catalog
 
-## Core experts
+### 2.1 Property Valuation Expert
+- Estimates fair market value.
+- Selects comparable sales and rental references.
+- Provides confidence bands and market positioning explanation.
 
-### 1. Property Valuation Expert
-Handles property pricing, comparables, value estimation, and market positioning.
+### 2.2 Investment Analysis Expert
+- Evaluates yield, IRR, DSCR, leverage, and downside scenarios.
+- Compares acquisition options across markets and holding periods.
+- Detects concentration and liquidity risk patterns.
 
-### 2. Investment ROI Expert
-Analyzes yield, cash flow, appreciation potential, and investment scenarios.
+### 2.3 Residency Eligibility Expert
+- Checks residency-by-investment pathways by jurisdiction.
+- Evaluates applicant fit, budget thresholds, and likely blockers.
+- Flags mandatory legal review conditions.
 
-### 3. Residency / Visa Eligibility Expert
-Evaluates country-specific residency pathways, visa requirements, and user eligibility signals.
+### 2.4 Insurance Matching Expert
+- Assesses insurability and coverage fit.
+- Maps property characteristics to peril and underwriting signals.
+- Produces ACORD-oriented intake structure and quote readiness status.
 
-### 4. Insurance Recommendation Expert
-Recommends relevant coverage options based on property type, geography, and user risk profile.
+### 2.5 Financial Risk Expert
+- Measures affordability, payment capacity, FX exposure, and financing stress.
+- Runs rate and liquidity scenarios.
+- Identifies product suitability concerns.
 
-### 5. Financial Risk & Payment Expert
-Assesses affordability, payment risk, financing readiness, and transaction-related financial constraints.
+### 2.6 Compliance Validation Expert
+- Performs KYC, AML, sanctions, privacy, retention, and release checks.
+- Blocks or conditions downstream responses when controls are not satisfied.
+- Produces remediation tasks and evidence requirements.
 
-### 6. Compliance / AML / Fraud Expert
-Checks for compliance issues, AML concerns, sanctions risk, fraud signals, and policy constraints.
+### 2.7 UX Personalization Expert
+- Adapts presentation style and next actions to user role, confidence, and blockers.
+- Chooses whether to simplify, expand, or escalate the decision narrative.
 
-### 7. UX Personalization Expert
-Adapts the user experience, messaging, and next-step recommendations to the user persona and intent.
+## 3. Router responsibilities
 
-## Router responsibilities
+The router is more than a simple dispatcher. It acts as the orchestration brain for all expert interactions.
 
-The router is the orchestration layer. Its job is to decide:
+### 3.1 The router decides
+- which experts are required,
+- which experts are optional enhancements,
+- whether experts run in parallel or sequence,
+- when compliance must interrupt the flow,
+- whether human review is mandatory,
+- how outputs are merged into one user-facing response.
 
-- which expert should answer first
-- which experts should collaborate on the same request
-- how to sequence expert calls
-- how to combine outputs into one user-facing response
+### 3.2 Routing signals
+The router considers:
+- user intent,
+- role and permissions,
+- geography and jurisdiction,
+- profile completeness,
+- transaction stage,
+- property characteristics,
+- risk level,
+- confidence thresholds,
+- service health and latency budgets,
+- policy dependencies.
 
-## Example routing logic
+### 3.3 Mandatory controls
+Regardless of the user journey, the router always ensures:
+- compliance validation before release,
+- audit and evidence persistence,
+- explanation generation,
+- traceability to model and policy versions.
 
-- **Investor browsing cross-border opportunities**
-  - Route to: Residency / Visa Eligibility Expert + Investment ROI Expert + Compliance / AML / Fraud Expert
-- **Homebuyer asking if a property is fairly priced**
-  - Route to: Property Valuation Expert + Financial Risk & Payment Expert
-- **Owner seeking protection advice**
-  - Route to: Insurance Recommendation Expert + UX Personalization Expert
+## 4. Example routing patterns
 
-## Example
+### 4.1 Investor exploring Portugal with residency goals
+Route to:
+- Property Valuation Expert,
+- Investment Analysis Expert,
+- Residency Eligibility Expert,
+- Financial Risk Expert,
+- Insurance Matching Expert,
+- Compliance Validation Expert.
 
-> User is an investor from abroad → use Visa + ROI + Compliance experts.
+### 4.2 Homebuyer checking fair value and affordability
+Route to:
+- Property Valuation Expert,
+- Financial Risk Expert,
+- Compliance Validation Expert,
+- UX Personalization Expert.
 
-## Why this model fits the platform
+### 4.3 High-risk coastal property insurance case
+Route to:
+- Insurance Matching Expert,
+- Financial Risk Expert,
+- Compliance Validation Expert,
+- advisor/human review workflow.
 
-This MoE design helps the platform:
+## 5. Explainability contract
 
-- produce more accurate domain-specific answers
-- keep expert logic modular and maintainable
-- support multi-step decision flows across real estate, finance, and compliance
-- personalize recommendations without mixing every concern into one generic model
-- add new experts over time without redesigning the whole system
+Every expert returns structured output with:
+- domain summary,
+- key factors,
+- confidence,
+- evidence references,
+- policy dependencies,
+- next actions.
 
-## Implementation concept
+The router then synthesizes these outputs into:
+- a final recommendation,
+- a why-this-was-selected explanation,
+- a what-is-blocking-release explanation,
+- a recommended next step or escalation.
 
-A simple request flow can look like this:
+## 6. Why MoE fits EstateOS
 
-1. User submits a question or profile.
-2. Router classifies intent, geography, risk, and transaction stage.
-3. Router selects one or more experts.
-4. Experts return structured outputs.
-5. Router merges the outputs into a single recommendation, explanation, and next action.
+This model fits the platform because it:
+- preserves domain depth instead of flattening all intelligence into one model,
+- supports independent governance and evaluation for each expert,
+- aligns naturally with microservices and event-driven infrastructure,
+- improves explainability through explicit expert selection,
+- makes regulatory gating and human review first-class concerns.
 
-## In one sentence
+## 7. Azure implementation concept
 
-EstateOS uses **many domain experts plus one router** so the right intelligence is applied to the right user at the right time.
+A reference deployment uses:
+- API Management for secure ingress,
+- AKS for router and expert services,
+- Service Bus and Event Grid for asynchronous coordination,
+- Azure Functions for event handlers and evidence generation,
+- Azure SQL, Cosmos DB, and Data Lake for state and evidence,
+- Azure Monitor, Sentinel, and Key Vault for operations and security.
+
+## 8. One-sentence summary
+
+EstateOS applies specialized expert intelligence through one auditable routing layer so users get the right property, investment, residency, insurance, financial, and compliance guidance for their exact context.
