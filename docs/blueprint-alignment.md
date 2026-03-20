@@ -4,7 +4,7 @@
 
 This document turns the current EstateOS repository into an explicit **alignment checkpoint** against the target MoE real estate platform architecture.
 
-Use it when deciding whether a change belongs in this repository, where it should land, and whether it respects the locked product, platform, AI, and compliance direction.
+Use it when deciding whether a change belongs in this repository, where it should land, and whether it respects the locked product, platform, AI, and compliance direction. `docs/platform-manifest.md` can be used alongside this guide when contributors want a shorter implementation contract tied directly to repo structure and delivery stages.
 
 ## 2. Authoritative platform framing
 
