@@ -20,7 +20,7 @@ EstateOS is a secure, scalable, AI-native real estate platform blueprint that co
 
 ## Quick start
 
-Run the backend orchestration demo to inspect how a request is routed across experts:
+Run the backend orchestration demo to inspect how a request is routed across property experts and transaction specialists:
 
 ```bash
 python3 backend/orchestration.py
@@ -31,19 +31,20 @@ python3 backend/orchestration.py
 1. Property discovery with buyer and investor intent capture.
 2. Pricing intelligence with a valuation expert that scores market data, comparables, trends, and location intelligence.
 3. Investment analysis with yield, scenario, and downside modeling.
-4. Residency-by-investment workflow planning by jurisdiction.
-5. Insurance recommendations aligned to property, climate, and exposure risk.
-6. Risk assessment spanning fraud, cyber, property, climate, compliance, and financial suitability.
-7. Compliance validation for RBAC, MFA, KYC/AML, sanctions, privacy, records, and explainability.
-8. Financial decision support for affordability, leverage, returns, liquidity, and scenario analysis.
+4. Transaction intelligence with pricing strategy, negotiation guidance, document validation, workflow integrity checks, and deal risk scoring.
+5. Residency-by-investment workflow planning by jurisdiction.
+6. Insurance recommendations aligned to property, climate, and exposure risk.
+7. Risk assessment spanning fraud, cyber, property, climate, compliance, financial suitability, and transaction execution risk.
+8. Compliance validation for RBAC, MFA, KYC/AML, sanctions, privacy, records, explainability, and business continuity.
+9. Financial decision support for affordability, leverage, returns, liquidity, and scenario analysis.
 
 ## Architecture highlights
 
 - **Frontend experience layer:** role-aware journeys, identity/profile capture, explanation panels, confidence indicators, and audit-friendly action summaries.
 - **Identity and trust plane:** Microsoft Entra-backed identity, step-up MFA, entitlement checks, privacy-tier propagation, and KYC/AML/sanctions state shared with the router.
 - **Expert mesh:** domain experts for valuation, listing recommendation, investment analysis, RBI, insurance, financial risk, compliance, and UX personalization.
-- **Policy guardrails:** every recommendation is checked against RBAC, MFA, identity, sanctions, privacy, suitability, and jurisdiction rules before release.
-- **Evidence graph:** each decision stores inputs, experts consulted, policy outcomes, confidence, event trail, and human approvals.
+- **Policy guardrails:** every recommendation and transaction release is checked against RBAC, MFA, identity, sanctions, privacy, suitability, jurisdiction, and continuity rules before release.
+- **Evidence graph:** each decision stores inputs, experts consulted, policy outcomes, confidence, event trail, document checks, workflow integrity outcomes, and human approvals.
 - **Continuous learning:** offline evaluation, champion/challenger models, drift monitoring, and human feedback loops.
 
 See the architecture and compliance documents for the full design rationale.

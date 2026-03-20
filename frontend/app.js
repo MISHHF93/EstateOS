@@ -1,16 +1,16 @@
 const journeys = {
   buyer: {
     title: "Buyer journey",
-    summary: "Balanced recommendations for livability, affordability, relocation readiness, and low-friction next steps.",
-    confidence: 0.93,
-    releaseStatus: "Ready to release",
-    headline: "Personalized shortlist shaped by property, finance, visa, insurance, and compliance experts",
-    subtitle: "The system favors clarity first, then surfaces deeper evidence as the user asks for it.",
+    summary: "Balanced recommendations for livability, affordability, relocation readiness, and transaction certainty.",
+    confidence: 0.94,
+    releaseStatus: "Ready with transaction review",
+    headline: "Personalized shortlist shaped by property, finance, visa, insurance, pricing, and transaction experts",
+    subtitle: "The workspace keeps property guidance and deal execution in the same flow so users can see what happens next.",
     steps: [
       "Capture investor type, relocation timeline, budget, and privacy preferences from the adaptive intake panel.",
-      "Route the request through property, finance, visa, insurance, and compliance experts based on stated goals.",
-      "Rank candidate properties by fit, risk, residency alignment, and insurability instead of price alone.",
-      "Release only policy-cleared recommendations with clear reasons, evidence, and next-best actions."
+      "Route the request through property, finance, visa, insurance, pricing, and transaction-risk experts based on stated goals.",
+      "Rank candidate properties by fit, risk, residency alignment, and closing readiness instead of price alone.",
+      "Release only policy-cleared recommendations with clear reasons, document status, and next-best actions."
     ],
     profile: {
       investorType: "Owner-occupier",
@@ -107,20 +107,54 @@ const journeys = {
       "Schedule pre-qualification and collect proof-of-income documents.",
       "Open the residency checklist for dependents and timeline planning.",
       "Request bundled home insurance and legal protection estimates."
-    ]
+    ],
+    deal: {
+      name: "Lisbon Green Quarter acquisition",
+      summary: "Buyer-side transaction workspace tracks the offer, seller response window, open document exceptions, and continuity posture before closing.",
+      riskLabel: "Moderate risk",
+      targetPrice: 598000,
+      closeWindow: "18 business days",
+      integrity: "In sequence",
+      continuityMode: "Active-active failover",
+      stages: [
+        { stage: "Intake", status: "completed", progress: 100, owner: "Buyer ops", note: "Identity and consent bound to the deal." },
+        { stage: "Pricing review", status: "completed", progress: 100, owner: "Deal desk", note: "Offer ladder approved for controlled concessions." },
+        { stage: "Negotiation", status: "in progress", progress: 74, owner: "Advisor", note: "Seller response deadline in 36 hours." },
+        { stage: "Document validation", status: "in progress", progress: 68, owner: "Legal", note: "Permit attachment still missing from disclosure pack." },
+        { stage: "Approval", status: "pending", progress: 22, owner: "Transaction manager", note: "Legal sign-off required before release." },
+        { stage: "Closing", status: "pending", progress: 0, owner: "Closing agent", note: "Continuity playbook already attached." }
+      ],
+      experts: [
+        { title: "Pricing strategy", status: "High priority", score: 0.88, summary: "Anchor at $598k, keep concessions tied to permit remediation, and preserve a documented walk-away threshold." },
+        { title: "Negotiation insight", status: "High priority", score: 0.81, summary: "Use the open disclosure item as leverage and hold deadline-backed counters instead of broad concessions." },
+        { title: "Document validation", status: "Critical", score: 0.72, summary: "Only one blocker remains, but closing should stay gated until the renovation permit is attached and re-validated." },
+        { title: "Deal risk scoring", status: "Monitor", score: 0.69, summary: "Risk remains manageable because financing and title are clean, but counterparty delay could widen the close window." }
+      ],
+      documents: [
+        { name: "Title and encumbrance report", status: "Validated", owner: "Legal counsel", note: "No encumbrance exceptions detected." },
+        { name: "Seller disclosure package", status: "Needs review", owner: "Broker", note: "Renovation permit attachment missing from the signed packet." },
+        { name: "Lender commitment letter", status: "Validated", owner: "Lender", note: "Commitment aligns with the modeled leverage plan." }
+      ],
+      controls: [
+        { control: "ISO/IEC 27001 access governance", status: "Active", detail: "RBAC, MFA, and approval segregation are active for pricing and release actions." },
+        { control: "ISO 22301 continuity mode", status: "Active", detail: "Deal events are replayable and closing can fail over to the backup queue if the primary workflow stalls." },
+        { control: "Immutable audit evidence", status: "Active", detail: "All counters, stage updates, and validation outcomes are written to the evidence ledger." },
+        { control: "Document completeness gate", status: "Review", detail: "Closing remains gated until the seller disclosure package is fully validated." }
+      ]
+    }
   },
   investor: {
     title: "Investor journey",
-    summary: "Ranked opportunities optimized for yield, resilience, optional residency pathways, and transparent downside analysis.",
-    confidence: 0.91,
+    summary: "Ranked opportunities optimized for yield, resilience, optional residency pathways, and transaction discipline.",
+    confidence: 0.92,
     releaseStatus: "Reviewable with advisor",
-    headline: "Portfolio-style comparison that blends return, jurisdiction, and insurability signals",
-    subtitle: "Investors get richer scenario framing and sensitivity awareness than consumer buyers.",
+    headline: "Portfolio-style comparison that blends return, jurisdiction, negotiation posture, and diligence signals",
+    subtitle: "Investors get richer downside framing and stage-aware controls before capital is committed.",
     steps: [
       "Capture return goals, hold period, cross-border intent, and diversification preferences.",
       "Aggregate investment, pricing, visa, insurance, finance, and compliance outputs into one ranking model.",
       "Explain which expert signals lifted or lowered each candidate instead of presenting a black-box score.",
-      "Escalate medium-risk cases to advisor review before export or partner actions."
+      "Escalate medium-risk cases to advisor review before export, offer submission, or partner actions."
     ],
     profile: {
       investorType: "Cross-border investor",
@@ -217,18 +251,52 @@ const journeys = {
       "Review downside cases with an advisor before any export or partner submission.",
       "Open FX and leverage sensitivity analysis for the top two assets.",
       "Start residency evidence collection only for markets that remain top-ranked after diligence."
-    ]
+    ],
+    deal: {
+      name: "Athens Urban Block diligence",
+      summary: "Investor transaction view emphasizes negotiation leverage, diligence checklist quality, and capital-at-risk controls before commitment.",
+      riskLabel: "High review",
+      targetPrice: 845000,
+      closeWindow: "24 business days",
+      integrity: "In sequence",
+      continuityMode: "Warm standby + replay",
+      stages: [
+        { stage: "Intake", status: "completed", progress: 100, owner: "Investor ops", note: "Entity structure and beneficial owners captured." },
+        { stage: "Pricing review", status: "completed", progress: 100, owner: "Investment committee", note: "Bid range set around downside yield guardrails." },
+        { stage: "Negotiation", status: "in progress", progress: 61, owner: "Advisor", note: "Seller pushing for fewer financing contingencies." },
+        { stage: "Document validation", status: "in progress", progress: 49, owner: "Legal", note: "Tenant roster and one inspection report still under review." },
+        { stage: "Approval", status: "pending", progress: 15, owner: "IC chair", note: "Approval waits for diligence exceptions to close." },
+        { stage: "Closing", status: "pending", progress: 0, owner: "Local counsel", note: "Fallback workflow ready if seller timeline compresses." }
+      ],
+      experts: [
+        { title: "Pricing strategy", status: "High priority", score: 0.84, summary: "Keep the bid near $845k and tie any upward movement to verified occupancy and inspection evidence." },
+        { title: "Negotiation insight", status: "High priority", score: 0.78, summary: "Trade certainty for price only after tenant roster inconsistencies are resolved and recorded." },
+        { title: "Document validation", status: "Critical", score: 0.66, summary: "The open inspection and tenant-data issues materially affect diligence quality and should block final approval." },
+        { title: "Deal risk scoring", status: "Escalate", score: 0.62, summary: "Risk is elevated because incomplete diligence and seller pressure could erode downside protection." }
+      ],
+      documents: [
+        { name: "Occupancy and tenant roster", status: "Needs review", owner: "Seller counsel", note: "Unit-level lease metadata does not fully reconcile." },
+        { name: "Inspection report", status: "Needs review", owner: "Inspector", note: "Supplemental structure notes due tomorrow." },
+        { name: "Entity KYC package", status: "Validated", owner: "Compliance", note: "Beneficial ownership evidence approved." }
+      ],
+      controls: [
+        { control: "ISO/IEC 27001 access governance", status: "Active", detail: "Investment committee, advisor, and legal roles are segregated for approval decisions." },
+        { control: "ISO 22301 continuity mode", status: "Active", detail: "Deal workflow can replay from event history and move to the backup queue if the seller accelerates closing." },
+        { control: "Immutable audit evidence", status: "Active", detail: "Bid updates and diligence exceptions are chained into a tamper-evident ledger." },
+        { control: "Document completeness gate", status: "Review", detail: "Final approval remains blocked until tenant and inspection exceptions are cleared." }
+      ]
+    }
   },
   advisor: {
     title: "Advisor console",
-    summary: "Evidence-first oversight that exposes ranking logic, policy outcomes, and release-ready client guidance.",
+    summary: "Evidence-first oversight that exposes ranking logic, policy outcomes, and release-ready transaction guidance.",
     confidence: 0.96,
     releaseStatus: "Approval-ready",
-    headline: "Advisor view optimized for challenge, endorsement, and documented human oversight",
-    subtitle: "The workspace expands explanation depth and surfaces evidence and gating status by default.",
+    headline: "Advisor view optimized for challenge, endorsement, and documented human oversight across deals",
+    subtitle: "The workspace expands explanation depth and surfaces stage controls, approvals, and audit evidence by default.",
     steps: [
       "Inspect profile context, policy posture, and expert outputs in a single evidence panel.",
-      "Compare ranked property options and supporting visa, finance, and insurance narratives side by side.",
+      "Compare ranked property options and supporting visa, finance, transaction, and insurance narratives side by side.",
       "Review why the top recommendation won, which expert signals contributed, and what should be challenged.",
       "Approve, request more evidence, or hold release while preserving an auditable decision trail."
     ],
@@ -327,7 +395,41 @@ const journeys = {
       "Confirm policy versioning and attach supporting evidence before release.",
       "Open the explanation ledger in full mode for client-facing memo preparation.",
       "Document any override rationale if the top-ranked option is not selected."
-    ]
+    ],
+    deal: {
+      name: "Barcelona advisory release memo",
+      summary: "Advisor transaction mode emphasizes documented oversight, approval sequencing, document quality, and resilience evidence before client release.",
+      riskLabel: "Low risk",
+      targetPrice: 1015000,
+      closeWindow: "12 business days",
+      integrity: "Approval-ready",
+      continuityMode: "Tier 1 active-active",
+      stages: [
+        { stage: "Intake", status: "completed", progress: 100, owner: "Advisor ops", note: "Client suitability context bound to the case." },
+        { stage: "Pricing review", status: "completed", progress: 100, owner: "Deal committee", note: "Defensible pricing memo and alternate scenarios approved." },
+        { stage: "Negotiation", status: "completed", progress: 100, owner: "Advisor", note: "Terms accepted with clear fallback clauses." },
+        { stage: "Document validation", status: "completed", progress: 100, owner: "Legal", note: "Signatures, disclosures, and title evidence validated." },
+        { stage: "Approval", status: "in progress", progress: 88, owner: "Approver", note: "Final memo assembly and override review underway." },
+        { stage: "Closing", status: "pending", progress: 34, owner: "Closing counsel", note: "Continuity and client communication playbooks attached." }
+      ],
+      experts: [
+        { title: "Pricing strategy", status: "Medium priority", score: 0.9, summary: "Current negotiated price is already within the defensible valuation corridor, so focus shifts to term certainty." },
+        { title: "Negotiation insight", status: "Medium priority", score: 0.87, summary: "Preserve the accepted fallback clauses and keep memo language aligned with documented concessions." },
+        { title: "Document validation", status: "Resolved", score: 0.95, summary: "All required diligence and release artifacts are validated and linked to the evidence bundle." },
+        { title: "Deal risk scoring", status: "Low", score: 0.89, summary: "Risk is low because workflow sequencing, approvals, and documentation are clean and replayable." }
+      ],
+      documents: [
+        { name: "Title and registry report", status: "Validated", owner: "Legal counsel", note: "Registry evidence attached to the release bundle." },
+        { name: "Client suitability memo", status: "Validated", owner: "Advisor", note: "Memo aligned with selected recommendation and override policy." },
+        { name: "Closing checklist", status: "Validated", owner: "Closing counsel", note: "Continuity and communication steps embedded." }
+      ],
+      controls: [
+        { control: "ISO/IEC 27001 access governance", status: "Active", detail: "Approver and preparer responsibilities are segregated with MFA-backed sign-off." },
+        { control: "ISO 22301 continuity mode", status: "Active", detail: "Client release and closing workflows have alternate routing and replayable event history." },
+        { control: "Immutable audit evidence", status: "Active", detail: "Recommendation rationale, approvals, and release memo changes are tamper-evident." },
+        { control: "Document completeness gate", status: "Active", detail: "All required artifacts are validated and closing can proceed when approvals finalize." }
+      ]
+    }
   }
 };
 
@@ -409,16 +511,22 @@ const propertyIntelligence = {
 
 const governanceProfiles = [
   {
-    framework: "ISO/IEC 5259",
-    title: "Data quality governance",
-    summary: "Market feeds, comparables, trend signals, and location intelligence are tested for freshness, completeness, and provenance.",
-    controls: "Freshness SLAs • Comparable coverage • Feature provenance • Remediation logging"
+    framework: "ISO/IEC 27001",
+    title: "Information security governance",
+    summary: "Access segregation, MFA, immutable evidence, and security monitoring protect sensitive deal and recommendation workflows.",
+    controls: "RBAC • MFA • Evidence retention • Security monitoring"
+  },
+  {
+    framework: "ISO 22301",
+    title: "Business continuity governance",
+    summary: "Transaction workflows use replayable stage events, alternate queues, and recovery checkpoints to preserve continuity.",
+    controls: "RTO/RPO checkpoints • Workflow replay • Alternate queue • Manual runbook"
   },
   {
     framework: "ISO/IEC 42001",
     title: "AI management governance",
-    summary: "Valuation and recommendation models are managed with accountable ownership, fairness reviews, explainability, and human oversight triggers.",
-    controls: "Model inventory • Human review • Fairness checks • Explainability ledger"
+    summary: "Valuation, recommendation, pricing, and risk models are managed with accountable ownership, explainability, and human oversight triggers.",
+    controls: "Model inventory • Human review • Fairness checks • Explanation ledger"
   }
 ];
 
@@ -466,6 +574,17 @@ const governanceList = document.getElementById("governance-list");
 const contributionList = document.getElementById("contribution-list");
 const nextActionsList = document.getElementById("next-actions");
 const propertyFitPill = document.getElementById("property-fit-pill");
+const dealTitle = document.getElementById("deal-title");
+const dealSummary = document.getElementById("deal-summary");
+const dealRiskPill = document.getElementById("deal-risk-pill");
+const dealTargetPrice = document.getElementById("deal-target-price");
+const dealCloseWindow = document.getElementById("deal-close-window");
+const dealIntegrity = document.getElementById("deal-integrity");
+const dealContinuity = document.getElementById("deal-continuity");
+const dealStageList = document.getElementById("deal-stage-list");
+const dealExpertList = document.getElementById("deal-expert-list");
+const documentList = document.getElementById("document-list");
+const complianceControlList = document.getElementById("compliance-control-list");
 
 function currency(value) {
   return new Intl.NumberFormat("en-US", {
@@ -519,9 +638,7 @@ function applyJourneyDefaults(journeyKey) {
 
 function populateObjectives() {
   const options = journeys[state.activeJourney].objectives;
-  objectiveSelect.innerHTML = options
-    .map((option) => `<option value="${option.value}">${option.label}</option>`)
-    .join("");
+  objectiveSelect.innerHTML = options.map((option) => `<option value="${option.value}">${option.label}</option>`).join("");
 }
 
 function getIntelligence(candidate) {
@@ -613,9 +730,7 @@ function scoreCandidate(candidate) {
         : 0;
 
   const enrichedExperts = { ...candidate.experts, recommendation: getRecommendationScore(candidate) };
-  const weightedScore = Object.entries(enrichedExperts).reduce((sum, [expert, expertScore]) => {
-    return sum + expertScore * weights[expert];
-  }, 0);
+  const weightedScore = Object.entries(enrichedExperts).reduce((sum, [expert, expertScore]) => sum + expertScore * weights[expert], 0);
 
   return Number((weightedScore + budgetBoost + residencyBoost + financingBoost - climatePenalty).toFixed(3));
 }
@@ -641,29 +756,30 @@ function buildWhyText(topCandidate) {
     .map((item) => expertMeta[item.key].label.toLowerCase());
 
   if (state.explanationDepth === "guided") {
-    return `${topCandidate.title} leads because ${sortedContributors.join(", ")} align best with the current goals, budget, and trust posture.`;
+    return `${topCandidate.title} leads because ${sortedContributors.join(", ")} align best with the current goals, budget, trust posture, and transaction stage.`;
   }
 
   return `${topCandidate.title} leads because the ${sortedContributors[0]} contributed most to the composite score, while budget fit, ${
     state.residency ? "residency eligibility, " : ""
-  }and ${state.financing ? "financing readiness" : "compliance confidence"} remained stronger than the alternatives.`;
+  }transaction readiness, and ${state.financing ? "financing readiness" : "compliance confidence"} remained stronger than the alternatives.`;
 }
 
 function buildRiskText(topCandidate) {
   const budgetDelta = state.budget - topCandidate.price;
   const budgetText = budgetDelta >= 0 ? `within budget by ${currency(budgetDelta)}` : `above budget by ${currency(Math.abs(budgetDelta))}`;
   const intelligence = getIntelligence(topCandidate);
-  return `${topCandidate.insurance.summary} ${intelligence.trend} The current recommendation is ${budgetText}, climate risk is ${topCandidate.climateRisk}, and release posture is ${getReleaseTone().toLowerCase()}.`;
+  const deal = journeys[state.activeJourney].deal;
+  return `${topCandidate.insurance.summary} ${intelligence.trend} The current recommendation is ${budgetText}, climate risk is ${topCandidate.climateRisk}, and the live transaction posture is ${deal.riskLabel.toLowerCase()} with ${deal.integrity.toLowerCase()} workflow integrity.`;
 }
 
 function buildActionText(topCandidate) {
   if (state.activeJourney === "advisor") {
-    return `Prepare a client memo for ${topCandidate.title}, confirm policy evidence, and use the explanation ledger to justify why it outranks the rest of the shortlist.`;
+    return `Prepare a client memo for ${topCandidate.title}, confirm policy evidence, and use the transaction ledger to justify why it outranks the rest of the shortlist.`;
   }
   if (state.activeJourney === "investor") {
-    return `Advance ${topCandidate.title} into diligence, then compare downside resilience, optional residency steps, and insurance carry before capital is committed.`;
+    return `Advance ${topCandidate.title} into diligence, then compare downside resilience, optional residency steps, negotiation leverage, and document exceptions before capital is committed.`;
   }
-  return `Prioritize ${topCandidate.title}, move into financing and residency planning, and keep the insurance package bundled to reduce friction for the household.`;
+  return `Prioritize ${topCandidate.title}, move into financing and residency planning, and resolve open disclosure issues before the transaction shifts into approval.`;
 }
 
 function renderPropertyList(rankedCandidates) {
@@ -751,13 +867,15 @@ function renderValuation(rankedCandidates) {
 
 function renderGovernance() {
   governanceList.innerHTML = governanceProfiles
-    .map((profile) => `
+    .map(
+      (profile) => `
       <div class="stack-item">
         <strong>${profile.framework} • ${profile.title}</strong>
         <span>${profile.controls}</span>
         <p>${profile.summary}</p>
       </div>
-    `)
+    `
+    )
     .join("");
 }
 
@@ -789,9 +907,80 @@ function renderContributions(topCandidate) {
     .join("");
 }
 
+function renderDealBoard() {
+  const deal = journeys[state.activeJourney].deal;
+  dealTitle.textContent = deal.name;
+  dealSummary.textContent = deal.summary;
+  dealRiskPill.textContent = deal.riskLabel;
+  dealTargetPrice.textContent = currency(deal.targetPrice);
+  dealCloseWindow.textContent = deal.closeWindow;
+  dealIntegrity.textContent = deal.integrity;
+  dealContinuity.textContent = deal.continuityMode;
+
+  dealStageList.innerHTML = deal.stages
+    .map(
+      (stage) => `
+        <div class="stage-item stage-item--${stage.status.replace(/\s+/g, "-")}">
+          <div class="stage-heading">
+            <strong>${stage.stage}</strong>
+            <span>${stage.status}</span>
+          </div>
+          <div class="progress-track"><span style="width:${stage.progress}%"></span></div>
+          <p>${stage.note}</p>
+          <small>Owner • ${stage.owner}</small>
+        </div>
+      `
+    )
+    .join("");
+
+  dealExpertList.innerHTML = deal.experts
+    .map(
+      (item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.title}</strong>
+            <span>${item.status} • ${Math.round(item.score * 100)}/100</span>
+          </div>
+          <p>${item.summary}</p>
+        </div>
+      `
+    )
+    .join("");
+
+  documentList.innerHTML = deal.documents
+    .map(
+      (document) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${document.name}</strong>
+            <span>${document.status}</span>
+          </div>
+          <p>${document.note}</p>
+          <small>Owner • ${document.owner}</small>
+        </div>
+      `
+    )
+    .join("");
+
+  complianceControlList.innerHTML = deal.controls
+    .map(
+      (control) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${control.control}</strong>
+            <span>${control.status}</span>
+          </div>
+          <p>${control.detail}</p>
+        </div>
+      `
+    )
+    .join("");
+}
+
 function renderNextActions(journey, topCandidate) {
   const dynamicActions = [
     ...journey.nextActions,
+    ...journey.deal.experts.slice(0, 2).map((item) => item.summary),
     `Review why ${topCandidate.title} outranked alternatives before sharing externally.`
   ];
 
@@ -841,6 +1030,7 @@ function renderJourney() {
   renderValuation(rankedCandidates);
   renderGovernance();
   renderContributions(topCandidate);
+  renderDealBoard();
   renderNextActions(journey, topCandidate);
 
   budgetValue.textContent = `${currency(state.budget)} budget cap`;
