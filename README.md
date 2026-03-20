@@ -41,6 +41,7 @@ The target platform follows six major layers:
 
 Detailed architecture guidance lives in `docs/architecture.md`, the exact source-of-truth blueprint now lives in `docs/authoritative-blueprint.md`, and the repository migration rules now live in `docs/repository-transition.md`.
 A repo-wide alignment checklist now lives in `docs/blueprint-alignment.md` so contributors can quickly validate that new work still matches the locked MoE real estate platform direction. `docs/platform-manifest.md` adds a concise implementation-facing contract that maps the authoritative blueprint to repository guardrails and delivery phases.
+`docs/architecture-scorecard.md` adds a direct alignment verdict and an acceptance checklist that contributors can use to verify that new work still abides by the requested platform architecture.
 
 ## Required implementation stack
 
