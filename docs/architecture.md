@@ -213,6 +213,28 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 - **Microsoft Sentinel** for security analytics, alerting, and incident workflows.
 - **Microsoft Defender for Cloud** for posture management and workload protection.
 
+### 5.5 Azure AI deployment fabric for MoE services
+- Package each expert, router, synthesizer, policy service, and model-serving adapter as signed OCI images stored in **Azure Container Registry (ACR)** with content trust, vulnerability scanning, and environment-specific repositories.
+- Run latency-sensitive inference paths on **AKS** using dedicated node pools: CPU pools for routing and policy services, GPU pools for dense or multimodal experts, and confidential-compute-capable pools where regulated workloads or high-sensitivity prompts require stronger memory isolation.
+- Use **KEDA** and **Horizontal Pod Autoscaler** policies to scale experts independently from queue depth, tokens-per-second, GPU utilization, concurrency, and latency SLOs so valuation, investment, and compliance experts can burst without overprovisioning the entire platform.
+- Apply **Azure Service Mesh / Istio-compatible service mesh controls** for mTLS, service identity, traffic shaping, retries, circuit breaking, canary rollout, and per-expert authorization boundaries.
+- Keep short-lived or partner-specific experts on **Azure Container Apps** when elasticity matters more than always-on capacity, while routing all workloads through the same policy, telemetry, and evidence contracts.
+- Place model gateways behind internal load balancers and private endpoints so prompts, embeddings, retrieved documents, and model outputs never traverse the public internet.
+
+### 5.6 Model versioning, release promotion, and rollback
+- Manage foundation-model adapters, fine-tuned checkpoints, prompt templates, safety policies, and evaluation datasets in **Azure Machine Learning registries** with immutable version IDs and approval states.
+- Promote model bundles through `dev`, `validation`, `preprod`, and `prod` environments using CI/CD gates that require benchmark, red-team, privacy, and bias-review evidence before a router can target a newly approved expert version.
+- Store feature schemas, inference contracts, and retrieval index versions alongside model artifacts so every decision packet can reference the exact expert code image, model version, prompt version, and grounding corpus snapshot used at runtime.
+- Use blue/green and canary deployments in AKS with automated rollback when latency, hallucination, safety, payment-risk false-positive rates, or business KPI thresholds regress.
+- Preserve previous champion versions in hot standby so regulated workflows can revert to a last-known-good bundle without rebuilding containers during an incident.
+
+### 5.7 Monitoring, evaluation, and SRE pipelines
+- Stream platform, inference, and policy events into **Azure Monitor**, **Log Analytics**, and **Application Insights** with OpenTelemetry traces that correlate user journeys, router decisions, expert invocations, queue lag, and model latency.
+- Push model-quality telemetry to **Azure Machine Learning** monitoring pipelines for drift detection, data quality checks, prompt regression, hallucination sampling, and expert-level champion/challenger comparison.
+- Land raw telemetry, audit packets, and evaluation outputs in **Data Lake Storage Gen2** for long-term retention, forensics, and periodic control testing.
+- Feed security-relevant signals such as anomalous admin actions, prompt abuse, model endpoint spikes, PCI-segment access attempts, and data exfiltration indicators into **Microsoft Sentinel** and **Defender for Cloud** for SOC workflows.
+- Define SLOs for availability, p95 latency, routing success rate, explainability completeness, payment-risk scoring freshness, and recovery time, with automated alerting and runbooks owned jointly by platform engineering, security, and model operations.
+
 ## 6. Event-driven orchestration and secure APIs
 
 ### 6.1 API strategy
@@ -258,22 +280,26 @@ Each event and final response should carry:
 ## 7. Security, privacy, and assurance architecture
 
 ### 7.1 ISO/IEC 27001 and ISO/IEC 27017 alignment
-- Formal ISMS with asset inventory, risk treatment, access governance, and secure operations.
-- Cloud-specific baselines for segmentation, hardening, privileged access, logging, and third-party management.
-- Key management, encryption, and secure software delivery embedded in Azure landing zones.
+- Formal ISMS with asset inventory, risk treatment, access governance, secure software delivery, and operational playbooks that are enforced across landing zones, AKS clusters, ACR, and data services.
+- Cloud-specific baselines define subscription segmentation, private networking, admin isolation, hardened images, policy-as-code, and shared-responsibility assignments for every Azure service in the MoE fabric.
+- Key management, encryption, backup protection, and logging baselines are embedded in the landing zone so expert services inherit security controls by default.
 
-### 7.2 ISO/IEC 27701, PCI DSS, and SOC 2 Type 2 alignment
-- Privacy information management extends the ISMS with purpose limitation, data subject handling, retention rules, and consent governance.
-- PCI DSS boundaries are enforced through PSP-hosted fields, tokenized payment methods, segmented payment services, WAF controls, log redaction, and quarterly control validation.
-- RBAC, MFA, audit evidence, and exception approvals map directly to SOC 2 security, confidentiality, and privacy criteria.
-- Router outputs are privacy-tiered so only permitted explanation depth reaches each user role.
+### 7.2 ISO/IEC 27018 and ISO/IEC 27701 privacy alignment
+- Privacy information management extends the ISMS with purpose limitation, data subject handling, retention rules, consent governance, and privacy-by-default release controls.
+- ISO/IEC 27018 expectations are addressed through tenant-scoped processing boundaries, restricted operator access, customer-directed deletion workflows, pseudonymization of training/evaluation payloads, and auditable handling of personally identifiable information in cloud services.
+- Router outputs, logs, and evidence packets are privacy-tiered so only permitted explanation depth reaches each user role and downstream support teams.
 
-### 7.3 ISO/IEC 5259 and ISO/IEC 42001 AI governance alignment
+### 7.3 PCI DSS and SOC 2 Type 2 alignment
+- PCI DSS boundaries are enforced through PSP-hosted fields, tokenized payment methods, segmented payment services, WAF controls, log redaction, quarterly segmentation testing, and tightly scoped operator access for payment workflows.
+- SOC 2 Type 2 evidence is generated from change records, access reviews, alert triage, backup tests, vulnerability remediation, and continuous monitoring of the Azure control plane and model-serving services.
+- Model and orchestration deployments inherit approval gates, immutable logs, and dual-control release patterns so security, availability, confidentiality, processing integrity, and privacy controls operate over time.
+
+### 7.4 ISO/IEC 5259 and ISO/IEC 42001 AI governance alignment
 - ISO/IEC 5259 data quality controls govern market feeds, comparable sets, trend features, and location intelligence before valuation or ranking outputs are released.
 - ISO/IEC 42001 AI management controls define accountable owners, fairness reviews, human oversight triggers, and evidence requirements for valuation and recommendation models.
 - Both standards extend the existing evidence model so every ranked listing includes traceable data provenance, quality status, and explainability artifacts.
 
-### 7.4 ISO/IEC 25010 quality alignment
+### 7.5 ISO/IEC 25010 quality alignment
 The architecture explicitly supports:
 - **Functional suitability:** expert specialization and policy-aware routing.
 - **Performance efficiency:** parallel expert execution and event-driven decoupling.
@@ -284,12 +310,12 @@ The architecture explicitly supports:
 - **Maintainability:** independently deployable microservices and versioned contracts.
 - **Portability:** containerized services and policy-as-code patterns.
 
-### 7.4 ISO 22301 resilience alignment
+### 7.6 ISO 22301 resilience alignment
 - Business impact analysis identifies critical workflows such as compliance release and transaction-critical guidance.
 - Recovery strategies include active-active APIs, queue buffering, regional failover, and tested restoration procedures.
 - Manual fallback modes allow advisors to continue case handling when specific experts are unavailable.
 
-### 7.5 ISO 31000 risk management alignment
+### 7.7 ISO 31000 risk management alignment
 - Maintain an enterprise risk register spanning operational, cyber, model, legal, and market risks.
 - Score expert outputs and workflow designs for likelihood, impact, and control effectiveness.
 - Use KRIs for latency spikes, policy override rates, model drift, sanctions alerts, and resilience degradation.
