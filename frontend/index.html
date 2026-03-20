@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EstateOS | AI-Native Real Estate Intelligence</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="topbar">
+        <div class="brand">EstateOS</div>
+        <div class="topbar-links">
+          <a href="#journeys">Journeys</a>
+          <a href="#experts">Experts</a>
+          <a href="#compliance">Compliance</a>
+          <a href="#architecture">Architecture</a>
+        </div>
+      </nav>
+
+      <section class="hero-content">
+        <div>
+          <p class="eyebrow">Secure • Scalable • AI-Native</p>
+          <h1>Real estate decisions powered by a transparent Mixture-of-Experts system.</h1>
+          <p class="hero-copy">
+            EstateOS turns fragmented property, finance, insurance, migration, and compliance workflows into a single, human-centered operating system for buyers, investors, brokers, insurers, and advisors.
+          </p>
+          <div class="hero-actions">
+            <a class="primary" href="#workspace">Explore intelligence workspace</a>
+            <a class="secondary" href="#architecture">Review Azure architecture</a>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <div class="panel-card">
+            <span>Decision transparency</span>
+            <strong>7 experts consulted</strong>
+            <p>Property Search, Pricing, RBI, Insurance, Risk, Compliance, Finance</p>
+          </div>
+          <div class="panel-grid">
+            <div>
+              <span>Portfolio fit</span>
+              <strong>91%</strong>
+            </div>
+            <div>
+              <span>Eligibility confidence</span>
+              <strong>High</strong>
+            </div>
+            <div>
+              <span>Insurance readiness</span>
+              <strong>4 options</strong>
+            </div>
+            <div>
+              <span>Audit trace</span>
+              <strong>Complete</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section id="workspace" class="section workspace">
+        <div class="section-heading">
+          <p class="eyebrow">Unified workspace</p>
+          <h2>Complex decisions become guided journeys.</h2>
+          <p>
+            The interface adapts to the user role while keeping a shared backbone of explainability, approvals, and next-best actions.
+          </p>
+        </div>
+
+        <div class="workspace-grid">
+          <article class="journey-card active" data-journey="buyer">
+            <h3>Buyer journey</h3>
+            <p>Discover properties, compare affordability, validate identity, and understand insurance and migration implications.</p>
+          </article>
+          <article class="journey-card" data-journey="investor">
+            <h3>Investor journey</h3>
+            <p>Assess yield, jurisdictional RBI options, scenario stress, and liquidity risks before commitment.</p>
+          </article>
+          <article class="journey-card" data-journey="advisor">
+            <h3>Advisor console</h3>
+            <p>Review model rationale, apply human override, and export board-ready or client-ready recommendations.</p>
+          </article>
+        </div>
+
+        <div class="decision-board">
+          <aside class="decision-rail">
+            <span class="chip">Live orchestration</span>
+            <h3 id="journey-title">Buyer journey</h3>
+            <ul id="journey-steps"></ul>
+          </aside>
+
+          <section class="decision-main">
+            <div class="decision-header">
+              <div>
+                <p class="eyebrow">AI decision fabric</p>
+                <h3>Transparent expert collaboration</h3>
+              </div>
+              <div class="confidence-box">
+                <span>Composite confidence</span>
+                <strong id="journey-confidence">0.91</strong>
+              </div>
+            </div>
+
+            <div class="expert-strip" id="expert-strip"></div>
+
+            <div class="decision-columns">
+              <div class="decision-card">
+                <h4>Recommended action</h4>
+                <p id="journey-action"></p>
+              </div>
+              <div class="decision-card">
+                <h4>Risk and compliance posture</h4>
+                <p id="journey-risk"></p>
+              </div>
+              <div class="decision-card">
+                <h4>Why the system chose this path</h4>
+                <p id="journey-why"></p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="journeys" class="section dark-section">
+        <div class="section-heading narrow">
+          <p class="eyebrow">Role-based journeys</p>
+          <h2>Each persona gets the right depth, controls, and explanations.</h2>
+        </div>
+        <div class="persona-grid">
+          <article>
+            <h3>Buyers</h3>
+            <p>Search, compare, validate affordability, assess eligibility, and complete onboarding with plain-language guidance.</p>
+          </article>
+          <article>
+            <h3>Investors</h3>
+            <p>Understand yield, risk-adjusted returns, tax and residency pathways, and portfolio concentration before investing.</p>
+          </article>
+          <article>
+            <h3>Brokers</h3>
+            <p>Accelerate triage, match supply and demand, and surface deal blockers early with trusted AI copilots.</p>
+          </article>
+          <article>
+            <h3>Insurers</h3>
+            <p>Evaluate property exposure, hazard concentrations, fraud signals, and ACORD-ready intake data.</p>
+          </article>
+          <article>
+            <h3>Advisors</h3>
+            <p>Inspect rationale, model evidence, and policy checks across finance, migration, and compliance domains.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="experts" class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Mixture-of-Experts mesh</p>
+          <h2>Specialized AI agents collaborate through a unified orchestration layer.</h2>
+        </div>
+        <div class="experts-grid">
+          <article><h3>Property discovery expert</h3><p>Matches user intent with property supply, neighborhood context, and lifestyle constraints.</p></article>
+          <article><h3>Pricing intelligence expert</h3><p>Blends comparable sales, market momentum, rental yield, and uncertainty estimates.</p></article>
+          <article><h3>RBI eligibility expert</h3><p>Maps candidate profiles to jurisdiction-specific residency-by-investment requirements and timelines.</p></article>
+          <article><h3>Insurance expert</h3><p>Generates coverage options, insurability signals, and ACORD-aligned data packages.</p></article>
+          <article><h3>Risk expert</h3><p>Scores fraud, climate, cyber, legal, and operational exposures with mitigation suggestions.</p></article>
+          <article><h3>Compliance expert</h3><p>Applies KYC/AML, sanctions, privacy, records, and release gating before decisions are shown.</p></article>
+          <article><h3>Finance expert</h3><p>Supports affordability, leverage, cashflow, and scenario analysis for individual or institutional users.</p></article>
+        </div>
+      </section>
+
+      <section id="compliance" class="section compliance-section">
+        <div class="section-heading">
+          <p class="eyebrow">Compliance-by-design</p>
+          <h2>Security, privacy, resilience, and AI governance are embedded in every workflow.</h2>
+        </div>
+        <div class="compliance-grid">
+          <div class="pillars">
+            <span>ISO/IEC 27001</span>
+            <span>ISO/IEC 27017</span>
+            <span>ISO/IEC 27018</span>
+            <span>ISO/IEC 27701</span>
+            <span>ISO/IEC 25010</span>
+            <span>ISO 9241-210</span>
+            <span>ISO 31000</span>
+            <span>ISO 22301</span>
+            <span>PCI DSS</span>
+            <span>SOC 2 Type 2</span>
+            <span>ISO/IEC 42001</span>
+            <span>ISO/IEC 5259</span>
+            <span>ACORD</span>
+            <span>NAIC</span>
+            <span>KYC/AML</span>
+            <span>Sanctions</span>
+          </div>
+          <div class="decision-card">
+            <h3>Release gate</h3>
+            <p>Decisions are published only after privacy minimization, identity checks, sanctions screening, policy validation, and risk threshold review.</p>
+          </div>
+          <div class="decision-card">
+            <h3>Audit evidence</h3>
+            <p>Every recommendation captures source inputs, models consulted, policy versions, confidence, overrides, and time-stamped approvals.</p>
+          </div>
+          <div class="decision-card">
+            <h3>Resilience</h3>
+            <p>Active-active services, fallback experts, retriable workflows, and immutable event logs support business continuity and incident response.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="architecture" class="section dark-section architecture-section">
+        <div class="section-heading narrow">
+          <p class="eyebrow">Azure-native backend</p>
+          <h2>A modular intelligence layer routes work dynamically across expert systems and policy services.</h2>
+        </div>
+        <div class="architecture-stack">
+          <div>
+            <span>Experience layer</span>
+            <strong>Web portal • Advisor console • Broker workspace • API clients</strong>
+          </div>
+          <div>
+            <span>Intelligence layer</span>
+            <strong>Intent parser • Expert router • Explanation engine • Policy gate • Audit ledger</strong>
+          </div>
+          <div>
+            <span>Domain services</span>
+            <strong>Real estate • Pricing • RBI • Insurance • Risk • Compliance • Finance</strong>
+          </div>
+          <div>
+            <span>Data and controls</span>
+            <strong>Azure data lake • Feature store • Key Vault • Purview • Monitor • Sentinel</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>EstateOS • Intelligent property decisioning with secure expert collaboration.</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
