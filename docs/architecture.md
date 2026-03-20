@@ -2,7 +2,7 @@
 
 ## 1. Platform vision
 
-EstateOS is a full-stack real estate and investment platform where a seamless, role-aware frontend is backed by an Azure-native Mixture-of-Experts (MoE) decision mesh. The platform combines property discovery, a property intelligence and valuation expert system, a listing recommendation expert, investment analysis, residency-by-investment (RBI), insurance matching, payment and escrow intelligence, financial risk, transaction intelligence for pricing and negotiation, document validation, compliance validation, and unified compliance/risk intelligence into one guided user experience while preserving explainability, auditability, workflow integrity, and secure control boundaries.
+EstateOS is a full-stack real estate and investment platform where a seamless, role-aware frontend is backed by an Azure-native Mixture-of-Experts (MoE) decision mesh. The platform combines property discovery, a property intelligence and valuation expert system, a listing recommendation expert, investment analysis, residency-by-investment (RBI), insurance matching, payment and escrow intelligence, financial risk, transaction intelligence for pricing and negotiation, document validation, compliance validation, unified compliance/risk intelligence, and an integration hub for partner APIs into one guided user experience while preserving explainability, auditability, workflow integrity, secure control boundaries, and cross-domain interoperability.
 
 ## 2. Full-stack experience architecture
 
@@ -31,12 +31,16 @@ EstateOS is a full-stack real estate and investment platform where a seamless, r
    - Payments/escrow workspace for fraud triage, transaction monitoring, settlement exceptions, and escrow release orchestration.
    - Legal/migration workspace for RBI review and evidence completion.
 4. **External API consumers**
-   - Embedded finance, payment gateways, escrow providers, partner CRM, property inventory, KYC providers, insurers, and valuation data vendors.
+   - Embedded finance, payment gateways, escrow providers, partner CRM, property inventory, KYC providers, insurers, valuation data vendors, government registries, and residency filing systems.
+5. **Integration Hub**
+   - Canonical contract registry for external payloads.
+   - Expert-augmented validation, transformation, and routing pipeline.
+   - Adapter health, evidence capture, and compliance release controls for every partner flow.
 
 ### 2.3 Frontend composition pattern
 - **Presentation layer:** web UI built as modular micro-frontends or feature slices for search, valuation, residency, insurance, secure payments, finance, transaction operations, and compliance.
 - **Identity capture layer:** profile forms and consent modules collect investor type, residence, target location, financial intent, residency goals, and privacy preferences and package them as a profile-context payload.
-- **Experience orchestration layer:** a backend-for-frontend (BFF) exposes user-ready view models, explanation cards, action states, and trust-state banners.
+- **Experience orchestration layer:** a backend-for-frontend (BFF) exposes user-ready view models, explanation cards, action states, trust-state banners, and integration-hub adapter status for connected partners.
 - **Design system:** reusable trust patterns including confidence badges, policy banners, evidence drawers, human-review indicators, privacy notices, PCI-safe payment shells, escrow state banners, and “why this recommendation” ledgers.
 - **State model:** session state maintains user intent, profile completion, portfolio context, documents, trust posture, payment state, escrow milestones, and decision milestones.
 - **Observability hooks:** every critical action emits telemetry, consent events, and user journey checkpoints.
@@ -132,6 +136,7 @@ The MoE backend is composed of independently deployable expert services with cle
 | Financial Risk Expert | Affordability, leverage, liquidity, payment capacity | Income, liabilities, cash reserves, rates, FX | Affordability bands, stress tests, financing constraints |
 | Compliance Validation Expert | RBAC, MFA, KYC/AML, sanctions, privacy, records, release rules | Identity evidence, transactions, jurisdiction, consent | Release/hold decision, policy evidence, remediation tasks |
 | Unified Compliance & Risk Intelligence Expert | Continuous activity surveillance, audit logging, AML/KYC orchestration, sanctions screening, and cross-domain risk scoring | Platform telemetry, payment and escrow events, insurance workflows, residency cases, identity risk state | Elevated-risk alerts, risk scores, hold/allow decisions, audit evidence, ISO/IEC 27001 and ISO 31000 treatment cues |
+| Integration Hub Expert | Validate, transform, and route partner payloads across banks, insurers, registries, and government systems | External payloads, canonical schema definitions, consent state, jurisdiction metadata | Normalized contracts, routing decisions, exception packets, interoperability evidence |
 | UX Personalization Expert | Persona-specific message framing and next-best actions | Role, behavior, stage, confidence, blockers | Screen copy, workflow nudges, escalation paths |
 | Pricing Strategy Expert | Offer ladders, concession bands, and timing strategy | Deal stage, target value, urgency, market conditions | Opening offer, counter range, walk-away threshold |
 | Negotiation Insights Expert | Counterparty posture and concession sequencing | Counter history, seller motivation, approval rules | Negotiation posture, concession advice, escalation trigger |
@@ -240,6 +245,7 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 
 ### 6.1 API strategy
 - Expose secure REST/GraphQL endpoints through API Management.
+- Place an integration hub behind API Management to normalize partner payloads into canonical banking, insurance, and jurisdiction submission contracts before expert orchestration.
 - Use private networking for internal expert-to-expert communication.
 - Apply schema versioning, contract testing, and signed service identities.
 - Separate interactive APIs from batch and event ingestion paths.

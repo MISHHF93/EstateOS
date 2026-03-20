@@ -1,6 +1,6 @@
 {
   "service": "EstateOS Unified Intelligence API",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "azure_pattern": {
     "entrypoints": [
       "Azure API Management",
@@ -54,7 +54,8 @@
         "Authorization",
         "x-correlation-id",
         "x-journey-stage",
-        "x-transaction-id"
+        "x-transaction-id",
+        "x-partner-system"
       ],
       "required_context": [
         "subject_id",
@@ -68,7 +69,10 @@
         "privacy_tier",
         "payment_token_scope",
         "escrow_role",
-        "settlement_permissions"
+        "settlement_permissions",
+        "partner_id",
+        "integration_profile",
+        "data_classification"
       ]
     }
   },
@@ -375,6 +379,49 @@
         "explanation",
         "standards_alignment"
       ]
+    },
+    "PartnerIntegrationRequest": {
+      "type": "object",
+      "required": [
+        "partner_system",
+        "domain",
+        "canonical_contract",
+        "payload",
+        "requested_action",
+        "consent_scope",
+        "data_classification"
+      ]
+    },
+    "IntegrationValidationResult": {
+      "type": "object",
+      "required": [
+        "control",
+        "status",
+        "detail"
+      ]
+    },
+    "IntegrationRoutingDecision": {
+      "type": "object",
+      "required": [
+        "target",
+        "status",
+        "detail"
+      ]
+    },
+    "IntegrationDecision": {
+      "type": "object",
+      "required": [
+        "partner_system",
+        "domain",
+        "canonical_contract",
+        "expert_chain",
+        "validation_results",
+        "routing_decisions",
+        "compliance_evidence",
+        "release_status",
+        "explanation",
+        "standards_alignment"
+      ]
     }
   },
   "endpoints": [
@@ -401,6 +448,18 @@
         "PII minimization",
         "audit log",
         "ranked expert contribution trace"
+      ]
+    },
+    {
+      "path": "/v1/integrations/hub/route",
+      "method": "POST",
+      "purpose": "Validate, transform, and route external banking, insurance, and government payloads through AI experts before partner or internal-system delivery.",
+      "controls": [
+        "canonical schema validation",
+        "mTLS and signed service identity",
+        "partner entitlement check",
+        "policy-bound field minimization",
+        "interoperability evidence ledger"
       ]
     },
     {
