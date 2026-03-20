@@ -1,71 +1,71 @@
 # EstateOS Compliance and Assurance Mapping
 
-## Control model
+## 1. Control model
 
-EstateOS uses a unified control model with four assurance layers:
+EstateOS applies four assurance layers across all frontend and backend workflows:
 
-1. **Preventive controls** – identity, network, secrets, secure SDLC, policy gates.
-2. **Detective controls** – SIEM, anomaly detection, drift monitoring, logging, DLP.
-3. **Corrective controls** – incident response, failover, rollback, human override.
-4. **Evidence controls** – audit logs, policy versioning, approval records, evaluation reports.
+1. **Preventive controls** – identity, network isolation, secure SDLC, policy gates, and release constraints.
+2. **Detective controls** – monitoring, anomaly detection, SIEM correlation, data quality alerts, and drift analysis.
+3. **Corrective controls** – incident response, service rollback, human override, failover, and compensating controls.
+4. **Evidence controls** – immutable audit packets, approvals, control attestations, and model/policy lineage.
 
-## Standards alignment
+## 2. Standards alignment
 
-| Framework / Standard | EstateOS design response | Primary evidence |
+| Framework / Standard | EstateOS architecture response | Primary evidence |
 | --- | --- | --- |
-| ISO/IEC 27001 | ISMS, asset inventory, risk treatment, secure operations, supplier governance. | Risk register, policies, change records, control tests. |
-| ISO/IEC 27017 | Cloud-specific controls for Azure tenancy, virtual networks, logging, segmentation, and admin access. | Cloud baseline, landing zone configuration, CSPM reports. |
-| ISO/IEC 27018 | Privacy controls for cloud-hosted PII, purpose limitation, retention, and processor obligations. | Consent receipts, retention policies, PII handling procedures. |
-| ISO/IEC 27701 | Privacy information management layered onto the ISMS. | Data inventory, ROPA, DPIA records, rights-request workflows. |
-| ISO/IEC 25010 | Software quality model covering reliability, security, maintainability, usability, and portability. | Quality gates, test coverage, NFR scorecards, ADRs. |
-| ISO 9241-210 | Human-centered design process across research, prototyping, validation, and accessibility. | Personas, journey maps, usability findings, design rationale. |
-| ISO 31000 | Enterprise risk management across product, operational, compliance, and model risks. | Risk taxonomy, treatment plans, KRIs, governance minutes. |
-| ISO 22301 | Business continuity and resilience design for critical services and providers. | BCP/DR plans, failover tests, tabletop exercises. |
-| PCI DSS | Segmented payment paths, tokenization, key management, least privilege, and monitoring. | Network diagrams, tokenization flows, ASV scans, key records. |
-| SOC 2 Type 2 | Security, availability, confidentiality, and processing integrity controls operating over time. | Control narratives, evidence samples, exceptions log. |
-| ISO/IEC 42001 | AI management system with model inventory, risk assessment, human oversight, and monitoring. | Model register, AI risk assessments, oversight procedures, incident logs. |
-| ISO/IEC 5259 | Data quality and representativeness controls for AI datasets and outputs. | Dataset scorecards, lineage, quality metrics, bias assessments. |
-| ACORD | Insurance data normalization and exchange standards embedded in intake and quoting flows. | Schemas, mappings, integration tests, partner certification artefacts. |
-| NAIC-aligned expectations | Privacy, cybersecurity, governance, and third-party risk expectations for insurance use cases. | Governance framework, vendor reviews, privacy and security controls. |
-| KYC/AML and sanctions | Identity verification, beneficial ownership, screening, source-of-funds, and alert management. | Screening logs, case management records, policy attestations. |
+| ISO/IEC 27001 | ISMS, asset inventory, risk treatment, secure development, access reviews, incident management, supplier governance. | Risk register, policies, change records, access reviews, control tests. |
+| ISO/IEC 27017 | Azure-specific cloud controls for tenancy, segmentation, logging, admin isolation, and customer/provider shared responsibility clarity. | Landing zone baseline, network policies, CSPM reports, privileged access records. |
+| ISO/IEC 25010 | Quality requirements for usability, reliability, maintainability, security, performance efficiency, and functional suitability across the platform. | Architecture decision records, NFR scorecards, quality gates, test evidence. |
+| ISO 22301 | Business continuity planning for critical APIs, asynchronous workflows, failover, backup, and manual continuity procedures. | BIA outputs, DR runbooks, failover tests, tabletop exercise records. |
+| ISO 31000 | Risk governance for product, operational, cyber, model, legal, and market risks, with treatment plans and KRIs. | Risk taxonomy, treatment records, KRI dashboards, governance minutes. |
 
-## Workflow-specific controls
+## 3. Control mapping by platform layer
 
-### Property and pricing
-- Listing feed provenance checks.
-- Market data lineage and freshness SLAs.
-- Model explainability for comparable sales and valuation confidence.
+| Platform layer | Key controls | Relevant standards |
+| --- | --- | --- |
+| Frontend/BFF | Strong authentication, consent capture, secure sessions, usability validation, accessibility, action logging. | ISO/IEC 27001, ISO/IEC 25010 |
+| Router/orchestration | Intent traceability, deterministic routing policy, confidence thresholds, release gating, explanation generation. | ISO/IEC 25010, ISO 31000 |
+| Expert microservices | Versioned models, scoped permissions, service isolation, evaluation metrics, contract tests. | ISO/IEC 27017, ISO/IEC 25010 |
+| Event backbone | Durable delivery, retry logic, idempotency, dead-letter handling, event traceability. | ISO 22301, ISO/IEC 25010 |
+| Data/evidence stores | Encryption, retention, lineage, immutable evidence, backup and recovery. | ISO/IEC 27001, ISO 22301 |
+| Security operations | SIEM, posture management, vulnerability response, incident coordination. | ISO/IEC 27001, ISO/IEC 27017, ISO 31000 |
 
-### RBI and migration
-- Jurisdiction rules engine with versioned policy content.
-- Mandatory human review for edge cases, high-risk geographies, and unclear source-of-funds.
-- Evidence binding between applicant data, legal requirements, and recommendation outputs.
+## 4. Workflow-specific controls
 
-### Insurance
-- ACORD-compliant payload generation.
-- Carrier licensing and appointment checks.
-- Hazard and claims data retention restricted by purpose and jurisdiction.
+### 4.1 Property valuation and investment analysis
+- Verify market data provenance and freshness before model use.
+- Preserve comparable-set rationale and scenario assumptions in the decision packet.
+- Require model risk evidence for release of pricing or ROI-driven recommendations.
 
-### Financial decision support
-- Product suitability and affordability checks.
-- Adverse-action style explanation support when workflows require it.
-- Scenario model validation, stress testing, and governance.
+### 4.2 Residency eligibility
+- Version jurisdiction content and legal rules.
+- Require human review for edge cases, adverse jurisdictions, or unclear source-of-funds.
+- Bind recommendations to legal/evidence references and user profile completeness.
 
-## AI governance operating model
+### 4.3 Insurance matching
+- Enforce carrier licensing and servicing constraints.
+- Retain peril and property exposure evidence with purpose limitation.
+- Capture quote assumptions, exclusions, and underwriting blockers.
 
-- **Inventory:** maintain registry of prompts, models, expert services, datasets, and downstream impacts.
-- **Risk assessment:** score use cases by autonomy, sensitivity, explainability, and potential harm.
-- **Controls:** apply thresholds for human review, policy gating, retraining, rollback, and release approval.
-- **Monitoring:** drift, factuality, latency, cost, override rates, fairness metrics, and exception trends.
-- **Review cadence:** monthly operational review, quarterly control assurance, annual formal management review.
+### 4.4 Financial risk and compliance
+- Apply affordability, suitability, KYC/AML, and sanctions checks before release.
+- Escalate low-confidence or high-risk cases to manual review.
+- Preserve adverse or blocked outcome reasoning for downstream audit.
 
-## Audit evidence package for a single recommendation
+## 5. Audit evidence package for a single recommendation
 
-1. Request metadata and identity context.
-2. Consent and purpose metadata.
-3. Data sources and freshness timestamps.
-4. Experts selected and model versions.
-5. Policy gates evaluated and outcome status.
-6. Recommendation text with confidence and uncertainty bands.
-7. Human actions, approvals, overrides, and rationale.
-8. Retention, export, and deletion metadata.
+A complete recommendation should preserve:
+1. Request, correlation, and actor metadata.
+2. Consent and purpose-binding state.
+3. Data sources, freshness, and lineage references.
+4. Experts selected, scores, and model versions.
+5. Policy gates evaluated and their outcomes.
+6. Final recommendation, explanation, and confidence/uncertainty.
+7. Human approvals, overrides, and rationale.
+8. Retention, continuity, and deletion metadata.
+
+## 6. Operating assurance practices
+
+- **Monthly operational review:** latency, drift, blocked-release trends, and resilience observations.
+- **Quarterly assurance review:** control effectiveness, access governance, and evidence completeness.
+- **Annual management review:** risk posture, standard alignment, continuity readiness, and improvement plan updates.
