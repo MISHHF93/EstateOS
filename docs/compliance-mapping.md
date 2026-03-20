@@ -29,7 +29,7 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 | --- | --- | --- |
 | Frontend/BFF | Strong authentication, consent capture, secure sessions, profile-context validation, accessibility, progressive disclosure, explanation visibility, action logging. | ISO/IEC 27001, ISO/IEC 27701, ISO/IEC 25010, ISO 9241-210 |
 | Identity and trust plane | OIDC, MFA, RBAC, entitlements, KYC integration, AML scoring, sanctions screening, privacy-tier propagation. | ISO/IEC 27001, ISO/IEC 27701, SOC 2 Type 2 |
-| Router/orchestration | Intent traceability, deterministic routing policy, valuation and recommendation expert coordination, confidence thresholds, expert aggregation and ranking, release gating, explanation generation, least-privilege response shaping. | ISO/IEC 25010, ISO/IEC 5259, ISO/IEC 42001, ISO 9241-210, ISO 31000, SOC 2 Type 2 |
+| Router/orchestration | Intent traceability, deterministic routing policy, valuation and recommendation expert coordination, transaction-stage integrity checks, confidence thresholds, expert aggregation and ranking, release gating, explanation generation, least-privilege response shaping. | ISO/IEC 25010, ISO/IEC 5259, ISO/IEC 42001, ISO 9241-210, ISO 31000, SOC 2 Type 2 |
 | Expert microservices | Versioned models, scoped permissions, service isolation, evaluation metrics, contract tests. | ISO/IEC 27017, ISO/IEC 25010 |
 | Event backbone | Durable delivery, retry logic, idempotency, dead-letter handling, event traceability. | ISO 22301, ISO/IEC 25010 |
 | Data/evidence stores | Encryption, retention, lineage, immutable evidence, backup and recovery, data residency controls. | ISO/IEC 27001, ISO/IEC 27701, ISO 22301 |
@@ -63,6 +63,13 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 - Apply affordability, suitability, RBAC, MFA, KYC/AML, and sanctions checks before release.
 - Escalate low-confidence or high-risk cases to manual review.
 - Preserve adverse or blocked outcome reasoning for downstream audit.
+
+### 4.6 Transaction intelligence and workflow integrity
+- Enforce sequential deal stages so pricing, negotiation, document validation, approval, and closing remain auditable and replayable.
+- Require tamper-evident document hashes, owner assignment, and remediation tracking for diligence, title, financing, disclosure, and closing artifacts.
+- Bind ISO/IEC 27001 controls to access governance, evidence retention, and segregation of duties for release and approval actions.
+- Bind ISO 22301 controls to alternate queues, workflow replay, RTO/RPO checkpoints, and manual continuity playbooks for critical transactions.
+- Hold release when risk scoring, document validation, or continuity controls fall below threshold.
 
 ## 5. Audit evidence package for a single recommendation
 

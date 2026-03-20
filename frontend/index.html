@@ -22,9 +22,10 @@
       <section class="hero-content">
         <div>
           <p class="eyebrow">Secure • Scalable • AI-Native</p>
-          <h1>Human-centered property intelligence powered by valuation and recommendation experts.</h1>
+          <h1>Deal intelligence that guides pricing, negotiation, document validation, and closing risk.</h1>
           <p class="hero-copy">
-            EstateOS now enhances every listing with valuation intelligence across market data, comparables, trends, and location signals while a recommendation expert ranks options to match user preferences with clear reasoning and governed AI controls.
+            EstateOS now pairs its property intelligence workspace with a transaction expert layer so every deal gets
+            pricing guidance, negotiation posture, document QA, risk scoring, and continuity-aware workflow controls.
           </p>
           <div class="hero-actions">
             <a class="primary" href="#workspace">Launch adaptive workspace</a>
@@ -35,28 +36,28 @@
         <div class="hero-panel">
           <div class="panel-card">
             <span>Designed for trust</span>
-            <strong>ISO 9241-210 + ISO/IEC 42001 guided decision support</strong>
+            <strong>ISO/IEC 27001 + ISO 22301 protected transaction execution</strong>
             <p>
-              Progressive disclosure, plain-language explanations, accessible controls, and next-best actions keep
-              complex cross-border decisions understandable.
+              Every deal step keeps explainable AI recommendations, immutable audit evidence, and business continuity
+              checkpoints in view for operators and advisors.
             </p>
           </div>
           <div class="panel-grid">
             <div>
-              <span>Adaptive mode</span>
-              <strong>Persona + intent aware</strong>
+              <span>Deal control</span>
+              <strong>Stage-by-stage visibility</strong>
             </div>
             <div>
-              <span>Recommendation source</span>
-              <strong>Multi-expert ranking</strong>
+              <span>Expert source</span>
+              <strong>Pricing + negotiation + risk</strong>
             </div>
             <div>
-              <span>Explanation depth</span>
-              <strong>User controlled</strong>
+              <span>Workflow integrity</span>
+              <strong>Continuity aware</strong>
             </div>
             <div>
               <span>Audit trace</span>
-              <strong>Why always visible</strong>
+              <strong>Immutable event ledger</strong>
             </div>
           </div>
         </div>
@@ -67,24 +68,25 @@
       <section id="workspace" class="section workspace">
         <div class="section-heading">
           <p class="eyebrow">Adaptive intelligence workspace</p>
-          <h2>One workspace that reshapes itself around the user.</h2>
+          <h2>Property decisions and live transactions share one governed control surface.</h2>
           <p>
-            EstateOS combines valuation intelligence, recommendation ranking, investment logic, residency pathways, insurance options, and AI governance signals into one explainable property decision board.
+            EstateOS combines valuation intelligence, recommendation ranking, investment logic, transaction-stage
+            orchestration, document readiness, and AI governance into one explainable operating board.
           </p>
         </div>
 
         <div class="workspace-grid journey-selector" role="tablist" aria-label="Journey selection">
           <button class="journey-card active" type="button" data-journey="buyer" role="tab" aria-selected="true">
             <h3>Buyer journey</h3>
-            <p>Guided discovery for affordability, property fit, relocation planning, and risk clarity.</p>
+            <p>Guided discovery, pricing confidence, transaction readiness, and low-friction next steps.</p>
           </button>
           <button class="journey-card" type="button" data-journey="investor" role="tab" aria-selected="false">
             <h3>Investor journey</h3>
-            <p>Yield-oriented analysis with valuation, market trend, portfolio, residency, and insurance signals ranked together.</p>
+            <p>Yield-oriented analysis with negotiation leverage, diligence controls, and export-safe auditability.</p>
           </button>
           <button class="journey-card" type="button" data-journey="advisor" role="tab" aria-selected="false">
             <h3>Advisor console</h3>
-            <p>Evidence-first oversight with valuation evidence, fairness controls, and approval-ready summaries.</p>
+            <p>Evidence-first oversight with stage gating, risk escalation, and approval-ready transaction summaries.</p>
           </button>
         </div>
 
@@ -94,8 +96,8 @@
               <p class="eyebrow">Profile capture</p>
               <h3 id="control-panel-title">Personalization controls</h3>
               <p>
-                Users can tune objectives and explanation depth while the system preserves a shared trust and compliance
-                backbone.
+                Users can tune objectives and explanation depth while the system preserves a shared trust, workflow,
+                and compliance backbone.
               </p>
             </div>
 
@@ -265,10 +267,72 @@
                     <div class="card-heading">
                       <div>
                         <p class="eyebrow">AI governance</p>
-                        <h4>ISO/IEC 5259 + 42001 controls</h4>
+                        <h4>ISO/IEC 27001 + ISO 22301 controls</h4>
                       </div>
                     </div>
                     <div id="governance-list" class="stack-list"></div>
+                  </article>
+                </section>
+
+                <section class="transaction-layout" aria-label="Transaction intelligence board">
+                  <article class="decision-card transaction-card transaction-card--primary">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Deal intelligence</p>
+                        <h4 id="deal-title">Deal workspace</h4>
+                      </div>
+                      <span class="status-pill" id="deal-risk-pill">Moderate risk</span>
+                    </div>
+                    <p id="deal-summary" class="helper-copy"></p>
+                    <div class="metric-grid">
+                      <div class="metric-item">
+                        <span>Target price</span>
+                        <strong id="deal-target-price"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>Expected close</span>
+                        <strong id="deal-close-window"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>Workflow integrity</span>
+                        <strong id="deal-integrity"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>Continuity mode</span>
+                        <strong id="deal-continuity"></strong>
+                      </div>
+                    </div>
+                    <div class="stage-list" id="deal-stage-list"></div>
+                  </article>
+
+                  <article class="decision-card transaction-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Expert recommendations</p>
+                        <h4>Pricing, negotiation, docs, and risk</h4>
+                      </div>
+                    </div>
+                    <div id="deal-expert-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card transaction-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Document validation</p>
+                        <h4>Closing readiness</h4>
+                      </div>
+                    </div>
+                    <div id="document-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card transaction-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Workflow controls</p>
+                        <h4>Audit and compliance evidence</h4>
+                      </div>
+                    </div>
+                    <div id="compliance-control-list" class="stack-list"></div>
                   </article>
                 </section>
 
@@ -286,7 +350,7 @@
                   <article class="decision-card">
                     <div class="card-heading">
                       <div>
-                        <p class="eyebrow">Human-centered guidance</p>
+                        <p class="eyebrow">Transaction follow-up</p>
                         <h4>Next-best actions</h4>
                       </div>
                     </div>
@@ -307,23 +371,23 @@
         <div class="persona-grid">
           <article>
             <h3>Buyers</h3>
-            <p>Search, compare, validate affordability, assess eligibility, and complete onboarding with plain-language guidance.</p>
+            <p>Search, compare, validate affordability, see deal progress, and complete onboarding with plain-language guidance.</p>
           </article>
           <article>
             <h3>Investors</h3>
-            <p>Understand yield, risk-adjusted returns, tax and residency pathways, and portfolio concentration before investing.</p>
+            <p>Understand yield, negotiation leverage, tax and residency pathways, and transaction risk before investing.</p>
           </article>
           <article>
             <h3>Brokers</h3>
-            <p>Accelerate triage, match supply and demand, and surface deal blockers early with trusted AI copilots.</p>
+            <p>Accelerate triage, surface deal blockers early, and orchestrate document and closing readiness in one view.</p>
           </article>
           <article>
             <h3>Insurers</h3>
-            <p>Evaluate property exposure, hazard concentrations, fraud signals, and ACORD-ready intake data.</p>
+            <p>Evaluate property exposure, diligence completeness, fraud signals, and ACORD-ready intake data.</p>
           </article>
           <article>
             <h3>Advisors</h3>
-            <p>Inspect rationale, model evidence, and policy checks across finance, migration, and compliance domains.</p>
+            <p>Inspect rationale, model evidence, approvals, and resilience gates across finance, migration, and compliance domains.</p>
           </article>
         </div>
       </section>
@@ -331,16 +395,16 @@
       <section id="experts" class="section">
         <div class="section-heading">
           <p class="eyebrow">Mixture-of-Experts mesh</p>
-          <h2>Specialized AI agents collaborate through a unified orchestration layer.</h2>
+          <h2>Specialized AI agents collaborate through unified recommendation and transaction orchestration.</h2>
         </div>
         <div class="experts-grid">
           <article><h3>Property discovery expert</h3><p>Matches user intent with property supply, neighborhood context, and lifestyle constraints.</p></article>
           <article><h3>Valuation expert</h3><p>Blends comparable sales, market momentum, valuation bands, and location intelligence for each listing.</p></article>
-          <article><h3>RBI eligibility expert</h3><p>Maps candidate profiles to jurisdiction-specific residency-by-investment requirements and timelines.</p></article>
-          <article><h3>Insurance expert</h3><p>Generates coverage options, insurability signals, and ACORD-aligned data packages.</p></article>
-          <article><h3>Risk expert</h3><p>Scores fraud, climate, cyber, legal, and operational exposures with mitigation suggestions.</p></article>
-          <article><h3>Compliance expert</h3><p>Applies RBAC, MFA, KYC/AML, sanctions, privacy, records, and release gating before decisions are shown.</p></article>
-          <article><h3>Recommendation expert</h3><p>Ranks listings against user preferences, fairness checks, explainability rules, and cross-expert signals.</p></article>
+          <article><h3>Pricing strategy expert</h3><p>Recommends opening offers, concession ladders, and walk-away thresholds based on market context.</p></article>
+          <article><h3>Negotiation expert</h3><p>Surfaces counterparty posture, concession sequencing, timing tactics, and escalation conditions.</p></article>
+          <article><h3>Document validation expert</h3><p>Checks diligence artifacts, signatures, disclosures, title evidence, and release-readiness gaps.</p></article>
+          <article><h3>Deal risk expert</h3><p>Scores workflow integrity, leverage, document exceptions, and counterparty risk with escalation guidance.</p></article>
+          <article><h3>Compliance expert</h3><p>Applies RBAC, MFA, KYC/AML, privacy, records, and continuity controls before decisions are shown.</p></article>
           <article><h3>Finance expert</h3><p>Supports affordability, leverage, cashflow, and scenario analysis for individual or institutional users.</p></article>
         </div>
       </section>
@@ -372,7 +436,7 @@
           </div>
           <div class="decision-card">
             <h3>Audit evidence</h3>
-            <p>Every recommendation captures frontend profile signals, trust posture, models consulted, comparable sets, ranking explanations, policy versions, confidence, and time-stamped approvals.</p>
+            <p>Every recommendation and deal-stage transition captures profile signals, models consulted, document hashes, policy versions, confidence, and time-stamped approvals.</p>
           </div>
           <div class="decision-card">
             <h3>AI governance</h3>
@@ -380,7 +444,7 @@
           </div>
           <div class="decision-card">
             <h3>Resilience</h3>
-            <p>Active-active services, fallback experts, retriable workflows, and immutable event logs support business continuity and incident response.</p>
+            <p>Active-active services, fallback experts, retriable workflows, and immutable event logs support business continuity aligned to ISO 22301.</p>
           </div>
         </div>
       </section>
@@ -388,7 +452,7 @@
       <section id="architecture" class="section dark-section architecture-section">
         <div class="section-heading narrow">
           <p class="eyebrow">Azure-native backend</p>
-          <h2>A modular intelligence layer routes work dynamically across expert systems and policy services.</h2>
+          <h2>A modular intelligence layer routes work dynamically across expert systems, workflow controls, and policy services.</h2>
         </div>
         <div class="architecture-stack">
           <div>
@@ -401,22 +465,22 @@
           </div>
           <div>
             <span>Intelligence layer</span>
-            <strong>Intent parser • Valuation engine • Recommendation engine • Aggregation engine • Explanation engine • Policy gate • Audit ledger</strong>
+            <strong>Intent parser • Valuation engine • Recommendation engine • Deal pricing • Negotiation copilot • Document QA • Risk gate</strong>
           </div>
           <div>
-            <span>Domain services</span>
-            <strong>Property intelligence • Valuation • Recommendation • RBI • Insurance • Risk • Compliance • Finance</strong>
+            <span>Workflow integrity</span>
+            <strong>Stage ledger • Approval engine • Continuity routing • Immutable audit trail • Recovery replay</strong>
           </div>
           <div>
             <span>Data and controls</span>
-            <strong>Azure data lake • Cosmos DB • Key Vault • Purview • Monitor • Sentinel</strong>
+            <strong>Azure SQL • Cosmos DB • Event Grid • Key Vault • Purview • Monitor • Sentinel</strong>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <p>EstateOS • Intelligent property decisioning with secure expert collaboration.</p>
+      <p>EstateOS • Intelligent property and transaction decisioning with secure expert collaboration.</p>
     </footer>
 
     <script src="app.js"></script>

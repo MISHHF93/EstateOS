@@ -1,6 +1,6 @@
 {
   "service": "EstateOS Unified Intelligence API",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "azure_pattern": {
     "entrypoints": [
       "Azure API Management",
@@ -33,7 +33,9 @@
       "financial_intent",
       "residency_goal",
       "consent_scope",
-      "privacy_preferences"
+      "privacy_preferences",
+      "deal_participants",
+      "transaction_stage"
     ],
     "trust_controls": [
       "OIDC/OAuth2 with step-up MFA",
@@ -41,13 +43,15 @@
       "KYC status propagation",
       "AML risk scoring",
       "sanctions screening status",
-      "purpose-bound privacy tiers"
+      "purpose-bound privacy tiers",
+      "segregation of duties for approvals"
     ],
     "router_contract": {
       "required_headers": [
         "Authorization",
         "x-correlation-id",
-        "x-journey-stage"
+        "x-journey-stage",
+        "x-transaction-id"
       ],
       "required_context": [
         "subject_id",
@@ -122,13 +126,47 @@
         "insurance_option"
       ]
     },
-    "ValuationIntelligence": {
+    "TransactionCase": {
       "type": "object",
       "required": [
-        "valuation_band",
-        "comparable_summary",
-        "trend_signal",
-        "location_intelligence"
+        "transaction_id",
+        "deal_name",
+        "deal_type",
+        "jurisdiction",
+        "stage",
+        "purchase_price",
+        "target_price",
+        "financing_ratio",
+        "requested_documents",
+        "workflow_stages",
+        "bcdr_tier"
+      ]
+    },
+    "TransactionDecision": {
+      "type": "object",
+      "required": [
+        "transaction",
+        "pricing_strategy",
+        "negotiation_insight",
+        "document_validation",
+        "risk_scoring",
+        "overall_risk_score",
+        "risk_rating",
+        "release_status",
+        "workflow_integrity",
+        "compliance_controls",
+        "audit_trail",
+        "recommendations"
+      ]
+    },
+    "WorkflowIntegrity": {
+      "type": "object",
+      "required": [
+        "sequential_integrity",
+        "audit_status",
+        "immutable_event_chain",
+        "continuity_mode",
+        "continuity_notes"
       ]
     },
     "GovernanceStatus": {
@@ -183,47 +221,49 @@
       ]
     },
     {
-      "path": "/v1/properties/valuation-intelligence",
+      "path": "/v1/transactions/deal-intelligence",
       "method": "POST",
-      "purpose": "Enhance listings with valuation bands, comparable summaries, trend signals, and location intelligence before recommendation ranking.",
+      "purpose": "Run pricing strategy, negotiation insights, document validation, and deal risk scoring for an active transaction.",
       "controls": [
-        "market data provenance",
-        "comparable-set completeness",
-        "ISO/IEC 5259 quality scoring",
-        "explainability payload"
+        "ISO/IEC 27001 access governance",
+        "stage-order integrity enforcement",
+        "document hash verification",
+        "tamper-evident audit log",
+        "manual approval checkpoints"
       ]
     },
     {
-      "path": "/v1/rbi/eligibility",
+      "path": "/v1/transactions/workflow-integrity",
       "method": "POST",
-      "purpose": "Evaluate residency-by-investment pathways by jurisdiction and residency goals.",
+      "purpose": "Validate stage sequencing, evidence completeness, approval segregation, and release readiness for transaction workflows.",
       "controls": [
-        "sanctions screening",
-        "AML review",
-        "jurisdiction rules engine",
-        "records retention"
+        "workflow replay capability",
+        "segregation of duties",
+        "immutable event stream",
+        "exception escalation"
       ]
     },
     {
-      "path": "/v1/insurance/options",
+      "path": "/v1/transactions/documents/validate",
       "method": "POST",
-      "purpose": "Return coverage options and ACORD-aligned intake data.",
+      "purpose": "Check diligence, title, financing, disclosure, and closing documents for completeness and execution risk.",
       "controls": [
-        "licensing check",
-        "carrier access policy",
-        "PII tokenization",
-        "purpose limitation"
+        "records retention",
+        "document checksum verification",
+        "privacy-aware redaction",
+        "approval traceability"
       ]
     },
     {
-      "path": "/v1/compliance/release",
+      "path": "/v1/transactions/compliance/release",
       "method": "POST",
-      "purpose": "Run final release gate for decisions and generate audit evidence.",
+      "purpose": "Run final release and resilience gates for transactions while attaching ISO/IEC 27001 and ISO 22301 evidence.",
       "controls": [
+        "BCDR tier mapping",
+        "RTO/RPO checkpoint",
+        "incident escalation linkage",
         "immutable evidence",
-        "human approval",
-        "policy versioning",
-        "SOC 2 evidence linkage"
+        "policy versioning"
       ]
     }
   ]

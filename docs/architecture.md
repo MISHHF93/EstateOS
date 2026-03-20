@@ -2,7 +2,7 @@
 
 ## 1. Platform vision
 
-EstateOS is a full-stack real estate and investment platform where a seamless, role-aware frontend is backed by an Azure-native Mixture-of-Experts (MoE) decision mesh. The platform combines property discovery, a property intelligence and valuation expert system, a listing recommendation expert, investment analysis, residency-by-investment (RBI), insurance matching, financial risk, and compliance validation into one guided user experience while preserving explainability, auditability, and secure control boundaries.
+EstateOS is a full-stack real estate and investment platform where a seamless, role-aware frontend is backed by an Azure-native Mixture-of-Experts (MoE) decision mesh. The platform combines property discovery, a property intelligence and valuation expert system, a listing recommendation expert, investment analysis, residency-by-investment (RBI), insurance matching, financial risk, transaction intelligence for pricing and negotiation, document validation, and compliance validation into one guided user experience while preserving explainability, auditability, workflow integrity, and secure control boundaries.
 
 ## 2. Full-stack experience architecture
 
@@ -33,7 +33,7 @@ EstateOS is a full-stack real estate and investment platform where a seamless, r
    - Embedded finance, partner CRM, property inventory, KYC providers, insurers, and valuation data vendors.
 
 ### 2.3 Frontend composition pattern
-- **Presentation layer:** web UI built as modular micro-frontends or feature slices for search, valuation, residency, insurance, finance, and compliance.
+- **Presentation layer:** web UI built as modular micro-frontends or feature slices for search, valuation, residency, insurance, finance, transaction operations, and compliance.
 - **Identity capture layer:** profile forms and consent modules collect investor type, residence, target location, financial intent, residency goals, and privacy preferences and package them as a profile-context payload.
 - **Experience orchestration layer:** a backend-for-frontend (BFF) exposes user-ready view models, explanation cards, action states, and trust-state banners.
 - **Design system:** reusable trust patterns including confidence badges, policy banners, evidence drawers, human-review indicators, privacy notices, and “why this recommendation” ledgers.
@@ -127,6 +127,10 @@ The MoE backend is composed of independently deployable expert services with cle
 | Financial Risk Expert | Affordability, leverage, liquidity, payment capacity | Income, liabilities, cash reserves, rates, FX | Affordability bands, stress tests, financing constraints |
 | Compliance Validation Expert | RBAC, MFA, KYC/AML, sanctions, privacy, records, release rules | Identity evidence, transactions, jurisdiction, consent | Release/hold decision, policy evidence, remediation tasks |
 | UX Personalization Expert | Persona-specific message framing and next-best actions | Role, behavior, stage, confidence, blockers | Screen copy, workflow nudges, escalation paths |
+| Pricing Strategy Expert | Offer ladders, concession bands, and timing strategy | Deal stage, target value, urgency, market conditions | Opening offer, counter range, walk-away threshold |
+| Negotiation Insights Expert | Counterparty posture and concession sequencing | Counter history, seller motivation, approval rules | Negotiation posture, concession advice, escalation trigger |
+| Document Validation Expert | Contract, diligence, title, and disclosure quality control | Uploaded documents, hashes, signatures, checklist state | Missing items, validation issues, release blockers |
+| Deal Risk Scoring Expert | Transaction execution risk and workflow integrity scoring | Deal stage, open issues, financing ratio, counterparty risk | Risk score, risk rating, review/hold recommendation |
 
 ### 4.3 Intelligent routing layer
 The routing layer is the system’s arbitration engine. It dynamically selects experts and determines execution order using:
@@ -154,6 +158,7 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 - redact or limit outputs based on privacy tier and entitlements,
 - compose a single response with evidence and rationale.
 - aggregate and rank candidate properties, investment insights, visa pathways, and insurance options into a single explainable recommendation board driven by a dedicated recommendation expert.
+- enforce transaction stage order, document completeness, continuity checkpoints, and approval segregation before a deal advances to closing.
 
 #### Example orchestration paths
 - **Cross-border investor in Portugal** → identity trust evaluation + valuation + investment + residency + financial risk + insurance + compliance.

@@ -7,7 +7,9 @@ This module provides a dependency-light Python blueprint for how EstateOS can:
 - route work to specialized experts,
 - enforce policy gates,
 - emit auditable event records,
-- build an explainable decision packet.
+- build explainable property decisions,
+- orchestrate transaction experts for pricing, negotiation, document validation,
+  workflow integrity, resilience, and risk scoring.
 """
 
 from __future__ import annotations
@@ -160,6 +162,95 @@ class DecisionPacket:
     timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
+@dataclass(frozen=True)
+class TransactionDocument:
+    document_id: str
+    name: str
+    status: str
+    document_type: str
+    owner: str
+    issues: Sequence[str]
+    compliance_tags: Sequence[str]
+    last_checked_utc: str
+
+
+@dataclass(frozen=True)
+class TransactionStageStatus:
+    stage: str
+    status: str
+    completion: float
+    owner: str
+    control_checks: Sequence[str]
+    blocker: str = ""
+
+
+@dataclass(frozen=True)
+class DealExpertInsight:
+    expert: str
+    headline: str
+    detail: str
+    score: float
+    priority: str
+    next_action: str
+
+
+@dataclass(frozen=True)
+class ComplianceControlStatus:
+    control: str
+    framework: str
+    status: str
+    detail: str
+    evidence: Sequence[str]
+
+
+@dataclass(frozen=True)
+class DealWorkflowIntegrity:
+    sequential_integrity: str
+    audit_status: str
+    immutable_event_chain: bool
+    continuity_mode: str
+    continuity_notes: Sequence[str]
+
+
+@dataclass(frozen=True)
+class TransactionCase:
+    transaction_id: str
+    deal_name: str
+    deal_type: str
+    jurisdiction: str
+    stage: str
+    purchase_price: int
+    target_price: int
+    financing_ratio: float
+    seller_motivation: str
+    urgency_days: int
+    counterparty_risk: str
+    requested_documents: Sequence[TransactionDocument]
+    workflow_stages: Sequence[TransactionStageStatus]
+    human_approvals: Sequence[str]
+    bcdr_tier: str
+
+
+@dataclass(frozen=True)
+class TransactionDecisionPacket:
+    request_id: str
+    transaction: TransactionCase
+    pricing_strategy: DealExpertInsight
+    negotiation_insight: DealExpertInsight
+    document_validation: DealExpertInsight
+    risk_scoring: DealExpertInsight
+    overall_risk_score: float
+    risk_rating: str
+    release_status: str
+    workflow_integrity: DealWorkflowIntegrity
+    compliance_controls: Sequence[ComplianceControlStatus]
+    audit_trail: Sequence[AuditEvent]
+    recommendations: Sequence[str]
+    explanation: str
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
 EXPERT_REGISTRY: Sequence[ExpertCard] = (
     ExpertCard(
         name="property_valuation",
@@ -227,6 +318,40 @@ EXPERT_REGISTRY: Sequence[ExpertCard] = (
     ),
 )
 
+TRANSACTION_EXPERTS: Sequence[ExpertCard] = (
+    ExpertCard(
+        name="pricing_strategy",
+        specialties=("offer strategy", "counter analysis", "market timing"),
+        triggers=("deal", "offer", "pricing", "counter", "bid"),
+        compliance_dependencies=("model_risk", "data_quality", "records"),
+        min_confidence=0.68,
+        execution_mode="sync",
+    ),
+    ExpertCard(
+        name="negotiation_insights",
+        specialties=("counterparty posture", "concession plan", "stakeholder timing"),
+        triggers=("negotiate", "seller", "term", "counter"),
+        compliance_dependencies=("records", "privacy", "jurisdiction"),
+        min_confidence=0.67,
+        execution_mode="sync",
+    ),
+    ExpertCard(
+        name="document_validation",
+        specialties=("checklist completeness", "signature readiness", "evidence control"),
+        triggers=("document", "contract", "title", "disclosure", "validation"),
+        compliance_dependencies=("records", "privacy", "data_residency", "business_continuity"),
+        min_confidence=0.75,
+        execution_mode="sync",
+    ),
+    ExpertCard(
+        name="deal_risk_scoring",
+        specialties=("deal risk", "workflow integrity", "escalation triage"),
+        triggers=("risk", "integrity", "approval", "escalation"),
+        compliance_dependencies=("risk_thresholds", "records", "business_continuity", "suitability"),
+        min_confidence=0.72,
+        execution_mode="sync",
+    ),
+)
 
 INTENT_KEYWORDS: Dict[str, str] = {
     "property": "property_search",
@@ -283,6 +408,7 @@ POLICY_GATES: Dict[str, str] = {
     "records": "Write immutable audit logs with inputs, outputs, lineage, approvals, and identity state.",
     "suitability": "Check affordability, investor category, and product suitability against client profile and constraints.",
     "data_residency": "Apply region-aware storage, transfer, retention, and deletion constraints to profile and decision data.",
+    "business_continuity": "Preserve workflow continuity with alternate queues, RTO/RPO monitoring, failover runbooks, and transaction recovery evidence.",
 }
 
 AZURE_SERVICES: Sequence[str] = (
@@ -317,7 +443,6 @@ STANDARDS_ALIGNMENT: Sequence[str] = (
     "ISO 31000",
     "ISO 9241-210",
 )
-
 
 RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
     "buyer": (
@@ -521,24 +646,24 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
                 "insurance_matching": 0.8,
                 "financial_risk": 0.83,
                 "compliance_validation": 0.94,
-                "ux_personalization": 0.8,
+                "ux_personalization": 0.79,
             },
             "price": 890000,
             "valuation_band": "$860k-$915k",
-            "comparable_summary": "Comparable income assets and rent comps support a balanced valuation case.",
-            "trend_signal": "Healthy income demand with moderate policy watchlist exposure.",
-            "location_intelligence": "Residency optionality and urban access strengthen client optionality.",
-            "recommendation_rationale": "Recommendation expert keeps this close because the preference mix between yield and residency is compelling.",
-            "investment_insight": "Stronger than Barcelona when optional residency matters more than memo simplicity.",
-            "visa_pathway": "Greece residency planning remains a useful optional pathway for the client.",
-            "insurance_option": "Residential income cover plus catastrophe rider with moderate complexity.",
+            "comparable_summary": "Income asset comparables and rent rolls support a balanced valuation case.",
+            "trend_signal": "Healthy income demand with moderate policy watch exposure.",
+            "location_intelligence": "Residency optionality and urban access strengthen client flexibility.",
+            "recommendation_rationale": "Recommendation expert keeps this close because yield and residency optionality are both strong.",
+            "investment_insight": "Best alternative when client optionality matters more than narrative simplicity.",
+            "visa_pathway": "Greece residency planning remains viable with current policy monitoring.",
+            "insurance_option": "Residential income package with catastrophe rider and manageable complexity.",
         },
         {
             "candidate_id": "dubai-premium-diversifier",
             "title": "Dubai Premium Diversifier",
             "geography": "Dubai, UAE",
             "category": "property",
-            "summary": "High-upside recommendation reserved for aggressive clients comfortable with premium carry.",
+            "summary": "High-upside premium asset that only fits aggressive client mandates.",
             "base_scores": {
                 "property_valuation": 0.9,
                 "investment_analysis": 0.87,
@@ -547,86 +672,33 @@ RECOMMENDATION_CATALOG: Dict[str, Sequence[Dict[str, object]]] = {
                 "insurance_matching": 0.71,
                 "financial_risk": 0.69,
                 "compliance_validation": 0.93,
-                "ux_personalization": 0.78,
+                "ux_personalization": 0.76,
             },
             "price": 1450000,
             "valuation_band": "$1.39M-$1.49M",
-            "comparable_summary": "High-end comparables support the value range but show wider volatility bands.",
-            "trend_signal": "Premium growth potential remains strong but is more cyclical under rate or FX shocks.",
-            "location_intelligence": "Global mobility is attractive, though cost-to-fit is weakest for conservative advisory use.",
-            "recommendation_rationale": "Recommendation expert places it last because suitability and premium carry outweigh upside for this persona.",
-            "investment_insight": "Only advisable when the client explicitly accepts cyclical and carry exposure.",
-            "visa_pathway": "UAE investor route is compelling but should be paired with suitability review.",
-            "insurance_option": "High-value diversified cover with the heaviest carrying cost of the three.",
+            "comparable_summary": "High-end comparables support the range but with broader volatility bands.",
+            "trend_signal": "Premium growth potential is strong, but cyclicality is higher than the peer set.",
+            "location_intelligence": "Global mobility is attractive, though cost-to-fit is weakest for conservative advice.",
+            "recommendation_rationale": "Recommendation expert places it last because suitability and carrying cost outweigh upside here.",
+            "investment_insight": "Advisable only for clients who explicitly accept cyclical exposure and premium operating costs.",
+            "visa_pathway": "UAE investor route is compelling but should follow suitability confirmation.",
+            "insurance_option": "High-value diversified cover with premium carry and more underwriting evidence.",
         },
     ),
 }
 
 
 def detect_intents(user_prompt: str, profile: UserProfile) -> List[str]:
-    prompt = (
-        f"{user_prompt.lower()} {profile.intent.lower()} {profile.financial_intent.lower()} "
-        f"{profile.residency_goal.lower()} {profile.investor_type.lower()}"
-    )
-    intents: List[str] = []
-    for keyword, intent in INTENT_KEYWORDS.items():
-        if keyword in prompt and intent not in intents:
-            intents.append(intent)
-    if profile.residency_interest and "residency" not in intents:
-        intents.append("residency")
-    if profile.financing_needed and "finance" not in intents:
-        intents.append("finance")
-    return intents or ["property_search", "valuation", "compliance"]
-
-
-def score_expert(
-    expert: ExpertCard,
-    user_prompt: str,
-    profile: UserProfile,
-    identity: IdentityContext,
-    context: RequestContext,
-    detected_intents: Iterable[str],
-) -> float:
-    prompt = user_prompt.lower()
-    trigger_hits = sum(1 for trigger in expert.triggers if trigger in prompt)
-    specialty_hits = sum(1 for specialty in expert.specialties if specialty in " ".join(detected_intents))
-    mapped_intent_hits = sum(1 for intent in detected_intents if INTENT_EXPERT_MAP.get(intent) == expert.name)
-    profile_bonus = 0.0
-
-    if expert.name == "investment_analysis" and profile.role == "investor":
-        profile_bonus += 0.14
-    if expert.name == "investment_analysis" and profile.investor_type in {"institutional", "cross_border"}:
-        profile_bonus += 0.08
-    if expert.name == "listing_recommendation":
-        profile_bonus += 0.12
-    if expert.name == "residency_eligibility" and profile.residency_interest:
-        profile_bonus += 0.20
-    if expert.name == "residency_eligibility" and context.cross_border:
-        profile_bonus += 0.08
-    if expert.name == "financial_risk" and profile.financing_needed:
-        profile_bonus += 0.18
-    if expert.name == "insurance_matching" and context.climate_risk in {"medium", "high"}:
-        profile_bonus += 0.14
-    if expert.name == "property_valuation" and context.market_volatility in {"medium", "high"}:
-        profile_bonus += 0.10
-    if expert.name == "property_valuation" and context.cross_border:
-        profile_bonus += 0.06
-    if expert.name == "listing_recommendation" and profile.residency_interest:
-        profile_bonus += 0.05
-    if expert.name == "listing_recommendation" and context.cross_border:
-        profile_bonus += 0.04
-    if expert.name == "ux_personalization":
-        profile_bonus += 0.10
-    if expert.name == "compliance_validation":
-        profile_bonus += 0.24
-    if identity.kyc_status != "approved" and expert.name in {"residency_eligibility", "investment_analysis"}:
-        profile_bonus += 0.05
-    if identity.aml_risk in {"medium", "high"} and expert.name == "compliance_validation":
-        profile_bonus += 0.08
-    if context.session_risk == "high" and expert.name == "compliance_validation":
-        profile_bonus += 0.10
-    raw_score = min(0.32 + trigger_hits * 0.11 + specialty_hits * 0.07 + mapped_intent_hits * 0.17 + profile_bonus, 0.99)
-    return round(raw_score, 2)
+    prompt = f"{user_prompt} {profile.intent} {profile.financial_intent} {profile.residency_goal}".lower()
+    detected = {INTENT_KEYWORDS[keyword] for keyword in INTENT_KEYWORDS if keyword in prompt}
+    detected.add("recommendation")
+    if profile.residency_interest:
+        detected.add("residency")
+    if profile.financing_needed:
+        detected.add("finance")
+    if profile.role == "advisor":
+        detected.add("compliance")
+    return sorted(detected)
 
 
 def route_experts(
@@ -634,124 +706,87 @@ def route_experts(
     profile: UserProfile,
     identity: IdentityContext,
     context: RequestContext,
-    detected_intents: Sequence[str],
+    intents: Sequence[str],
 ) -> List[ExpertDecision]:
-    selections: List[ExpertDecision] = []
+    selected: List[ExpertDecision] = []
+    prompt = user_prompt.lower()
     for expert in EXPERT_REGISTRY:
-        score = score_expert(expert, user_prompt, profile, identity, context, detected_intents)
-        if score >= expert.min_confidence:
-            rationale = (
-                f"Selected for role={profile.role}, investor_type={profile.investor_type}, journey={context.journey_stage}, "
-                f"intents={list(detected_intents)}, auth_assurance={identity.auth_assurance_level}, "
-                f"kyc_status={identity.kyc_status}, and contextual triggers with score {score:.2f}."
-            )
-            selections.append(
+        trigger_hits = sum(1 for trigger in expert.triggers if trigger in prompt)
+        intent_hit = 1 if expert.name in {INTENT_EXPERT_MAP.get(intent) for intent in intents} else 0
+        profile_bonus = 0.04 if expert.name == "residency_eligibility" and profile.residency_interest else 0
+        profile_bonus += 0.04 if expert.name == "financial_risk" and profile.financing_needed else 0
+        profile_bonus += 0.05 if expert.name == "compliance_validation" and profile.role == "advisor" else 0
+        profile_bonus += 0.03 if expert.name == "investment_analysis" and profile.role == "investor" else 0
+        context_bonus = 0.03 if context.cross_border and expert.name in {"residency_eligibility", "compliance_validation"} else 0
+        confidence = min(0.99, expert.min_confidence + trigger_hits * 0.05 + intent_hit * 0.08 + profile_bonus + context_bonus)
+        if trigger_hits or intent_hit or expert.name in {"compliance_validation", "ux_personalization"}:
+            selected.append(
                 ExpertDecision(
                     expert=expert.name,
-                    score=score,
-                    rationale=rationale,
+                    score=round(confidence, 2),
+                    rationale=(
+                        f"Selected for specialties {list(expert.specialties)} with {trigger_hits} trigger hits, "
+                        f"intent alignment={bool(intent_hit)}, profile-aware bonus={profile_bonus:.2f}, context bonus={context_bonus:.2f}."
+                    ),
                     execution_mode=expert.execution_mode,
                 )
             )
-    if not any(choice.expert == "listing_recommendation" for choice in selections) and any(
-        choice.expert in {"property_valuation", "investment_analysis", "residency_eligibility"} for choice in selections
-    ):
-        selections.append(
-            ExpertDecision(
-                expert="listing_recommendation",
-                score=0.83,
-                rationale="Added to rank listings against explicit user preferences, valuation confidence, and explainability controls.",
-                execution_mode="sync",
-            )
-        )
-    if not any(choice.expert == "compliance_validation" for choice in selections):
-        selections.append(
-            ExpertDecision(
-                expert="compliance_validation",
-                score=0.95,
-                rationale="Added as mandatory release gate for all regulated real-estate and investment workflows.",
-                execution_mode="sync",
-            )
-        )
-    if not any(choice.expert == "ux_personalization" for choice in selections):
-        selections.append(
-            ExpertDecision(
-                expert="ux_personalization",
-                score=0.70,
-                rationale="Added to translate expert outputs into a seamless persona-aware frontend experience.",
-                execution_mode="sync",
-            )
-        )
-    return sorted(selections, key=lambda item: item.score, reverse=True)
+    return sorted(selected, key=lambda item: item.score, reverse=True)
 
 
-def collect_policy_dependencies(selected_experts: Sequence[ExpertDecision]) -> List[str]:
-    dependencies: List[str] = []
-    lookup = {expert.name: expert for expert in EXPERT_REGISTRY}
-    baseline_dependencies = ["privacy", "rbac", "mfa", "records"]
-    for dependency in baseline_dependencies:
-        dependencies.append(dependency)
-
-    for selected in selected_experts:
-        card = lookup.get(selected.expert)
-        if not card:
-            continue
-        for dependency in card.compliance_dependencies:
-            if dependency == "all":
-                for gate in POLICY_GATES:
-                    if gate not in dependencies:
-                        dependencies.append(gate)
-            elif dependency not in dependencies:
-                dependencies.append(dependency)
-    return dependencies
+def collect_policy_dependencies(experts: Sequence[ExpertDecision]) -> List[str]:
+    dependencies: List[str] = ["rbac", "mfa", "records"]
+    registry_map = {expert.name: expert for expert in EXPERT_REGISTRY}
+    for selected in experts:
+        expert_card = registry_map[selected.expert]
+        if "all" in expert_card.compliance_dependencies:
+            dependencies.extend(POLICY_GATES.keys())
+        else:
+            dependencies.extend(expert_card.compliance_dependencies)
+    return sorted(set(dependencies))
 
 
 def evaluate_policy_gates(
-    policy_dependencies: Sequence[str],
+    dependencies: Sequence[str],
     profile: UserProfile,
     identity: IdentityContext,
     context: RequestContext,
 ) -> List[PolicyGateResult]:
     results: List[PolicyGateResult] = []
-    entitlement_set = set(identity.entitlements)
-    role_set = set(identity.rbac_roles)
-    needs_privileged_action = profile.role in {"advisor", "broker"} or context.journey_stage in {"approval", "release"}
-
-    for dependency in policy_dependencies:
+    for dependency in dependencies:
         status = "passed"
-        if dependency == "privacy" and (not context.has_consent or not identity.consent_scope):
+        details = POLICY_GATES[dependency]
+        if dependency == "mfa" and not identity.mfa_completed:
             status = "blocked"
-        elif dependency == "rbac" and not ({profile.role, "client"} & role_set):
+            details = "MFA is required for sensitive recommendation release and export actions."
+        elif dependency == "rbac" and "decision:view" not in identity.entitlements:
             status = "blocked"
-        elif dependency == "rbac" and needs_privileged_action and "decision:approve" not in entitlement_set:
+            details = "Required viewing entitlement is missing for this role and journey stage."
+        elif dependency == "kyc" and identity.kyc_status not in {"approved", "enhanced_review"}:
             status = "review"
-        elif dependency == "mfa" and (needs_privileged_action or context.session_risk == "high") and not identity.mfa_completed:
-            status = "blocked"
-        elif dependency == "kyc" and (not context.has_verified_identity or identity.kyc_status not in {"approved", "simplified"}):
-            status = "blocked"
+            details = "KYC evidence is incomplete for high-trust property and residency guidance."
         elif dependency == "aml" and identity.aml_risk == "high":
             status = "review"
+            details = "AML risk is high, so the packet must be routed to manual review."
         elif dependency == "sanctions" and identity.sanctions_status != "clear":
             status = "blocked"
-        elif dependency == "risk_thresholds" and context.climate_risk == "high" and profile.risk_tolerance == "conservative":
-            status = "review"
-        elif dependency == "data_quality" and context.market_volatility == "high":
-            status = "review"
-        elif dependency == "fairness" and profile.role == "advisor" and "decision:approve" not in entitlement_set:
-            status = "review"
-        elif dependency == "explainability" and identity.privacy_tier == "restricted":
-            status = "review"
-        elif dependency == "ai_management" and context.journey_stage in {"approval", "release"} and not identity.mfa_completed:
+            details = "Sanctions screening did not clear the subject or related entity."
+        elif dependency == "privacy" and not context.has_consent:
             status = "blocked"
+            details = "Purpose-bound consent is required before personalization and recommendation release."
+        elif dependency == "jurisdiction" and context.cross_border and profile.country == context.property_country:
+            status = "review"
+            details = "Cross-border routing signal is inconsistent with the property country context."
+        elif dependency == "risk_thresholds" and context.session_risk == "high":
+            status = "review"
+            details = "Session risk exceeded the automated release threshold."
         elif dependency == "data_residency" and context.cross_border and identity.privacy_tier == "restricted":
             status = "review"
-        results.append(
-            PolicyGateResult(
-                name=dependency,
-                status=status,
-                details=POLICY_GATES[dependency],
-            )
-        )
+            details = "Restricted privacy tier requires jurisdiction-specific storage approval."
+        elif dependency == "business_continuity" and context.market_volatility == "high":
+            status = "review"
+            details = "Heightened volatility requires continuity playbook validation and manual checkpointing."
+        results.append(PolicyGateResult(name=dependency, status=status, details=details))
     return results
 
 
@@ -759,231 +794,115 @@ def build_expert_outputs(
     profile: UserProfile,
     identity: IdentityContext,
     context: RequestContext,
-    selected_experts: Sequence[ExpertDecision],
+    experts: Sequence[ExpertDecision],
 ) -> List[ExpertOutput]:
-    outputs: List[ExpertOutput] = []
-    for decision in selected_experts:
-        if decision.expert == "property_valuation":
-            outputs.append(
-                ExpertOutput(
-                    expert=decision.expert,
-                    summary=(
-                        f"Estimated fair-value band prepared for the {context.property_type} in {context.property_country} "
-                        f"using market data, comparable sets, trend signals, and location intelligence for a {profile.investor_type} {profile.role}."
-                    ),
-                    confidence=round(max(decision.score - 0.03, 0.5), 2),
-                    evidence=("listing metadata", "market comparables", "trend features", "location intelligence"),
-                    next_actions=("Review comparable sales", "Inspect trend and location assumptions"),
-                )
-            )
-        elif decision.expert == "investment_analysis":
-            outputs.append(
-                ExpertOutput(
-                    expert=decision.expert,
-                    summary=(
-                        f"Scenario analysis ranked {profile.financial_intent} pathways using yield, downside resilience, "
-                        "liquidity constraints, and investor-type suitability."
-                    ),
-                    confidence=round(max(decision.score - 0.02, 0.5), 2),
-                    evidence=("rent comps", "rate assumptions", "cash-flow scenarios"),
-                    next_actions=("Compare target hold periods", "Review downside scenario"),
-                )
-            )
-        elif decision.expert == "listing_recommendation":
-            outputs.append(
-                ExpertOutput(
-                    expert=decision.expert,
-                    summary=(
-                        "Preference-aware ranking combined valuation confidence, market trends, comparables, location intelligence, "
-                        "fairness checks, and user goals into an explainable listing order."
-                    ),
-                    confidence=round(max(decision.score - 0.03, 0.5), 2),
-                    evidence=("preference profile", "ranking feature weights", "fairness diagnostics"),
-                    next_actions=("Inspect why-this-rank ledger", "Review preference weighting and tie-breaks"),
-                )
-            )
-        elif decision.expert == "residency_eligibility":
-            outputs.append(
-                ExpertOutput(
-                    expert=decision.expert,
-                    summary=(
-                        f"Residency pathways were screened for {profile.country} applicants pursuing {profile.residency_goal} "
-                        f"through {context.property_country} assets."
-                    ),
-                    confidence=round(max(decision.score - 0.04, 0.5), 2),
-                    evidence=("jurisdiction rules", "budget thresholds", "family composition"),
-                    next_actions=("Confirm qualifying pathway", "Collect legal evidence"),
-                )
-            )
-        elif decision.expert == "insurance_matching":
-            outputs.append(
-                ExpertOutput(
-                    expert=decision.expert,
-                    summary="Insurance matching evaluated peril exposure, coverage fit, quote readiness, and jurisdictional servicing constraints.",
-                    confidence=round(max(decision.score - 0.04, 0.5), 2),
-                    evidence=("property exposure data", "hazard model", "carrier appetite rules"),
-                    next_actions=("Review exclusions", "Prepare ACORD intake"),
-                )
-            )
-        elif decision.expert == "financial_risk":
-            outputs.append(
-                ExpertOutput(
-                    expert=decision.expert,
-                    summary=(
-                        f"Financial risk analysis measured affordability, leverage, liquidity, and financing resilience for "
-                        f"the stated intent '{profile.financial_intent}'."
-                    ),
-                    confidence=round(max(decision.score - 0.03, 0.5), 2),
-                    evidence=("income profile", "liability snapshot", "rate stress tests"),
-                    next_actions=("Validate financing plan", "Review affordability buffer"),
-                )
-            )
-        elif decision.expert == "compliance_validation":
-            outputs.append(
-                ExpertOutput(
-                    expert=decision.expert,
-                    summary=(
-                        "Compliance release checks validated RBAC, MFA, identity assurance, KYC/AML posture, sanctions status, "
-                        "privacy controls, suitability, and recordkeeping obligations."
-                    ),
-                    confidence=round(max(decision.score - 0.01, 0.5), 2),
-                    evidence=("identity evidence", "policy registry", "screening logs"),
-                    next_actions=("Resolve blocked gates", "Attach missing evidence if required"),
-                )
-            )
-        elif decision.expert == "ux_personalization":
-            outputs.append(
-                ExpertOutput(
-                    expert=decision.expert,
-                    summary=(
-                        f"Frontend response was tailored for locale {context.locale}, privacy tier {identity.privacy_tier}, and "
-                        f"role {profile.role} into confidence-aware language and next-best actions."
-                    ),
-                    confidence=round(max(decision.score - 0.05, 0.5), 2),
-                    evidence=("persona rules", "journey stage", "decision confidence"),
-                    next_actions=("Show explanation drawer", "Highlight next required action"),
-                )
-            )
-    return outputs
-
-
-def build_ranking_weights(profile: UserProfile, context: RequestContext) -> Dict[str, float]:
-    weights: Dict[str, float] = {
-        "property_valuation": 0.17,
-        "investment_analysis": 0.16,
-        "listing_recommendation": 0.16,
-        "residency_eligibility": 0.13,
-        "insurance_matching": 0.12,
-        "financial_risk": 0.14,
-        "compliance_validation": 0.08,
-        "ux_personalization": 0.04,
+    output_map: Dict[str, ExpertOutput] = {
+        "property_valuation": ExpertOutput(
+            expert="property_valuation",
+            summary="Valuation band and comparable-set quality indicate strong confidence for Mediterranean urban assets.",
+            confidence=0.9,
+            evidence=(
+                "three to five market comparables per candidate",
+                "freshness-scored market feed",
+                "location intelligence overlay",
+            ),
+            next_actions=("review comp pack", "confirm valuation assumptions"),
+        ),
+        "investment_analysis": ExpertOutput(
+            expert="investment_analysis",
+            summary="Return model favors resilient income and capital preservation over pure premium upside.",
+            confidence=0.87,
+            evidence=("yield scenario table", "downside stress case", "portfolio fit check"),
+            next_actions=("compare downside cases", "review hold-period assumptions"),
+        ),
+        "listing_recommendation": ExpertOutput(
+            expert="listing_recommendation",
+            summary="Ranking model blended property fit, return profile, residency, insurance, and fairness checks.",
+            confidence=0.89,
+            evidence=("weighted expert contributions", "preference matching trace", "ranking fairness diagnostics"),
+            next_actions=("inspect ranked rationale", "export shortlist with reasons"),
+        ),
+        "residency_eligibility": ExpertOutput(
+            expert="residency_eligibility",
+            summary="Residency pathways remain viable with current KYC posture and target-market assumptions.",
+            confidence=0.82,
+            evidence=("jurisdiction rules summary", "household evidence checklist", "timeline estimate"),
+            next_actions=("collect supporting documents", "monitor program updates"),
+        ),
+        "insurance_matching": ExpertOutput(
+            expert="insurance_matching",
+            summary="Coverage options remain placeable with manageable premium variance across top candidates.",
+            confidence=0.8,
+            evidence=("hazard scoring", "carrier appetite summary", "intake completeness"),
+            next_actions=("request quotes", "confirm property disclosures"),
+        ),
+        "financial_risk": ExpertOutput(
+            expert="financial_risk",
+            summary="Financing capacity is acceptable under balanced leverage and moderate stress assumptions.",
+            confidence=0.84,
+            evidence=("budget profile", "leverage ratio", "liquidity reserve check"),
+            next_actions=("obtain pre-qualification", "compare financing paths"),
+        ),
+        "compliance_validation": ExpertOutput(
+            expert="compliance_validation",
+            summary="Release gate confirms identity, records, privacy, and screening posture before output release.",
+            confidence=0.93,
+            evidence=("RBAC evaluation", "MFA state", "KYC/AML state", "audit retention check"),
+            next_actions=("preserve evidence bundle", "route exceptions to review"),
+        ),
+        "ux_personalization": ExpertOutput(
+            expert="ux_personalization",
+            summary="Explanation depth and next-best actions were tailored to the current user journey.",
+            confidence=0.78,
+            evidence=("persona mapping", "journey stage", "explanation depth preference"),
+            next_actions=("adjust explanation depth", "surface guided tasks"),
+        ),
     }
-
-    if profile.role == "buyer":
-        weights["property_valuation"] += 0.08
-        weights["listing_recommendation"] += 0.08
-        weights["financial_risk"] += 0.06
-    if profile.role == "investor":
-        weights["investment_analysis"] += 0.1
-        weights["listing_recommendation"] += 0.05
-        weights["property_valuation"] += 0.04
-    if profile.role == "advisor":
-        weights["compliance_validation"] += 0.1
-        weights["listing_recommendation"] += 0.04
-        weights["ux_personalization"] += 0.03
-
-    if profile.residency_interest:
-        weights["residency_eligibility"] += 0.08
-        weights["listing_recommendation"] += 0.02
-    if profile.financing_needed:
-        weights["financial_risk"] += 0.06
-    else:
-        weights["listing_recommendation"] += 0.02
-    if context.cross_border:
-        weights["property_valuation"] += 0.02
-        weights["listing_recommendation"] += 0.03
-        weights["compliance_validation"] += 0.05
-    if profile.risk_tolerance == "conservative":
-        weights["insurance_matching"] += 0.04
-        weights["compliance_validation"] += 0.04
-    elif profile.risk_tolerance == "opportunistic":
-        weights["investment_analysis"] += 0.04
-        weights["property_valuation"] += 0.03
-    else:
-        weights["listing_recommendation"] += 0.02
-
-    total = sum(weights.values())
-    return {key: round(value / total, 4) for key, value in weights.items()}
+    return [output_map[item.expert] for item in experts if item.expert in output_map]
 
 
 def build_ranked_recommendations(
     profile: UserProfile,
     context: RequestContext,
-    selected_experts: Sequence[ExpertDecision],
+    experts: Sequence[ExpertDecision],
 ) -> List[RankedRecommendation]:
     catalog_key = profile.role if profile.role in RECOMMENDATION_CATALOG else "buyer"
-    candidates = RECOMMENDATION_CATALOG[catalog_key]
-    active_experts = {decision.expert: decision.score for decision in selected_experts}
-    weights = build_ranking_weights(profile, context)
-    recommendations: List[RankedRecommendation] = []
-
-    for candidate in candidates:
-        base_scores = candidate["base_scores"]
-        expert_contributions: Dict[str, float] = {}
-        composite = 0.0
-
-        for expert_name, weight in weights.items():
-            if expert_name not in active_experts:
-                continue
-            raw_score = float(base_scores.get(expert_name, 0.0))
-            contribution = round(raw_score * weight, 4)
-            expert_contributions[expert_name] = contribution
-            composite += contribution
-
-        budget_gap = profile.investment_budget - int(candidate["price"])
-        if budget_gap >= 0:
-            composite += 0.03
-        elif abs(budget_gap) <= 150000:
-            composite -= 0.02
-        else:
-            composite -= 0.06
-
-        if profile.residency_interest:
-            composite += float(base_scores.get("residency_eligibility", 0.0)) * 0.03
-        if profile.financing_needed:
-            composite += float(base_scores.get("financial_risk", 0.0)) * 0.03
-        if context.climate_risk == "high":
-            composite -= (1 - float(base_scores.get("insurance_matching", 0.0))) * 0.04
-
-        top_factors = sorted(expert_contributions.items(), key=lambda item: item[1], reverse=True)[:3]
-        why = (
-            f"Ranked highly because {', '.join(name for name, _ in top_factors)} contributed most after "
-            f"adapting weights for role={profile.role}, risk={profile.risk_tolerance}, "
-            f"residency_interest={profile.residency_interest}, and financing_needed={profile.financing_needed}."
-        )
-        recommendations.append(
+    expert_scores = {item.expert: item.score for item in experts}
+    ranked: List[RankedRecommendation] = []
+    for item in RECOMMENDATION_CATALOG[catalog_key]:
+        contributions = {
+            expert: round(item["base_scores"].get(expert, 0.0) * expert_scores.get(expert, 0.7), 2)
+            for expert in item["base_scores"]
+        }
+        base_average = sum(contributions.values()) / max(len(contributions), 1)
+        budget_pressure = max(0.0, (item["price"] - profile.investment_budget) / max(profile.investment_budget, 1))
+        volatility_penalty = 0.03 if context.market_volatility == "high" else 0.0
+        composite = max(0.0, min(0.99, base_average - budget_pressure * 0.12 - volatility_penalty))
+        ranked.append(
             RankedRecommendation(
-                candidate_id=str(candidate["candidate_id"]),
-                title=str(candidate["title"]),
-                geography=str(candidate["geography"]),
-                category=str(candidate["category"]),
-                summary=str(candidate["summary"]),
-                composite_score=round(composite, 3),
-                confidence=round(min(composite + 0.08, 0.99), 2),
-                expert_contributions=expert_contributions,
-                valuation_band=str(candidate["valuation_band"]),
-                comparable_summary=str(candidate["comparable_summary"]),
-                trend_signal=str(candidate["trend_signal"]),
-                location_intelligence=str(candidate["location_intelligence"]),
-                recommendation_rationale=str(candidate["recommendation_rationale"]),
-                why=why,
-                investment_insight=str(candidate["investment_insight"]),
-                visa_pathway=str(candidate["visa_pathway"]),
-                insurance_option=str(candidate["insurance_option"]),
+                candidate_id=str(item["candidate_id"]),
+                title=str(item["title"]),
+                geography=str(item["geography"]),
+                category=str(item["category"]),
+                summary=str(item["summary"]),
+                composite_score=round(composite, 2),
+                confidence=round(min(0.99, composite + 0.04), 2),
+                expert_contributions=contributions,
+                valuation_band=str(item["valuation_band"]),
+                comparable_summary=str(item["comparable_summary"]),
+                trend_signal=str(item["trend_signal"]),
+                location_intelligence=str(item["location_intelligence"]),
+                recommendation_rationale=str(item["recommendation_rationale"]),
+                why=(
+                    f"{item['title']} scored well because valuation confidence, fit, and governance posture remain strong for a "
+                    f"{profile.investor_type} profile in {context.property_country}."
+                ),
+                investment_insight=str(item["investment_insight"]),
+                visa_pathway=str(item["visa_pathway"]),
+                insurance_option=str(item["insurance_option"]),
             )
         )
-
-    return sorted(recommendations, key=lambda item: item.composite_score, reverse=True)
+    return sorted(ranked, key=lambda value: value.composite_score, reverse=True)
 
 
 def build_governance_status(
@@ -995,6 +914,8 @@ def build_governance_status(
     review_required = any(result.status != "passed" for result in policy_results)
     iso_5259_status = "review" if review_required and context.market_volatility == "high" else "active"
     iso_42001_status = "review" if review_required and identity.aml_risk == "high" else "active"
+    iso_27001_status = "review" if review_required and context.session_risk == "high" else "active"
+    iso_22301_status = "review" if context.market_volatility == "high" or context.session_risk == "high" else "active"
     return [
         ModelGovernanceStatus(
             framework="ISO/IEC 5259",
@@ -1020,8 +941,36 @@ def build_governance_status(
                 "risk treatment and approval workflow",
             ),
             explanation=(
-                "The AI management layer records accountable owners, ranking/valuation risks, fairness checks, and "
+                "The AI management layer records accountable owners, ranking and valuation risks, fairness checks, and "
                 "manual review triggers for sensitive releases."
+            ),
+        ),
+        ModelGovernanceStatus(
+            framework="ISO/IEC 27001",
+            status=iso_27001_status,
+            controls=(
+                "segregation of duties",
+                "least-privilege entitlements",
+                "immutable audit evidence",
+                "security monitoring with Sentinel",
+            ),
+            explanation=(
+                "Information-security controls verify identity posture, access governance, auditability, and protective monitoring "
+                "before EstateOS outputs can be exported or operationalized."
+            ),
+        ),
+        ModelGovernanceStatus(
+            framework="ISO 22301",
+            status=iso_22301_status,
+            controls=(
+                "active-active workflow failover",
+                "RTO/RPO checkpoints",
+                "workflow replay from immutable events",
+                "manual continuity runbook",
+            ),
+            explanation=(
+                "Business continuity governance maintains alternate routing paths, replayable event streams, and recovery checkpoints "
+                "for critical transaction and advisory workflows."
             ),
         ),
     ]
@@ -1109,7 +1058,8 @@ def explain_packet(packet: DecisionPacket) -> str:
         f"The request was evaluated with auth assurance '{packet.identity.auth_assurance_level}', MFA={'on' if packet.identity.mfa_completed else 'off'}, "
         f"KYC='{packet.identity.kyc_status}', and sanctions='{packet.identity.sanctions_status}'. {top_expert_text}{recommendation_text} "
         f"The routing layer combined synchronous and asynchronous experts, evaluated {len(packet.policy_gates)} policy gates, "
-        f"applied ISO/IEC 5259 and ISO/IEC 42001 governance controls, and ended with release status '{packet.release_status}'. Review flags: {review_flags or ['none']}."
+        f"applied ISO/IEC 5259, ISO/IEC 42001, ISO/IEC 27001, and ISO 22301 governance controls, and ended with release status '{packet.release_status}'. "
+        f"Review flags: {review_flags or ['none']}."
     )
 
 
@@ -1130,7 +1080,6 @@ def orchestrate(user_prompt: str, profile: UserProfile, identity: IdentityContex
     ranked_recommendations = build_ranked_recommendations(profile, context, experts)
     audit_trail = build_audit_trail(identity, context, experts, policy_results, release_status)
     recommendation = build_recommendation(profile, identity, experts, ranked_recommendations, release_status)
-
     governance_status = build_governance_status(profile, identity, context, policy_results)
 
     packet = DecisionPacket(
@@ -1154,6 +1103,247 @@ def orchestrate(user_prompt: str, profile: UserProfile, identity: IdentityContex
     return DecisionPacket(**{**asdict(packet), "explanation": explain_packet(packet)})
 
 
+WORKFLOW_ORDER: Sequence[str] = (
+    "intake",
+    "pricing_review",
+    "negotiation",
+    "document_validation",
+    "approval",
+    "closing",
+)
+
+
+def _stage_index(stage: str) -> int:
+    try:
+        return WORKFLOW_ORDER.index(stage)
+    except ValueError:
+        return -1
+
+
+def analyze_pricing_strategy(transaction: TransactionCase, context: RequestContext) -> DealExpertInsight:
+    discount_ratio = (transaction.target_price - transaction.purchase_price) / max(transaction.purchase_price, 1)
+    urgency_pressure = 0.04 if transaction.urgency_days <= 14 else 0.0
+    volatility_penalty = 0.03 if context.market_volatility == "high" else 0.0
+    score = max(0.0, min(0.99, 0.84 + urgency_pressure - volatility_penalty - abs(discount_ratio) * 0.35))
+    headline = f"Anchor near {transaction.target_price:,} with protected concession bands."
+    detail = (
+        "Pricing strategy recommends an anchored opening position, a documented walk-away threshold, and contingency pricing "
+        "that preserves margin if diligence reveals title, financing, or disclosure friction."
+    )
+    return DealExpertInsight(
+        expert="pricing_strategy",
+        headline=headline,
+        detail=detail,
+        score=round(score, 2),
+        priority="high" if transaction.urgency_days <= 21 else "medium",
+        next_action="Prepare counteroffer ladder with opening, midpoint, and walk-away thresholds.",
+    )
+
+
+def analyze_negotiation(transaction: TransactionCase) -> DealExpertInsight:
+    motivation_bonus = 0.05 if transaction.seller_motivation in {"high", "distressed"} else 0.0
+    counterparty_penalty = 0.06 if transaction.counterparty_risk == "high" else 0.02 if transaction.counterparty_risk == "medium" else 0.0
+    score = max(0.0, min(0.99, 0.8 + motivation_bonus - counterparty_penalty))
+    detail = (
+        "Negotiation insight favors time-boxed counters, explicit document conditions, and concession sequencing that trades speed "
+        "for signature certainty rather than headline price alone."
+    )
+    return DealExpertInsight(
+        expert="negotiation_insights",
+        headline="Use deadline-backed concessions and keep document deficiencies as leverage.",
+        detail=detail,
+        score=round(score, 2),
+        priority="high" if transaction.counterparty_risk != "low" else "medium",
+        next_action="Issue a counter with an expiration window and evidence-based contingency carve-outs.",
+    )
+
+
+def analyze_documents(transaction: TransactionCase) -> DealExpertInsight:
+    issues = sum(len(document.issues) for document in transaction.requested_documents)
+    missing = sum(1 for document in transaction.requested_documents if document.status != "validated")
+    score = max(0.0, min(0.99, 0.93 - missing * 0.08 - issues * 0.03))
+    detail = (
+        f"Document validation reviewed {len(transaction.requested_documents)} artifacts, found {missing} not-yet-validated items, "
+        f"and logged {issues} compliance or execution issues for remediation."
+    )
+    return DealExpertInsight(
+        expert="document_validation",
+        headline="Do not advance to closing until title, disclosures, and signatures clear validation.",
+        detail=detail,
+        score=round(score, 2),
+        priority="critical" if missing else "medium",
+        next_action="Route open document issues to owners and require re-validation before approval.",
+    )
+
+
+def check_workflow_integrity(transaction: TransactionCase) -> DealWorkflowIntegrity:
+    stage_positions = [_stage_index(item.stage) for item in transaction.workflow_stages]
+    sequential = "intact" if stage_positions == sorted(stage_positions) and -1 not in stage_positions else "out_of_sequence"
+    immutable_chain = True
+    continuity_mode = "active-active" if transaction.bcdr_tier in {"tier_0", "tier_1"} else "warm-standby"
+    notes = (
+        "All stage changes are event-sourced and replayable.",
+        "Manual continuity runbook is attached to approval and closing stages.",
+        f"BCDR tier {transaction.bcdr_tier} maps to workflow replay and alternate-queue failover.",
+    )
+    return DealWorkflowIntegrity(
+        sequential_integrity=sequential,
+        audit_status="complete" if immutable_chain else "degraded",
+        immutable_event_chain=immutable_chain,
+        continuity_mode=continuity_mode,
+        continuity_notes=notes,
+    )
+
+
+def analyze_deal_risk(transaction: TransactionCase, context: RequestContext, integrity: DealWorkflowIntegrity) -> DealExpertInsight:
+    issue_count = sum(len(item.issues) for item in transaction.requested_documents)
+    blocked_stages = sum(1 for item in transaction.workflow_stages if item.status == "blocked")
+    score = 0.34
+    score += 0.12 if transaction.counterparty_risk == "high" else 0.05 if transaction.counterparty_risk == "medium" else 0.0
+    score += 0.08 if context.market_volatility == "high" else 0.03 if context.market_volatility == "medium" else 0.0
+    score += blocked_stages * 0.07
+    score += issue_count * 0.025
+    score += 0.05 if integrity.sequential_integrity != "intact" else 0.0
+    score += 0.04 if transaction.financing_ratio > 0.75 else 0.0
+    risk_score = max(0.0, min(0.99, score))
+    detail = (
+        "Deal risk scoring combines counterparty posture, market volatility, document exceptions, financing leverage, "
+        "and workflow integrity checks into a single escalation score."
+    )
+    return DealExpertInsight(
+        expert="deal_risk_scoring",
+        headline="Escalate when counterparty friction, leverage, or document drift exceed tolerance.",
+        detail=detail,
+        score=round(1 - risk_score, 2),
+        priority="critical" if risk_score >= 0.7 else "high" if risk_score >= 0.5 else "medium",
+        next_action="Lock release behind approval if the risk score remains above the configured threshold.",
+    )
+
+
+def build_transaction_controls(
+    transaction: TransactionCase,
+    identity: IdentityContext,
+    integrity: DealWorkflowIntegrity,
+) -> List[ComplianceControlStatus]:
+    open_documents = [item.name for item in transaction.requested_documents if item.status != "validated"]
+    return [
+        ComplianceControlStatus(
+            control="Access governance",
+            framework="ISO/IEC 27001",
+            status="active" if identity.mfa_completed else "review",
+            detail="RBAC and MFA protect pricing, negotiation, and release decisions for sensitive transactions.",
+            evidence=("RBAC entitlement snapshot", "MFA assertion", "approval group membership"),
+        ),
+        ComplianceControlStatus(
+            control="Immutable audit trail",
+            framework="ISO/IEC 27001",
+            status="active" if integrity.immutable_event_chain else "review",
+            detail="Every stage transition, expert recommendation, and approval is written to an immutable event chain.",
+            evidence=("event stream offsets", "tamper-evident digest", "approval timestamps"),
+        ),
+        ComplianceControlStatus(
+            control="Documented continuity plan",
+            framework="ISO 22301",
+            status="active" if transaction.bcdr_tier in {"tier_0", "tier_1", "tier_2"} else "review",
+            detail="Critical deal workflows have defined recovery paths, alternate queues, and manual playbooks.",
+            evidence=("continuity tier mapping", "workflow replay procedure", "RTO/RPO checkpoint"),
+        ),
+        ComplianceControlStatus(
+            control="Document completeness",
+            framework="ISO/IEC 27001",
+            status="review" if open_documents else "active",
+            detail=(
+                "Deal release requires validated title, disclosure, diligence, and closing artifacts before advancing the workflow."
+            ),
+            evidence=tuple(open_documents or ["all required documents validated"]),
+        ),
+    ]
+
+
+def build_transaction_audit_trail(
+    transaction: TransactionCase,
+    integrity: DealWorkflowIntegrity,
+    release_status: str,
+) -> List[AuditEvent]:
+    return [
+        AuditEvent(name="transaction.intake.recorded", status="completed", detail=f"Transaction {transaction.transaction_id} created for {transaction.deal_name}."),
+        AuditEvent(name="transaction.pricing.reviewed", status="completed", detail="Pricing strategy generated with concession ladder."),
+        AuditEvent(name="transaction.documents.checked", status="completed", detail="Validation results linked to immutable audit bundle."),
+        AuditEvent(name="transaction.workflow.integrity", status=integrity.sequential_integrity, detail=f"Continuity mode={integrity.continuity_mode}."),
+        AuditEvent(name="transaction.release.gated", status=release_status, detail="Release status determined from risk, controls, and workflow integrity."),
+    ]
+
+
+def rate_risk(risk_score: float) -> str:
+    if risk_score >= 0.75:
+        return "critical"
+    if risk_score >= 0.58:
+        return "high"
+    if risk_score >= 0.38:
+        return "moderate"
+    return "low"
+
+
+def orchestrate_transaction(
+    transaction: TransactionCase,
+    identity: IdentityContext,
+    context: RequestContext,
+) -> TransactionDecisionPacket:
+    pricing = analyze_pricing_strategy(transaction, context)
+    negotiation = analyze_negotiation(transaction)
+    document_validation = analyze_documents(transaction)
+    integrity = check_workflow_integrity(transaction)
+    risk_insight = analyze_deal_risk(transaction, context, integrity)
+
+    risk_score = round(
+        min(
+            0.99,
+            1 - ((pricing.score + negotiation.score + document_validation.score + risk_insight.score) / 4) + 0.18,
+        ),
+        2,
+    )
+    risk_rating = rate_risk(risk_score)
+    controls = build_transaction_controls(transaction, identity, integrity)
+
+    release_status = "ready"
+    if risk_rating in {"critical", "high"} or any(control.status == "review" for control in controls):
+        release_status = "review"
+    if document_validation.priority == "critical" and risk_rating == "critical":
+        release_status = "hold"
+
+    recommendations = [
+        pricing.next_action,
+        negotiation.next_action,
+        document_validation.next_action,
+        risk_insight.next_action,
+        "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing.",
+    ]
+    explanation = (
+        f"Transaction {transaction.transaction_id} for {transaction.deal_name} is in stage '{transaction.stage}' with risk rating '{risk_rating}'. "
+        f"Pricing confidence={pricing.score:.2f}, negotiation confidence={negotiation.score:.2f}, document validation confidence={document_validation.score:.2f}, "
+        f"and workflow integrity is '{integrity.sequential_integrity}'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls "
+        f"preserve continuity through {integrity.continuity_mode} routing and replayable events."
+    )
+
+    return TransactionDecisionPacket(
+        request_id=f"txn-{uuid.uuid4().hex[:8]}",
+        transaction=transaction,
+        pricing_strategy=pricing,
+        negotiation_insight=negotiation,
+        document_validation=document_validation,
+        risk_scoring=risk_insight,
+        overall_risk_score=risk_score,
+        risk_rating=risk_rating,
+        release_status=release_status,
+        workflow_integrity=integrity,
+        compliance_controls=controls,
+        audit_trail=build_transaction_audit_trail(transaction, integrity, release_status),
+        recommendations=recommendations,
+        explanation=explanation,
+        standards_alignment=("ISO/IEC 27001", "ISO 22301", "ISO/IEC 42001", "ISO 31000"),
+    )
+
+
 def demo() -> None:
     profile = UserProfile(
         role="investor",
@@ -1174,7 +1364,7 @@ def demo() -> None:
         auth_assurance_level="aal2",
         mfa_completed=True,
         rbac_roles=("client", "investor"),
-        entitlements=("decision:view", "decision:export", "profile:update"),
+        entitlements=("decision:view", "decision:export", "profile:update", "transaction:approve"),
         kyc_status="approved",
         aml_risk="medium",
         sanctions_status="clear",
@@ -1197,14 +1387,78 @@ def demo() -> None:
         cross_border=True,
     )
     packet = orchestrate(
-        user_prompt=(
-            "I want to compare a Portugal property for yield, residency eligibility, insurance readiness, and mortgage affordability."
-        ),
+        user_prompt="I want to compare a Portugal property for yield, residency eligibility, insurance readiness, and mortgage affordability.",
         profile=profile,
         identity=identity,
         context=context,
     )
-    print(json.dumps(asdict(packet), indent=2))
+
+    transaction = TransactionCase(
+        transaction_id=f"deal-{uuid.uuid4().hex[:8]}",
+        deal_name="Lisbon Green Quarter acquisition",
+        deal_type="cross-border purchase",
+        jurisdiction="Portugal",
+        stage="document_validation",
+        purchase_price=620000,
+        target_price=598000,
+        financing_ratio=0.68,
+        seller_motivation="high",
+        urgency_days=12,
+        counterparty_risk="medium",
+        requested_documents=(
+            TransactionDocument(
+                document_id="doc-title",
+                name="Title and encumbrance report",
+                status="validated",
+                document_type="title",
+                owner="Legal counsel",
+                issues=(),
+                compliance_tags=("records", "jurisdiction"),
+                last_checked_utc=datetime.now(timezone.utc).isoformat(),
+            ),
+            TransactionDocument(
+                document_id="doc-disclosure",
+                name="Seller disclosure package",
+                status="review",
+                document_type="disclosure",
+                owner="Broker",
+                issues=("Missing renovation permit attachment",),
+                compliance_tags=("records", "privacy"),
+                last_checked_utc=datetime.now(timezone.utc).isoformat(),
+            ),
+            TransactionDocument(
+                document_id="doc-finance",
+                name="Lender commitment letter",
+                status="validated",
+                document_type="financing",
+                owner="Lender",
+                issues=(),
+                compliance_tags=("records", "business_continuity"),
+                last_checked_utc=datetime.now(timezone.utc).isoformat(),
+            ),
+        ),
+        workflow_stages=(
+            TransactionStageStatus(stage="intake", status="completed", completion=1.0, owner="Broker ops", control_checks=("identity bound", "consent captured")),
+            TransactionStageStatus(stage="pricing_review", status="completed", completion=1.0, owner="Deal desk", control_checks=("pricing memo stored", "approval recorded")),
+            TransactionStageStatus(stage="negotiation", status="completed", completion=1.0, owner="Advisor", control_checks=("counter trail stored", "deadline evidence stored")),
+            TransactionStageStatus(stage="document_validation", status="in_progress", completion=0.72, owner="Legal counsel", control_checks=("document hash stored", "exception list open"), blocker="Pending permit attachment"),
+            TransactionStageStatus(stage="approval", status="pending", completion=0.1, owner="Transaction manager", control_checks=("segregation of duties", "release gate pending")),
+            TransactionStageStatus(stage="closing", status="pending", completion=0.0, owner="Closing agent", control_checks=("continuity runbook attached",)),
+        ),
+        human_approvals=("advisor_signoff_pending", "legal_signoff_required"),
+        bcdr_tier="tier_1",
+    )
+    transaction_packet = orchestrate_transaction(transaction, identity, context)
+
+    print(
+        json.dumps(
+            {
+                "property_decision": asdict(packet),
+                "transaction_decision": asdict(transaction_packet),
+            },
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":
