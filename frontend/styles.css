@@ -73,6 +73,7 @@ small {
 .explanation-layout,
 .transaction-layout,
 .twin-layout,
+.market-layout,
 .adaptive-shell,
 .meta-row,
 .tag-row,
@@ -203,7 +204,8 @@ label,
 .architecture-stack div,
 .journey-card,
 .profile-context-card,
-.control-panel {
+.control-panel,
+.market-card {
   border: 1px solid var(--border);
   background: var(--surface);
   backdrop-filter: blur(16px);
@@ -223,8 +225,13 @@ label,
 .decision-rail,
 .decision-main,
 .profile-context-card,
-.control-panel {
+.control-panel,
+.market-card {
   padding: 1.5rem;
+}
+
+.market-card--primary {
+  background: linear-gradient(135deg, rgba(49, 196, 255, 0.16), rgba(12, 23, 41, 0.94));
 }
 
 .panel-grid strong,
@@ -306,7 +313,8 @@ label,
 .explanation-layout,
 .transaction-layout,
 .insurance-layout,
-.payment-layout {
+.payment-layout,
+.market-layout {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 

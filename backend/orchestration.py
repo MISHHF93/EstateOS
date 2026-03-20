@@ -316,6 +316,70 @@ class DigitalTwinDecisionPacket:
 
 
 @dataclass(frozen=True)
+class MarketDataStream:
+    source: str
+    cadence: str
+    coverage: str
+    freshness_sla: str
+    features: Sequence[str]
+
+
+@dataclass(frozen=True)
+class MarketIndicator:
+    name: str
+    scope: str
+    current_value: str
+    direction: str
+    impact: str
+    explanation: str
+
+
+@dataclass(frozen=True)
+class ForecastScenario:
+    horizon: str
+    price_growth: float
+    rent_growth: float
+    cap_rate_shift_bps: int
+    demand_outlook: str
+    migration_pressure: str
+    confidence: float
+    explanation: str
+
+
+@dataclass(frozen=True)
+class MarketAlert:
+    title: str
+    severity: str
+    signal: str
+    action: str
+
+
+@dataclass(frozen=True)
+class ModelPipelineStatus:
+    stage: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class MarketIntelligencePacket:
+    request_id: str
+    market_scope: str
+    investment_horizon_months: int
+    strategy_bias: str
+    data_streams: Sequence[MarketDataStream]
+    indicators: Sequence[MarketIndicator]
+    forecasts: Sequence[ForecastScenario]
+    alerts: Sequence[MarketAlert]
+    pipeline_status: Sequence[ModelPipelineStatus]
+    signal_summary: str
+    recommendation: str
+    explanation: str
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+@dataclass(frozen=True)
 class InsuranceApplicantProfile:
     applicant_id: str
     persona: str
@@ -666,6 +730,14 @@ EXPERT_REGISTRY: Sequence[ExpertCard] = (
         execution_mode="sync",
     ),
     ExpertCard(
+        name="market_intelligence",
+        specialties=("macro_trends", "migration_flows", "rate_path", "supply_demand", "forecast_signals"),
+        triggers=("macro", "forecast", "market", "migration", "rates", "supply", "demand"),
+        compliance_dependencies=("privacy", "model_risk", "data_quality", "explainability", "ai_management"),
+        min_confidence=0.64,
+        execution_mode="async",
+    ),
+    ExpertCard(
         name="ux_personalization",
         specialties=("journey_guidance", "messaging", "next_best_action"),
         triggers=("help", "next", "summary", "compare", "guide"),
@@ -719,6 +791,12 @@ INTENT_KEYWORDS: Dict[str, str] = {
     "yield": "investment",
     "roi": "investment",
     "investment": "investment",
+    "forecast": "market_intelligence",
+    "macro": "market_intelligence",
+    "migration": "market_intelligence",
+    "rates": "market_intelligence",
+    "supply": "market_intelligence",
+    "demand": "market_intelligence",
     "recommend": "recommendation",
     "rank": "recommendation",
     "preference": "recommendation",
@@ -751,6 +829,7 @@ INTENT_EXPERT_MAP: Dict[str, str] = {
     "payment": "payment_intelligence",
     "finance": "financial_risk",
     "compliance": "unified_compliance_risk_intelligence",
+    "market_intelligence": "market_intelligence",
 }
 
 POLICY_GATES: Dict[str, str] = {
@@ -1220,6 +1299,7 @@ def route_experts(
         profile_bonus += 0.04 if expert.name == "financial_risk" and profile.financing_needed else 0
         profile_bonus += 0.05 if expert.name in {"compliance_validation", "unified_compliance_risk_intelligence"} and profile.role == "advisor" else 0
         profile_bonus += 0.03 if expert.name == "investment_analysis" and profile.role == "investor" else 0
+        profile_bonus += 0.04 if expert.name == "market_intelligence" and profile.role in {"investor", "advisor"} else 0
         context_bonus = 0.03 if context.cross_border and expert.name in {"residency_eligibility", "compliance_validation", "unified_compliance_risk_intelligence"} else 0
         confidence = min(0.99, expert.min_confidence + trigger_hits * 0.05 + intent_hit * 0.08 + profile_bonus + context_bonus)
         if trigger_hits or intent_hit or expert.name in {"compliance_validation", "unified_compliance_risk_intelligence", "ux_personalization"}:
@@ -1374,6 +1454,13 @@ def build_expert_outputs(
                 "ISO/IEC 27001 and ISO 31000 control mappings",
             ),
             next_actions=("review elevated risk cases", "attach evidence bundle to any held workflow"),
+        ),
+        "market_intelligence": ExpertOutput(
+            expert="market_intelligence",
+            summary="Macro intelligence tracks migration, rates, supply absorption, and local demand to emit forward-looking market signals and alerts.",
+            confidence=0.88,
+            evidence=("global macro feed", "regional migration ledger", "rate-path scenarios", "supply-demand imbalance monitor"),
+            next_actions=("review 12-month market signal", "compare base and downside macro scenarios"),
         ),
         "ux_personalization": ExpertOutput(
             expert="ux_personalization",
@@ -2582,6 +2669,16 @@ DEMO_JOURNEY_SCENARIOS = {
             "hold_years": 7,
             "climate_risk": "low",
         },
+        "market_intelligence": {
+            "market_scope": "Portugal relocation corridor",
+            "investment_horizon_months": 18,
+            "strategy_bias": "capital_preservation_with_relocation_optionality",
+            "local_market": "Lisbon",
+            "target_region": "Portugal",
+            "interest_rate_regime": "plateauing",
+            "migration_trend": "inbound_family_relocation",
+            "supply_pressure": "constrained",
+        },
     },
     "investor": {
         "user_prompt": "I want to compare a Portugal property for yield, residency eligibility, insurance readiness, payment fraud controls, escrow release conditions, and mortgage affordability.",
@@ -2693,6 +2790,16 @@ DEMO_JOURNEY_SCENARIOS = {
             "hold_years": 8,
             "climate_risk": "medium",
         },
+        "market_intelligence": {
+            "market_scope": "Mediterranean income markets",
+            "investment_horizon_months": 24,
+            "strategy_bias": "income_resilience_and_optional_residency",
+            "local_market": "Athens",
+            "target_region": "Southern Europe",
+            "interest_rate_regime": "easing_bias",
+            "migration_trend": "cross_border_investor_and_worker_inflows",
+            "supply_pressure": "tightening",
+        },
     },
     "advisor": {
         "user_prompt": "I need an advisor-ready transaction cockpit with document exceptions, payment controls, insurance placement readiness, and integration evidence.",
@@ -2803,8 +2910,183 @@ DEMO_JOURNEY_SCENARIOS = {
             "hold_years": 6,
             "climate_risk": "medium",
         },
+        "market_intelligence": {
+            "market_scope": "Advisor watchlist: Greece, Spain, UAE",
+            "investment_horizon_months": 12,
+            "strategy_bias": "risk_gated_allocation_and_client_memoing",
+            "local_market": "Athens",
+            "target_region": "EMEA gateway markets",
+            "interest_rate_regime": "volatile_to_stable",
+            "migration_trend": "capital_plus_mobility_flows",
+            "supply_pressure": "mixed",
+        },
     },
 }
+
+
+def evaluate_market_intelligence(
+    profile: UserProfile,
+    context: RequestContext,
+    market_scope: str,
+    investment_horizon_months: int,
+    strategy_bias: str,
+    local_market: str,
+    target_region: str,
+    interest_rate_regime: str,
+    migration_trend: str,
+    supply_pressure: str,
+) -> MarketIntelligencePacket:
+    demand_outlook = "accelerating" if migration_trend in {"inbound_family_relocation", "cross_border_investor_and_worker_inflows", "capital_plus_mobility_flows"} else "stable"
+    rate_pressure = -0.02 if interest_rate_regime == "easing_bias" else 0.0 if interest_rate_regime == "plateauing" else -0.01
+    supply_tightness = 0.03 if supply_pressure in {"constrained", "tightening"} else -0.01 if supply_pressure == "expanding" else 0.0
+    role_bias = 0.02 if profile.role == "investor" else 0.01 if profile.role == "advisor" else -0.005
+
+    data_streams = (
+        MarketDataStream(
+            source="Global macro and rate feed",
+            cadence="daily",
+            coverage="Global policy rates, inflation, FX, and mortgage benchmarks",
+            freshness_sla="<24h",
+            features=("policy_rate_path", "inflation_nowcast", "currency_volatility", "mortgage_spreads"),
+        ),
+        MarketDataStream(
+            source="Migration and mobility ledger",
+            cadence="weekly",
+            coverage="Origin-destination migration flows, visa demand, employer mobility, and household relocation intent",
+            freshness_sla="<7d",
+            features=("net_inflows", "household_composition", "visa_interest", "cross_border_demand"),
+        ),
+        MarketDataStream(
+            source="Supply-demand monitor",
+            cadence="daily",
+            coverage="Inventory, days on market, permit issuance, absorption, rent growth, and concessions",
+            freshness_sla="<24h",
+            features=("active_inventory", "new_supply", "absorption_velocity", "rent_growth"),
+        ),
+    )
+
+    indicators = (
+        MarketIndicator(
+            name="Interest-rate path",
+            scope="global",
+            current_value=interest_rate_regime.replace("_", " "),
+            direction="supportive" if interest_rate_regime != "volatile_to_stable" else "mixed",
+            impact="Financing-sensitive demand should improve as benchmark volatility cools.",
+            explanation="Rate expectations feed affordability curves, refinancing windows, and exit cap-rate assumptions.",
+        ),
+        MarketIndicator(
+            name="Migration flow",
+            scope=target_region,
+            current_value=migration_trend.replace("_", " "),
+            direction="positive",
+            impact="Cross-border household and investor inflows continue to support demand in gateway submarkets.",
+            explanation="Migration pressure acts as a leading signal for rental absorption, owner-occupier demand, and school-led family moves.",
+        ),
+        MarketIndicator(
+            name="Supply pressure",
+            scope=local_market,
+            current_value=supply_pressure,
+            direction="tight" if supply_pressure in {"constrained", "tightening"} else "balanced",
+            impact="Tighter supply keeps pricing firmer and reduces downside from inventory overhang.",
+            explanation="Permit activity, active listings, and absorption velocity are fused into the local supply-demand score.",
+        ),
+        MarketIndicator(
+            name="Investor liquidity",
+            scope=market_scope,
+            current_value="healthy" if context.market_volatility != "high" else "watchlist",
+            direction="stable",
+            impact="Capital availability remains selective but supportive for high-conviction assets.",
+            explanation="Liquidity gauges how quickly investors can transact or exit without excessive price concessions.",
+        ),
+    )
+
+    forecasts = (
+        ForecastScenario(
+            horizon="6 months",
+            price_growth=round(0.021 + supply_tightness + role_bias, 3),
+            rent_growth=round(0.028 + supply_tightness, 3),
+            cap_rate_shift_bps=-15 if interest_rate_regime == "easing_bias" else -5 if interest_rate_regime == "plateauing" else 10,
+            demand_outlook=demand_outlook,
+            migration_pressure="elevated",
+            confidence=0.82,
+            explanation="Short-range signal blends rate-path stabilization, migration-led demand, and current absorption into a tactical market posture.",
+        ),
+        ForecastScenario(
+            horizon="12 months",
+            price_growth=round(0.034 + rate_pressure + supply_tightness + role_bias, 3),
+            rent_growth=round(0.039 + supply_tightness, 3),
+            cap_rate_shift_bps=-20 if interest_rate_regime == "easing_bias" else -8 if interest_rate_regime == "plateauing" else 5,
+            demand_outlook="strong" if demand_outlook == "accelerating" else "steady",
+            migration_pressure="elevated",
+            confidence=0.79,
+            explanation="Base forecast captures easing affordability constraints, inbound migration, and slow supply replenishment across target markets.",
+        ),
+        ForecastScenario(
+            horizon=f"{investment_horizon_months} months",
+            price_growth=round(0.051 + rate_pressure + supply_tightness + role_bias, 3),
+            rent_growth=round(0.058 + supply_tightness, 3),
+            cap_rate_shift_bps=-25 if interest_rate_regime == "easing_bias" else -10 if interest_rate_regime == "plateauing" else 0,
+            demand_outlook="selectively bullish",
+            migration_pressure="persistent",
+            confidence=0.74,
+            explanation="Longer-range outlook is produced from retrained horizon models combining macro, migration, rate, and supply-demand features for portfolio planning.",
+        ),
+    )
+
+    alerts = (
+        MarketAlert(
+            title="Rate sensitivity compressing",
+            severity="medium",
+            signal="Financing spreads are improving faster than active inventory is rebuilding.",
+            action="Promote financing-ready opportunities and surface affordability alerts in the frontend.",
+        ),
+        MarketAlert(
+            title="Migration-led demand cluster",
+            severity="high" if migration_trend != "stable" else "medium",
+            signal=f"{local_market} is seeing sustained demand from {migration_trend.replace('_', ' ')} patterns.",
+            action="Increase alerting for neighborhoods with school, transit, and visa-aligned demand concentration.",
+        ),
+        MarketAlert(
+            title="Supply imbalance watch",
+            severity="high" if supply_pressure in {"constrained", "tightening"} else "low",
+            signal="Supply-demand imbalance favors owners and income strategies, but underwriting should stay disciplined.",
+            action="Prioritize assets with resilient rent coverage and documented downside cases before broad market expansion.",
+        ),
+    )
+
+    pipeline_status = (
+        ModelPipelineStatus(stage="Streaming ingest", status="active", detail="Macro, local-market, migration, and supply-demand feeds are normalized into a governed feature store."),
+        ModelPipelineStatus(stage="Feature engineering", status="active", detail="Interest-rate, inventory, migration, absorption, and affordability features are refreshed for daily inference."),
+        ModelPipelineStatus(stage="Model training", status="scheduled", detail="Horizon-specific forecasting models retrain weekly with champion-challenger validation and drift checks."),
+        ModelPipelineStatus(stage="Signal publication", status="active", detail="Forward-looking alerts and forecast summaries are published to investor, broker, and analyst workspaces."),
+    )
+
+    signal_summary = (
+        f"Macro intelligence for {market_scope} is moderately bullish: migration flows and tight supply support demand, while the {interest_rate_regime.replace('_', ' ')} rate regime improves forward pricing and rent resilience."
+    )
+    recommendation = (
+        f"Use the market intelligence engine to surface {investment_horizon_months}-month signals, watch migration-led demand clusters in {local_market}, and alert users when rates or supply conditions materially change the underwriting case."
+    )
+    explanation = (
+        f"The predictive market intelligence engine fused global rate expectations, {target_region} migration flows, {local_market} supply-demand conditions, and investor-liquidity signals to generate {len(forecasts)} horizon forecasts and {len(alerts)} alerts. "
+        "Backend workflows continuously ingest market data streams, retrain forecasting models, and publish explainable forward-looking signals for investors, brokers, and analysts."
+    )
+
+    return MarketIntelligencePacket(
+        request_id=f"mkt-{uuid.uuid4().hex[:8]}",
+        market_scope=market_scope,
+        investment_horizon_months=investment_horizon_months,
+        strategy_bias=strategy_bias,
+        data_streams=data_streams,
+        indicators=indicators,
+        forecasts=forecasts,
+        alerts=alerts,
+        pipeline_status=pipeline_status,
+        signal_summary=signal_summary,
+        recommendation=recommendation,
+        explanation=explanation,
+        standards_alignment=("ISO/IEC 42001", "ISO/IEC 5259", "ISO 31000", "ISO/IEC 27001"),
+    )
 
 
 def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
@@ -2931,6 +3213,11 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         identity,
         context,
     )
+    market_intelligence_packet = evaluate_market_intelligence(
+        profile,
+        context,
+        **scenario["market_intelligence"],
+    )
 
     return {
         "journey_key": journey_key,
@@ -2941,6 +3228,7 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         "integration_decision": asdict(integration_packet),
         "residency_decision": asdict(residency_packet),
         "digital_twin_decision": asdict(digital_twin_packet),
+        "market_intelligence_decision": asdict(market_intelligence_packet),
     }
 
 

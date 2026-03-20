@@ -62,7 +62,7 @@ The MoE layer must contain an **expert router / orchestrator** that:
 - aggregates and ranks expert outputs,
 - explains why a recommendation or risk signal was produced.
 
-The expert model is defined in detail in `docs/moe-platform-model.md`.
+The expert model is defined in detail in `docs/moe-platform-model.md`. Predictive macro and local forecasting guidance for rates, migration, supply-demand, and investor alerts is captured in `docs/predictive-market-intelligence-engine.md`.
 
 ### 2.5 Data platform layer
 
