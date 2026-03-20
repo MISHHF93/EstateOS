@@ -66,10 +66,10 @@ The expert model is defined in detail in `docs/moe-platform-model.md`.
 
 The default data platform baseline is:
 
-- PostgreSQL or Azure SQL for OLTP,
-- Elasticsearch or Azure AI Search for search,
+- PostgreSQL for OLTP,
+- Azure AI Search or Elasticsearch for search,
 - Azure Blob Storage for objects,
-- Azure Service Bus or Event Grid for events,
+- Azure Service Bus for events,
 - Redis for cache,
 - feature store / ML data layer,
 - warehouse / analytics platform,

@@ -8,21 +8,21 @@
       "Private endpoints"
     ],
     "runtime": [
-      "Azure Kubernetes Service",
-      "Azure Container Apps",
-      "Azure Functions"
+      "Azure App Service",
+      "Azure Kubernetes Service"
     ],
     "data": [
-      "Azure SQL",
-      "Cosmos DB",
-      "Data Lake Storage Gen2",
+      "Azure Database for PostgreSQL",
+      "Azure Cache for Redis",
+      "Azure Blob Storage",
+      "Azure Service Bus",
       "Azure AI Search"
     ],
     "security": [
       "Microsoft Entra External ID",
       "Key Vault",
+      "Azure Machine Learning",
       "Defender for Cloud",
-      "Microsoft Purview",
       "Microsoft Sentinel"
     ]
   },
