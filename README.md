@@ -39,7 +39,7 @@ The target platform follows six major layers:
    - ISO/IEC 27001, 27017, 27018, 27701, 25010, 42001, 5259, 22301, 31000.
    - PCI DSS, SOC 2 Type 2, ACORD/NAIC-aligned workflows, KYC/AML/sanctions/PEP.
 
-Detailed architecture guidance lives in `docs/architecture.md`.
+Detailed architecture guidance lives in `docs/architecture.md`, and the repository migration rules now live in `docs/repository-transition.md`.
 
 ## Required implementation stack
 
@@ -69,11 +69,12 @@ Detailed architecture guidance lives in `docs/architecture.md`.
 
 ## Current repository intent
 
-This repository is still a **reference implementation + architecture blueprint**, not yet the full production monorepo. Its current assets do three things:
+This repository is still a **reference implementation + architecture blueprint**, not yet the full production monorepo. Its current assets now do four things:
 
 - document the authoritative target architecture,
-- provide a lightweight Python orchestration reference in `backend/orchestration.py`, and
-- provide a visual product-direction prototype in `frontend/`.
+- provide a lightweight Python orchestration reference in `backend/orchestration.py`,
+- provide a visual product-direction prototype in `frontend/`, and
+- scaffold the canonical monorepo roots in `apps/`, `services/`, `experts/`, `packages/`, and `infra/` so implementation work can land in the correct target locations.
 
 ## Canonical target repo structure
 
@@ -147,7 +148,7 @@ realestate-moe-platform/
 - Broker / insurer / government integrations.
 - Advanced document intelligence.
 
-A practical implementation roadmap is captured in `docs/implementation-roadmap.md`.
+A practical implementation roadmap is captured in `docs/implementation-roadmap.md`, and the repository transition expectations are captured in `docs/repository-transition.md`.
 
 ## MoE expert model
 

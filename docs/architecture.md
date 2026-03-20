@@ -183,6 +183,8 @@ A strong default Azure layout is:
 
 ## 6. Canonical repository structure
 
+The repository now includes scaffolded `apps/`, `services/`, `experts/`, `packages/`, and `infra/` roots so contributors can place new implementation work in the target locations instead of expanding the legacy `frontend/` and `backend/` prototype folders. Transition expectations are defined in `docs/repository-transition.md`.
+
 The platform should converge toward this monorepo shape:
 
 ```text
