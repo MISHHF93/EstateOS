@@ -2,12 +2,12 @@
 
 ## 1. Platform vision
 
-EstateOS is a full-stack real estate and investment platform where a seamless, role-aware frontend is backed by an Azure-native Mixture-of-Experts (MoE) decision mesh. The platform combines property discovery, a property intelligence and valuation expert system, a listing recommendation expert, investment analysis, residency-by-investment (RBI), insurance matching, payment and escrow intelligence, financial risk, transaction intelligence for pricing and negotiation, document validation, compliance validation, unified compliance/risk intelligence, and an integration hub for partner APIs into one guided user experience while preserving explainability, auditability, workflow integrity, secure control boundaries, and cross-domain interoperability.
+EstateOS is an AI decision infrastructure for real estate, finance, and migration where a seamless, role-aware frontend is backed by an Azure-native Mixture-of-Experts (MoE) decision mesh. The platform combines property discovery, a property intelligence and valuation expert system, a listing recommendation expert, investment analysis, residency-by-investment (RBI), insurance matching, payment and escrow intelligence, financial risk, transaction intelligence for pricing and negotiation, document validation, compliance validation, unified compliance/risk intelligence, and an integration hub for partner APIs into one guided user experience while preserving explainability, auditability, workflow integrity, secure control boundaries, and cross-domain interoperability.
 
 ## 2. Full-stack experience architecture
 
 ### 2.1 Experience goals
-- Deliver one cohesive journey for buyers, investors, brokers, insurers, and advisors instead of fragmented point tools.
+- Deliver one cohesive decision environment for buyers, investors, brokers, insurers, migration advisors, and financial operators instead of fragmented point tools.
 - Hide backend orchestration complexity while surfacing confidence, assumptions, and required next actions.
 - Support progressive disclosure so novice users get guidance and professionals get evidence-rich detail.
 - Adapt layout, recommendation density, and explanation depth in real time based on persona, intent, budget, and trust posture in line with ISO 9241-210 human-centered design principles.
