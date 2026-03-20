@@ -197,12 +197,14 @@ services/
   user-service/
   listing-service/
   transaction-service/
+  document-service/
   visa-service/
   insurance-service/
   payment-service/
   compliance-service/
   integration-service/
   notification-service/
+  admin-reporting-service/
   ai-orchestrator/
 experts/
   property-recommender/
