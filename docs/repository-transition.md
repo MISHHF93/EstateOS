@@ -23,12 +23,14 @@ services/
   user-service/
   listing-service/
   transaction-service/
+  document-service/
   visa-service/
   insurance-service/
   payment-service/
   compliance-service/
   integration-service/
   notification-service/
+  admin-reporting-service/
   ai-orchestrator/
 experts/
   property-recommender/
@@ -68,12 +70,14 @@ These directories represent the canonical service boundaries for the modular-mon
 - `services/user-service/`
 - `services/listing-service/`
 - `services/transaction-service/`
+- `services/document-service/`
 - `services/visa-service/`
 - `services/insurance-service/`
 - `services/payment-service/`
 - `services/compliance-service/`
 - `services/integration-service/`
 - `services/notification-service/`
+- `services/admin-reporting-service/`
 - `services/ai-orchestrator/`
 
 The initial implementation may still share a FastAPI codebase, but code should be organized so these seams remain explicit.
