@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at_utc": "2026-03-20T17:18:37.678675+00:00",
+    "generated_at_utc": "2026-03-20T20:50:00.306213+00:00",
     "generated_from": "backend.orchestration.build_demo_payloads",
     "normalized": true
   },
@@ -553,7 +553,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-20T17:18:37.661088+00:00"
+                "last_checked_utc": "2026-03-20T20:50:00.289396+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -568,7 +568,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-20T17:18:37.661101+00:00"
+                "last_checked_utc": "2026-03-20T20:50:00.289407+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -581,7 +581,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-20T17:18:37.661106+00:00"
+                "last_checked_utc": "2026-03-20T20:50:00.289415+00:00"
               }
             ],
             "workflow_stages": [
@@ -751,7 +751,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-506653d5 created for Lisbon Green Quarter acquisition.",
+              "detail": "Transaction deal-55855cec created for Lisbon Green Quarter acquisition.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -786,7 +786,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-506653d5 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-55855cec for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -801,7 +801,7 @@
           "payment_instrument": {
             "instrument_type": "wire",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-ed3814fc73",
+            "token_reference": "tok-0d327e5280",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -810,18 +810,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-e5d49966",
-              "identifier": "usr-e5d49966"
+              "name": "usr-c2c4286c",
+              "identifier": "usr-c2c4286c"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-506653d5"
+              "identifier": "deal-55855cec"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-7f24eb14"
+              "identifier": "req-5aa5ca01"
             }
           ],
           "fraud_probability": 0.36,
@@ -891,7 +891,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "released",
-          "explanation": "Payment deal-506653d5 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-55855cec was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -923,8 +923,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-e5d49966",
-              "identifier": "usr-e5d49966"
+              "name": "usr-c2c4286c",
+              "identifier": "usr-c2c4286c"
             },
             {
               "role": "servicing_entity",
@@ -934,7 +934,7 @@
             {
               "role": "transaction_context",
               "name": "closing",
-              "identifier": "req-7f24eb14"
+              "identifier": "req-5aa5ca01"
             }
           ],
           "acord_coverages": [
@@ -1036,7 +1036,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-7f24eb14.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-5aa5ca01.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'buyer', property type 'apartment', occupancy 'owner_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -1255,6 +1255,127 @@
             "ISO/IEC 27701",
             "ISO/IEC 27001",
             "ISO 22301"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "digital_twin_decision": {
+          "request_id": "demo-request",
+          "twin": {
+            "twin_id": "demo-twin",
+            "property_name": "Lisbon Green Quarter Apartment",
+            "jurisdiction": "Portugal",
+            "property_type": "apartment",
+            "purchase_price": 620000,
+            "current_value": 628000,
+            "monthly_rent": 3200,
+            "occupancy_rate": 0.94,
+            "operating_expense_ratio": 0.28,
+            "annual_insurance_premium": 2256,
+            "renovation_budget": 38000,
+            "renovation_uplift": 0.09,
+            "appreciation_rate": 0.031,
+            "financing_ratio": 0.68,
+            "interest_rate": 0.047,
+            "hold_years": 7,
+            "climate_risk": "low"
+          },
+          "baseline_assumptions": {
+            "occupancy_rate": 0.94,
+            "monthly_rent": 3200,
+            "operating_expense_ratio": 0.28,
+            "annual_insurance_premium": 2256,
+            "renovation_budget": 38000,
+            "hold_years": 7,
+            "appreciation_rate": 0.031,
+            "governed_identity_tier": "aal2",
+            "market_volatility": "medium"
+          },
+          "scenarios": [
+            {
+              "name": "Baseline operating case",
+              "occupancy_rate": 0.94,
+              "monthly_rent": 3200,
+              "renovation_budget": 38000,
+              "annual_insurance_premium": 2256,
+              "annual_noi": 23733,
+              "annual_cash_flow": 3918,
+              "cumulative_cash_flow": -10574,
+              "projected_value": 847611,
+              "equity_uplift": 449165,
+              "reliability_score": 0.83,
+              "explanation": "Baseline operating case projects occupancy at 94%, modeled rent at 3,200/mo, annual NOI at 23,733, annual insurance at 2,256, and five-to-7-year equity outcome near 449,165."
+            },
+            {
+              "name": "Renovation upside case",
+              "occupancy_rate": 0.97,
+              "monthly_rent": 3456,
+              "renovation_budget": 44840,
+              "annual_insurance_premium": 2346,
+              "annual_noi": 26618,
+              "annual_cash_flow": 6803,
+              "cumulative_cash_flow": 2781,
+              "projected_value": 920340,
+              "equity_uplift": 535249,
+              "reliability_score": 0.76,
+              "explanation": "Renovation upside case projects occupancy at 97%, modeled rent at 3,456/mo, annual NOI at 26,618, annual insurance at 2,346, and five-to-7-year equity outcome near 535,249."
+            },
+            {
+              "name": "Insurance and occupancy stress case",
+              "occupancy_rate": 0.85,
+              "monthly_rent": 3072,
+              "renovation_budget": 34200,
+              "annual_insurance_premium": 2752,
+              "annual_noi": 19808,
+              "annual_cash_flow": -7,
+              "cumulative_cash_flow": -34249,
+              "projected_value": 758650,
+              "equity_uplift": 336529,
+              "reliability_score": 0.65,
+              "explanation": "Insurance and occupancy stress case projects occupancy at 85%, modeled rent at 3,072/mo, annual NOI at 19,808, annual insurance at 2,752, and five-to-7-year equity outcome near 336,529."
+            }
+          ],
+          "portfolio_outlook": [
+            "Baseline annual cash flow is 3,918 with projected value 847,611 after 7 years.",
+            "The upside case improves equity by 86,084 when renovation lift and occupancy gains materialize.",
+            "The downside case absorbs insurance and occupancy stress while still landing at 336,529 modeled equity outcome.",
+            "Outputs stay explainable because every scenario exposes the occupancy, renovation, insurance, and valuation assumptions driving the projection."
+          ],
+          "governance_controls": [
+            {
+              "framework": "ISO/IEC 42001",
+              "status": "active",
+              "control": "AI model accountability",
+              "detail": "Scenario generation is bound to named assumptions, human-review checkpoints, and release gating before investment advice is exported."
+            },
+            {
+              "framework": "ISO/IEC 5259",
+              "status": "active",
+              "control": "Data quality and reliability traceability",
+              "detail": "Occupancy, rent, renovation, insurance, and value trajectories are surfaced as explicit variables so users can challenge or override them."
+            },
+            {
+              "framework": "ISO/IEC 27001",
+              "status": "active",
+              "control": "Protected simulation inputs",
+              "detail": "Identity, financial, and property inputs remain under RBAC, MFA-backed access, and immutable evidence logging."
+            },
+            {
+              "framework": "ISO 22301",
+              "status": "active",
+              "control": "Reliable projection continuity",
+              "detail": "Digital-twin scenario runs are replayable so operators can recover the last approved simulation state during continuity events."
+            }
+          ],
+          "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
+          "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
+          "recommendation": "Use the digital twin for Lisbon Green Quarter Apartment to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
+          "explanation": "Digital twin twin-c4d13519 modeled Lisbon Green Quarter Apartment in Portugal using purchase price 620,000, current value 628,000, occupancy 94%, rent 3,200/mo, renovation budget 38,000, insurance premium 2,256, and hold period 7 years. Best-case equity outcome is 535,249, downside annual cash flow is -7, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "standards_alignment": [
+            "ISO/IEC 42001",
+            "ISO/IEC 5259",
+            "ISO/IEC 27001",
+            "ISO 22301",
+            "ISO 31000"
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         }
@@ -1872,7 +1993,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-20T17:18:37.667477+00:00"
+                "last_checked_utc": "2026-03-20T20:50:00.296697+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -1887,7 +2008,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-20T17:18:37.667485+00:00"
+                "last_checked_utc": "2026-03-20T20:50:00.296753+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -1900,7 +2021,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-20T17:18:37.667490+00:00"
+                "last_checked_utc": "2026-03-20T20:50:00.296760+00:00"
               }
             ],
             "workflow_stages": [
@@ -2070,7 +2191,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-a3cec013 created for Lisbon Green Quarter acquisition.",
+              "detail": "Transaction deal-48c108a8 created for Lisbon Green Quarter acquisition.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -2105,7 +2226,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-a3cec013 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-48c108a8 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -2120,7 +2241,7 @@
           "payment_instrument": {
             "instrument_type": "wire",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-0bfc8d011a",
+            "token_reference": "tok-fdf7949635",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -2129,18 +2250,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-c1734b0a",
-              "identifier": "usr-c1734b0a"
+              "name": "usr-226090c5",
+              "identifier": "usr-226090c5"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-a3cec013"
+              "identifier": "deal-48c108a8"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-f0944c7b"
+              "identifier": "req-9b07d595"
             }
           ],
           "fraud_probability": 0.36,
@@ -2210,7 +2331,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "released",
-          "explanation": "Payment deal-a3cec013 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-48c108a8 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -2242,8 +2363,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-c1734b0a",
-              "identifier": "usr-c1734b0a"
+              "name": "usr-226090c5",
+              "identifier": "usr-226090c5"
             },
             {
               "role": "servicing_entity",
@@ -2253,7 +2374,7 @@
             {
               "role": "transaction_context",
               "name": "closing",
-              "identifier": "req-f0944c7b"
+              "identifier": "req-9b07d595"
             }
           ],
           "acord_coverages": [
@@ -2355,7 +2476,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-f0944c7b.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-9b07d595.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -2569,6 +2690,127 @@
             "ISO/IEC 27701",
             "ISO/IEC 27001",
             "ISO 22301"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "digital_twin_decision": {
+          "request_id": "demo-request",
+          "twin": {
+            "twin_id": "demo-twin",
+            "property_name": "Athens Urban Residential Block",
+            "jurisdiction": "Greece",
+            "property_type": "multifamily",
+            "purchase_price": 880000,
+            "current_value": 892000,
+            "monthly_rent": 6150,
+            "occupancy_rate": 0.91,
+            "operating_expense_ratio": 0.32,
+            "annual_insurance_premium": 3864,
+            "renovation_budget": 95000,
+            "renovation_uplift": 0.12,
+            "appreciation_rate": 0.036,
+            "financing_ratio": 0.48,
+            "interest_rate": 0.052,
+            "hold_years": 8,
+            "climate_risk": "medium"
+          },
+          "baseline_assumptions": {
+            "occupancy_rate": 0.91,
+            "monthly_rent": 6150,
+            "operating_expense_ratio": 0.32,
+            "annual_insurance_premium": 3864,
+            "renovation_budget": 95000,
+            "hold_years": 8,
+            "appreciation_rate": 0.036,
+            "governed_identity_tier": "aal2",
+            "market_volatility": "medium"
+          },
+          "scenarios": [
+            {
+              "name": "Baseline operating case",
+              "occupancy_rate": 0.91,
+              "monthly_rent": 6150,
+              "renovation_budget": 95000,
+              "annual_insurance_premium": 3864,
+              "annual_noi": 41803,
+              "annual_cash_flow": 19838,
+              "cumulative_cash_flow": 63704,
+              "projected_value": 1325748,
+              "equity_uplift": 1000844,
+              "reliability_score": 0.83,
+              "explanation": "Baseline operating case projects occupancy at 91%, modeled rent at 6,150/mo, annual NOI at 41,803, annual insurance at 3,864, and five-to-8-year equity outcome near 1,000,844."
+            },
+            {
+              "name": "Renovation upside case",
+              "occupancy_rate": 0.94,
+              "monthly_rent": 6642,
+              "renovation_budget": 112100,
+              "annual_insurance_premium": 4019,
+              "annual_noi": 46928,
+              "annual_cash_flow": 24963,
+              "cumulative_cash_flow": 87604,
+              "projected_value": 1459259,
+              "equity_uplift": 1158255,
+              "reliability_score": 0.76,
+              "explanation": "Renovation upside case projects occupancy at 94%, modeled rent at 6,642/mo, annual NOI at 46,928, annual insurance at 4,019, and five-to-8-year equity outcome near 1,158,255."
+            },
+            {
+              "name": "Insurance and occupancy stress case",
+              "occupancy_rate": 0.82,
+              "monthly_rent": 5904,
+              "renovation_budget": 85500,
+              "annual_insurance_premium": 4714,
+              "annual_noi": 34791,
+              "annual_cash_flow": 12826,
+              "cumulative_cash_flow": 17108,
+              "projected_value": 1167107,
+              "equity_uplift": 795607,
+              "reliability_score": 0.65,
+              "explanation": "Insurance and occupancy stress case projects occupancy at 82%, modeled rent at 5,904/mo, annual NOI at 34,791, annual insurance at 4,714, and five-to-8-year equity outcome near 795,607."
+            }
+          ],
+          "portfolio_outlook": [
+            "Baseline annual cash flow is 19,838 with projected value 1,325,748 after 8 years.",
+            "The upside case improves equity by 157,411 when renovation lift and occupancy gains materialize.",
+            "The downside case absorbs insurance and occupancy stress while still landing at 795,607 modeled equity outcome.",
+            "Outputs stay explainable because every scenario exposes the occupancy, renovation, insurance, and valuation assumptions driving the projection."
+          ],
+          "governance_controls": [
+            {
+              "framework": "ISO/IEC 42001",
+              "status": "active",
+              "control": "AI model accountability",
+              "detail": "Scenario generation is bound to named assumptions, human-review checkpoints, and release gating before investment advice is exported."
+            },
+            {
+              "framework": "ISO/IEC 5259",
+              "status": "active",
+              "control": "Data quality and reliability traceability",
+              "detail": "Occupancy, rent, renovation, insurance, and value trajectories are surfaced as explicit variables so users can challenge or override them."
+            },
+            {
+              "framework": "ISO/IEC 27001",
+              "status": "active",
+              "control": "Protected simulation inputs",
+              "detail": "Identity, financial, and property inputs remain under RBAC, MFA-backed access, and immutable evidence logging."
+            },
+            {
+              "framework": "ISO 22301",
+              "status": "active",
+              "control": "Reliable projection continuity",
+              "detail": "Digital-twin scenario runs are replayable so operators can recover the last approved simulation state during continuity events."
+            }
+          ],
+          "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
+          "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
+          "recommendation": "Use the digital twin for Athens Urban Residential Block to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
+          "explanation": "Digital twin twin-b1d0433e modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "standards_alignment": [
+            "ISO/IEC 42001",
+            "ISO/IEC 5259",
+            "ISO/IEC 27001",
+            "ISO 22301",
+            "ISO 31000"
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         }
@@ -3125,7 +3367,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-20T17:18:37.674761+00:00"
+                "last_checked_utc": "2026-03-20T20:50:00.302615+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -3140,7 +3382,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-20T17:18:37.674770+00:00"
+                "last_checked_utc": "2026-03-20T20:50:00.302623+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -3153,7 +3395,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-20T17:18:37.674775+00:00"
+                "last_checked_utc": "2026-03-20T20:50:00.302628+00:00"
               }
             ],
             "workflow_stages": [
@@ -3323,7 +3565,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-1ebb26bc created for Athens Urban Block diligence.",
+              "detail": "Transaction deal-89aaae06 created for Athens Urban Block diligence.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -3358,7 +3600,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-1ebb26bc for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-89aaae06 for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -3373,7 +3615,7 @@
           "payment_instrument": {
             "instrument_type": "escrow_disbursement",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-ce274aa527",
+            "token_reference": "tok-e302bb92dc",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -3382,18 +3624,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-a9c033b5",
-              "identifier": "usr-a9c033b5"
+              "name": "usr-6db64716",
+              "identifier": "usr-6db64716"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-1ebb26bc"
+              "identifier": "deal-89aaae06"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-1a0d8e99"
+              "identifier": "req-ab08eee1"
             }
           ],
           "fraud_probability": 0.54,
@@ -3463,7 +3705,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "review",
-          "explanation": "Payment deal-1ebb26bc was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-89aaae06 was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -3495,8 +3737,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-a9c033b5",
-              "identifier": "usr-a9c033b5"
+              "name": "usr-6db64716",
+              "identifier": "usr-6db64716"
             },
             {
               "role": "servicing_entity",
@@ -3506,7 +3748,7 @@
             {
               "role": "transaction_context",
               "name": "approval",
-              "identifier": "req-1a0d8e99"
+              "identifier": "req-ab08eee1"
             }
           ],
           "acord_coverages": [
@@ -3608,7 +3850,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-1a0d8e99.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-ab08eee1.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'advisor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'approval'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -3821,6 +4063,127 @@
             "ISO/IEC 27701",
             "ISO/IEC 27001",
             "ISO 22301"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "digital_twin_decision": {
+          "request_id": "demo-request",
+          "twin": {
+            "twin_id": "demo-twin",
+            "property_name": "Athens Urban Block diligence",
+            "jurisdiction": "Greece",
+            "property_type": "multifamily",
+            "purchase_price": 880000,
+            "current_value": 898000,
+            "monthly_rent": 6400,
+            "occupancy_rate": 0.93,
+            "operating_expense_ratio": 0.3,
+            "annual_insurance_premium": 4020,
+            "renovation_budget": 76000,
+            "renovation_uplift": 0.1,
+            "appreciation_rate": 0.034,
+            "financing_ratio": 0.42,
+            "interest_rate": 0.049,
+            "hold_years": 6,
+            "climate_risk": "medium"
+          },
+          "baseline_assumptions": {
+            "occupancy_rate": 0.93,
+            "monthly_rent": 6400,
+            "operating_expense_ratio": 0.3,
+            "annual_insurance_premium": 4020,
+            "renovation_budget": 76000,
+            "hold_years": 6,
+            "appreciation_rate": 0.034,
+            "governed_identity_tier": "aal2",
+            "market_volatility": "medium"
+          },
+          "scenarios": [
+            {
+              "name": "Baseline operating case",
+              "occupancy_rate": 0.93,
+              "monthly_rent": 6400,
+              "renovation_budget": 76000,
+              "annual_insurance_premium": 4020,
+              "annual_noi": 45977,
+              "annual_cash_flow": 27867,
+              "cumulative_cash_flow": 91202,
+              "projected_value": 1207236,
+              "equity_uplift": 958406,
+              "reliability_score": 0.83,
+              "explanation": "Baseline operating case projects occupancy at 93%, modeled rent at 6,400/mo, annual NOI at 45,977, annual insurance at 4,020, and five-to-6-year equity outcome near 958,406."
+            },
+            {
+              "name": "Renovation upside case",
+              "occupancy_rate": 0.96,
+              "monthly_rent": 6912,
+              "renovation_budget": 89680,
+              "annual_insurance_premium": 4181,
+              "annual_noi": 51557,
+              "annual_cash_flow": 33447,
+              "cumulative_cash_flow": 111002,
+              "projected_value": 1299933,
+              "equity_uplift": 1070903,
+              "reliability_score": 0.76,
+              "explanation": "Renovation upside case projects occupancy at 96%, modeled rent at 6,912/mo, annual NOI at 51,557, annual insurance at 4,181, and five-to-6-year equity outcome near 1,070,903."
+            },
+            {
+              "name": "Insurance and occupancy stress case",
+              "occupancy_rate": 0.84,
+              "monthly_rent": 6144,
+              "renovation_budget": 68400,
+              "annual_insurance_premium": 4904,
+              "annual_noi": 38448,
+              "annual_cash_flow": 20338,
+              "cumulative_cash_flow": 53628,
+              "projected_value": 1095842,
+              "equity_uplift": 809438,
+              "reliability_score": 0.65,
+              "explanation": "Insurance and occupancy stress case projects occupancy at 84%, modeled rent at 6,144/mo, annual NOI at 38,448, annual insurance at 4,904, and five-to-6-year equity outcome near 809,438."
+            }
+          ],
+          "portfolio_outlook": [
+            "Baseline annual cash flow is 27,867 with projected value 1,207,236 after 6 years.",
+            "The upside case improves equity by 112,497 when renovation lift and occupancy gains materialize.",
+            "The downside case absorbs insurance and occupancy stress while still landing at 809,438 modeled equity outcome.",
+            "Outputs stay explainable because every scenario exposes the occupancy, renovation, insurance, and valuation assumptions driving the projection."
+          ],
+          "governance_controls": [
+            {
+              "framework": "ISO/IEC 42001",
+              "status": "active",
+              "control": "AI model accountability",
+              "detail": "Scenario generation is bound to named assumptions, human-review checkpoints, and release gating before investment advice is exported."
+            },
+            {
+              "framework": "ISO/IEC 5259",
+              "status": "active",
+              "control": "Data quality and reliability traceability",
+              "detail": "Occupancy, rent, renovation, insurance, and value trajectories are surfaced as explicit variables so users can challenge or override them."
+            },
+            {
+              "framework": "ISO/IEC 27001",
+              "status": "active",
+              "control": "Protected simulation inputs",
+              "detail": "Identity, financial, and property inputs remain under RBAC, MFA-backed access, and immutable evidence logging."
+            },
+            {
+              "framework": "ISO 22301",
+              "status": "active",
+              "control": "Reliable projection continuity",
+              "detail": "Digital-twin scenario runs are replayable so operators can recover the last approved simulation state during continuity events."
+            }
+          ],
+          "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
+          "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
+          "recommendation": "Use the digital twin for Athens Urban Block diligence to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
+          "explanation": "Digital twin twin-ac5b07b8 modeled Athens Urban Block diligence in Greece using purchase price 880,000, current value 898,000, occupancy 93%, rent 6,400/mo, renovation budget 76,000, insurance premium 4,020, and hold period 6 years. Best-case equity outcome is 1,070,903, downside annual cash flow is 20,338, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "standards_alignment": [
+            "ISO/IEC 42001",
+            "ISO/IEC 5259",
+            "ISO/IEC 27001",
+            "ISO 22301",
+            "ISO 31000"
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         }
@@ -4434,7 +4797,7 @@
               "records",
               "jurisdiction"
             ],
-            "last_checked_utc": "2026-03-20T17:18:37.667477+00:00"
+            "last_checked_utc": "2026-03-20T20:50:00.296697+00:00"
           },
           {
             "document_id": "doc-disclosure",
@@ -4449,7 +4812,7 @@
               "records",
               "privacy"
             ],
-            "last_checked_utc": "2026-03-20T17:18:37.667485+00:00"
+            "last_checked_utc": "2026-03-20T20:50:00.296753+00:00"
           },
           {
             "document_id": "doc-finance",
@@ -4462,7 +4825,7 @@
               "records",
               "business_continuity"
             ],
-            "last_checked_utc": "2026-03-20T17:18:37.667490+00:00"
+            "last_checked_utc": "2026-03-20T20:50:00.296760+00:00"
           }
         ],
         "workflow_stages": [
@@ -4632,7 +4995,7 @@
         {
           "name": "transaction.intake.recorded",
           "status": "completed",
-          "detail": "Transaction deal-a3cec013 created for Lisbon Green Quarter acquisition.",
+          "detail": "Transaction deal-48c108a8 created for Lisbon Green Quarter acquisition.",
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
         {
@@ -4667,7 +5030,7 @@
         "Lock release behind approval if the risk score remains above the configured threshold.",
         "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
       ],
-      "explanation": "Transaction deal-a3cec013 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+      "explanation": "Transaction deal-48c108a8 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
       "standards_alignment": [
         "ISO/IEC 27001",
         "ISO 22301",
@@ -4682,7 +5045,7 @@
       "payment_instrument": {
         "instrument_type": "wire",
         "token_provider": "Banking / escrow token service",
-        "token_reference": "tok-0bfc8d011a",
+        "token_reference": "tok-fdf7949635",
         "last4": "6789",
         "network": "ACH/Wire",
         "wallet_or_bank": "Escrow operating account",
@@ -4691,18 +5054,18 @@
       "participants": [
         {
           "role": "payer",
-          "name": "usr-c1734b0a",
-          "identifier": "usr-c1734b0a"
+          "name": "usr-226090c5",
+          "identifier": "usr-226090c5"
         },
         {
           "role": "beneficiary",
           "name": "EstateOS Escrow",
-          "identifier": "deal-a3cec013"
+          "identifier": "deal-48c108a8"
         },
         {
           "role": "servicer",
           "name": "EstateOS Payment Ops",
-          "identifier": "req-f0944c7b"
+          "identifier": "req-9b07d595"
         }
       ],
       "fraud_probability": 0.36,
@@ -4772,7 +5135,7 @@
         "Match settlement references and escrow ledger entries before reconciliation close."
       ],
       "release_status": "released",
-      "explanation": "Payment deal-a3cec013 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+      "explanation": "Payment deal-48c108a8 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
       "standards_alignment": [
         "PCI DSS",
         "ISO/IEC 27001",
@@ -4804,8 +5167,8 @@
       "acord_parties": [
         {
           "role": "applicant",
-          "name": "usr-c1734b0a",
-          "identifier": "usr-c1734b0a"
+          "name": "usr-226090c5",
+          "identifier": "usr-226090c5"
         },
         {
           "role": "servicing_entity",
@@ -4815,7 +5178,7 @@
         {
           "role": "transaction_context",
           "name": "closing",
-          "identifier": "req-f0944c7b"
+          "identifier": "req-9b07d595"
         }
       ],
       "acord_coverages": [
@@ -4917,7 +5280,7 @@
         }
       ],
       "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-f0944c7b.",
+      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-9b07d595.",
       "release_status": "released",
       "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
       "standards_alignment": [
@@ -5131,6 +5494,127 @@
         "ISO/IEC 27701",
         "ISO/IEC 27001",
         "ISO 22301"
+      ],
+      "timestamp_utc": "2026-03-20T00:00:00+00:00"
+    },
+    "digital_twin_decision": {
+      "request_id": "demo-request",
+      "twin": {
+        "twin_id": "demo-twin",
+        "property_name": "Athens Urban Residential Block",
+        "jurisdiction": "Greece",
+        "property_type": "multifamily",
+        "purchase_price": 880000,
+        "current_value": 892000,
+        "monthly_rent": 6150,
+        "occupancy_rate": 0.91,
+        "operating_expense_ratio": 0.32,
+        "annual_insurance_premium": 3864,
+        "renovation_budget": 95000,
+        "renovation_uplift": 0.12,
+        "appreciation_rate": 0.036,
+        "financing_ratio": 0.48,
+        "interest_rate": 0.052,
+        "hold_years": 8,
+        "climate_risk": "medium"
+      },
+      "baseline_assumptions": {
+        "occupancy_rate": 0.91,
+        "monthly_rent": 6150,
+        "operating_expense_ratio": 0.32,
+        "annual_insurance_premium": 3864,
+        "renovation_budget": 95000,
+        "hold_years": 8,
+        "appreciation_rate": 0.036,
+        "governed_identity_tier": "aal2",
+        "market_volatility": "medium"
+      },
+      "scenarios": [
+        {
+          "name": "Baseline operating case",
+          "occupancy_rate": 0.91,
+          "monthly_rent": 6150,
+          "renovation_budget": 95000,
+          "annual_insurance_premium": 3864,
+          "annual_noi": 41803,
+          "annual_cash_flow": 19838,
+          "cumulative_cash_flow": 63704,
+          "projected_value": 1325748,
+          "equity_uplift": 1000844,
+          "reliability_score": 0.83,
+          "explanation": "Baseline operating case projects occupancy at 91%, modeled rent at 6,150/mo, annual NOI at 41,803, annual insurance at 3,864, and five-to-8-year equity outcome near 1,000,844."
+        },
+        {
+          "name": "Renovation upside case",
+          "occupancy_rate": 0.94,
+          "monthly_rent": 6642,
+          "renovation_budget": 112100,
+          "annual_insurance_premium": 4019,
+          "annual_noi": 46928,
+          "annual_cash_flow": 24963,
+          "cumulative_cash_flow": 87604,
+          "projected_value": 1459259,
+          "equity_uplift": 1158255,
+          "reliability_score": 0.76,
+          "explanation": "Renovation upside case projects occupancy at 94%, modeled rent at 6,642/mo, annual NOI at 46,928, annual insurance at 4,019, and five-to-8-year equity outcome near 1,158,255."
+        },
+        {
+          "name": "Insurance and occupancy stress case",
+          "occupancy_rate": 0.82,
+          "monthly_rent": 5904,
+          "renovation_budget": 85500,
+          "annual_insurance_premium": 4714,
+          "annual_noi": 34791,
+          "annual_cash_flow": 12826,
+          "cumulative_cash_flow": 17108,
+          "projected_value": 1167107,
+          "equity_uplift": 795607,
+          "reliability_score": 0.65,
+          "explanation": "Insurance and occupancy stress case projects occupancy at 82%, modeled rent at 5,904/mo, annual NOI at 34,791, annual insurance at 4,714, and five-to-8-year equity outcome near 795,607."
+        }
+      ],
+      "portfolio_outlook": [
+        "Baseline annual cash flow is 19,838 with projected value 1,325,748 after 8 years.",
+        "The upside case improves equity by 157,411 when renovation lift and occupancy gains materialize.",
+        "The downside case absorbs insurance and occupancy stress while still landing at 795,607 modeled equity outcome.",
+        "Outputs stay explainable because every scenario exposes the occupancy, renovation, insurance, and valuation assumptions driving the projection."
+      ],
+      "governance_controls": [
+        {
+          "framework": "ISO/IEC 42001",
+          "status": "active",
+          "control": "AI model accountability",
+          "detail": "Scenario generation is bound to named assumptions, human-review checkpoints, and release gating before investment advice is exported."
+        },
+        {
+          "framework": "ISO/IEC 5259",
+          "status": "active",
+          "control": "Data quality and reliability traceability",
+          "detail": "Occupancy, rent, renovation, insurance, and value trajectories are surfaced as explicit variables so users can challenge or override them."
+        },
+        {
+          "framework": "ISO/IEC 27001",
+          "status": "active",
+          "control": "Protected simulation inputs",
+          "detail": "Identity, financial, and property inputs remain under RBAC, MFA-backed access, and immutable evidence logging."
+        },
+        {
+          "framework": "ISO 22301",
+          "status": "active",
+          "control": "Reliable projection continuity",
+          "detail": "Digital-twin scenario runs are replayable so operators can recover the last approved simulation state during continuity events."
+        }
+      ],
+      "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
+      "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
+      "recommendation": "Use the digital twin for Athens Urban Residential Block to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
+      "explanation": "Digital twin twin-b1d0433e modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+      "standards_alignment": [
+        "ISO/IEC 42001",
+        "ISO/IEC 5259",
+        "ISO/IEC 27001",
+        "ISO 22301",
+        "ISO 31000"
       ],
       "timestamp_utc": "2026-03-20T00:00:00+00:00"
     }

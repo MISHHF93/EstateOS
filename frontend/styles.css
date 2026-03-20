@@ -72,6 +72,7 @@ small {
 .category-grid,
 .explanation-layout,
 .transaction-layout,
+.twin-layout,
 .adaptive-shell,
 .meta-row,
 .tag-row,
@@ -782,5 +783,51 @@ input[type="range"] {
   .integration-layout,
   .integration-metric-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+
+.twin-layout {
+  margin-top: 2rem;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  align-items: start;
+}
+
+.twin-card--primary {
+  grid-column: span 2;
+}
+
+.twin-form,
+.twin-metric-grid {
+  margin-top: 1rem;
+}
+
+.twin-card .stack-item,
+.twin-card .metric-item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1rem;
+}
+
+@media (max-width: 1180px) {
+  .twin-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .twin-card--primary {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 720px) {
+  .twin-layout,
+  .twin-form,
+  .twin-metric-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .twin-card--primary {
+    grid-column: span 1;
   }
 }

@@ -255,6 +255,67 @@ class TransactionDecisionPacket:
 
 
 @dataclass(frozen=True)
+class DigitalTwinInput:
+    twin_id: str
+    property_name: str
+    jurisdiction: str
+    property_type: str
+    purchase_price: int
+    current_value: int
+    monthly_rent: int
+    occupancy_rate: float
+    operating_expense_ratio: float
+    annual_insurance_premium: int
+    renovation_budget: int
+    renovation_uplift: float
+    appreciation_rate: float
+    financing_ratio: float
+    interest_rate: float
+    hold_years: int
+    climate_risk: str
+
+
+@dataclass(frozen=True)
+class DigitalTwinScenario:
+    name: str
+    occupancy_rate: float
+    monthly_rent: int
+    renovation_budget: int
+    annual_insurance_premium: int
+    annual_noi: int
+    annual_cash_flow: int
+    cumulative_cash_flow: int
+    projected_value: int
+    equity_uplift: int
+    reliability_score: float
+    explanation: str
+
+
+@dataclass(frozen=True)
+class DigitalTwinGovernanceControl:
+    framework: str
+    status: str
+    control: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class DigitalTwinDecisionPacket:
+    request_id: str
+    twin: DigitalTwinInput
+    baseline_assumptions: Dict[str, float | int | str]
+    scenarios: Sequence[DigitalTwinScenario]
+    portfolio_outlook: Sequence[str]
+    governance_controls: Sequence[DigitalTwinGovernanceControl]
+    explainability_summary: str
+    reliability_summary: str
+    recommendation: str
+    explanation: str
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+@dataclass(frozen=True)
 class InsuranceApplicantProfile:
     applicant_id: str
     persona: str
@@ -1765,6 +1826,159 @@ def evaluate_residency_eligibility(
     )
 
 
+def _build_digital_twin_scenario(
+    twin: DigitalTwinInput,
+    name: str,
+    occupancy_delta: float = 0.0,
+    rent_delta: float = 0.0,
+    renovation_delta: float = 0.0,
+    insurance_delta: float = 0.0,
+    appreciation_delta: float = 0.0,
+    reliability_delta: float = 0.0,
+) -> DigitalTwinScenario:
+    occupancy_rate = max(0.55, min(0.99, twin.occupancy_rate + occupancy_delta))
+    monthly_rent = int(round(twin.monthly_rent * (1 + rent_delta)))
+    renovation_budget = int(round(twin.renovation_budget * (1 + renovation_delta)))
+    annual_insurance_premium = int(round(twin.annual_insurance_premium * (1 + insurance_delta)))
+    appreciation_rate = twin.appreciation_rate + appreciation_delta
+    annual_gross_income = int(round(monthly_rent * 12 * occupancy_rate))
+    annual_operating_expenses = int(round(annual_gross_income * twin.operating_expense_ratio)) + annual_insurance_premium
+    annual_noi = annual_gross_income - annual_operating_expenses
+    annual_debt_service = int(round(twin.purchase_price * twin.financing_ratio * twin.interest_rate))
+    annual_cash_flow = annual_noi - annual_debt_service
+    cumulative_cash_flow = int(round(annual_cash_flow * twin.hold_years - renovation_budget))
+    renovation_value_uplift = twin.current_value * twin.renovation_uplift * (renovation_budget / max(twin.renovation_budget, 1))
+    projected_value = int(round((twin.current_value + renovation_value_uplift) * ((1 + appreciation_rate) ** twin.hold_years)))
+    remaining_loan_balance = int(round(twin.purchase_price * twin.financing_ratio * 0.92))
+    equity_uplift = projected_value - remaining_loan_balance + cumulative_cash_flow
+    reliability_score = max(0.55, min(0.98, 0.83 - abs(occupancy_delta) * 0.7 - abs(appreciation_delta) * 1.8 - insurance_delta * 0.2 + reliability_delta))
+    explanation = (
+        f"{name} projects occupancy at {occupancy_rate:.0%}, modeled rent at {monthly_rent:,}/mo, annual NOI at {annual_noi:,}, "
+        f"annual insurance at {annual_insurance_premium:,}, and five-to-{twin.hold_years}-year equity outcome near {equity_uplift:,}."
+    )
+    return DigitalTwinScenario(
+        name=name,
+        occupancy_rate=round(occupancy_rate, 2),
+        monthly_rent=monthly_rent,
+        renovation_budget=renovation_budget,
+        annual_insurance_premium=annual_insurance_premium,
+        annual_noi=annual_noi,
+        annual_cash_flow=annual_cash_flow,
+        cumulative_cash_flow=cumulative_cash_flow,
+        projected_value=projected_value,
+        equity_uplift=equity_uplift,
+        reliability_score=round(reliability_score, 2),
+        explanation=explanation,
+    )
+
+
+
+def evaluate_digital_twin(
+    twin: DigitalTwinInput,
+    identity: IdentityContext,
+    context: RequestContext,
+) -> DigitalTwinDecisionPacket:
+    scenarios = (
+        _build_digital_twin_scenario(twin, 'Baseline operating case'),
+        _build_digital_twin_scenario(
+            twin,
+            'Renovation upside case',
+            occupancy_delta=0.03,
+            rent_delta=0.08,
+            renovation_delta=0.18,
+            insurance_delta=0.04,
+            appreciation_delta=0.01,
+            reliability_delta=-0.02,
+        ),
+        _build_digital_twin_scenario(
+            twin,
+            'Insurance and occupancy stress case',
+            occupancy_delta=-0.09,
+            rent_delta=-0.04,
+            renovation_delta=-0.1,
+            insurance_delta=0.22,
+            appreciation_delta=-0.015,
+            reliability_delta=-0.05,
+        ),
+    )
+    baseline = scenarios[0]
+    best_case = max(scenarios, key=lambda item: item.equity_uplift)
+    downside = min(scenarios, key=lambda item: item.annual_cash_flow)
+    baseline_assumptions = {
+        'occupancy_rate': round(twin.occupancy_rate, 2),
+        'monthly_rent': twin.monthly_rent,
+        'operating_expense_ratio': round(twin.operating_expense_ratio, 2),
+        'annual_insurance_premium': twin.annual_insurance_premium,
+        'renovation_budget': twin.renovation_budget,
+        'hold_years': twin.hold_years,
+        'appreciation_rate': round(twin.appreciation_rate, 3),
+        'governed_identity_tier': identity.auth_assurance_level,
+        'market_volatility': context.market_volatility,
+    }
+    portfolio_outlook = (
+        f"Baseline annual cash flow is {baseline.annual_cash_flow:,} with projected value {baseline.projected_value:,} after {twin.hold_years} years.",
+        f"The upside case improves equity by {best_case.equity_uplift - baseline.equity_uplift:,} when renovation lift and occupancy gains materialize.",
+        f"The downside case absorbs insurance and occupancy stress while still landing at {downside.equity_uplift:,} modeled equity outcome.",
+        'Outputs stay explainable because every scenario exposes the occupancy, renovation, insurance, and valuation assumptions driving the projection.',
+    )
+    governance_controls = (
+        DigitalTwinGovernanceControl(
+            framework='ISO/IEC 42001',
+            status='active',
+            control='AI model accountability',
+            detail='Scenario generation is bound to named assumptions, human-review checkpoints, and release gating before investment advice is exported.',
+        ),
+        DigitalTwinGovernanceControl(
+            framework='ISO/IEC 5259',
+            status='active',
+            control='Data quality and reliability traceability',
+            detail='Occupancy, rent, renovation, insurance, and value trajectories are surfaced as explicit variables so users can challenge or override them.',
+        ),
+        DigitalTwinGovernanceControl(
+            framework='ISO/IEC 27001',
+            status='active',
+            control='Protected simulation inputs',
+            detail='Identity, financial, and property inputs remain under RBAC, MFA-backed access, and immutable evidence logging.',
+        ),
+        DigitalTwinGovernanceControl(
+            framework='ISO 22301',
+            status='active',
+            control='Reliable projection continuity',
+            detail='Digital-twin scenario runs are replayable so operators can recover the last approved simulation state during continuity events.',
+        ),
+    )
+    explainability_summary = (
+        'Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.'
+    )
+    reliability_summary = (
+        f"Scenario reliability ranges from {min(item.reliability_score for item in scenarios):.2f} to {max(item.reliability_score for item in scenarios):.2f}, "
+        'with stress cases penalized when assumptions drift further from verified operating data.'
+    )
+    recommendation = (
+        f"Use the digital twin for {twin.property_name} to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing."
+    )
+    explanation = (
+        f"Digital twin {twin.twin_id} modeled {twin.property_name} in {twin.jurisdiction} using purchase price {twin.purchase_price:,}, current value {twin.current_value:,}, "
+        f"occupancy {twin.occupancy_rate:.0%}, rent {twin.monthly_rent:,}/mo, renovation budget {twin.renovation_budget:,}, insurance premium {twin.annual_insurance_premium:,}, "
+        f"and hold period {twin.hold_years} years. Best-case equity outcome is {best_case.equity_uplift:,}, downside annual cash flow is {downside.annual_cash_flow:,}, "
+        'and governance controls keep assumptions inspectable, challengeable, and replayable.'
+    )
+    return DigitalTwinDecisionPacket(
+        request_id=f"twin-{uuid.uuid4().hex[:8]}",
+        twin=twin,
+        baseline_assumptions=baseline_assumptions,
+        scenarios=scenarios,
+        portfolio_outlook=portfolio_outlook,
+        governance_controls=governance_controls,
+        explainability_summary=explainability_summary,
+        reliability_summary=reliability_summary,
+        recommendation=recommendation,
+        explanation=explanation,
+        standards_alignment=('ISO/IEC 42001', 'ISO/IEC 5259', 'ISO/IEC 27001', 'ISO 22301', 'ISO 31000'),
+    )
+
+
+
 def evaluate_insurance_options(
     applicant: InsuranceApplicantProfile,
     identity: IdentityContext,
@@ -2350,6 +2564,24 @@ DEMO_JOURNEY_SCENARIOS = {
                 "tax_number",
             ),
         },
+        "digital_twin": {
+            "property_name": "Lisbon Green Quarter Apartment",
+            "jurisdiction": "Portugal",
+            "property_type": "apartment",
+            "purchase_price": 620000,
+            "current_value": 628000,
+            "monthly_rent": 3200,
+            "occupancy_rate": 0.94,
+            "operating_expense_ratio": 0.28,
+            "annual_insurance_premium": 2256,
+            "renovation_budget": 38000,
+            "renovation_uplift": 0.09,
+            "appreciation_rate": 0.031,
+            "financing_ratio": 0.68,
+            "interest_rate": 0.047,
+            "hold_years": 7,
+            "climate_risk": "low",
+        },
     },
     "investor": {
         "user_prompt": "I want to compare a Portugal property for yield, residency eligibility, insurance readiness, payment fraud controls, escrow release conditions, and mortgage affordability.",
@@ -2443,6 +2675,24 @@ DEMO_JOURNEY_SCENARIOS = {
                 "tax_number",
             ),
         },
+        "digital_twin": {
+            "property_name": "Athens Urban Residential Block",
+            "jurisdiction": "Greece",
+            "property_type": "multifamily",
+            "purchase_price": 880000,
+            "current_value": 892000,
+            "monthly_rent": 6150,
+            "occupancy_rate": 0.91,
+            "operating_expense_ratio": 0.32,
+            "annual_insurance_premium": 3864,
+            "renovation_budget": 95000,
+            "renovation_uplift": 0.12,
+            "appreciation_rate": 0.036,
+            "financing_ratio": 0.48,
+            "interest_rate": 0.052,
+            "hold_years": 8,
+            "climate_risk": "medium",
+        },
     },
     "advisor": {
         "user_prompt": "I need an advisor-ready transaction cockpit with document exceptions, payment controls, insurance placement readiness, and integration evidence.",
@@ -2534,6 +2784,24 @@ DEMO_JOURNEY_SCENARIOS = {
                 "health_insurance",
                 "tax_number",
             ),
+        },
+        "digital_twin": {
+            "property_name": "Athens Urban Block diligence",
+            "jurisdiction": "Greece",
+            "property_type": "multifamily",
+            "purchase_price": 880000,
+            "current_value": 898000,
+            "monthly_rent": 6400,
+            "occupancy_rate": 0.93,
+            "operating_expense_ratio": 0.3,
+            "annual_insurance_premium": 4020,
+            "renovation_budget": 76000,
+            "renovation_uplift": 0.1,
+            "appreciation_rate": 0.034,
+            "financing_ratio": 0.42,
+            "interest_rate": 0.049,
+            "hold_years": 6,
+            "climate_risk": "medium",
         },
     },
 }
@@ -2655,6 +2923,14 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         ),
         identity,
     )
+    digital_twin_packet = evaluate_digital_twin(
+        DigitalTwinInput(
+            twin_id=f"twin-{uuid.uuid4().hex[:8]}",
+            **scenario["digital_twin"],
+        ),
+        identity,
+        context,
+    )
 
     return {
         "journey_key": journey_key,
@@ -2664,6 +2940,7 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         "insurance_decision": asdict(insurance_packet),
         "integration_decision": asdict(integration_packet),
         "residency_decision": asdict(residency_packet),
+        "digital_twin_decision": asdict(digital_twin_packet),
     }
 
 

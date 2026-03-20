@@ -28,6 +28,7 @@ REQUIRED_DECISION_KEYS = {
     "insurance_decision",
     "integration_decision",
     "residency_decision",
+    "digital_twin_decision",
 }
 REQUIRED_JOURNEYS = {"buyer", "investor", "advisor"}
 
