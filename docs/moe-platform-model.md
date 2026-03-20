@@ -11,34 +11,40 @@ This architecture is designed for complex real estate and investment workflows w
 ### 2.1 Property Valuation Expert
 - Estimates fair market value.
 - Selects comparable sales and rental references.
+- Scores market trends and location intelligence.
 - Provides confidence bands and market positioning explanation.
 
-### 2.2 Investment Analysis Expert
+### 2.2 Listing Recommendation Expert
+- Ranks listings against user preferences and expert outputs.
+- Applies fairness, explainability, and tie-break policies before release.
+- Produces a why-this-rank explanation for each listing.
+
+### 2.3 Investment Analysis Expert
 - Evaluates yield, IRR, DSCR, leverage, and downside scenarios.
 - Compares acquisition options across markets and holding periods.
 - Detects concentration and liquidity risk patterns.
 
-### 2.3 Residency Eligibility Expert
+### 2.4 Residency Eligibility Expert
 - Checks residency-by-investment pathways by jurisdiction.
 - Evaluates applicant fit, budget thresholds, and likely blockers.
 - Flags mandatory legal review conditions.
 
-### 2.4 Insurance Matching Expert
+### 2.5 Insurance Matching Expert
 - Assesses insurability and coverage fit.
 - Maps property characteristics to peril and underwriting signals.
 - Produces ACORD-oriented intake structure and quote readiness status.
 
-### 2.5 Financial Risk Expert
+### 2.6 Financial Risk Expert
 - Measures affordability, payment capacity, FX exposure, and financing stress.
 - Runs rate and liquidity scenarios.
 - Identifies product suitability concerns.
 
-### 2.6 Compliance Validation Expert
+### 2.7 Compliance Validation Expert
 - Performs RBAC, MFA, KYC, AML, sanctions, privacy, retention, and release checks.
 - Blocks or conditions downstream responses when controls are not satisfied.
 - Produces remediation tasks and evidence requirements.
 
-### 2.7 UX Personalization Expert
+### 2.8 UX Personalization Expert
 - Adapts presentation style and next actions to user role, confidence, blockers, and privacy tier.
 - Chooses whether to simplify, expand, redact, or escalate the decision narrative.
 
@@ -141,7 +147,7 @@ The router then synthesizes these outputs into:
 
 This model fits the platform because it:
 - preserves domain depth instead of flattening all intelligence into one model,
-- supports independent governance and evaluation for each expert,
+- supports independent governance and evaluation for each expert, including ISO/IEC 5259 data quality controls and ISO/IEC 42001 AI management controls,
 - aligns naturally with microservices and event-driven infrastructure,
 - improves explainability through explicit expert selection,
 - makes regulatory gating and human review first-class concerns,

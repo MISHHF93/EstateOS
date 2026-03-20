@@ -337,8 +337,90 @@ const expertMeta = {
   visa: { label: "Visa expert", icon: "Visa" },
   insurance: { label: "Insurance expert", icon: "Insurance" },
   finance: { label: "Finance expert", icon: "Finance" },
-  compliance: { label: "Compliance expert", icon: "Compliance" }
+  compliance: { label: "Compliance expert", icon: "Compliance" },
+  recommendation: { label: "Recommendation expert", icon: "Recommend" }
 };
+
+const propertyIntelligence = {
+  "lisbon-green": {
+    valuationBand: "$600k-$645k",
+    comparables: "Three central Lisbon family apartment comparables support the range.",
+    trend: "Stable family-demand momentum with constrained supply.",
+    location: "Walkability, school access, and low-friction transit lift long-term fit.",
+    rationale: "The recommendation expert prefers this listing because value confidence and household fit align best."
+  },
+  "cascais-coast": {
+    valuationBand: "$745k-$805k",
+    comparables: "Premium coastal townhome comps are supportive but more variable on carrying cost.",
+    trend: "Healthy premium demand with greater macro sensitivity.",
+    location: "Lifestyle appeal is excellent, though coastal exposure adds friction.",
+    rationale: "The recommendation expert penalizes insurance drag and budget stretch relative to Lisbon."
+  },
+  "porto-riverside": {
+    valuationBand: "$520k-$555k",
+    comparables: "Riverfront loft comps and rent-support evidence create a tight entry range.",
+    trend: "Moderate appreciation with stronger affordability retention.",
+    location: "Transit and rental fallback improve flexibility over prestige-led options.",
+    rationale: "The recommendation expert keeps this near the top because financing resilience is strongest."
+  },
+  "athens-urban": {
+    valuationBand: "$845k-$910k",
+    comparables: "Comparable residential blocks and stabilized rent rolls support the value case.",
+    trend: "Yield-led demand remains constructive in a mid-volatility market.",
+    location: "Dense urban amenities and occupancy drivers improve resilience.",
+    rationale: "The recommendation expert ranks this first for investor fit due to yield and diversification strength."
+  },
+  "dubai-marina": {
+    valuationBand: "$1.16M-$1.24M",
+    comparables: "Premium branded residence comps confirm upside with wider premium-market dispersion.",
+    trend: "Momentum is favorable but more cyclical under FX or rate shocks.",
+    location: "Liquidity and prestige are strong, while carry costs are highest.",
+    rationale: "The recommendation expert lowers the rank because premium carry weakens resilience."
+  },
+  "lisbon-income": {
+    valuationBand: "$735k-$785k",
+    comparables: "Two-unit rental comps show stable income pricing with manageable vacancy assumptions.",
+    trend: "Balanced market momentum with moderate policy watchpoints.",
+    location: "Flexible exit paths and central access support future optionality.",
+    rationale: "The recommendation expert values flexibility and capital efficiency, keeping this close to first."
+  },
+  "barcelona-family-office": {
+    valuationBand: "$1.01M-$1.08M",
+    comparables: "Premium residence comparables support the price with strong documentation quality.",
+    trend: "Steady prime-market demand with controlled downside.",
+    location: "Dense services and narrative clarity improve advisor confidence.",
+    rationale: "The recommendation expert favors this option because it is easiest to defend in a suitability memo."
+  },
+  "athens-balanced": {
+    valuationBand: "$860k-$915k",
+    comparables: "Comparable income assets and rent comps support a balanced valuation case.",
+    trend: "Healthy income demand with moderate policy-watch exposure.",
+    location: "Residency optionality and urban access strengthen client flexibility.",
+    rationale: "The recommendation expert keeps this close because yield and residency optionality are both strong."
+  },
+  "dubai-premium": {
+    valuationBand: "$1.39M-$1.49M",
+    comparables: "High-end comparables support the range but with broader volatility bands.",
+    trend: "Premium growth potential is strong, but cyclicality is higher.",
+    location: "Global mobility is attractive, though cost-to-fit is weakest for conservative advice.",
+    rationale: "The recommendation expert places it last because suitability and carrying cost outweigh upside here."
+  }
+};
+
+const governanceProfiles = [
+  {
+    framework: "ISO/IEC 5259",
+    title: "Data quality governance",
+    summary: "Market feeds, comparables, trend signals, and location intelligence are tested for freshness, completeness, and provenance.",
+    controls: "Freshness SLAs • Comparable coverage • Feature provenance • Remediation logging"
+  },
+  {
+    framework: "ISO/IEC 42001",
+    title: "AI management governance",
+    summary: "Valuation and recommendation models are managed with accountable ownership, fairness reviews, explainability, and human oversight triggers.",
+    controls: "Model inventory • Human review • Fairness checks • Explainability ledger"
+  }
+];
 
 const state = {
   activeJourney: "buyer",
@@ -379,6 +461,8 @@ const propertyList = document.getElementById("property-list");
 const insightList = document.getElementById("insight-list");
 const visaList = document.getElementById("visa-list");
 const insuranceList = document.getElementById("insurance-list");
+const valuationList = document.getElementById("valuation-list");
+const governanceList = document.getElementById("governance-list");
 const contributionList = document.getElementById("contribution-list");
 const nextActionsList = document.getElementById("next-actions");
 const propertyFitPill = document.getElementById("property-fit-pill");
@@ -440,45 +524,76 @@ function populateObjectives() {
     .join("");
 }
 
+function getIntelligence(candidate) {
+  return propertyIntelligence[candidate.id];
+}
+
+function getRecommendationScore(candidate) {
+  const intelligence = getIntelligence(candidate);
+  const baseScore = intelligence ? 0.88 : 0.8;
+  const fitScore = (candidate.experts.property + candidate.experts.finance + candidate.experts.compliance) / 3;
+  return Number(((baseScore + fitScore) / 2).toFixed(2));
+}
+
 function buildWeights() {
-  const base = { property: 0.2, investment: 0.2, visa: 0.14, insurance: 0.14, finance: 0.16, compliance: 0.16 };
+  const base = { property: 0.18, investment: 0.16, visa: 0.12, insurance: 0.12, finance: 0.14, compliance: 0.12, recommendation: 0.16 };
   const { activeJourney, objective, risk: riskMode, residency, financing, explanationDepth } = state;
 
   if (activeJourney === "buyer") {
     base.property += 0.08;
     base.finance += 0.05;
+    base.recommendation += 0.07;
   }
   if (activeJourney === "investor") {
     base.investment += 0.1;
     base.property += 0.04;
+    base.recommendation += 0.05;
   }
   if (activeJourney === "advisor") {
     base.compliance += 0.1;
     base.finance += 0.04;
+    base.recommendation += 0.04;
   }
 
   if (objective === "yield") base.investment += 0.08;
+  if (objective === "yield") base.recommendation += 0.03;
   if (objective === "diversify") base.property += 0.04;
+  if (objective === "diversify") base.recommendation += 0.03;
   if (objective === "residency" || objective === "relocate") base.visa += 0.08;
+  if (objective === "residency" || objective === "relocate") base.recommendation += 0.03;
   if (objective === "stability" || objective === "suitability") base.compliance += 0.06;
+  if (objective === "stability" || objective === "suitability") base.recommendation += 0.02;
   if (objective === "lifestyle") base.property += 0.06;
+  if (objective === "lifestyle") base.recommendation += 0.03;
   if (objective === "approval" || objective === "evidence") base.compliance += 0.05;
+  if (objective === "approval" || objective === "evidence") base.recommendation += 0.03;
 
   if (riskMode === "conservative") {
     base.compliance += 0.05;
     base.insurance += 0.04;
     base.finance += 0.03;
+    base.recommendation += 0.02;
   }
   if (riskMode === "opportunistic") {
     base.investment += 0.05;
     base.property += 0.03;
+    base.recommendation += 0.03;
   }
 
-  if (residency) base.visa += 0.06;
+  if (residency) {
+    base.visa += 0.06;
+    base.recommendation += 0.02;
+  }
   if (financing) base.finance += 0.06;
-  else base.investment += 0.02;
+  else {
+    base.investment += 0.02;
+    base.recommendation += 0.02;
+  }
 
-  if (explanationDepth === "full") base.compliance += 0.02;
+  if (explanationDepth === "full") {
+    base.compliance += 0.02;
+    base.recommendation += 0.02;
+  }
 
   const total = Object.values(base).reduce((sum, value) => sum + value, 0);
   return Object.fromEntries(Object.entries(base).map(([key, value]) => [key, value / total]));
@@ -497,7 +612,8 @@ function scoreCandidate(candidate) {
         ? 0.07
         : 0;
 
-  const weightedScore = Object.entries(candidate.experts).reduce((sum, [expert, expertScore]) => {
+  const enrichedExperts = { ...candidate.experts, recommendation: getRecommendationScore(candidate) };
+  const weightedScore = Object.entries(enrichedExperts).reduce((sum, [expert, expertScore]) => {
     return sum + expertScore * weights[expert];
   }, 0);
 
@@ -518,7 +634,7 @@ function getReleaseTone() {
 
 function buildWhyText(topCandidate) {
   const weights = buildWeights();
-  const sortedContributors = Object.entries(topCandidate.experts)
+  const sortedContributors = Object.entries({ ...topCandidate.experts, recommendation: getRecommendationScore(topCandidate) })
     .map(([key, value]) => ({ key, value, weighted: value * weights[key] }))
     .sort((a, b) => b.weighted - a.weighted)
     .slice(0, 3)
@@ -536,7 +652,8 @@ function buildWhyText(topCandidate) {
 function buildRiskText(topCandidate) {
   const budgetDelta = state.budget - topCandidate.price;
   const budgetText = budgetDelta >= 0 ? `within budget by ${currency(budgetDelta)}` : `above budget by ${currency(Math.abs(budgetDelta))}`;
-  return `${topCandidate.insurance.summary} The current recommendation is ${budgetText}, climate risk is ${topCandidate.climateRisk}, and release posture is ${getReleaseTone().toLowerCase()}.`;
+  const intelligence = getIntelligence(topCandidate);
+  return `${topCandidate.insurance.summary} ${intelligence.trend} The current recommendation is ${budgetText}, climate risk is ${topCandidate.climateRisk}, and release posture is ${getReleaseTone().toLowerCase()}.`;
 }
 
 function buildActionText(topCandidate) {
@@ -563,6 +680,7 @@ function renderPropertyList(rankedCandidates) {
           <div class="meta-row">
             <span>Price ${currency(candidate.price)}</span>
             <span>Score ${delta}/100</span>
+            <span>Value band ${getIntelligence(candidate).valuationBand}</span>
           </div>
           <div class="tag-row">
             ${candidate.tags.map((tag) => `<span>${tag}</span>`).join("")}
@@ -615,9 +733,37 @@ function renderInsights(rankedCandidates) {
     .join("");
 }
 
+function renderValuation(rankedCandidates) {
+  valuationList.innerHTML = rankedCandidates
+    .slice(0, 2)
+    .map((candidate) => {
+      const intelligence = getIntelligence(candidate);
+      return `
+        <div class="stack-item">
+          <strong>${candidate.title} • ${intelligence.valuationBand}</strong>
+          <span>${intelligence.comparables}</span>
+          <p>${intelligence.trend} ${intelligence.location}</p>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function renderGovernance() {
+  governanceList.innerHTML = governanceProfiles
+    .map((profile) => `
+      <div class="stack-item">
+        <strong>${profile.framework} • ${profile.title}</strong>
+        <span>${profile.controls}</span>
+        <p>${profile.summary}</p>
+      </div>
+    `)
+    .join("");
+}
+
 function renderContributions(topCandidate) {
   const weights = buildWeights();
-  const entries = Object.entries(topCandidate.experts)
+  const entries = Object.entries({ ...topCandidate.experts, recommendation: getRecommendationScore(topCandidate) })
     .map(([key, value]) => ({ key, value, weighted: value * weights[key] }))
     .sort((a, b) => b.weighted - a.weighted);
 
@@ -692,6 +838,8 @@ function renderJourney() {
 
   renderPropertyList(rankedCandidates);
   renderInsights(rankedCandidates);
+  renderValuation(rankedCandidates);
+  renderGovernance();
   renderContributions(topCandidate);
   renderNextActions(journey, topCandidate);
 

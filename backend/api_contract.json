@@ -1,6 +1,6 @@
 {
   "service": "EstateOS Unified Intelligence API",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "azure_pattern": {
     "entrypoints": [
       "Azure API Management",
@@ -96,6 +96,7 @@
         "release_status",
         "selected_experts",
         "ranked_recommendations",
+        "governance_status",
         "explanation",
         "policy_gates",
         "audit_trail"
@@ -110,10 +111,33 @@
         "composite_score",
         "confidence",
         "expert_contributions",
+        "valuation_band",
+        "comparable_summary",
+        "trend_signal",
+        "location_intelligence",
+        "recommendation_rationale",
         "why",
         "investment_insight",
         "visa_pathway",
         "insurance_option"
+      ]
+    },
+    "ValuationIntelligence": {
+      "type": "object",
+      "required": [
+        "valuation_band",
+        "comparable_summary",
+        "trend_signal",
+        "location_intelligence"
+      ]
+    },
+    "GovernanceStatus": {
+      "type": "object",
+      "required": [
+        "framework",
+        "status",
+        "controls",
+        "explanation"
       ]
     }
   },
@@ -146,13 +170,27 @@
     {
       "path": "/v1/properties/recommendations",
       "method": "POST",
-      "purpose": "Generate ranked property suggestions plus linked investment, visa, and insurance guidance personalized by investor type and location.",
+      "purpose": "Generate ranked property suggestions enhanced by valuation intelligence, market comparables, trend analysis, location intelligence, and preference-aware recommendation logic.",
       "controls": [
         "KYC state check",
         "explainability payload",
         "consent receipt",
         "privacy tier enforcement",
-        "why-this-rank explanation payload"
+        "why-this-rank explanation payload",
+        "ISO/IEC 5259 data-quality scorecard",
+        "ISO/IEC 42001 oversight state",
+        "ranking fairness diagnostics"
+      ]
+    },
+    {
+      "path": "/v1/properties/valuation-intelligence",
+      "method": "POST",
+      "purpose": "Enhance listings with valuation bands, comparable summaries, trend signals, and location intelligence before recommendation ranking.",
+      "controls": [
+        "market data provenance",
+        "comparable-set completeness",
+        "ISO/IEC 5259 quality scoring",
+        "explainability payload"
       ]
     },
     {
