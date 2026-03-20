@@ -19,6 +19,7 @@
           <a href="#insurance">Insurance engine</a>
           <a href="#payments">Payment engine</a>
           <a href="#integration-hub">Integration hub</a>
+          <a href="#digital-twin">Digital twin</a>
           <a href="#architecture">Architecture</a>
           <a href="#delivery-model">Delivery model</a>
         </div>
@@ -382,6 +383,94 @@
                       </div>
                     </div>
                     <div id="compliance-control-list" class="stack-list"></div>
+                  </article>
+                </section>
+
+                <section id="digital-twin" class="twin-layout" aria-label="Digital twin property simulation engine">
+                  <article class="decision-card twin-card twin-card--primary">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Digital twin simulation engine</p>
+                        <h4 id="twin-title">Property twin outlook</h4>
+                      </div>
+                      <span class="status-pill" id="twin-status-pill">Governed simulation</span>
+                    </div>
+                    <p id="twin-summary" class="helper-copy"></p>
+                    <div class="form-grid twin-form">
+                      <label>
+                        Occupancy scenario
+                        <input id="twin-occupancy-range" type="range" min="0.55" max="0.99" step="0.01" />
+                        <span class="range-value" id="twin-occupancy-value"></span>
+                      </label>
+                      <label>
+                        Monthly rent
+                        <input id="twin-rent-range" type="range" min="1000" max="12000" step="100" />
+                        <span class="range-value" id="twin-rent-value"></span>
+                      </label>
+                      <label>
+                        Renovation budget
+                        <input id="twin-renovation-range" type="range" min="0" max="250000" step="5000" />
+                        <span class="range-value" id="twin-renovation-value"></span>
+                      </label>
+                      <label>
+                        Annual insurance
+                        <input id="twin-insurance-range" type="range" min="1000" max="25000" step="250" />
+                        <span class="range-value" id="twin-insurance-value"></span>
+                      </label>
+                      <label>
+                        Hold period
+                        <input id="twin-hold-range" type="range" min="3" max="15" step="1" />
+                        <span class="range-value" id="twin-hold-value"></span>
+                      </label>
+                    </div>
+                    <div class="metric-grid twin-metric-grid">
+                      <div class="metric-item">
+                        <span>Annual NOI</span>
+                        <strong id="twin-noi"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>Annual cash flow</span>
+                        <strong id="twin-cashflow"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>Projected exit value</span>
+                        <strong id="twin-exit-value"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>Reliability score</span>
+                        <strong id="twin-reliability"></strong>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="decision-card twin-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Scenario library</p>
+                        <h4>What-if projections</h4>
+                      </div>
+                    </div>
+                    <div id="twin-scenario-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card twin-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Investment outcomes</p>
+                        <h4>Portfolio implications</h4>
+                      </div>
+                    </div>
+                    <div id="twin-outlook-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card twin-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Explainability and governance</p>
+                        <h4>ISO/IEC 42001 + ISO/IEC 5259 controls</h4>
+                      </div>
+                    </div>
+                    <div id="twin-governance-list" class="stack-list"></div>
                   </article>
                 </section>
 

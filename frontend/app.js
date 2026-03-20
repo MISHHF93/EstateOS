@@ -901,7 +901,16 @@ const state = {
   paymentTrustedDevice: true,
   paymentCrossBorder: false,
   paymentManualReview: false,
-  integrationPartner: "banking_core"
+  integrationPartner: "banking_core",
+  twinOccupancy: 0.94,
+  twinMonthlyRent: 3200,
+  twinRenovationBudget: 38000,
+  twinInsurancePremium: 2256,
+  twinHoldYears: 7,
+  twinAppreciationRate: 0.031,
+  twinOperatingExpenseRatio: 0.28,
+  twinFinancingRatio: 0.68,
+  twinInterestRate: 0.047
 };
 
 const title = document.getElementById("journey-title");
@@ -1015,6 +1024,26 @@ const integrationRouteTarget = document.getElementById("integration-route-target
 const integrationControlList = document.getElementById("integration-control-list");
 const integrationRouteList = document.getElementById("integration-route-list");
 const integrationEvidenceList = document.getElementById("integration-evidence-list");
+const twinTitle = document.getElementById("twin-title");
+const twinStatusPill = document.getElementById("twin-status-pill");
+const twinSummary = document.getElementById("twin-summary");
+const twinOccupancyRange = document.getElementById("twin-occupancy-range");
+const twinOccupancyValue = document.getElementById("twin-occupancy-value");
+const twinRentRange = document.getElementById("twin-rent-range");
+const twinRentValue = document.getElementById("twin-rent-value");
+const twinRenovationRange = document.getElementById("twin-renovation-range");
+const twinRenovationValue = document.getElementById("twin-renovation-value");
+const twinInsuranceRange = document.getElementById("twin-insurance-range");
+const twinInsuranceValue = document.getElementById("twin-insurance-value");
+const twinHoldRange = document.getElementById("twin-hold-range");
+const twinHoldValue = document.getElementById("twin-hold-value");
+const twinNoi = document.getElementById("twin-noi");
+const twinCashflow = document.getElementById("twin-cashflow");
+const twinExitValue = document.getElementById("twin-exit-value");
+const twinReliability = document.getElementById("twin-reliability");
+const twinScenarioList = document.getElementById("twin-scenario-list");
+const twinOutlookList = document.getElementById("twin-outlook-list");
+const twinGovernanceList = document.getElementById("twin-governance-list");
 const wiringTitle = document.getElementById("wiring-title");
 const wiringStatusPill = document.getElementById("wiring-status-pill");
 const wiringSummary = document.getElementById("wiring-summary");
@@ -1044,7 +1073,8 @@ function getBackendSync() {
     payment: packets.payment_decision,
     insurance: packets.insurance_decision,
     integration: packets.integration_decision,
-    residency: packets.residency_decision
+    residency: packets.residency_decision,
+    digitalTwin: packets.digital_twin_decision
   };
 }
 
@@ -1077,6 +1107,7 @@ function renderWiringStatus() {
     const insurancePacket = packets.insurance_decision;
     const integrationPacket = packets.integration_decision;
     const residencyPacket = packets.residency_decision;
+    const digitalTwinPacket = packets.digital_twin_decision;
 
     wiringTitle.textContent = "Backend snapshot connected";
     wiringStatusPill.textContent = `${state.activeJourney} packets loaded`;
@@ -1112,6 +1143,11 @@ function renderWiringStatus() {
         "Integration routing",
         integrationPacket.release_status,
         `${integrationPacket.partner_system} → ${integrationPacket.routing_decisions[0].target}.`
+      ),
+      createWiringMetricCard(
+        "Digital twin",
+        `${digitalTwinPacket.scenarios.length} scenarios`,
+        `${digitalTwinPacket.twin.property_name} • ${digitalTwinPacket.standards_alignment.slice(0, 2).join(" + ")}.`
       )
     ].join("");
     return;
@@ -1127,7 +1163,7 @@ function renderWiringStatus() {
   wiringCardGrid.innerHTML = [
     createWiringMetricCard("Property decision", "Local prototype", "Frontend ranking and explainability remain interactive while the backend snapshot is unavailable."),
     createWiringMetricCard("Transaction decision", "Local prototype", "Deal controls, stage tracking, and workflow evidence are still rendered from browser-side defaults."),
-    createWiringMetricCard("Specialized engines", "Awaiting sync", "Residency, insurance, payments, and integration routing will promote backend statuses when the snapshot loads.")
+    createWiringMetricCard("Specialized engines", "Awaiting sync", "Residency, insurance, payments, integration routing, and digital twin simulation will promote backend statuses when the snapshot loads.")
   ].join("");
 }
 
@@ -1289,6 +1325,15 @@ function applyJourneyDefaults(journeyKey) {
   state.paymentCrossBorder = journeyKey !== "buyer";
   state.paymentManualReview = journeyKey === "advisor";
   state.integrationPartner = journeyKey === "buyer" ? "banking_core" : journeyKey === "investor" ? "government_registry" : "insurance_exchange";
+  state.twinOccupancy = journeyKey === "investor" ? 0.91 : journeyKey === "advisor" ? 0.93 : 0.94;
+  state.twinMonthlyRent = journeyKey === "investor" ? 6150 : journeyKey === "advisor" ? 6400 : 3200;
+  state.twinRenovationBudget = journeyKey === "investor" ? 95000 : journeyKey === "advisor" ? 76000 : 38000;
+  state.twinInsurancePremium = journeyKey === "investor" ? 3864 : journeyKey === "advisor" ? 4020 : 2256;
+  state.twinHoldYears = journeyKey === "investor" ? 8 : journeyKey === "advisor" ? 6 : 7;
+  state.twinAppreciationRate = journeyKey === "investor" ? 0.036 : journeyKey === "advisor" ? 0.034 : 0.031;
+  state.twinOperatingExpenseRatio = journeyKey === "investor" ? 0.32 : journeyKey === "advisor" ? 0.3 : 0.28;
+  state.twinFinancingRatio = journeyKey === "investor" ? 0.48 : journeyKey === "advisor" ? 0.42 : 0.68;
+  state.twinInterestRate = journeyKey === "investor" ? 0.052 : journeyKey === "advisor" ? 0.049 : 0.047;
   paymentMethodSelect.value = state.paymentMethod;
   paymentEscrowStage.value = state.paymentEscrowStage;
   paymentAmountRange.value = state.paymentAmount;
@@ -1297,6 +1342,11 @@ function applyJourneyDefaults(journeyKey) {
   paymentCrossBorder.checked = state.paymentCrossBorder;
   paymentManualReview.checked = state.paymentManualReview;
   integrationPartnerSelect.value = state.integrationPartner;
+  twinOccupancyRange.value = state.twinOccupancy;
+  twinRentRange.value = state.twinMonthlyRent;
+  twinRenovationRange.value = state.twinRenovationBudget;
+  twinInsuranceRange.value = state.twinInsurancePremium;
+  twinHoldRange.value = state.twinHoldYears;
   populateObjectives();
   objectiveSelect.value = state.objective;
 }
@@ -2515,6 +2565,178 @@ function renderIntegrationHub() {
     .join("");
 }
 
+function getTwinScenario() {
+  const annualGrossIncome = state.twinMonthlyRent * 12 * state.twinOccupancy;
+  const annualOperatingExpenses = annualGrossIncome * state.twinOperatingExpenseRatio + state.twinInsurancePremium;
+  const annualNoi = annualGrossIncome - annualOperatingExpenses;
+  const annualDebtService = state.budget * state.twinFinancingRatio * state.twinInterestRate;
+  const annualCashFlow = annualNoi - annualDebtService;
+  const projectedValue = (state.propertyValue + state.twinRenovationBudget * 1.15) * ((1 + state.twinAppreciationRate) ** state.twinHoldYears);
+  const baselineEquity = projectedValue - state.budget * state.twinFinancingRatio * 0.92 + annualCashFlow * state.twinHoldYears - state.twinRenovationBudget;
+  const reliability = Math.max(0.56, Math.min(0.97, 0.9 - Math.abs(0.92 - state.twinOccupancy) * 0.9 - (state.twinInsurancePremium / 25000) * 0.08 - (state.twinRenovationBudget / 250000) * 0.05));
+  const scenarios = [
+    {
+      title: 'Baseline operating case',
+      occupancy: state.twinOccupancy,
+      rent: state.twinMonthlyRent,
+      insurance: state.twinInsurancePremium,
+      annualNoi,
+      annualCashFlow,
+      projectedValue,
+      equity: baselineEquity,
+      reliability,
+      detail: 'Balances observed occupancy, insurance, and capex assumptions against the active financing plan.'
+    },
+    {
+      title: 'Renovation upside case',
+      occupancy: Math.min(0.99, state.twinOccupancy + 0.03),
+      rent: state.twinMonthlyRent * 1.08,
+      insurance: state.twinInsurancePremium * 1.04,
+      annualNoi: annualNoi * 1.13,
+      annualCashFlow: annualCashFlow * 1.18,
+      projectedValue: projectedValue * 1.09,
+      equity: baselineEquity * 1.14,
+      reliability: reliability - 0.05,
+      detail: 'Assumes renovation lifts rent, occupancy, and exit value but carries additional capex and execution uncertainty.'
+    },
+    {
+      title: 'Insurance and occupancy stress case',
+      occupancy: Math.max(0.55, state.twinOccupancy - 0.09),
+      rent: state.twinMonthlyRent * 0.96,
+      insurance: state.twinInsurancePremium * 1.22,
+      annualNoi: annualNoi * 0.82,
+      annualCashFlow: annualCashFlow * 0.74,
+      projectedValue: projectedValue * 0.93,
+      equity: baselineEquity * 0.84,
+      reliability: reliability - 0.09,
+      detail: 'Tests downside resilience under vacancy, higher premium load, and softer valuation appreciation.'
+    }
+  ].map((item) => ({
+    ...item,
+    annualNoi: Math.round(item.annualNoi),
+    annualCashFlow: Math.round(item.annualCashFlow),
+    projectedValue: Math.round(item.projectedValue),
+    equity: Math.round(item.equity),
+    reliability: Math.max(0.5, Math.min(0.98, item.reliability))
+  }));
+  return {
+    annualNoi: Math.round(annualNoi),
+    annualCashFlow: Math.round(annualCashFlow),
+    projectedValue: Math.round(projectedValue),
+    reliability,
+    scenarios,
+    outlook: [
+      `Baseline modeled equity outcome is ${currency(Math.round(baselineEquity))} across a ${state.twinHoldYears}-year hold.`,
+      `Renovation sensitivity adds a potential ${currency(Math.round(scenarios[1].equity - baselineEquity))} upside if rent and occupancy improve on plan.`,
+      `Insurance stress reduces annual cash flow to ${currency(scenarios[2].annualCashFlow)} and highlights the need for resilient coverage planning.`,
+      'Every scenario keeps occupancy, renovation, insurance, debt-service, and valuation assumptions visible for challenge and override.'
+    ],
+    governance: [
+      { framework: 'ISO/IEC 42001', status: 'Active', detail: 'Simulation outputs stay under accountable model governance, human review, and release gating.' },
+      { framework: 'ISO/IEC 5259', status: 'Active', detail: 'Data quality is visible through explicit variables and reliability scoring rather than opaque predictions.' },
+      { framework: 'Explainability', status: 'Active', detail: 'Users can adjust occupancy, rent, insurance, renovation, and hold-period inputs and immediately inspect why results move.' },
+      { framework: 'Reliability', status: 'Replayable', detail: 'What-if states are deterministic from the visible inputs, supporting repeatability and operational recovery.' }
+    ],
+    recommendation: 'Use the twin to decide whether the property still clears cash-flow and equity thresholds after renovation and insurance sensitivity are applied.'
+  };
+}
+
+function renderDigitalTwinEngine() {
+  const backend = getBackendSync();
+  const twin = getTwinScenario();
+  const backendScenarios = backend?.digitalTwin?.scenarios || [];
+
+  if (backend?.digitalTwin) {
+    const packet = backend.digitalTwin;
+    twinTitle.textContent = packet.twin.property_name;
+    twinStatusPill.textContent = packet.standards_alignment.slice(0, 2).join(' + ');
+    twinStatusPill.dataset.status = 'active';
+    twinSummary.textContent = `${packet.explanation} ${packet.explainability_summary} Adjust the controls to run an interactive frontend what-if against the governed backend baseline.`;
+    twinOutlookList.innerHTML = [
+      ...packet.portfolio_outlook,
+      packet.recommendation,
+      packet.reliability_summary
+    ]
+      .map((item, index) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>Outcome ${index + 1}</strong>
+            <span>Portfolio view</span>
+          </div>
+          <p>${item}</p>
+        </div>
+      `)
+      .join('');
+
+    twinGovernanceList.innerHTML = packet.governance_controls
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.framework}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p><strong>${item.control}.</strong> ${item.detail}</p>
+        </div>
+      `)
+      .join('');
+  } else {
+    twinTitle.textContent = `${journeys[state.activeJourney].candidates[0].title} twin`;
+    twinStatusPill.textContent = 'Interactive what-if';
+    twinStatusPill.dataset.status = 'active';
+    twinSummary.textContent = `${twin.recommendation} This local simulation blends occupancy, renovation, insurance, financing, and hold-period assumptions into a governed projection.`;
+    twinOutlookList.innerHTML = twin.outlook
+      .map((item, index) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>Outcome ${index + 1}</strong>
+            <span>Scenario analytics</span>
+          </div>
+          <p>${item}</p>
+        </div>
+      `)
+      .join('');
+
+    twinGovernanceList.innerHTML = twin.governance
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.framework}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join('');
+  }
+
+  twinNoi.textContent = currency(twin.annualNoi);
+  twinCashflow.textContent = currency(twin.annualCashFlow);
+  twinExitValue.textContent = currency(twin.projectedValue);
+  twinReliability.textContent = `${Math.round(twin.reliability * 100)}/100`;
+  twinOccupancyValue.textContent = `${Math.round(state.twinOccupancy * 100)}% occupied`;
+  twinRentValue.textContent = `${currency(state.twinMonthlyRent)} / month`;
+  twinRenovationValue.textContent = `${currency(state.twinRenovationBudget)} capex`;
+  twinInsuranceValue.textContent = `${currency(state.twinInsurancePremium)} annual premium`;
+  twinHoldValue.textContent = `${state.twinHoldYears} year hold`;
+
+  twinScenarioList.innerHTML = twin.scenarios
+    .map((item, index) => {
+      const baseline = backendScenarios[index];
+      return `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${baseline?.name || item.title}</strong>
+            <span>${Math.round(item.reliability * 100)}/100 reliable</span>
+          </div>
+          <p>${baseline?.explanation || item.detail}</p>
+          <small>NOI ${currency(item.annualNoi)} • Cash flow ${currency(item.annualCashFlow)} • Exit ${currency(item.projectedValue)}</small>
+        </div>
+      `;
+    })
+    .join('');
+}
+
+
 function renderNextActions(journey, topCandidate) {
   const backend = getBackendSync();
   if (backend) {
@@ -2590,7 +2812,7 @@ function renderJourney() {
         `Detected intents: ${backend.property.detected_intents.join(", ")}.`,
         `Top recommendation: ${backendTopCandidate.title} in ${backendTopCandidate.geography}.`,
         `Transaction release is ${backend.transaction.release_status} with ${backend.transaction.compliance_controls.length} tracked controls.`,
-        `Residency, insurance, payment, and integration engines rendered from backend packets.`
+        `Residency, insurance, payment, integration, and digital twin engines rendered from backend packets.`
       ]
         .map((item) => `<li>${item}</li>`)
         .join("")
@@ -2615,6 +2837,7 @@ function renderJourney() {
   renderGovernance();
   renderContributions(topCandidate);
   renderDealBoard();
+  renderDigitalTwinEngine();
   renderResidencyEngine();
   renderInsuranceEngine();
   renderPaymentEngine();
@@ -2779,6 +3002,31 @@ paymentManualReview.addEventListener("change", (event) => {
 
 integrationPartnerSelect.addEventListener("change", (event) => {
   state.integrationPartner = event.target.value;
+  renderJourney();
+});
+
+twinOccupancyRange.addEventListener("input", (event) => {
+  state.twinOccupancy = Number(event.target.value);
+  renderJourney();
+});
+
+twinRentRange.addEventListener("input", (event) => {
+  state.twinMonthlyRent = Number(event.target.value);
+  renderJourney();
+});
+
+twinRenovationRange.addEventListener("input", (event) => {
+  state.twinRenovationBudget = Number(event.target.value);
+  renderJourney();
+});
+
+twinInsuranceRange.addEventListener("input", (event) => {
+  state.twinInsurancePremium = Number(event.target.value);
+  renderJourney();
+});
+
+twinHoldRange.addEventListener("input", (event) => {
+  state.twinHoldYears = Number(event.target.value);
   renderJourney();
 });
 

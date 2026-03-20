@@ -182,6 +182,60 @@
         "continuity_notes"
       ]
     },
+    "DigitalTwinInput": {
+      "type": "object",
+      "required": [
+        "twin_id",
+        "property_name",
+        "jurisdiction",
+        "property_type",
+        "purchase_price",
+        "current_value",
+        "monthly_rent",
+        "occupancy_rate",
+        "operating_expense_ratio",
+        "annual_insurance_premium",
+        "renovation_budget",
+        "renovation_uplift",
+        "appreciation_rate",
+        "financing_ratio",
+        "interest_rate",
+        "hold_years",
+        "climate_risk"
+      ]
+    },
+    "DigitalTwinScenario": {
+      "type": "object",
+      "required": [
+        "name",
+        "occupancy_rate",
+        "monthly_rent",
+        "renovation_budget",
+        "annual_insurance_premium",
+        "annual_noi",
+        "annual_cash_flow",
+        "cumulative_cash_flow",
+        "projected_value",
+        "equity_uplift",
+        "reliability_score",
+        "explanation"
+      ]
+    },
+    "DigitalTwinDecision": {
+      "type": "object",
+      "required": [
+        "twin",
+        "baseline_assumptions",
+        "scenarios",
+        "portfolio_outlook",
+        "governance_controls",
+        "explainability_summary",
+        "reliability_summary",
+        "recommendation",
+        "explanation",
+        "standards_alignment"
+      ]
+    },
     "GovernanceStatus": {
       "type": "object",
       "required": [
