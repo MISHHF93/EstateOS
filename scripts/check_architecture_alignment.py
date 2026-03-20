@@ -361,6 +361,10 @@ def build_checks() -> list[CheckResult]:
                 "README quick-start orchestration command executes successfully",
             ),
             require_command(
+                ["python3", "scripts/check_frontend_wiring.py"],
+                "frontend prototype wiring smoke test passes against the served demo snapshot",
+            ),
+            require_command(
                 ["python3", "-m", "json.tool", "backend/api_contract.json"],
                 "API contract can be parsed by the standard JSON tooling referenced by contributors",
             ),

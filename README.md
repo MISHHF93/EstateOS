@@ -220,7 +220,13 @@ Run the repository-level architecture alignment check:
 python3 scripts/check_architecture_alignment.py
 ```
 
-The alignment check validates the canonical repository scaffold, the key blueprint documents, the prototype frontend assets, the API contract JSON, and the README quick-start orchestration command so the current codebase keeps matching this README's governed-scaffold claims.
+Run the frontend wiring smoke test directly if you want to validate the served prototype against the generated demo snapshot:
+
+```bash
+python3 scripts/check_frontend_wiring.py
+```
+
+The alignment check validates the canonical repository scaffold, the key blueprint documents, the prototype frontend assets, the served frontend/demo snapshot wiring, the API contract JSON, and the README quick-start orchestration command so the current codebase keeps matching this README's governed-scaffold claims.
 
 ## Repository status after this update
 
