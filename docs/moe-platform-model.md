@@ -164,6 +164,21 @@ A reference deployment uses:
 - Azure SQL, Cosmos DB, and Data Lake for state and evidence,
 - Azure Monitor, Sentinel, Purview, and Key Vault for operations and security.
 
+### 7.1 Deployment fabric
+- Build every expert and routing component as a container image, publish it to Azure Container Registry, and deploy it to AKS or Azure Container Apps based on latency, cost, and isolation needs.
+- Separate CPU-bound orchestration services from GPU-bound inference pools so scaling decisions follow real workload characteristics.
+- Use service-mesh controls for mutual TLS, traffic shaping, retries, canaries, and per-expert policy enforcement.
+
+### 7.2 Model versioning and rollout
+- Register model checkpoints, prompt templates, retrieval indexes, and safety policies in Azure Machine Learning so the router can target approved bundles by immutable version.
+- Run champion/challenger evaluations before promotion and keep the previous production bundle available for instant rollback.
+- Attach model version IDs, container digests, and evaluation baselines to the evidence packet for every routed decision.
+
+### 7.3 Monitoring pipeline
+- Correlate router traces, expert latency, token usage, queue depth, confidence shifts, and policy outcomes with OpenTelemetry data in Azure Monitor and Application Insights.
+- Run drift, quality, and safety monitoring pipelines on historical inference logs and sampled decisions.
+- Escalate anomalies to security and platform operations through Sentinel and established incident runbooks.
+
 ## 8. One-sentence summary
 
 EstateOS applies specialized expert intelligence through one auditable routing layer so users get the right property, investment, residency, insurance, financial, and compliance guidance for their exact context, trust posture, and privacy constraints.
