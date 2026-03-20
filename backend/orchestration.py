@@ -9,7 +9,8 @@ This module provides a dependency-light Python blueprint for how EstateOS can:
 - emit auditable event records,
 - build explainable property decisions,
 - orchestrate transaction experts for pricing, negotiation, document validation,
-  workflow integrity, resilience, and risk scoring.
+  workflow integrity, resilience, and risk scoring,
+- evaluate payment fraud, escrow conditions, PCI-safe frontend controls, and reconciliation posture.
 """
 
 from __future__ import annotations
@@ -321,6 +322,81 @@ class InsuranceDecisionPacket:
 
 
 @dataclass(frozen=True)
+class PaymentParticipant:
+    role: str
+    name: str
+    identifier: str
+
+
+@dataclass(frozen=True)
+class PaymentInstrument:
+    instrument_type: str
+    token_provider: str
+    token_reference: str
+    last4: str
+    network: str
+    wallet_or_bank: str
+    pci_scope: str
+
+
+@dataclass(frozen=True)
+class PaymentSignal:
+    category: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class EscrowCondition:
+    condition: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class ReconciliationEntry:
+    entry_type: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class PaymentRequest:
+    transaction_reference: str
+    payer_id: str
+    payment_method_type: str
+    amount: int
+    currency: str
+    cross_border: bool
+    escrow_stage: str
+    trusted_device: bool
+    settlement_timing: str
+    manual_review_requested: bool
+    chargeback_history_count: int
+
+
+@dataclass(frozen=True)
+class PaymentDecisionPacket:
+    request_id: str
+    transaction_reference: str
+    payment_instrument: PaymentInstrument
+    participants: Sequence[PaymentParticipant]
+    fraud_probability: float
+    risk_level: str
+    payment_behavior_summary: str
+    escrow_status: str
+    frontend_security_posture: str
+    signals: Sequence[PaymentSignal]
+    escrow_conditions: Sequence[EscrowCondition]
+    reconciliation_entries: Sequence[ReconciliationEntry]
+    recommended_actions: Sequence[str]
+    release_status: str
+    explanation: str
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+@dataclass(frozen=True)
 class ResidencyApplicantProfile:
     applicant_id: str
     citizenship_country: str
@@ -436,6 +512,14 @@ EXPERT_REGISTRY: Sequence[ExpertCard] = (
         execution_mode="async",
     ),
     ExpertCard(
+        name="payment_intelligence",
+        specialties=("payment risk", "fraud scoring", "escrow", "reconciliation"),
+        triggers=("payment", "escrow", "fraud", "settlement", "reconciliation"),
+        compliance_dependencies=("privacy", "pci_dss", "aml", "records", "risk_thresholds"),
+        min_confidence=0.66,
+        execution_mode="sync",
+    ),
+    ExpertCard(
         name="financial_risk",
         specialties=("affordability", "leverage", "liquidity", "fx_exposure"),
         triggers=("mortgage", "finance", "loan", "affordability", "risk"),
@@ -513,6 +597,11 @@ INTENT_KEYWORDS: Dict[str, str] = {
     "citizenship": "residency",
     "insurance": "insurance",
     "coverage": "insurance",
+    "payment": "payment",
+    "escrow": "payment",
+    "fraud": "payment",
+    "settlement": "payment",
+    "reconciliation": "payment",
     "mortgage": "finance",
     "loan": "finance",
     "affordability": "finance",
@@ -529,6 +618,7 @@ INTENT_EXPERT_MAP: Dict[str, str] = {
     "recommendation": "listing_recommendation",
     "residency": "residency_eligibility",
     "insurance": "insurance_matching",
+    "payment": "payment_intelligence",
     "finance": "financial_risk",
     "compliance": "compliance_validation",
 }
@@ -542,6 +632,7 @@ POLICY_GATES: Dict[str, str] = {
     "sanctions": "Screen sanctioned individuals, entities, PEP relationships, and high-risk geographies before release.",
     "jurisdiction": "Verify local property ownership, residency-by-investment, cross-border disclosure, and servicing rules.",
     "licensing": "Ensure insurance distribution and advisory actions fit the servicing entity permissions.",
+    "pci_dss": "Isolate cardholder data, use tokenization, protect payment pages, and log reconciliation activity under PCI DSS controls.",
     "model_risk": "Record model lineage, confidence, bias review, and evaluation thresholds for AI-assisted outputs.",
     "data_quality": "Apply ISO/IEC 5259-aligned controls for data provenance, completeness, freshness, comparability, and traceable remediation.",
     "fairness": "Measure ranking fairness, disparate impact, and preference weighting drift before releasing recommendations.",
@@ -578,6 +669,7 @@ STANDARDS_ALIGNMENT: Sequence[str] = (
     "ISO/IEC 27001",
     "ISO/IEC 27017",
     "ISO/IEC 27701",
+    "PCI DSS",
     "SOC 2 Type 2",
     "ISO/IEC 25010",
     "ISO/IEC 5259",
@@ -1073,6 +1165,13 @@ def build_expert_outputs(
             confidence=0.84,
             evidence=("budget profile", "leverage ratio", "liquidity reserve check"),
             next_actions=("obtain pre-qualification", "compare financing paths"),
+        ),
+        "payment_intelligence": ExpertOutput(
+            expert="payment_intelligence",
+            summary="Payment routing monitors fraud probability, escrow milestones, and reconciliation exceptions before funds move.",
+            confidence=0.86,
+            evidence=("tokenized payment telemetry", "device and velocity checks", "escrow and settlement ledger"),
+            next_actions=("review payment release posture", "clear reconciliation exceptions"),
         ),
         "compliance_validation": ExpertOutput(
             expert="compliance_validation",
@@ -1620,6 +1719,105 @@ def evaluate_insurance_options(
 
 
 
+def evaluate_payment_risk(
+    payment: PaymentRequest,
+    identity: IdentityContext,
+    context: RequestContext,
+) -> PaymentDecisionPacket:
+    token_provider = "Stripe Treasury adapter" if payment.payment_method_type in {"card_token", "wallet"} else "Banking / escrow token service"
+    payment_instrument = PaymentInstrument(
+        instrument_type=payment.payment_method_type,
+        token_provider=token_provider,
+        token_reference=f"tok-{uuid.uuid4().hex[:10]}",
+        last4="4242" if payment.payment_method_type == "card_token" else "6789",
+        network="Visa" if payment.payment_method_type == "card_token" else "ACH/Wire",
+        wallet_or_bank="Apple Pay" if payment.payment_method_type == "wallet" else "Escrow operating account",
+        pci_scope="tokenized_frontend_only",
+    )
+    participants = (
+        PaymentParticipant(role="payer", name=identity.subject_id, identifier=payment.payer_id),
+        PaymentParticipant(role="beneficiary", name="EstateOS Escrow", identifier=payment.transaction_reference),
+        PaymentParticipant(role="servicer", name="EstateOS Payment Ops", identifier=context.request_id),
+    )
+
+    risk_score = 0.14
+    risk_score += min(0.24, payment.amount / 500000 * 0.22)
+    risk_score += 0.15 if payment.cross_border else 0.03
+    risk_score += 0.12 if payment.payment_method_type == "wire" else 0.09 if payment.payment_method_type == "card_token" else 0.07
+    risk_score += 0.09 if payment.settlement_timing == "same_day" else 0.05 if payment.settlement_timing == "next_day" else 0.03
+    risk_score += 0.12 if not payment.trusted_device else -0.08
+    risk_score += min(0.1, payment.chargeback_history_count * 0.03)
+    risk_score += -0.04 if payment.manual_review_requested else 0.05
+    risk_score += -0.03 if payment.escrow_stage in {"docs_cleared", "release_pending", "disbursed"} else 0.04
+    fraud_probability = round(max(0.04, min(0.96, risk_score)), 2)
+
+    risk_level = "high" if fraud_probability >= 0.72 else "moderate" if fraud_probability >= 0.48 else "low"
+    release_status = "hold" if fraud_probability >= 0.72 else "review" if fraud_probability >= 0.48 or not payment.trusted_device else "released"
+    payment_behavior_summary = (
+        "Payer behavior is anomalous and requires operations review."
+        if fraud_probability >= 0.72
+        else "Payer behavior is watchlisted because one or more telemetry signals exceeded baseline."
+        if fraud_probability >= 0.48
+        else "Payer behavior is stable across token usage, timing, and identity context."
+    )
+    escrow_status = {
+        "deposit_pending": "Funding controls active",
+        "funds_received": "Funds received pending milestone review",
+        "docs_cleared": "Ready when settlement confirms",
+        "release_pending": "Awaiting dual approval",
+        "disbursed": "Released and logged",
+    }.get(payment.escrow_stage, "Funding controls active")
+    frontend_security_posture = (
+        "PCI DSS hosted payment fields, tokenized instruments, CSP/WAF controls, and log redaction protect the frontend payment experience."
+    )
+
+    signals = (
+        PaymentSignal(category="device_trust", status="passed" if payment.trusted_device else "review", detail="Session is bound to MFA and a trusted device." if payment.trusted_device else "Step-up verification is required because device trust is incomplete."),
+        PaymentSignal(category="amount_velocity", status="review" if payment.amount >= 100000 else "passed", detail=f"Amount {payment.amount:,} is checked against payer velocity and historical behavior."),
+        PaymentSignal(category="cross_border", status="review" if payment.cross_border else "passed", detail="Cross-border payment routes trigger enhanced beneficiary, sanctions, and settlement monitoring." if payment.cross_border else "Domestic settlement path keeps screening and settlement complexity lower."),
+        PaymentSignal(category="chargeback_history", status="review" if payment.chargeback_history_count else "passed", detail="Chargeback history feeds the fraud probability model and manual-review thresholds."),
+    )
+    escrow_conditions = (
+        EscrowCondition(condition="funds_available", status="ready" if payment.escrow_stage != "deposit_pending" else "pending", detail="Escrow release requires settled funds and beneficiary matching."),
+        EscrowCondition(condition="document_clearance", status="ready" if payment.escrow_stage in {"docs_cleared", "release_pending", "disbursed"} else "review", detail="Closing, identity, and approval milestones must be complete before release."),
+        EscrowCondition(condition="dual_approval", status="ready" if payment.escrow_stage in {"release_pending", "disbursed"} else "pending", detail="Release requires dual approval with segregation of duties and immutable event logging."),
+    )
+    reconciliation_entries = (
+        ReconciliationEntry(entry_type="authorization_capture", status="tracked" if payment.payment_method_type in {"card_token", "wallet"} else "not_applicable", detail="PSP references are reconciled without exposing raw cardholder data."),
+        ReconciliationEntry(entry_type="escrow_ledger", status="closed" if payment.escrow_stage == "disbursed" else "open", detail="Escrow ledger events are matched to bank/PSP settlement references."),
+        ReconciliationEntry(entry_type="exception_queue", status="escalated" if payment.manual_review_requested else "monitored", detail="Signed webhooks, settlement files, and exception queues drive reconciliation closeout."),
+    )
+    recommended_actions = (
+        "Keep the user in hosted payment fields and masked token views.",
+        "Require payment-ops review before release." if release_status != "released" else "Allow escrow progression when settlement and approvals remain clean.",
+        "Match settlement references and escrow ledger entries before reconciliation close.",
+    )
+    explanation = (
+        f"Payment {payment.transaction_reference} was evaluated for {payment.amount:,} {payment.currency} using method '{payment.payment_method_type}' with escrow stage '{payment.escrow_stage}'. "
+        f"Fraud probability={fraud_probability:.2f}, risk level='{risk_level}', cross_border={payment.cross_border}, trusted_device={payment.trusted_device}, and release_status='{release_status}'. "
+        f"The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture."
+    )
+
+    return PaymentDecisionPacket(
+        request_id=f"pay-{uuid.uuid4().hex[:8]}",
+        transaction_reference=payment.transaction_reference,
+        payment_instrument=payment_instrument,
+        participants=participants,
+        fraud_probability=fraud_probability,
+        risk_level=risk_level,
+        payment_behavior_summary=payment_behavior_summary,
+        escrow_status=escrow_status,
+        frontend_security_posture=frontend_security_posture,
+        signals=signals,
+        escrow_conditions=escrow_conditions,
+        reconciliation_entries=reconciliation_entries,
+        recommended_actions=recommended_actions,
+        release_status=release_status,
+        explanation=explanation,
+        standards_alignment=("PCI DSS", "ISO/IEC 27001", "ISO/IEC 27701", "ISO 31000", "SOC 2 Type 2"),
+    )
+
+
 WORKFLOW_ORDER: Sequence[str] = (
     "intake",
     "pricing_review",
@@ -1904,7 +2102,7 @@ def demo() -> None:
         cross_border=True,
     )
     packet = orchestrate(
-        user_prompt="I want to compare a Portugal property for yield, residency eligibility, insurance readiness, and mortgage affordability.",
+        user_prompt="I want to compare a Portugal property for yield, residency eligibility, insurance readiness, payment fraud controls, escrow release conditions, and mortgage affordability.",
         profile=profile,
         identity=identity,
         context=context,
@@ -1966,6 +2164,23 @@ def demo() -> None:
         bcdr_tier="tier_1",
     )
     transaction_packet = orchestrate_transaction(transaction, identity, context)
+    payment_packet = evaluate_payment_risk(
+        PaymentRequest(
+            transaction_reference=transaction.transaction_id,
+            payer_id=identity.subject_id,
+            payment_method_type="wire",
+            amount=120000,
+            currency="USD",
+            cross_border=True,
+            escrow_stage="release_pending",
+            trusted_device=True,
+            settlement_timing="next_day",
+            manual_review_requested=True,
+            chargeback_history_count=0,
+        ),
+        identity,
+        context,
+    )
     insurance_packet = evaluate_insurance_options(
         InsuranceApplicantProfile(
             applicant_id=identity.subject_id,
@@ -2019,6 +2234,7 @@ def demo() -> None:
             {
                 "property_decision": asdict(packet),
                 "transaction_decision": asdict(transaction_packet),
+                "payment_decision": asdict(payment_packet),
                 "insurance_decision": asdict(insurance_packet),
                 "residency_decision": asdict(residency_packet),
             },

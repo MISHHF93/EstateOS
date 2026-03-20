@@ -1,6 +1,6 @@
 {
   "service": "EstateOS Unified Intelligence API",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "azure_pattern": {
     "entrypoints": [
       "Azure API Management",
@@ -35,7 +35,10 @@
       "consent_scope",
       "privacy_preferences",
       "deal_participants",
-      "transaction_stage"
+      "transaction_stage",
+      "payment_method_type",
+      "escrow_preference",
+      "payment_schedule"
     ],
     "trust_controls": [
       "OIDC/OAuth2 with step-up MFA",
@@ -62,7 +65,10 @@
         "kyc_status",
         "aml_risk",
         "sanctions_status",
-        "privacy_tier"
+        "privacy_tier",
+        "payment_token_scope",
+        "escrow_role",
+        "settlement_permissions"
       ]
     }
   },
@@ -90,7 +96,10 @@
         "kyc_status",
         "aml_risk",
         "sanctions_status",
-        "privacy_tier"
+        "privacy_tier",
+        "payment_token_scope",
+        "escrow_role",
+        "settlement_permissions"
       ]
     },
     "DecisionRelease": {
@@ -302,6 +311,70 @@
         "explanation",
         "standards_alignment"
       ]
+    },
+    "PaymentParticipant": {
+      "type": "object",
+      "required": [
+        "role",
+        "name",
+        "identifier"
+      ]
+    },
+    "PaymentInstrument": {
+      "type": "object",
+      "required": [
+        "instrument_type",
+        "token_provider",
+        "token_reference",
+        "last4",
+        "network",
+        "wallet_or_bank",
+        "pci_scope"
+      ]
+    },
+    "PaymentSignal": {
+      "type": "object",
+      "required": [
+        "category",
+        "status",
+        "detail"
+      ]
+    },
+    "EscrowCondition": {
+      "type": "object",
+      "required": [
+        "condition",
+        "status",
+        "detail"
+      ]
+    },
+    "ReconciliationEntry": {
+      "type": "object",
+      "required": [
+        "entry_type",
+        "status",
+        "detail"
+      ]
+    },
+    "PaymentDecision": {
+      "type": "object",
+      "required": [
+        "transaction_reference",
+        "payment_instrument",
+        "participants",
+        "fraud_probability",
+        "risk_level",
+        "payment_behavior_summary",
+        "escrow_status",
+        "frontend_security_posture",
+        "signals",
+        "escrow_conditions",
+        "reconciliation_entries",
+        "recommended_actions",
+        "release_status",
+        "explanation",
+        "standards_alignment"
+      ]
     }
   },
   "endpoints": [
@@ -414,6 +487,30 @@
         "incident escalation linkage",
         "immutable evidence",
         "policy versioning"
+      ]
+    },
+    {
+      "path": "/v1/payments/risk/evaluate",
+      "method": "POST",
+      "purpose": "Evaluate payment fraud probability, payer behavior, escrow readiness, and release posture for tokenized real-estate payments.",
+      "controls": [
+        "PCI DSS tokenization boundary",
+        "device and velocity risk scoring",
+        "KYC/AML and sanctions linkage",
+        "escrow-condition validation",
+        "manual review queue for elevated fraud risk"
+      ]
+    },
+    {
+      "path": "/v1/payments/reconciliation/close",
+      "method": "POST",
+      "purpose": "Match authorizations, captures, refunds, escrow transfers, and settlement files into an auditable reconciliation state.",
+      "controls": [
+        "immutable settlement ledger",
+        "signed webhook verification",
+        "segregation of duties",
+        "exception escalation",
+        "retention and export controls"
       ]
     }
   ]

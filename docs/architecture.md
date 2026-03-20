@@ -2,7 +2,7 @@
 
 ## 1. Platform vision
 
-EstateOS is a full-stack real estate and investment platform where a seamless, role-aware frontend is backed by an Azure-native Mixture-of-Experts (MoE) decision mesh. The platform combines property discovery, a property intelligence and valuation expert system, a listing recommendation expert, investment analysis, residency-by-investment (RBI), insurance matching, financial risk, transaction intelligence for pricing and negotiation, document validation, and compliance validation into one guided user experience while preserving explainability, auditability, workflow integrity, and secure control boundaries.
+EstateOS is a full-stack real estate and investment platform where a seamless, role-aware frontend is backed by an Azure-native Mixture-of-Experts (MoE) decision mesh. The platform combines property discovery, a property intelligence and valuation expert system, a listing recommendation expert, investment analysis, residency-by-investment (RBI), insurance matching, payment and escrow intelligence, financial risk, transaction intelligence for pricing and negotiation, document validation, and compliance validation into one guided user experience while preserving explainability, auditability, workflow integrity, and secure control boundaries.
 
 ## 2. Full-stack experience architecture
 
@@ -20,7 +20,7 @@ EstateOS is a full-stack real estate and investment platform where a seamless, r
    - Investment scenario builder.
    - Residency eligibility planner.
    - Insurance readiness and quote intake with homeowners, title, landlord, and life-related recommendation paths.
-   - Decision timeline and document center.
+   - Decision timeline, secure payment desk, escrow tracker, and document center.
 2. **Advisor console**
    - Case review, exception handling, and override management.
    - Explainability and evidence drill-down.
@@ -28,24 +28,26 @@ EstateOS is a full-stack real estate and investment platform where a seamless, r
 3. **Partner workspaces**
    - Broker workspace for listing and client pipeline actions.
    - Insurer/carrier view for ACORD-style intake, secure quote matching, and policy-class recommendations across homeowners, title, landlord, and life-related coverages.
+   - Payments/escrow workspace for fraud triage, transaction monitoring, settlement exceptions, and escrow release orchestration.
    - Legal/migration workspace for RBI review and evidence completion.
 4. **External API consumers**
-   - Embedded finance, partner CRM, property inventory, KYC providers, insurers, and valuation data vendors.
+   - Embedded finance, payment gateways, escrow providers, partner CRM, property inventory, KYC providers, insurers, and valuation data vendors.
 
 ### 2.3 Frontend composition pattern
-- **Presentation layer:** web UI built as modular micro-frontends or feature slices for search, valuation, residency, insurance, finance, transaction operations, and compliance.
+- **Presentation layer:** web UI built as modular micro-frontends or feature slices for search, valuation, residency, insurance, secure payments, finance, transaction operations, and compliance.
 - **Identity capture layer:** profile forms and consent modules collect investor type, residence, target location, financial intent, residency goals, and privacy preferences and package them as a profile-context payload.
 - **Experience orchestration layer:** a backend-for-frontend (BFF) exposes user-ready view models, explanation cards, action states, and trust-state banners.
-- **Design system:** reusable trust patterns including confidence badges, policy banners, evidence drawers, human-review indicators, privacy notices, and “why this recommendation” ledgers.
-- **State model:** session state maintains user intent, profile completion, portfolio context, documents, trust posture, and decision milestones.
+- **Design system:** reusable trust patterns including confidence badges, policy banners, evidence drawers, human-review indicators, privacy notices, PCI-safe payment shells, escrow state banners, and “why this recommendation” ledgers.
+- **State model:** session state maintains user intent, profile completion, portfolio context, documents, trust posture, payment state, escrow milestones, and decision milestones.
 - **Observability hooks:** every critical action emits telemetry, consent events, and user journey checkpoints.
 
 ### 2.4 Persona-sensitive journeys
-- **Buyer:** shortlist properties, assess fair value, test affordability, confirm insurance readiness, and understand purchase risks.
-- **Investor:** compare markets, rank return scenarios, evaluate cross-border residency options, and review concentration/liquidity risks.
-- **Broker:** receive next-best inventory and matching opportunities, along with sale blockers and compliance hold points.
+- **Buyer:** shortlist properties, assess fair value, test affordability, complete tokenized earnest-money steps, confirm insurance readiness, and understand purchase risks.
+- **Investor:** compare markets, rank return scenarios, evaluate cross-border residency options, and review concentration, liquidity, fraud, and payment behavior risks.
+- **Broker:** receive next-best inventory and matching opportunities, along with sale blockers, escrow status, and compliance hold points.
 - **Insurer:** review normalized property exposure, peril indicators, and quote suitability signals.
-- **Advisor:** inspect AI reasoning, policy decisions, document sufficiency, and required approvals before releasing guidance.
+- **Payment operations:** inspect fraud triggers, payment velocity, reconciliation exceptions, settlement cutoffs, and escrow release conditions.
+- **Advisor:** inspect AI reasoning, policy decisions, payment release posture, document sufficiency, and required approvals before releasing guidance.
 
 ### 2.5 User-facing explainability model
 Every important screen includes:
@@ -53,6 +55,7 @@ Every important screen includes:
 - experts consulted,
 - confidence and uncertainty ranges,
 - data freshness,
+- payment tokenization and escrow state,
 - policy checks performed,
 - blocked actions and remediation steps,
 - human review status,
@@ -78,6 +81,7 @@ The canonical identity and trust object should include:
 - AML risk tier and source-of-funds status,
 - sanctions/PEP screening status,
 - privacy tier, consent scope, and retention preferences,
+- payment authorization scope, escrow role, and settlement permissions,
 - geography and data residency constraints.
 
 ### 3.3 Access control model
@@ -124,6 +128,7 @@ The MoE backend is composed of independently deployable expert services with cle
 | Investment Analysis Expert | Yield, IRR, DSCR, appreciation scenarios, portfolio fit | Rent comps, financing terms, taxes, macro signals | Scenario rankings, downside cases, ROI explanation |
 | Residency Eligibility Expert | RBI/visa pathway screening by jurisdiction | Nationality, family profile, capital budget, legal constraints | Eligible pathways, steps, exclusions, human-review flags |
 | Insurance Matching Expert | Insurability and coverage fit | Property attributes, peril data, occupancy, jurisdiction | Coverage shortlist, exclusions, quote readiness |
+| Payment Intelligence Expert | Payment fraud probability, escrow conditions, payer behavior, settlement and reconciliation intelligence | Tokenized payment events, device telemetry, funding source, escrow milestones, chargeback history | Fraud score, release posture, reconciliation exceptions, escrow actions |
 | Financial Risk Expert | Affordability, leverage, liquidity, payment capacity | Income, liabilities, cash reserves, rates, FX | Affordability bands, stress tests, financing constraints |
 | Compliance Validation Expert | RBAC, MFA, KYC/AML, sanctions, privacy, records, release rules | Identity evidence, transactions, jurisdiction, consent | Release/hold decision, policy evidence, remediation tasks |
 | UX Personalization Expert | Persona-specific message framing and next-best actions | Role, behavior, stage, confidence, blockers | Screen copy, workflow nudges, escalation paths |
@@ -143,6 +148,7 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 - residency goals,
 - trust posture from identity services,
 - transaction stage,
+- payment method and settlement posture,
 - risk level,
 - prior expert confidence,
 - policy dependencies,
@@ -155,15 +161,17 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 - parallelize independent expert calls,
 - force compliance validation before release,
 - escalate to human review when thresholds are crossed,
+- tokenize and isolate PAN-adjacent data so frontend and orchestration layers remain out of PCI card-data scope where possible,
 - redact or limit outputs based on privacy tier and entitlements,
 - compose a single response with evidence and rationale.
-- aggregate and rank candidate properties, investment insights, visa pathways, and insurance options into a single explainable recommendation board driven by a dedicated recommendation expert.
-- enforce transaction stage order, document completeness, continuity checkpoints, and approval segregation before a deal advances to closing.
+- aggregate and rank candidate properties, investment insights, visa pathways, insurance options, and payment-release conditions into a single explainable recommendation board driven by a dedicated recommendation expert.
+- enforce transaction stage order, document completeness, escrow checkpoints, continuity checkpoints, and approval segregation before a deal advances to closing.
 
 #### Example orchestration paths
-- **Cross-border investor in Portugal** → identity trust evaluation + valuation + investment + residency + financial risk + insurance + compliance.
-- **Domestic homebuyer comparing list price vs value** → identity trust evaluation + valuation + financial risk + compliance.
+- **Cross-border investor in Portugal** → identity trust evaluation + valuation + investment + residency + payment intelligence + financial risk + insurance + compliance.
+- **Domestic homebuyer comparing list price vs value** → identity trust evaluation + valuation + financial risk + payment release review + compliance.
 - **High-risk insurance inquiry in a coastal flood zone** → identity trust evaluation + insurance + risk + compliance + advisor review.
+- **Escrow funding event with anomalous payer behavior** → identity trust evaluation + payment intelligence + financial risk + compliance + payment operations review.
 
 ### 4.4 Expert interaction model
 1. Frontend sends a workflow request to the BFF.
@@ -171,9 +179,10 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 3. Router selects primary and secondary experts.
 4. Experts execute via synchronous APIs for interactive decisions and event-driven tasks for longer-running enrichment.
 5. A synthesizer merges structured expert outputs into a unified recommendation.
-6. Policy services evaluate whether the result can be released, partially released, or held.
-7. Audit and evidence services persist the full decision packet.
-8. Frontend receives a user-facing response plus explainability metadata.
+6. Payment tokenization, escrow, and reconciliation services attach secure funding state without exposing sensitive cardholder data.
+7. Policy services evaluate whether the result can be released, partially released, or held.
+8. Audit and evidence services persist the full decision packet.
+9. Frontend receives a user-facing response plus explainability metadata.
 
 ## 5. Azure deployment blueprint
 
@@ -190,17 +199,17 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 - **Logic Apps:** human workflow integration, third-party approvals, RBI/legal handoffs, insurer follow-up, and regulated exception routing.
 
 ### 5.3 Data and AI services
-- **Azure SQL:** transactional workflow state, case management, approvals, policy references, and access control metadata.
-- **Azure Cosmos DB:** low-latency session context, expert state snapshots, and journey progress.
-- **Azure Data Lake Storage Gen2:** evidence packets, prompt/model lineage, historical decisions, and analytics landing zones.
+- **Azure SQL:** transactional workflow state, case management, approvals, policy references, payment reconciliation records, and access control metadata.
+- **Azure Cosmos DB:** low-latency session context, expert state snapshots, journey progress, and payment risk signals.
+- **Azure Data Lake Storage Gen2:** evidence packets, prompt/model lineage, historical decisions, settlement files, and analytics landing zones.
 - **Azure AI Search:** retrieval over legal content, policy manuals, property documents, and underwriting references.
 - **Azure OpenAI / managed model endpoints:** expert inference and summarization where foundation models are required.
 - **Azure Machine Learning:** model registry, evaluation pipelines, feature tracking, and promotion workflows.
 
 ### 5.4 Security and operations stack
-- **Azure Key Vault** for secrets, keys, and certificates.
+- **Azure Key Vault** for secrets, keys, certificates, and payment-provider signing material.
 - **Microsoft Purview** for cataloging, lineage, and data governance.
-- **Azure Monitor + Application Insights** for metrics, traces, and service maps.
+- **Azure Monitor + Application Insights** for metrics, traces, service maps, and settlement health telemetry.
 - **Microsoft Sentinel** for security analytics, alerting, and incident workflows.
 - **Microsoft Defender for Cloud** for posture management and workload protection.
 
@@ -211,12 +220,13 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 - Use private networking for internal expert-to-expert communication.
 - Apply schema versioning, contract testing, and signed service identities.
 - Separate interactive APIs from batch and event ingestion paths.
+- Tokenize cardholder data in hosted fields or PSP-controlled iFrames so EstateOS frontend components never store raw PAN or CVV.
 - Treat profile-context ingestion as a first-class API so frontend-captured identity signals are versioned and auditable.
 
 ### 6.2 Event backbone
-- **Azure Service Bus** for durable expert workflow commands and compensating actions.
-- **Azure Event Grid** for domain events such as profile-updated, valuation-completed, compliance-held, or insurance-match-generated.
-- **Durable Functions or workflow engines** for long-running cases that require document collection, human review, or partner callbacks.
+- **Azure Service Bus** for durable expert workflow commands, payment review queues, and compensating actions.
+- **Azure Event Grid** for domain events such as profile-updated, valuation-completed, compliance-held, insurance-match-generated, payment-risk-scored, or reconciliation-exception-opened.
+- **Durable Functions or workflow engines** for long-running cases that require document collection, human review, partner callbacks, escrow release, or settlement exception handling.
 
 ### 6.3 Canonical event sequence
 1. `journey.requested`
@@ -224,11 +234,13 @@ The routing layer is the system’s arbitration engine. It dynamically selects e
 3. `context.assembled`
 4. `experts.selected`
 5. `expert.<domain>.completed`
-6. `policy.validation.completed`
-7. `decision.composed`
-8. `decision.released` or `decision.held`
-9. `audit.packet.persisted`
-10. `notification.dispatched`
+6. `payment.risk.scored`
+7. `payment.reconciliation.completed`
+8. `policy.validation.completed`
+9. `decision.composed`
+10. `decision.released` or `decision.held`
+11. `audit.packet.persisted`
+12. `notification.dispatched`
 
 ### 6.4 Explainability and evidence payloads
 Each event and final response should carry:
@@ -238,6 +250,7 @@ Each event and final response should carry:
 - experts selected and model versions,
 - input source references and freshness,
 - confidence/uncertainty,
+- payment fraud score and escrow state,
 - policy outcomes,
 - human approvals or overrides,
 - retention and export metadata.
@@ -249,8 +262,9 @@ Each event and final response should carry:
 - Cloud-specific baselines for segmentation, hardening, privileged access, logging, and third-party management.
 - Key management, encryption, and secure software delivery embedded in Azure landing zones.
 
-### 7.2 ISO/IEC 27701 and SOC 2 Type 2 alignment
+### 7.2 ISO/IEC 27701, PCI DSS, and SOC 2 Type 2 alignment
 - Privacy information management extends the ISMS with purpose limitation, data subject handling, retention rules, and consent governance.
+- PCI DSS boundaries are enforced through PSP-hosted fields, tokenized payment methods, segmented payment services, WAF controls, log redaction, and quarterly control validation.
 - RBAC, MFA, audit evidence, and exception approvals map directly to SOC 2 security, confidentiality, and privacy criteria.
 - Router outputs are privacy-tiered so only permitted explanation depth reaches each user role.
 

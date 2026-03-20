@@ -268,7 +268,8 @@ label,
 .category-grid,
 .explanation-layout,
 .transaction-layout,
-.insurance-layout {
+.insurance-layout,
+.payment-layout {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
@@ -597,19 +598,44 @@ input[type="range"] {
   margin-top: 1.5rem;
 }
 
+.payment-layout {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1.35fr repeat(3, minmax(0, 1fr));
+  margin-top: 1.5rem;
+}
+
+
 .insurance-card--primary {
   grid-column: span 2;
   background: linear-gradient(180deg, rgba(117, 213, 255, 0.12), rgba(255, 255, 255, 0.03));
 }
+
+.payment-card--primary {
+  grid-column: span 2;
+  background: linear-gradient(180deg, rgba(255, 212, 121, 0.12), rgba(255, 255, 255, 0.03));
+}
+
 
 .insurance-form {
   margin-top: 1rem;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.payment-form {
+  margin-top: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+
 .insurance-metric-grid {
   margin-top: 1.25rem;
 }
+
+.payment-metric-grid {
+  margin-top: 1.25rem;
+}
+
 
 .status-pill[data-status="release-ready"] {
   border-color: rgba(155, 231, 177, 0.45);
@@ -672,5 +698,13 @@ input[type="range"] {
   .insurance-layout,
   .insurance-form {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 1100px) {
+  .residency-layout,
+  .insurance-layout,
+  .payment-layout {
+    grid-template-columns: 1fr;
   }
 }

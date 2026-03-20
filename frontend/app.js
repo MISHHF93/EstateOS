@@ -755,6 +755,36 @@ const insuranceProfiles = {
   }
 };
 
+const paymentProfiles = {
+  buyer: {
+    label: "Earnest money and closing funding",
+    tokenization: "Hosted card/bank fields with PSP token vault",
+    controls: [
+      "PCI DSS segmented payment page with hosted fields and no raw PAN storage in the EstateOS frontend.",
+      "Velocity, device, geo, and beneficiary checks are evaluated before escrow release is marked ready.",
+      "Authorizations, captures, and escrow ledger movements reconcile against immutable settlement references."
+    ]
+  },
+  investor: {
+    label: "Cross-border capital movement and escrow",
+    tokenization: "Tokenized ACH/wire orchestration with bank-account aliasing",
+    controls: [
+      "Cross-border funding is screened for payer-behavior anomalies, sanctions adjacency, and settlement delays.",
+      "Escrow release requires source-of-funds confirmation, beneficiary matching, and exception-free reconciliation state.",
+      "Operations analysts receive manual review queues when fraud probability, amount, or geography exceeds threshold."
+    ]
+  },
+  advisor: {
+    label: "Approval-controlled disbursement oversight",
+    tokenization: "Advisor console uses PSP-hosted confirmation views and masked settlement references",
+    controls: [
+      "Segregation of duties is enforced between recommendation approval, payment release, and reconciliation closeout.",
+      "Manual review evidence, override rationale, and release approvals are linked to the immutable transaction ledger.",
+      "PCI DSS, ISO/IEC 27001, and ISO 22301 controls protect release actions, recovery steps, and settlement traceability."
+    ]
+  }
+};
+
 const governanceProfiles = [
   {
     framework: "ISO/IEC 27001",
@@ -797,7 +827,14 @@ const state = {
   insuranceHouseholdRisk: "family_protection",
   insuranceNeedsTitle: true,
   insuranceNeedsLandlord: false,
-  insuranceNeedsLife: true
+  insuranceNeedsLife: true,
+  paymentMethod: "bank_transfer",
+  paymentEscrowStage: "deposit_pending",
+  paymentAmount: 25000,
+  paymentSettlementTiming: "same_day",
+  paymentTrustedDevice: true,
+  paymentCrossBorder: false,
+  paymentManualReview: false
 };
 
 const title = document.getElementById("journey-title");
@@ -882,6 +919,24 @@ const insuranceNaicPosture = document.getElementById("insurance-naic-posture");
 const insuranceOptionList = document.getElementById("insurance-option-list");
 const insurancePayloadList = document.getElementById("insurance-payload-list");
 const insuranceControlList = document.getElementById("insurance-control-list");
+const paymentProgramTitle = document.getElementById("payment-program-title");
+const paymentStatusPill = document.getElementById("payment-status-pill");
+const paymentSummary = document.getElementById("payment-summary");
+const paymentMethodSelect = document.getElementById("payment-method-select");
+const paymentEscrowStage = document.getElementById("payment-escrow-stage");
+const paymentAmountRange = document.getElementById("payment-amount-range");
+const paymentAmountValue = document.getElementById("payment-amount-value");
+const paymentSettlementSelect = document.getElementById("payment-settlement-select");
+const paymentDeviceTrusted = document.getElementById("payment-device-trusted");
+const paymentCrossBorder = document.getElementById("payment-cross-border");
+const paymentManualReview = document.getElementById("payment-manual-review");
+const paymentFraudScore = document.getElementById("payment-fraud-score");
+const paymentBehaviorSummary = document.getElementById("payment-behavior-summary");
+const paymentEscrowSummary = document.getElementById("payment-escrow-summary");
+const paymentFrontendPosture = document.getElementById("payment-frontend-posture");
+const paymentSignalList = document.getElementById("payment-signal-list");
+const paymentEscrowList = document.getElementById("payment-escrow-list");
+const paymentReconciliationList = document.getElementById("payment-reconciliation-list");
 
 function currency(value) {
   return new Intl.NumberFormat("en-US", {
@@ -952,6 +1007,35 @@ function populateStaticControls() {
   ]
     .map(([value, label]) => `<option value="${value}">${label}</option>`)
     .join("");
+
+  paymentMethodSelect.innerHTML = [
+    ["bank_transfer", "Bank transfer / ACH"],
+    ["card_token", "Card on file token"],
+    ["wire", "Domestic / SWIFT wire"],
+    ["wallet", "Digital wallet"],
+    ["escrow_disbursement", "Escrow disbursement"]
+  ]
+    .map(([value, label]) => `<option value="${value}">${label}</option>`)
+    .join("");
+
+  paymentEscrowStage.innerHTML = [
+    ["deposit_pending", "Deposit pending"],
+    ["funds_received", "Funds received"],
+    ["docs_cleared", "Documents cleared"],
+    ["release_pending", "Release pending"],
+    ["disbursed", "Disbursed"]
+  ]
+    .map(([value, label]) => `<option value="${value}">${label}</option>`)
+    .join("");
+
+  paymentSettlementSelect.innerHTML = [
+    ["same_day", "Same day"],
+    ["next_day", "Next business day"],
+    ["scheduled", "Scheduled batch"],
+    ["manual_hold", "Manual hold / review"]
+  ]
+    .map(([value, label]) => `<option value="${value}">${label}</option>`)
+    .join("");
 }
 
 function applyJourneyDefaults(journeyKey) {
@@ -993,6 +1077,20 @@ function applyJourneyDefaults(journeyKey) {
   insuranceTitleToggle.checked = state.insuranceNeedsTitle;
   insuranceLandlordToggle.checked = state.insuranceNeedsLandlord;
   insuranceLifeToggle.checked = state.insuranceNeedsLife;
+  state.paymentMethod = journeyKey === "buyer" ? "bank_transfer" : journeyKey === "advisor" ? "escrow_disbursement" : "wire";
+  state.paymentEscrowStage = journeyKey === "advisor" ? "release_pending" : journeyKey === "investor" ? "funds_received" : "deposit_pending";
+  state.paymentAmount = journeyKey === "buyer" ? 25000 : journeyKey === "advisor" ? 85000 : 120000;
+  state.paymentSettlementTiming = journeyKey === "buyer" ? "same_day" : journeyKey === "advisor" ? "manual_hold" : "next_day";
+  state.paymentTrustedDevice = true;
+  state.paymentCrossBorder = journeyKey !== "buyer";
+  state.paymentManualReview = journeyKey === "advisor";
+  paymentMethodSelect.value = state.paymentMethod;
+  paymentEscrowStage.value = state.paymentEscrowStage;
+  paymentAmountRange.value = state.paymentAmount;
+  paymentSettlementSelect.value = state.paymentSettlementTiming;
+  paymentDeviceTrusted.checked = state.paymentTrustedDevice;
+  paymentCrossBorder.checked = state.paymentCrossBorder;
+  paymentManualReview.checked = state.paymentManualReview;
   populateObjectives();
   objectiveSelect.value = state.objective;
 }
@@ -1130,7 +1228,8 @@ function buildRiskText(topCandidate) {
   const budgetText = budgetDelta >= 0 ? `within budget by ${currency(budgetDelta)}` : `above budget by ${currency(Math.abs(budgetDelta))}`;
   const intelligence = getIntelligence(topCandidate);
   const deal = journeys[state.activeJourney].deal;
-  return `${topCandidate.insurance.summary} ${intelligence.trend} The current recommendation is ${budgetText}, climate risk is ${topCandidate.climateRisk}, and the live transaction posture is ${deal.riskLabel.toLowerCase()} with ${deal.integrity.toLowerCase()} workflow integrity.`;
+  const paymentScenario = getPaymentScenario();
+  return `${topCandidate.insurance.summary} ${intelligence.trend} The current recommendation is ${budgetText}, climate risk is ${topCandidate.climateRisk}, payment release posture is ${paymentScenario.status.toLowerCase()}, and the live transaction posture is ${deal.riskLabel.toLowerCase()} with ${deal.integrity.toLowerCase()} workflow integrity.`;
 }
 
 function buildActionText(topCandidate) {
@@ -1610,6 +1709,141 @@ function renderInsuranceEngine() {
     .join("");
 }
 
+function getPaymentScenario() {
+  const profile = paymentProfiles[state.activeJourney];
+  const amountFactor = Math.min(0.24, state.paymentAmount / 500000 * 0.22);
+  const crossBorderFactor = state.paymentCrossBorder ? 0.15 : 0.03;
+  const methodFactor = state.paymentMethod === "wire" ? 0.14 : state.paymentMethod === "card_token" ? 0.1 : state.paymentMethod === "wallet" ? 0.08 : state.paymentMethod === "escrow_disbursement" ? 0.06 : 0.05;
+  const settlementFactor = state.paymentSettlementTiming === "same_day" ? 0.09 : state.paymentSettlementTiming === "manual_hold" ? 0.03 : 0.05;
+  const trustAdjustment = state.paymentTrustedDevice ? -0.08 : 0.1;
+  const manualAdjustment = state.paymentManualReview ? -0.04 : 0.05;
+  const escrowAdjustment = state.paymentEscrowStage === "docs_cleared" || state.paymentEscrowStage === "release_pending" ? -0.03 : state.paymentEscrowStage === "disbursed" ? -0.08 : 0.04;
+  const fraudProbability = Math.max(0.04, Math.min(0.94, 0.16 + amountFactor + crossBorderFactor + methodFactor + settlementFactor + trustAdjustment + manualAdjustment + escrowAdjustment));
+  const riskLevel = fraudProbability >= 0.72 ? "High review" : fraudProbability >= 0.48 ? "Reviewable" : "Release ready";
+  const behavior = fraudProbability >= 0.72 ? "Anomalous velocity" : fraudProbability >= 0.48 ? "Watchlisted behavior" : "Stable payer behavior";
+  const escrowStatus = state.paymentEscrowStage === "release_pending" ? "Awaiting dual approval" : state.paymentEscrowStage === "docs_cleared" ? "Ready when funds settle" : state.paymentEscrowStage === "disbursed" ? "Released and logged" : "Funding controls active";
+  const frontendSecurity = `PCI DSS hosted fields • ${state.paymentTrustedDevice ? "trusted session binding" : "step-up review needed"}`;
+  const signals = [
+    {
+      title: "Device and session trust",
+      status: state.paymentTrustedDevice ? "Pass" : "Review",
+      detail: state.paymentTrustedDevice ? "Session is bound to a trusted device, MFA, and a low-friction PSP token exchange." : "Session requires step-up verification because device trust or binding is incomplete."
+    },
+    {
+      title: "Amount and velocity",
+      status: state.paymentAmount > 100000 ? "Review" : "Pass",
+      detail: `Amount ${currency(state.paymentAmount)} is assessed with payment velocity, beneficiary history, and atypical movement checks.`
+    },
+    {
+      title: "Geography and funding route",
+      status: state.paymentCrossBorder ? "Review" : "Pass",
+      detail: state.paymentCrossBorder ? "Cross-border movement triggers enhanced sanctions, beneficiary, and settlement-delay analytics." : "Domestic route keeps settlement and sanctions complexity lower."
+    },
+    {
+      title: "Payer behavior model",
+      status: state.paymentManualReview ? "Manual review" : fraudProbability >= 0.6 ? "Review" : "Pass",
+      detail: `${behavior} is derived from token usage, timing, session posture, and escrow-stage context.`
+    }
+  ];
+  const escrowConditions = [
+    {
+      title: "Funds availability",
+      status: ["funds_received", "docs_cleared", "release_pending", "disbursed"].includes(state.paymentEscrowStage) ? "Ready" : "Pending",
+      detail: "Escrow desk confirms cleared funds before release or disbursement instructions can execute."
+    },
+    {
+      title: "Document and milestone clearance",
+      status: ["docs_cleared", "release_pending", "disbursed"].includes(state.paymentEscrowStage) ? "Ready" : "Review",
+      detail: "Closing documents, identity checks, and approval milestones must all align with the payment action."
+    },
+    {
+      title: "Dual approval and beneficiary match",
+      status: state.paymentEscrowStage === "release_pending" || state.paymentEscrowStage === "disbursed" ? "Ready" : "Pending",
+      detail: "Release requires beneficiary matching, approver segregation, and immutable escrow event logging."
+    }
+  ];
+  const reconciliation = [
+    {
+      title: "Authorization to capture match",
+      status: state.paymentMethod === "card_token" ? "Tracked" : "Not applicable",
+      detail: "Card or wallet paths reconcile PSP authorization and capture references without exposing PAN data."
+    },
+    {
+      title: "Escrow ledger alignment",
+      status: state.paymentEscrowStage === "disbursed" ? "Closed" : "Open",
+      detail: "Ledger, PSP, bank, and settlement file references are compared to detect mismatches before closeout."
+    },
+    {
+      title: "Settlement exception handling",
+      status: state.paymentManualReview ? "Escalated" : "Monitored",
+      detail: "Signed webhooks, reconciliation jobs, and operations queues manage exceptions, refunds, and release reversals."
+    }
+  ];
+
+  return {
+    profile,
+    fraudProbability,
+    status: riskLevel,
+    behavior,
+    escrowStatus,
+    frontendSecurity,
+    signals,
+    escrowConditions,
+    reconciliation,
+    summary: `${profile.label} uses ${profile.tokenization} so users complete payment steps inside a PCI-safe frontend shell while backend services score fraud probability, payer behavior, escrow conditions, and reconciliation integrity before release.`,
+    controls: profile.controls
+  };
+}
+
+function renderPaymentEngine() {
+  const result = getPaymentScenario();
+  paymentProgramTitle.textContent = result.profile.label;
+  paymentStatusPill.textContent = result.status;
+  paymentStatusPill.dataset.status = result.status.toLowerCase().replace(/\s+/g, "-");
+  paymentSummary.textContent = result.summary;
+  paymentAmountValue.textContent = `${currency(state.paymentAmount)} payment amount`;
+  paymentFraudScore.textContent = `${Math.round(result.fraudProbability * 100)}% probability`;
+  paymentBehaviorSummary.textContent = result.behavior;
+  paymentEscrowSummary.textContent = result.escrowStatus;
+  paymentFrontendPosture.textContent = result.frontendSecurity;
+
+  paymentSignalList.innerHTML = result.signals
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.title}</strong>
+          <span>${item.status}</span>
+        </div>
+        <p>${item.detail}</p>
+      </div>
+    `)
+    .join("");
+
+  paymentEscrowList.innerHTML = result.escrowConditions
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.title}</strong>
+          <span>${item.status}</span>
+        </div>
+        <p>${item.detail}</p>
+      </div>
+    `)
+    .join("");
+
+  paymentReconciliationList.innerHTML = [...result.reconciliation, ...result.controls.map((item, index) => ({ title: `PCI / ops control ${index + 1}`, status: "Active", detail: item }))]
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.title}</strong>
+          <span>${item.status}</span>
+        </div>
+        <p>${item.detail}</p>
+      </div>
+    `)
+    .join("");
+}
+
 function renderNextActions(journey, topCandidate) {
   const dynamicActions = [
     ...journey.nextActions,
@@ -1666,6 +1900,7 @@ function renderJourney() {
   renderDealBoard();
   renderResidencyEngine();
   renderInsuranceEngine();
+  renderPaymentEngine();
   renderNextActions(journey, topCandidate);
 
   budgetValue.textContent = `${currency(state.budget)} budget cap`;
@@ -1786,6 +2021,41 @@ insuranceLandlordToggle.addEventListener("change", (event) => {
 
 insuranceLifeToggle.addEventListener("change", (event) => {
   state.insuranceNeedsLife = event.target.checked;
+  renderJourney();
+});
+
+paymentMethodSelect.addEventListener("change", (event) => {
+  state.paymentMethod = event.target.value;
+  renderJourney();
+});
+
+paymentEscrowStage.addEventListener("change", (event) => {
+  state.paymentEscrowStage = event.target.value;
+  renderJourney();
+});
+
+paymentAmountRange.addEventListener("input", (event) => {
+  state.paymentAmount = Number(event.target.value);
+  renderJourney();
+});
+
+paymentSettlementSelect.addEventListener("change", (event) => {
+  state.paymentSettlementTiming = event.target.value;
+  renderJourney();
+});
+
+paymentDeviceTrusted.addEventListener("change", (event) => {
+  state.paymentTrustedDevice = event.target.checked;
+  renderJourney();
+});
+
+paymentCrossBorder.addEventListener("change", (event) => {
+  state.paymentCrossBorder = event.target.checked;
+  renderJourney();
+});
+
+paymentManualReview.addEventListener("change", (event) => {
+  state.paymentManualReview = event.target.checked;
   renderJourney();
 });
 
