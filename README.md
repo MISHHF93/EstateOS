@@ -39,7 +39,7 @@ The target platform follows six major layers:
    - ISO/IEC 27001, 27017, 27018, 27701, 25010, 42001, 5259, 22301, 31000.
    - PCI DSS, SOC 2 Type 2, ACORD/NAIC-aligned workflows, KYC/AML/sanctions/PEP.
 
-Detailed architecture guidance lives in `docs/architecture.md`, and the repository migration rules now live in `docs/repository-transition.md`.
+Detailed architecture guidance lives in `docs/architecture.md`, the exact source-of-truth blueprint now lives in `docs/authoritative-blueprint.md`, and the repository migration rules now live in `docs/repository-transition.md`.
 A repo-wide alignment checklist now lives in `docs/blueprint-alignment.md` so contributors can quickly validate that new work still matches the locked MoE real estate platform direction.
 
 ## Required implementation stack

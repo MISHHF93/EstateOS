@@ -4,6 +4,8 @@
 
 EstateOS is being built as a **secure Azure-based real estate platform using a Mixture-of-Experts AI architecture**. The product baseline is now explicitly anchored to a premium frontend surface, a modular backend, an expert router, and a compliance-first Azure deployment model.
 
+`docs/authoritative-blueprint.md` captures the user-provided target-state wording in one place so architecture, prototype, and delivery decisions can all trace back to the same locked blueprint.
+
 ## 2. Layered platform model
 
 ### 2.1 Frontend experience layer
