@@ -16,6 +16,7 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 | ISO/IEC 27001 | ISMS, asset inventory, risk treatment, secure development, access reviews, incident management, supplier governance. | Risk register, policies, change records, access reviews, control tests. |
 | ISO/IEC 27017 | Azure-specific cloud controls for tenancy, segmentation, logging, admin isolation, and customer/provider shared responsibility clarity. | Landing zone baseline, network policies, CSPM reports, privileged access records. |
 | ISO/IEC 27701 | Privacy information management for consent, purpose limitation, data subject rights, retention, deletion, and controller/processor accountability. | Consent receipts, RoPA, retention matrix, deletion logs, privacy impact assessments. |
+| PCI DSS | Tokenized payment capture, network segmentation, secure payment pages, reconciliation security, vulnerability management, and restricted operational access for payment workflows. | AoC/SAQ evidence, segmentation tests, payment page inventories, vulnerability scans, key-management records, reconciliation logs. |
 | SOC 2 Type 2 | Evidence-backed control operation for security, availability, confidentiality, processing integrity, and privacy over time. | Control test results, ticket evidence, access logs, monitoring records, exception approvals. |
 | ISO/IEC 25010 | Quality requirements for usability, reliability, maintainability, security, performance efficiency, and functional suitability across the platform. | Architecture decision records, NFR scorecards, quality gates, test evidence. |
 | ISO/IEC 5259 | Data quality controls for market feeds, comparable sets, ranking features, freshness, provenance, and remediation. | Data quality scorecards, source lineage, freshness monitors, exception logs. |
@@ -27,12 +28,12 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 
 | Platform layer | Key controls | Relevant standards |
 | --- | --- | --- |
-| Frontend/BFF | Strong authentication, consent capture, secure sessions, profile-context validation, accessibility, progressive disclosure, explanation visibility, action logging. | ISO/IEC 27001, ISO/IEC 27701, ISO/IEC 25010, ISO 9241-210 |
-| Identity and trust plane | OIDC, MFA, RBAC, entitlements, KYC integration, AML scoring, sanctions screening, privacy-tier propagation. | ISO/IEC 27001, ISO/IEC 27701, SOC 2 Type 2 |
-| Router/orchestration | Intent traceability, deterministic routing policy, valuation and recommendation expert coordination, transaction-stage integrity checks, confidence thresholds, expert aggregation and ranking, release gating, explanation generation, least-privilege response shaping. | ISO/IEC 25010, ISO/IEC 5259, ISO/IEC 42001, ISO 9241-210, ISO 31000, SOC 2 Type 2 |
-| Expert microservices | Versioned models, scoped permissions, service isolation, evaluation metrics, contract tests. | ISO/IEC 27017, ISO/IEC 25010 |
-| Event backbone | Durable delivery, retry logic, idempotency, dead-letter handling, event traceability. | ISO 22301, ISO/IEC 25010 |
-| Data/evidence stores | Encryption, retention, lineage, immutable evidence, backup and recovery, data residency controls. | ISO/IEC 27001, ISO/IEC 27701, ISO 22301 |
+| Frontend/BFF | Strong authentication, consent capture, secure sessions, profile-context validation, accessibility, progressive disclosure, explanation visibility, PCI-safe hosted payment fields, action logging. | ISO/IEC 27001, ISO/IEC 27701, PCI DSS, ISO/IEC 25010, ISO 9241-210 |
+| Identity and trust plane | OIDC, MFA, RBAC, entitlements, KYC integration, AML scoring, sanctions screening, privacy-tier propagation, payment authorization binding. | ISO/IEC 27001, ISO/IEC 27701, PCI DSS, SOC 2 Type 2 |
+| Router/orchestration | Intent traceability, deterministic routing policy, valuation and recommendation expert coordination, transaction-stage integrity checks, payment-fraud routing, escrow condition checks, confidence thresholds, expert aggregation and ranking, release gating, explanation generation, least-privilege response shaping. | ISO/IEC 25010, PCI DSS, ISO/IEC 5259, ISO/IEC 42001, ISO 9241-210, ISO 31000, SOC 2 Type 2 |
+| Expert microservices | Versioned models, scoped permissions, service isolation, evaluation metrics, contract tests, reconciliation jobs, chargeback handling. | ISO/IEC 27017, PCI DSS, ISO/IEC 25010 |
+| Event backbone | Durable delivery, retry logic, idempotency, dead-letter handling, event traceability, settlement and reconciliation workflows. | ISO 22301, PCI DSS, ISO/IEC 25010 |
+| Data/evidence stores | Encryption, retention, lineage, immutable evidence, backup and recovery, data residency controls, token vault references, reconciliation ledgers. | ISO/IEC 27001, ISO/IEC 27701, PCI DSS, ISO 22301 |
 | Security operations | SIEM, posture management, vulnerability response, incident coordination, evidence retention for audits. | ISO/IEC 27001, ISO/IEC 27017, SOC 2 Type 2, ISO 31000 |
 
 ## 4. Workflow-specific controls
@@ -60,8 +61,10 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 - Capture quote assumptions, exclusions, underwriting blockers, and ACORD-informed payload references.
 - Apply NAIC-aligned privacy, third-party oversight, incident logging, and secure disposal expectations to insurer data exchange.
 
-### 4.5 Financial risk and compliance
-- Apply affordability, suitability, RBAC, MFA, KYC/AML, and sanctions checks before release.
+### 4.5 Financial risk, payment intelligence, and compliance
+- Apply affordability, suitability, RBAC, MFA, KYC/AML, sanctions, fraud probability, payer-behavior, and escrow-condition checks before release.
+- Tokenize payment methods and keep cardholder data inside PSP-controlled components to reduce PCI DSS scope.
+- Reconcile authorizations, captures, refunds, and escrow transfers against immutable ledgers and settlement files.
 - Escalate low-confidence or high-risk cases to manual review.
 - Preserve adverse or blocked outcome reasoning for downstream audit.
 
@@ -83,7 +86,8 @@ A complete recommendation should preserve:
 6. Policy gates evaluated and their outcomes.
 7. Final recommendation, explanation, and confidence/uncertainty.
 8. Human approvals, overrides, and rationale.
-9. Retention, continuity, deletion, and export metadata.
+9. Payment tokens, fraud scores, escrow state, and reconciliation outcomes.
+10. Retention, continuity, deletion, and export metadata.
 
 ## 6. Operating assurance practices
 

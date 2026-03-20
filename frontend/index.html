@@ -17,6 +17,7 @@
           <a href="#compliance">Compliance</a>
           <a href="#residency">Residency engine</a>
           <a href="#insurance">Insurance engine</a>
+          <a href="#payments">Payment engine</a>
           <a href="#architecture">Architecture</a>
         </div>
       </nav>
@@ -24,10 +25,10 @@
       <section class="hero-content">
         <div>
           <p class="eyebrow">Secure • Scalable • AI-Native</p>
-          <h1>Deal intelligence that guides pricing, residency eligibility, insurance placement, negotiation, document validation, and closing risk.</h1>
+          <h1>Deal intelligence that guides pricing, payments, residency eligibility, insurance placement, negotiation, document validation, and closing risk.</h1>
           <p class="hero-copy">
-            EstateOS now pairs its property intelligence workspace with a residency-by-investment expert layer so every deal gets
-            pricing guidance, visa eligibility scoring, insurance recommendations, document QA, compliance workflow tracking, and continuity-aware workflow controls.
+            EstateOS now pairs its property intelligence workspace with residency, insurance, and payment intelligence so every deal gets
+            pricing guidance, fraud probability scoring, escrow release checks, reconciliation posture, visa eligibility scoring, document QA, and continuity-aware workflow controls.
           </p>
           <div class="hero-actions">
             <a class="primary" href="#workspace">Launch adaptive workspace</a>
@@ -38,7 +39,7 @@
         <div class="hero-panel">
           <div class="panel-card">
             <span>Designed for trust</span>
-            <strong>ISO/IEC 27001 + ISO/IEC 27701 protected residency and transaction execution</strong>
+            <strong>PCI DSS + ISO/IEC 27001 + ISO/IEC 27701 protected payment, residency, and transaction execution</strong>
             <p>
               Every deal step keeps explainable AI recommendations, immutable audit evidence, and business continuity
               checkpoints in view for operators and advisors.
@@ -51,7 +52,7 @@
             </div>
             <div>
               <span>Expert source</span>
-              <strong>Pricing + negotiation + risk</strong>
+              <strong>Pricing + payment + risk</strong>
             </div>
             <div>
               <span>Workflow integrity</span>
@@ -523,6 +524,98 @@
                   </article>
                 </section>
 
+                <section id="payments" class="payment-layout" aria-label="Payment and financial intelligence expert system">
+                  <article class="decision-card payment-card payment-card--primary">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Payment intelligence expert</p>
+                        <h4 id="payment-program-title">Payment risk overview</h4>
+                      </div>
+                      <span class="status-pill" id="payment-status-pill">Release ready</span>
+                    </div>
+                    <p id="payment-summary" class="helper-copy"></p>
+                    <div class="form-grid payment-form">
+                      <label>
+                        Payment method
+                        <select id="payment-method-select"></select>
+                      </label>
+                      <label>
+                        Escrow stage
+                        <select id="payment-escrow-stage"></select>
+                      </label>
+                      <label>
+                        Payment amount
+                        <input id="payment-amount-range" type="range" min="5000" max="500000" step="5000" />
+                        <span class="range-value" id="payment-amount-value"></span>
+                      </label>
+                      <label>
+                        Settlement timing
+                        <select id="payment-settlement-select"></select>
+                      </label>
+                      <label class="toggle-row">
+                        <input id="payment-device-trusted" type="checkbox" />
+                        <span>Trusted device and session binding</span>
+                      </label>
+                      <label class="toggle-row">
+                        <input id="payment-cross-border" type="checkbox" />
+                        <span>Cross-border funding route</span>
+                      </label>
+                      <label class="toggle-row">
+                        <input id="payment-manual-review" type="checkbox" />
+                        <span>Manual review already requested</span>
+                      </label>
+                    </div>
+                    <div class="metric-grid payment-metric-grid">
+                      <div class="metric-item">
+                        <span>Fraud probability</span>
+                        <strong id="payment-fraud-score"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>Behavior posture</span>
+                        <strong id="payment-behavior-summary"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>Escrow status</span>
+                        <strong id="payment-escrow-summary"></strong>
+                      </div>
+                      <div class="metric-item">
+                        <span>Frontend security</span>
+                        <strong id="payment-frontend-posture"></strong>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="decision-card payment-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Risk signals</p>
+                        <h4>Fraud, velocity, and payer behavior</h4>
+                      </div>
+                    </div>
+                    <div id="payment-signal-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card payment-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Escrow controls</p>
+                        <h4>Release conditions</h4>
+                      </div>
+                    </div>
+                    <div id="payment-escrow-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="decision-card payment-card">
+                    <div class="card-heading">
+                      <div>
+                        <p class="eyebrow">Settlement integrity</p>
+                        <h4>Reconciliation and PCI posture</h4>
+                      </div>
+                    </div>
+                    <div id="payment-reconciliation-list" class="stack-list"></div>
+                  </article>
+                </section>
+
                 <section class="explanation-layout">
                   <article class="decision-card">
                     <div class="card-heading">
@@ -570,7 +663,7 @@
           </article>
           <article>
             <h3>Insurers</h3>
-            <p>Evaluate property exposure, diligence completeness, fraud signals, and ACORD-ready intake data.</p>
+            <p>Evaluate property exposure, diligence completeness, fraud signals, tokenized payment posture, and ACORD-ready intake data.</p>
           </article>
           <article>
             <h3>Advisors</h3>
@@ -591,8 +684,9 @@
           <article><h3>Negotiation expert</h3><p>Surfaces counterparty posture, concession sequencing, timing tactics, and escalation conditions.</p></article>
           <article><h3>Document validation expert</h3><p>Checks diligence artifacts, signatures, disclosures, title evidence, and release-readiness gaps.</p></article>
           <article><h3>Deal risk expert</h3><p>Scores workflow integrity, leverage, document exceptions, and counterparty risk with escalation guidance.</p></article>
-          <article><h3>Compliance expert</h3><p>Applies RBAC, MFA, KYC/AML, privacy, records, and continuity controls before decisions are shown.</p></article>
-          <article><h3>Finance expert</h3><p>Supports affordability, leverage, cashflow, and scenario analysis for individual or institutional users.</p></article>
+          <article><h3>Compliance expert</h3><p>Applies RBAC, MFA, KYC/AML, privacy, records, PCI-safe payment release controls, and continuity controls before decisions are shown.</p></article>
+          <article><h3>Payment intelligence expert</h3><p>Scores fraud probability, payer behavior, escrow conditions, and settlement reconciliation before money moves.</p></article>
+          <article><h3>Finance expert</h3><p>Supports affordability, leverage, cashflow, scenario analysis, and payment release suitability for individual or institutional users.</p></article>
         </div>
       </section>
 
@@ -613,17 +707,18 @@
             <span>ISO 31000</span>
             <span>ISO 22301</span>
             <span>ISO/IEC 42001</span>
+            <span>PCI DSS</span>
             <span>ACORD</span>
             <span>KYC/AML</span>
             <span>Sanctions</span>
           </div>
           <div class="decision-card">
             <h3>Identity release gate</h3>
-            <p>Decisions are published only after privacy minimization, RBAC, MFA, KYC/AML, sanctions screening, and risk-threshold review.</p>
+            <p>Decisions are published only after privacy minimization, RBAC, MFA, KYC/AML, sanctions screening, payment tokenization checks, and risk-threshold review.</p>
           </div>
           <div class="decision-card">
             <h3>Audit evidence</h3>
-            <p>Every recommendation and deal-stage transition captures profile signals, models consulted, document hashes, policy versions, confidence, and time-stamped approvals.</p>
+            <p>Every recommendation, payment event, and deal-stage transition captures profile signals, token references, models consulted, document hashes, policy versions, confidence, and time-stamped approvals.</p>
           </div>
           <div class="decision-card">
             <h3>AI governance</h3>
@@ -631,7 +726,7 @@
           </div>
           <div class="decision-card">
             <h3>Resilience</h3>
-            <p>Active-active services, fallback experts, retriable workflows, and immutable event logs support business continuity aligned to ISO 22301.</p>
+            <p>Active-active services, fallback experts, retriable workflows, immutable event logs, and reconciliation replay support business continuity aligned to ISO 22301.</p>
           </div>
         </div>
       </section>
@@ -652,7 +747,7 @@
           </div>
           <div>
             <span>Intelligence layer</span>
-            <strong>Intent parser • Valuation engine • Recommendation engine • Deal pricing • Negotiation copilot • Document QA • Risk gate</strong>
+            <strong>Intent parser • Valuation engine • Recommendation engine • Payment risk engine • Escrow intelligence • Deal pricing • Negotiation copilot • Document QA • Risk gate</strong>
           </div>
           <div>
             <span>Workflow integrity</span>
@@ -660,7 +755,7 @@
           </div>
           <div>
             <span>Data and controls</span>
-            <strong>Azure SQL • Cosmos DB • Event Grid • Key Vault • Purview • Monitor • Sentinel</strong>
+            <strong>Azure SQL • Cosmos DB • Event Grid • Key Vault • Purview • Monitor • Sentinel • token vault / PSP adapters</strong>
           </div>
         </div>
       </section>
