@@ -1,12 +1,12 @@
 # EstateOS
 
-EstateOS is a secure, scalable, AI-native real estate platform blueprint that combines a human-centered frontend with a Mixture-of-Experts (MoE) backend intelligence layer. It is designed for buyers, investors, brokers, insurers, payment operators, and advisors who need trusted guidance across property discovery, pricing intelligence, investment analysis, residency-by-investment (RBI), insurance, payment and escrow intelligence, risk, compliance, and financial decision support.
+EstateOS is a secure, scalable, AI-native decision infrastructure blueprint for real estate, finance, and migration. It combines a human-centered frontend with a Mixture-of-Experts (MoE) backend intelligence layer so buyers, investors, brokers, insurers, payment operators, migration advisors, and financial teams can operate from one trusted decision system across property discovery, pricing intelligence, investment analysis, residency-by-investment (RBI), insurance, payment and escrow intelligence, risk, compliance, and financial decision support.
 
 ## Platform pillars
 
 - **Human-centered UX/UI** grounded in ISO 9241-210 and ISO/IEC 25010 principles.
 - **Identity-aware trust fabric** that captures investor type, location, financial intent, residency goals, consent, and privacy preferences in the frontend and passes them into the backend router.
-- **Unified backend intelligence layer** that routes work to specialist expert agents based on user intent, profile, identity assurance, contextual risk, and external partner integration needs.
+- **Unified AI decision infrastructure** that routes work to specialist expert agents based on user intent, profile, identity assurance, contextual risk, and external partner integration needs across real estate, finance, and migration workflows.
 - **Azure-native deployment model** with modular microservices, event pipelines, and secure APIs.
 - **Compliance-by-design** aligned with ISO/IEC 27001, ISO/IEC 27017, ISO/IEC 27701, PCI DSS, ISO/IEC 5259, ISO/IEC 42001, SOC 2 Type 2, ISO 22301, ISO 31000, and adjacent privacy and AI-governance expectations.
 - **Transparent and auditable AI** with explainability, policy checks, fairness-aware ranking, and evidence capture on every decision path.
@@ -20,7 +20,7 @@ EstateOS is a secure, scalable, AI-native real estate platform blueprint that co
 
 ## Quick start
 
-Run the backend orchestration demo to inspect how a request is routed across property experts and transaction specialists:
+Run the backend orchestration demo to inspect how a request is routed across real estate, finance, migration, and transaction specialists:
 
 ```bash
 python3 backend/orchestration.py
