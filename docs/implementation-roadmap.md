@@ -152,6 +152,7 @@ Technical scope:
 
 The target design for the semi-autonomous transaction layer is specified in `docs/autonomous-deal-execution-engine.md`, covering agent roles, workflow control, approval gating, audit evidence, and ISO/IEC 27001 plus ISO 31000 alignment expectations.
 The target design for privacy-preserving adaptive experiences is specified in `docs/hyper-personalization-behavioral-intelligence-engine.md`, covering behavioral telemetry, recommendation and UX adaptation, communication strategy controls, ISO/IEC 27701 privacy management, and ethical-AI release boundaries.
+The target design for explainable entity trust and continuous risk evaluation is specified in `docs/trust-reputation-risk-scoring-network.md`, covering user, property, broker, and transaction scoring, frontend trust signals, AI monitoring, and compliance-driven rescoring.
 
 ## 5. Standards posture by phase
 
