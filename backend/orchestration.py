@@ -776,6 +776,62 @@ class ResidencyEligibilityPacket:
 
 
 @dataclass(frozen=True)
+class RegulatoryDomainNode:
+    domain: str
+    jurisdiction: str
+    regulatory_authorities: Sequence[str]
+    workflow_status: str
+    guidance_summary: str
+    evidence_refs: Sequence[str]
+
+
+@dataclass(frozen=True)
+class WorkflowAdaptation:
+    workflow: str
+    status: str
+    jurisdictions: Sequence[str]
+    triggered_by: Sequence[str]
+    frontend_guidance: str
+    backend_action: str
+
+
+@dataclass(frozen=True)
+class RegulatoryChangeEvent:
+    change_id: str
+    domain: str
+    jurisdiction: str
+    change_summary: str
+    effective_date: str
+    impact_level: str
+    monitored_by: Sequence[str]
+    action_required: str
+
+
+@dataclass(frozen=True)
+class TransparencyGuidance:
+    title: str
+    audience: str
+    summary: str
+    disclosures: Sequence[str]
+
+
+@dataclass(frozen=True)
+class ComplianceGraphPacket:
+    request_id: str
+    primary_jurisdiction: str
+    operating_jurisdictions: Sequence[str]
+    graph_version: str
+    overall_status: str
+    graph_summary: str
+    domains: Sequence[RegulatoryDomainNode]
+    workflow_adaptations: Sequence[WorkflowAdaptation]
+    change_watch: Sequence[RegulatoryChangeEvent]
+    transparency_guidance: Sequence[TransparencyGuidance]
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+@dataclass(frozen=True)
 class CopilotRoleSummary:
     role_key: str
     title: str
@@ -2127,6 +2183,200 @@ def evaluate_residency_eligibility(
         privacy_summary=privacy_summary,
         explanation=explanation,
         standards_alignment=("KYC/AML", "ISO/IEC 27701", "ISO/IEC 27001", "ISO 22301"),
+    )
+
+
+def evaluate_compliance_graph(
+    profile: UserProfile,
+    identity: IdentityContext,
+    context: RequestContext,
+    transaction: TransactionCase,
+    payment: PaymentDecisionPacket,
+    insurance: InsuranceDecisionPacket,
+    residency: ResidencyEligibilityPacket,
+) -> ComplianceGraphPacket:
+    jurisdictions = tuple(dict.fromkeys((context.property_country, transaction.jurisdiction, residency.jurisdiction, profile.country)))
+    payment_watch = "elevated" if payment.risk_level in {"high_review", "High review"} or payment.fraud_probability >= 0.5 else "controlled"
+    residency_watch = "watch" if residency.eligibility_status != "eligible" else "stable"
+    transaction_watch = "watch" if transaction.stage in {"document_validation", "approval"} else "stable"
+
+    domains = (
+        RegulatoryDomainNode(
+            domain="real_estate",
+            jurisdiction=transaction.jurisdiction,
+            regulatory_authorities=("Land registry", "Municipal planning office", "Transaction counsel"),
+            workflow_status="review" if transaction_watch == "watch" else "active",
+            guidance_summary=(
+                "Closing remains jurisdiction-aware: permit completeness, title evidence, seller disclosures, and notarization sequencing are "
+                "validated before any downstream release or funds movement."
+            ),
+            evidence_refs=("title_report", "seller_disclosure_pack", "closing_control_matrix"),
+        ),
+        RegulatoryDomainNode(
+            domain="payments",
+            jurisdiction=profile.country,
+            regulatory_authorities=("PSP risk desk", "Internal AML operations", "Escrow operations"),
+            workflow_status="review" if payment_watch == "elevated" else "active",
+            guidance_summary=(
+                "Payment orchestration adapts to settlement geography, escrow stage, sanctions posture, and fraud probability so release rules "
+                "can tighten automatically for cross-border or high-value movement."
+            ),
+            evidence_refs=("psp_token_reference", "fraud_signal_trace", "escrow_release_controls"),
+        ),
+        RegulatoryDomainNode(
+            domain="insurance",
+            jurisdiction=context.property_country,
+            regulatory_authorities=("Carrier underwriting", "Privacy office", "Servicing operations"),
+            workflow_status="active" if insurance.release_status == "ready" else "review",
+            guidance_summary=(
+                "Insurance exchange stays aligned to ACORD-style payloads, purpose-bound disclosures, and jurisdiction-specific underwriting "
+                "expectations before quote, bind, or policy servicing actions are allowed."
+            ),
+            evidence_refs=("acord_payload_bundle", "underwriting_notes", "privacy_scope_record"),
+        ),
+        RegulatoryDomainNode(
+            domain="residency",
+            jurisdiction=residency.jurisdiction,
+            regulatory_authorities=("Immigration counsel", "Residency operations", "Government filing adapter"),
+            workflow_status="review" if residency_watch == "watch" else "active",
+            guidance_summary=(
+                "Residency workflows adapt to program thresholds, supporting documents, privacy scope, and legal sign-off so applicants see "
+                "transparent eligibility guidance before any filing package is assembled."
+            ),
+            evidence_refs=("eligibility_rule_checks", "document_bundle", "filing_workflow_state"),
+        ),
+    )
+
+    workflow_adaptations = (
+        WorkflowAdaptation(
+            workflow="property_release",
+            status="gated",
+            jurisdictions=(transaction.jurisdiction,),
+            triggered_by=("document completeness", "jurisdiction disclosure rules", "approval segregation"),
+            frontend_guidance="Show permit and disclosure blockers before users can export, submit an offer, or release closing instructions.",
+            backend_action="Keep recommendation release and transaction stage progression behind document and approval policy gates.",
+        ),
+        WorkflowAdaptation(
+            workflow="insurance_quote_exchange",
+            status="adaptive",
+            jurisdictions=(context.property_country,),
+            triggered_by=("occupancy profile", "privacy tier", "carrier payload requirements"),
+            frontend_guidance="Explain why certain coverages, exclusions, or extra documents are required in the selected jurisdiction.",
+            backend_action="Transform quote requests into ACORD-compatible payloads and suppress fields outside consent scope.",
+        ),
+        WorkflowAdaptation(
+            workflow="payment_release",
+            status="adaptive",
+            jurisdictions=(profile.country, transaction.jurisdiction),
+            triggered_by=("fraud probability", "cross-border status", "escrow milestone readiness"),
+            frontend_guidance="Surface payment risk, approval state, and escrow readiness in plain language before funds move.",
+            backend_action="Escalate to manual review or dual approval when geography, amount, or fraud signals exceed threshold.",
+        ),
+        WorkflowAdaptation(
+            workflow="residency_filing",
+            status="gated" if residency.eligibility_status != "eligible" else "ready",
+            jurisdictions=(residency.jurisdiction,),
+            triggered_by=("program thresholds", "document readiness", "source-of-funds evidence"),
+            frontend_guidance="Tell applicants exactly which eligibility checks passed, what is missing, and why counsel review is still required.",
+            backend_action="Assemble filing packets only when required rules, KYC/AML checks, and evidence bundles are satisfied.",
+        ),
+    )
+
+    change_watch = (
+        RegulatoryChangeEvent(
+            change_id="chg-real-estate-disclosure",
+            domain="real_estate",
+            jurisdiction=transaction.jurisdiction,
+            change_summary="Disclosure packet and permit attachment versions are continuously versioned for closing-readiness checks.",
+            effective_date="2026-03-01",
+            impact_level="medium",
+            monitored_by=("compliance_expert", "document_expert", "transaction_service"),
+            action_required="Re-run document completeness and counsel review whenever a new municipal disclosure template is detected.",
+        ),
+        RegulatoryChangeEvent(
+            change_id="chg-payments-cross-border",
+            domain="payments",
+            jurisdiction=profile.country,
+            change_summary="Cross-border escrow and sanctions controls are tracked so payment review thresholds can tighten without frontend rewrites.",
+            effective_date="2026-02-15",
+            impact_level="high" if payment_watch == "elevated" else "medium",
+            monitored_by=("fraud_expert", "payment_service", "compliance_service"),
+            action_required="Increase manual review and beneficiary verification when risk signals or geography change.",
+        ),
+        RegulatoryChangeEvent(
+            change_id="chg-insurance-underwriting",
+            domain="insurance",
+            jurisdiction=context.property_country,
+            change_summary="Carrier intake schemas and privacy disclosures are versioned so quote exchanges remain jurisdiction-aware.",
+            effective_date="2026-02-20",
+            impact_level="medium",
+            monitored_by=("insurance_expert", "integration_service", "privacy_office"),
+            action_required="Refresh ACORD mappings and update user-facing guidance when underwriting fields or disclosures change.",
+        ),
+        RegulatoryChangeEvent(
+            change_id="chg-residency-program",
+            domain="residency",
+            jurisdiction=residency.jurisdiction,
+            change_summary="Residency pathway thresholds, filing steps, and legal review requirements are monitored as a living rule set.",
+            effective_date="2026-03-10",
+            impact_level="high" if residency_watch == "watch" else "medium",
+            monitored_by=("visa_expert", "government_registry_adapter", "compliance_service"),
+            action_required="Re-score eligibility and update the applicant checklist whenever program rules or filing requirements change.",
+        ),
+    )
+
+    transparency_guidance = (
+        TransparencyGuidance(
+            title="User-facing compliance guidance",
+            audience="frontend user",
+            summary="The UI should explain which jurisdictional checks affect offers, payments, insurance requests, and residency filings without exposing sensitive evidence.",
+            disclosures=(
+                "Show the active jurisdiction and domain-specific status for real estate, payments, insurance, and residency.",
+                "Translate controls into plain-language next steps, blockers, and required documents.",
+                "Disclose when a workflow is held for review because of policy, not product failure.",
+            ),
+        ),
+        TransparencyGuidance(
+            title="Operator adaptation guidance",
+            audience="backend operations",
+            summary="Backend services should consume the graph as a policy surface that can change routing, gating, payload shaping, and human-review requirements by jurisdiction.",
+            disclosures=(
+                "Version all rule changes and keep them linked to audit evidence.",
+                "Apply least-privilege data shaping before partner or government release.",
+                "Trigger event-driven re-evaluation when payment, residency, insurance, or property regulations evolve.",
+            ),
+        ),
+    )
+
+    review_count = sum(1 for item in domains if item.workflow_status == "review")
+    overall_status = "review" if review_count >= 2 or payment_watch == "elevated" else "active"
+    graph_summary = (
+        f"Compliance graph v2026.03 tracks {len(domains)} regulatory domains across {len(jurisdictions)} jurisdictions for "
+        f"{profile.country} → {context.property_country} workflows. Current posture is '{overall_status}' because transaction stage "
+        f"is {transaction.stage}, payment risk is {payment.risk_level}, insurance release is {insurance.release_status}, and residency "
+        f"status is {residency.eligibility_status}. Workflow adaptations keep frontend guidance transparent while backend routing, "
+        "payload shaping, and release gates remain jurisdiction-aware."
+    )
+
+    return ComplianceGraphPacket(
+        request_id=f"cmp-{uuid.uuid4().hex[:8]}",
+        primary_jurisdiction=context.property_country,
+        operating_jurisdictions=jurisdictions,
+        graph_version="2026.03",
+        overall_status=overall_status,
+        graph_summary=graph_summary,
+        domains=domains,
+        workflow_adaptations=workflow_adaptations,
+        change_watch=change_watch,
+        transparency_guidance=transparency_guidance,
+        standards_alignment=(
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "PCI DSS",
+            "ACORD",
+            "KYC/AML/sanctions",
+        ),
     )
 
 
@@ -4054,6 +4304,15 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         ),
         identity,
     )
+    compliance_graph_packet = evaluate_compliance_graph(
+        profile,
+        identity,
+        context,
+        transaction,
+        payment_packet,
+        insurance_packet,
+        residency_packet,
+    )
     digital_twin_packet = evaluate_digital_twin(
         DigitalTwinInput(
             twin_id=f"twin-{uuid.uuid4().hex[:8]}",
@@ -4102,6 +4361,7 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         "insurance_decision": asdict(insurance_packet),
         "integration_decision": asdict(integration_packet),
         "residency_decision": asdict(residency_packet),
+        "compliance_graph_decision": asdict(compliance_graph_packet),
         "digital_twin_decision": asdict(digital_twin_packet),
         "market_intelligence_decision": asdict(market_intelligence_packet),
         "document_intelligence_decision": asdict(document_intelligence_packet),

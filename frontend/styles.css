@@ -638,6 +638,15 @@ input[type="range"] {
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 }
 
+.compliance-card {
+  min-height: 100%;
+}
+
+.compliance-card--primary {
+  grid-column: span 2;
+  background: linear-gradient(135deg, rgba(117, 213, 255, 0.16), rgba(12, 23, 41, 0.94));
+}
+
 .architecture-stack div {
   min-height: 180px;
 }
@@ -773,6 +782,23 @@ input[type="range"] {
   color: var(--danger);
 }
 
+.status-pill[data-status="active"],
+.status-pill[data-status="ready"] {
+  border-color: rgba(155, 231, 177, 0.45);
+  color: var(--success);
+}
+
+.status-pill[data-status="review"],
+.status-pill[data-status="gated"] {
+  border-color: rgba(255, 212, 121, 0.45);
+  color: var(--warning);
+}
+
+.status-pill[data-status="blocked"] {
+  border-color: rgba(255, 159, 159, 0.45);
+  color: var(--danger);
+}
+
 .residency-card--primary {
   grid-column: span 2;
 }
@@ -808,7 +834,8 @@ input[type="range"] {
   }
 
   .residency-card--primary,
-  .insurance-card--primary {
+  .insurance-card--primary,
+  .compliance-card--primary {
     grid-column: 1 / -1;
   }
 }

@@ -37,6 +37,13 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 | Data/evidence stores | Encryption, retention, lineage, immutable evidence, backup and recovery, data residency controls, token vault references, PII minimization, reconciliation ledgers. | ISO/IEC 27001, ISO/IEC 27018, ISO/IEC 27701, PCI DSS, ISO 22301 |
 | Security operations | SIEM, posture management, vulnerability response, model/runtime monitoring, incident coordination, evidence retention for audits. | ISO/IEC 27001, ISO/IEC 27017, ISO/IEC 27018, SOC 2 Type 2, ISO 31000 |
 
+## 3.1 Global compliance graph and regulatory intelligence
+
+- Maintain a jurisdiction-aware compliance graph that links real estate, payments, insurance, and residency workflows to the active countries, policy versions, and evidence references.
+- Use the graph to drive both backend workflow adaptation and frontend transparency so the same rule change can update release gates, required documents, partner payload shaping, and user-facing guidance.
+- Version regulatory change events with effective dates, impact levels, and required remediation actions so evolving legal requirements remain auditable.
+- Treat transparency guidance as part of the control surface: users should see jurisdiction-specific blockers, review reasons, and next steps without exposing sensitive internal evidence.
+
 ## 4. Workflow-specific controls
 
 ### 4.1 Identity-aware profile routing
