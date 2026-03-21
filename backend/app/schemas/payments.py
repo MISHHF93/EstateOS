@@ -19,3 +19,19 @@ class PaymentResponse(APIModel):
     status: str
     amount: float
     currency: str
+
+
+class LedgerEntry(APIModel):
+    id: str
+    payment_intent_id: str
+    deal_id: str | None = None
+    entry_type: str
+    amount: float
+    currency: str
+    immutable_hash: str
+    status: str
+
+
+class LedgerView(APIModel):
+    entries: list[LedgerEntry]
+    release_controls: list[str]
