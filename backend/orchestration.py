@@ -586,6 +586,81 @@ class TokenizationDecisionPacket:
 
 
 @dataclass(frozen=True)
+class GovernedDocument:
+    document_id: str
+    document_type: str
+    title: str
+    jurisdiction: str
+    source_system: str
+    language: str
+    status: str
+    confidence: float
+
+
+@dataclass(frozen=True)
+class DocumentFieldExtraction:
+    document_id: str
+    field_name: str
+    field_value: str
+    confidence: float
+    normalized_value: str
+    rationale: str
+
+
+@dataclass(frozen=True)
+class DocumentValidationCheck:
+    document_id: str
+    check_name: str
+    status: str
+    detail: str
+    severity: str
+
+
+@dataclass(frozen=True)
+class DocumentAnomalySignal:
+    signal: str
+    severity: str
+    affected_documents: Sequence[str]
+    detail: str
+    recommended_action: str
+
+
+@dataclass(frozen=True)
+class DocumentComplianceFinding:
+    framework: str
+    control: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class DocumentAuditRecord:
+    event: str
+    actor: str
+    detail: str
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+@dataclass(frozen=True)
+class DocumentIntelligencePacket:
+    request_id: str
+    portfolio_name: str
+    simplified_summary: str
+    reasoning_summary: str
+    frontend_insights: Sequence[str]
+    governed_documents: Sequence[GovernedDocument]
+    extracted_fields: Sequence[DocumentFieldExtraction]
+    validation_checks: Sequence[DocumentValidationCheck]
+    anomaly_signals: Sequence[DocumentAnomalySignal]
+    compliance_findings: Sequence[DocumentComplianceFinding]
+    audit_records: Sequence[DocumentAuditRecord]
+    release_status: str
+    recommended_actions: Sequence[str]
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+@dataclass(frozen=True)
 class PartnerIntegrationRequest:
     partner_system: str
     domain: str
@@ -2862,6 +2937,239 @@ def evaluate_tokenization(
     )
 
 
+def evaluate_document_intelligence(
+    profile: UserProfile,
+    identity: IdentityContext,
+    context: RequestContext,
+    transaction: TransactionCase,
+    insurance_packet: InsuranceDecisionPacket,
+    residency_packet: ResidencyEligibilityPacket,
+) -> DocumentIntelligencePacket:
+    title_document = GovernedDocument(
+        document_id="doc-title-chain",
+        document_type="title_report",
+        title=f"{transaction.jurisdiction} title and encumbrance packet",
+        jurisdiction=transaction.jurisdiction,
+        source_system="land_registry_adapter",
+        language="en",
+        status="validated",
+        confidence=0.97,
+    )
+    contract_document = GovernedDocument(
+        document_id="doc-purchase-contract",
+        document_type="purchase_contract",
+        title=f"{transaction.deal_name} purchase agreement",
+        jurisdiction=transaction.jurisdiction,
+        source_system="deal_room",
+        language="en",
+        status="review",
+        confidence=0.91,
+    )
+    insurance_document = GovernedDocument(
+        document_id="doc-insurance-binder",
+        document_type="insurance_policy",
+        title=f"{insurance_packet.recommendations[0].coverage_type} draft binder",
+        jurisdiction=insurance_packet.applicant.property_jurisdiction,
+        source_system="insurance_exchange",
+        language="en",
+        status="review",
+        confidence=0.89,
+    )
+    immigration_document = GovernedDocument(
+        document_id="doc-immigration-pack",
+        document_type="immigration_evidence",
+        title=f"{residency_packet.program} eligibility packet",
+        jurisdiction=residency_packet.jurisdiction,
+        source_system="residency_workflow",
+        language="en",
+        status="needs_evidence",
+        confidence=0.87,
+    )
+    governed_documents = (
+        contract_document,
+        title_document,
+        insurance_document,
+        immigration_document,
+    )
+
+    extracted_fields = (
+        DocumentFieldExtraction(
+            document_id=contract_document.document_id,
+            field_name="purchase_price",
+            field_value=f"{transaction.purchase_price} USD",
+            confidence=0.95,
+            normalized_value=str(transaction.purchase_price),
+            rationale="Signature blocks, price table, and consideration clause agree on the same purchase price.",
+        ),
+        DocumentFieldExtraction(
+            document_id=title_document.document_id,
+            field_name="encumbrance_status",
+            field_value="No encumbrance exceptions detected",
+            confidence=0.96,
+            normalized_value="clean_title",
+            rationale="Registry excerpt and title abstract resolve to a clean chain for the reviewed parcel.",
+        ),
+        DocumentFieldExtraction(
+            document_id=insurance_document.document_id,
+            field_name="insured_amount",
+            field_value=str(insurance_packet.acord_coverages[0].insured_amount),
+            confidence=0.9,
+            normalized_value=str(insurance_packet.acord_coverages[0].insured_amount),
+            rationale="Coverage schedule and ACORD draft align on the primary insured amount.",
+        ),
+        DocumentFieldExtraction(
+            document_id=immigration_document.document_id,
+            field_name="eligibility_pathway",
+            field_value=residency_packet.pathway_type,
+            confidence=0.88,
+            normalized_value=residency_packet.pathway_type.replace(" ", "_").lower(),
+            rationale="Program rules and intake answers agree on the targeted residency route.",
+        ),
+    )
+
+    unresolved_residency_evidence = len([item for item in residency_packet.document_checks if item.status != "passed"])
+    validation_checks = (
+        DocumentValidationCheck(
+            document_id=contract_document.document_id,
+            check_name="Signature and clause completeness",
+            status="review",
+            detail="Commercial terms are extracted successfully, but one permit-related attachment is still missing from the disclosure packet.",
+            severity="medium",
+        ),
+        DocumentValidationCheck(
+            document_id=title_document.document_id,
+            check_name="Chain-of-title and lien validation",
+            status="passed",
+            detail="Title records, owner references, and encumbrance checks are internally consistent.",
+            severity="low",
+        ),
+        DocumentValidationCheck(
+            document_id=insurance_document.document_id,
+            check_name="Coverage alignment with lender and asset value",
+            status="review",
+            detail="Coverage form is suitable, but final binder issuance is gated on the same document-completeness controls as closing.",
+            severity="medium",
+        ),
+        DocumentValidationCheck(
+            document_id=immigration_document.document_id,
+            check_name="Residency evidence completeness",
+            status="review",
+            detail=f"{unresolved_residency_evidence} evidence items still require confirmation or counsel review.",
+            severity="medium",
+        ),
+    )
+
+    anomaly_signals = (
+        DocumentAnomalySignal(
+            signal="Cross-document timing mismatch",
+            severity="medium",
+            affected_documents=(contract_document.title, insurance_document.title),
+            detail="Closing-sensitive dates appear aligned overall, but the insurance binder should not be released until the contract attachment set is complete.",
+            recommended_action="Link binder release to the transaction approval gate and re-run the completeness check after the permit attachment lands.",
+        ),
+        DocumentAnomalySignal(
+            signal="Immigration evidence dependency",
+            severity="medium",
+            affected_documents=(immigration_document.title,),
+            detail="Residency reasoning remains positive, yet filing readiness depends on supporting evidence that has not been fully attested in the packet.",
+            recommended_action="Escalate remaining evidence items to counsel review before any government submission is triggered.",
+        ),
+    )
+
+    compliance_findings = (
+        DocumentComplianceFinding(
+            framework="ISO/IEC 42001",
+            control="Explainable extraction and reasoning",
+            status="active",
+            detail="Each summarized field preserves confidence, normalization output, and rationale so reviewers can challenge or reproduce the AI result.",
+        ),
+        DocumentComplianceFinding(
+            framework="ISO/IEC 27001",
+            control="Access and evidence governance",
+            status="active",
+            detail="Document-derived insights inherit RBAC, MFA, privacy-tier, and immutable audit controls before release.",
+        ),
+        DocumentComplianceFinding(
+            framework="ISO/IEC 27701",
+            control="Purpose-bound document minimization",
+            status="active",
+            detail="Frontend summaries expose simplified insights while sensitive identity, financial, and immigration evidence stays restricted to approved roles.",
+        ),
+        DocumentComplianceFinding(
+            framework="KYC/AML/sanctions",
+            control="Source-of-funds and beneficial-owner dependencies",
+            status="review" if context.cross_border else "active",
+            detail="Cross-border document flows remain gated on current KYC, AML, sanctions, and source-of-funds evidence.",
+        ),
+    )
+
+    audit_records = (
+        DocumentAuditRecord(
+            event="document_ingested",
+            actor="document_intelligence_pipeline",
+            detail=f"Ingested {len(governed_documents)} governed documents for {transaction.deal_name}.",
+        ),
+        DocumentAuditRecord(
+            event="field_extraction_completed",
+            actor="document_intelligence_pipeline",
+            detail=f"Extracted {len(extracted_fields)} high-value normalized fields with explainability metadata.",
+        ),
+        DocumentAuditRecord(
+            event="compliance_linkage_verified",
+            actor="compliance_service",
+            detail=f"Linked document packet to privacy tier {identity.privacy_tier}, consent scope, and cross-border compliance checks.",
+        ),
+        DocumentAuditRecord(
+            event="frontend_summary_published",
+            actor="ai_orchestrator",
+            detail="Released simplified insights for frontend display while preserving backend-only evidence trails and anomaly markers.",
+        ),
+    )
+
+    release_status = "review" if any(item.status != "passed" for item in validation_checks) else "ready"
+    frontend_insights = (
+        "Contracts, title, insurance, and immigration packets are summarized into plain-language checkpoints for the workspace.",
+        "Backend validation confirms clean title evidence, extracts governing commercial terms, and flags unresolved attachments before closing.",
+        "Insurance and residency packets stay linked to the same audit chain so users see readiness without exposing raw sensitive files.",
+        "Anomaly detection compares dates, values, obligations, and evidence dependencies across documents before any downstream release.",
+    )
+    simplified_summary = (
+        f"Document intelligence condensed {len(governed_documents)} governed documents for {transaction.deal_name} into simplified insights covering contracts, title, insurance, and immigration readiness."
+    )
+    reasoning_summary = (
+        f"The backend extracted key fields, validated document structure and cross-document consistency, flagged {len(anomaly_signals)} anomaly signals, "
+        f"and preserved {len(audit_records)} audit events so legal, compliance, and operations teams can reproduce every conclusion."
+    )
+    recommended_actions = (
+        "Resolve the missing permit-related attachment and re-run contract completeness validation before closing release.",
+        "Keep title, insurance binder, and residency filing packets tied to the same transaction audit record.",
+        "Route unresolved immigration evidence to counsel review before external submission.",
+    )
+
+    return DocumentIntelligencePacket(
+        request_id=f"doc-{uuid.uuid4().hex[:8]}",
+        portfolio_name=f"{transaction.deal_name} document intelligence workspace",
+        simplified_summary=simplified_summary,
+        reasoning_summary=reasoning_summary,
+        frontend_insights=frontend_insights,
+        governed_documents=governed_documents,
+        extracted_fields=extracted_fields,
+        validation_checks=validation_checks,
+        anomaly_signals=anomaly_signals,
+        compliance_findings=compliance_findings,
+        audit_records=audit_records,
+        release_status=release_status,
+        recommended_actions=recommended_actions,
+        standards_alignment=(
+            "ISO/IEC 42001",
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO/IEC 5259",
+            "KYC/AML/sanctions",
+        ),
+    )
+
+
 DEMO_JOURNEY_SCENARIOS = {
     "buyer": {
         "user_prompt": "I want a family relocation property in Portugal with financing guidance, transaction controls, and residency readiness.",
@@ -3759,6 +4067,14 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         context,
         **scenario["market_intelligence"],
     )
+    document_intelligence_packet = evaluate_document_intelligence(
+        profile,
+        identity,
+        context,
+        transaction,
+        insurance_packet,
+        residency_packet,
+    )
     tokenization_packet = evaluate_tokenization(
         profile,
         identity,
@@ -3788,6 +4104,7 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         "residency_decision": asdict(residency_packet),
         "digital_twin_decision": asdict(digital_twin_packet),
         "market_intelligence_decision": asdict(market_intelligence_packet),
+        "document_intelligence_decision": asdict(document_intelligence_packet),
         "tokenization_decision": asdict(tokenization_packet),
         "copilot_decision": asdict(copilot_packet),
     }
