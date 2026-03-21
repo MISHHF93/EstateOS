@@ -202,13 +202,15 @@ When making future changes, contributors should treat the following as mandatory
 
 The next practical build steps should be:
 
-1. scaffold a real Next.js + TypeScript app under `apps/web/`,
-2. stand up a FastAPI service for `ai-orchestrator`,
-3. define shared contracts for profile, trust, listings, deals, and explanations,
-4. introduce PostgreSQL and Redis-backed local development,
-5. separate current prototype content into migration-safe folders,
-6. add infrastructure definitions under `infra/`,
-7. begin implementing the MVP feature set before Phase 2 or Phase 3 ambitions.
+1. treat `docs/developer-grade-moe-system-spec.md` as the source of truth for router logic, expert contracts, confidence, fallback, review, and evaluation behavior,
+2. generate the database and API implementation pack from that specification,
+3. scaffold a real Next.js + TypeScript app under `apps/web/`,
+4. stand up a FastAPI service for `ai-orchestrator`,
+5. define shared contracts for profile, trust, listings, deals, and explanations,
+6. introduce PostgreSQL and Redis-backed local development,
+7. separate current prototype content into migration-safe folders,
+8. add infrastructure definitions under `infra/`,
+9. begin implementing the MVP feature set before Phase 2 or Phase 3 ambitions.
 
 
 ## 8. Transition note

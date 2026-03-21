@@ -24,7 +24,7 @@ EstateOS combines several normally separate systems into one operating surface:
 - compliance, KYC/AML, and risk review,
 - explainable AI routing and release governance.
 
-The target production framing is captured in `docs/authoritative-blueprint.md`, `docs/architecture.md`, and `docs/production-platform-blueprint.md`.
+The target production framing is captured in `docs/authoritative-blueprint.md`, `docs/architecture.md`, and `docs/production-platform-blueprint.md`. The developer-grade implementation contract for the AI system now lives in `docs/developer-grade-moe-system-spec.md`.
 
 ## Reverse-engineered current-state architecture
 
