@@ -1,89 +1,212 @@
 # EstateOS
 
-EstateOS is being shaped as **an AI-native real estate operating system powered by a Mixture-of-Experts (MoE) backbone**. The repository now treats the architecture you provided as the **authoritative target-state blueprint** for product, platform, AI orchestration, and compliance.
+EstateOS is an **AI-native real estate operating system powered by a Mixture-of-Experts (MoE) backbone**.
 
-## Target product framing
+Today, this repository is best understood as a **reverse-engineerable platform blueprint plus working reference implementation**:
 
-EstateOS is positioned as:
+- a runnable **FastAPI (Python)** backend scaffold that models the platform's primary domains,
+- a static frontend prototype that demonstrates the intended decision workspace and data wiring,
+- a large orchestration reference that emits governed demo packets for multiple user journeys, and
+- a monorepo skeleton for the eventual production migration into `apps/`, `services/`, `experts/`, `packages/`, and `infra/`.
 
-- **An AI-native real estate intelligence platform with MoE-driven decision support** for property, migration, insurance, compliance, and finance.
-- **A real estate operating system** where property discovery, investor workflows, residency-by-investment journeys, insurance flows, payments, documents, and compliance operate through one explainable control surface.
+It is **not yet the final production monorepo**, but it already shows the product shape, routing model, trust controls, and delivery boundaries the platform is converging toward.
 
-## Canonical platform architecture
+## What the platform is trying to be
 
-The target platform follows six major layers:
+EstateOS combines several normally separate systems into one operating surface:
 
-1. **Frontend experience layer**
-   - Public marketing site.
-   - Property discovery application.
-   - Investor workspace.
-   - Residency / visa intake flow.
-   - Insurance journey.
-   - Broker / admin / compliance console.
-2. **API gateway / BFF layer**
-   - API gateway.
-   - Backend-for-frontend.
-   - Auth gateway.
-   - Rate limiting, consent, audit, and session hooks.
-3. **Core application services**
-   - Auth, users, listings, transactions, documents.
-   - Visa workflows, insurance, payments, compliance.
-   - Integrations, notifications, admin/reporting.
-4. **AI orchestration / MoE layer**
-   - Intent-aware router.
-   - Expert selection, aggregation, ranking, and explanation.
-   - Human-review and policy-release gating.
-5. **Data platform layer**
-   - PostgreSQL, Redis, Blob Storage, Service Bus, Azure AI Search, analytics, audit logs.
-6. **Security / compliance / governance layer**
-   - ISO/IEC 27001, 27017, 27018, 27701, 25010, 42001, 5259, 22301, 31000.
-   - PCI DSS, SOC 2 Type 2, ACORD/NAIC-aligned workflows, KYC/AML/sanctions/PEP.
+- property discovery and recommendation,
+- investment and ROI analysis,
+- residency / visa workflow support,
+- insurance intake and quoting,
+- payments and escrow-aware transaction flows,
+- document collection and validation,
+- compliance, KYC/AML, and risk review,
+- explainable AI routing and release governance.
 
-Detailed architecture guidance lives in `docs/architecture.md`, the exact source-of-truth blueprint now lives in `docs/authoritative-blueprint.md`, and the repository migration rules now live in `docs/repository-transition.md`.
-`docs/production-platform-blueprint.md` now adds the production-grade implementation contract covering the modular full-stack architecture, relational schema baseline, REST API surface, event-driven lifecycle, Azure deployment, and MoE governance model.
-A repo-wide alignment checklist now lives in `docs/blueprint-alignment.md` so contributors can quickly validate that new work still matches the locked MoE real estate platform direction. `docs/platform-manifest.md` adds a concise implementation-facing contract that maps the authoritative blueprint to repository guardrails and delivery phases.
-`docs/architecture-scorecard.md` adds a direct alignment verdict and an acceptance checklist that contributors can use to verify that new work still abides by the requested platform architecture. `docs/current-state-alignment-audit.md` now captures the more exact current-state answer: EstateOS abides to the blueprint as a governed scaffold/reference implementation, not yet as a fully delivered production platform.
-`docs/blueprint-traceability-matrix.md` adds a requirement-by-requirement traceability view so contributors can map each major blueprint demand to concrete repository evidence and current implementation nuance.
+The target production framing is captured in `docs/authoritative-blueprint.md`, `docs/architecture.md`, and `docs/production-platform-blueprint.md`.
 
-## Required implementation stack
+## Reverse-engineered current-state architecture
 
-### Frontend target stack
+If you read the repo from the code outward, the current platform shape looks like this:
 
-- **Next.js + React + TypeScript**.
-- **Tailwind CSS**.
-- **shadcn/ui**.
-- **TanStack Query**.
-- **Zustand or Redux Toolkit**.
-- **i18n** for multilingual support.
-- **Framer Motion** for subtle motion.
-- **Mapbox or Google Maps** for discovery experiences.
-- **Stripe Elements or payment SDKs** for PCI-aware payment surfaces.
+### 1. Product experience layer
 
-### Backend target stack
+The active customer-facing demo lives in `frontend/` as a static HTML/CSS/JS prototype.
 
-- **FastAPI (Python)** as the primary AI-heavy backend foundation.
-- **Modular monolith first**, with a future path to service extraction.
-- **PostgreSQL** for OLTP.
-- **Redis** for caching and ephemeral workflow state.
-- **Azure Blob Storage** for documents and evidence.
-- **Azure Service Bus** for asynchronous workflows.
-- **Elasticsearch or Azure AI Search** for search and retrieval.
-- **Keycloak or Microsoft Entra External ID / Azure AD B2C** for identity.
-- **Temporal or Camunda** for workflow orchestration.
+It renders a premium-style decision workspace with:
 
-## Current repository intent
+- buyer, investor, and advisor journeys,
+- a wiring banner that shows whether backend-generated packets were loaded,
+- adaptive controls for objective, risk tolerance, explanation depth, budget, residency, and financing,
+- recommendation cards, expert strips, trust context, deal stages, and policy-oriented status panels,
+- visual sections for compliance, residency, insurance, payments, integrations, digital twin, market intelligence, tokenization, and marketplace concepts.
 
-This repository is still a **reference implementation + architecture blueprint**, not yet the full production monorepo. Its current assets now do four things:
+This is intentionally **prototype-only**. The intended production home remains `apps/web/` for a **Next.js + React + TypeScript** implementation, with `apps/admin/` reserved for operator workflows and `apps/mobile/` reserved for a future mobile surface.
 
-- document the authoritative target architecture,
-- provide a lightweight Python orchestration reference in `backend/orchestration.py`,
-- provide a FastAPI modular-monolith scaffold with explainable MoE routing, event contracts, and relational entity models in `backend/app/`,
-- provide a visual product-direction prototype in `frontend/`, and
-- scaffold the canonical monorepo roots in `apps/`, `services/`, `experts/`, `packages/`, and `infra/` so implementation work can land in the correct target locations.
+### 2. API and modular backend layer
 
-## Canonical target repo structure
+The live backend scaffold lives in `backend/app/` and exposes `/api/v1` routes for the platform's first vertical slice:
 
-The target repository shape we are now aligning toward is:
+- auth,
+- users,
+- listings,
+- deals,
+- documents,
+- residency,
+- insurance,
+- payments,
+- compliance,
+- AI assessment.
+
+The scaffold is built as a **modular monolith first** and already encodes the service seams that later map into `services/`.
+
+### 3. Mixture-of-Experts orchestration layer
+
+There are currently **two orchestration artifacts** in the repository:
+
+1. `backend/app/services/ai_orchestrator.py` — a runnable FastAPI-facing MoE router for AI assessment requests.
+2. `backend/orchestration.py` — a much larger reference implementation that generates rich decision packets for the frontend demo and future product flows.
+
+Together they show the intended MoE control model:
+
+- detect user intent and journey context,
+- select experts based on context and workflow stage,
+- aggregate expert outputs into ranked recommendations,
+- attach explanations, policy gates, and audit semantics,
+- hold or release outcomes depending on trust and review posture.
+
+### 4. Data, async, and audit seams
+
+The current implementation is still lightweight, but it already hints at the production platform seams:
+
+- in-memory persistence for local domain behavior,
+- event contract definitions for listings, deals, documents, AI routing, payments, residency, insurance, and compliance,
+- deferred task definitions for document extraction, search indexing, workflow jobs, quote fan-out, reconciliation, and screening,
+- audit logging via the shared backend service base.
+
+### 5. Governance and deployment layer
+
+The repo consistently preserves an Azure-first target state including:
+
+- Azure Front Door,
+- Azure API Management,
+- Azure App Service or AKS,
+- Azure Database for PostgreSQL,
+- Azure Cache for Redis,
+- Azure Blob Storage,
+- Azure Service Bus,
+- Azure Key Vault,
+- Azure AI Search,
+- Azure Machine Learning,
+- Azure Monitor and Microsoft Sentinel.
+
+## What actually runs today
+
+## 1. Static frontend prototype
+
+`frontend/` is a browser demo, not a framework app.
+
+It loads `frontend/demo-packets.json` and hydrates three prebuilt journey experiences:
+
+- **buyer**,
+- **investor**,
+- **advisor**.
+
+Those payloads are generated from the Python orchestration reference and let the UI simulate:
+
+- property recommendation and ranking,
+- transaction-stage guidance,
+- policy-gated release states,
+- payment, insurance, residency, integration, and market-intelligence panels,
+- expert marketplace and tokenization concepts.
+
+## 2. FastAPI backend scaffold
+
+The backend is a small but runnable API surface intended to prove the shape of the modular monolith.
+
+### Available route groups
+
+- `POST /api/v1/auth/register`
+- `POST /api/v1/auth/login`
+- `GET /api/v1/users/me`
+- `PUT /api/v1/users/me/preferences`
+- `GET /api/v1/listings`
+- `POST /api/v1/listings`
+- `GET /api/v1/listings/{listing_id}`
+- `POST /api/v1/listings/favorites`
+- `POST /api/v1/deals`
+- `POST /api/v1/deals/{deal_id}/offers`
+- `GET /api/v1/deals/{deal_id}`
+- `POST /api/v1/documents/presign`
+- `POST /api/v1/documents/{document_id}/complete`
+- `GET /api/v1/residency/programs`
+- `POST /api/v1/residency/applications`
+- `POST /api/v1/residency/applications/{application_id}/assess`
+- `POST /api/v1/insurance/requests`
+- `GET /api/v1/insurance/requests/{request_id}/quotes`
+- `POST /api/v1/payments/intents`
+- `GET /api/v1/payments/{payment_id}`
+- `GET /api/v1/compliance/cases/{case_id}`
+- `GET /api/v1/compliance/screening-checks/{check_id}`
+- `POST /api/v1/ai/assess`
+- `GET /health`
+
+### What those modules currently model
+
+- **Auth** returns demo registration and token responses.
+- **Users** exposes a demo authenticated profile and preference updates.
+- **Listings** includes seed data, filtering, creation, and favoriting.
+- **Deals** models deal creation, offer submission, milestones, and retrieval.
+- **Documents** models presign + upload completion flows.
+- **Residency** models program discovery, application creation, and preliminary eligibility scoring.
+- **Insurance** models quote request submission and quote retrieval.
+- **Payments** models payment intent creation and payment retrieval.
+- **Compliance** models case retrieval and screening lookup.
+- **AI** models explainable expert routing with governance metadata.
+
+## 3. Reference orchestration engine
+
+`backend/orchestration.py` is the richest source for understanding the intended EstateOS platform.
+
+It models packet generation for:
+
+- property decisioning,
+- transaction workflows,
+- payment and fraud review,
+- insurance decisions,
+- residency decisions,
+- integration routing,
+- compliance graph decisions,
+- digital twin concepts,
+- market intelligence,
+- document intelligence,
+- marketplace participation,
+- tokenization scenarios,
+- multi-role copilot behavior.
+
+If you want to "reverse engineer the platform," this file is where the deepest product assumptions currently live.
+
+## Canonical expert model
+
+The repo consistently preserves the ten-expert MoE taxonomy:
+
+1. Property Recommendation Expert.
+2. Property Valuation Expert.
+3. Investment ROI Expert.
+4. Residency / Visa Eligibility Expert.
+5. Insurance Recommendation Expert.
+6. Payment / Fraud / Financial Risk Expert.
+7. Compliance / AML / Sanctions Expert.
+8. UX Personalization Expert.
+9. Document Intelligence Expert.
+10. Market Forecast / Trend Expert.
+
+In the runnable FastAPI scaffold, these experts are represented by small modules that currently output deterministic demo logic. In the broader orchestration reference, the same concepts are expanded into richer decision packets and governance flows.
+
+## Monorepo target structure
+
+The target repository shape the project is steering toward is:
 
 ```text
 realestate-moe-platform/
@@ -131,6 +254,7 @@ realestate-moe-platform/
 ## Delivery model
 
 ### MVP
+
 - Listings.
 - Auth.
 - Search.
@@ -141,6 +265,7 @@ realestate-moe-platform/
 - Azure deployment baseline.
 
 ### Phase 2
+
 - Visa workflow engine.
 - Insurance integrations.
 - Valuation expert.
@@ -148,6 +273,7 @@ realestate-moe-platform/
 - Admin/compliance workbench.
 
 ### Phase 3
+
 - Autonomous Deal Execution Engine (Agentic AI Layer).
 - Digital Twin Properties & Simulation Engine.
 - Predictive Market Intelligence & Macro AI.
@@ -159,70 +285,55 @@ realestate-moe-platform/
 - Trust, Reputation, and Risk Scoring Network.
 - Open AI Marketplace & Third-Party Expert Plug-in Ecosystem.
 
-A practical implementation roadmap is captured in `docs/implementation-roadmap.md`, and the repository transition expectations are captured in `docs/repository-transition.md`. `docs/autonomous-deal-execution-engine.md` adds the detailed Phase 3 design for the governed agentic transaction layer, including approvals, policy gates, auditability, and semi-autonomous deal execution boundaries. `docs/predictive-market-intelligence-engine.md` adds the macro-level forecasting design for global/local market trends, migration flows, rates, supply-demand monitoring, and forward-looking investor signals. `docs/tokenization-fractional-ownership-layer.md` adds the governed fractional ownership design for property-backed offerings, ownership ledgers, compliance checks, and transfer/settlement controls.
-`docs/document-intelligence-legal-ai.md` adds the Phase 3 design for AI-assisted extraction, validation, legal reasoning, anomaly detection, compliance checks, and audit trails across contracts, title packets, insurance policies, and immigration evidence.
-`docs/hyper-personalization-behavioral-intelligence-engine.md` adds the privacy-preserving Phase 3 design for behavioral learning, adaptive recommendations, communication optimization, and ISO/IEC 27701 plus ethical-AI guardrails.
-`docs/trust-reputation-risk-scoring-network.md` adds the Phase 3 design for explainable trust scoring across users, properties, brokers, and transactions, including AI monitoring, compliance-driven rescoring, and frontend trust signals.
-`docs/open-ai-marketplace-expert-plugin-ecosystem.md` adds the Phase 3 design for the governed third-party expert ecosystem, including provider onboarding, secure APIs, sandboxed execution, marketplace discovery, and AI/compliance release controls.
+## Repo tour
 
-## MoE expert model
-
-The canonical expert set is:
-
-1. Property Recommendation Expert.
-2. Property Valuation Expert.
-3. Investment ROI Expert.
-4. Residency / Visa Eligibility Expert.
-5. Insurance Recommendation Expert.
-6. Payment / Fraud / Financial Risk Expert.
-7. Compliance / AML / Sanctions Expert.
-8. UX Personalization Expert.
-9. Document Intelligence Expert.
-10. Market Forecast / Trend Expert.
-
-The router activates experts based on user type, location, property type, investment goal, residency intent, risk score, and transaction stage. See `docs/moe-platform-model.md`.
-
-## Azure deployment baseline
-
-The recommended Azure footprint is:
-
-- Azure Front Door.
-- Azure API Management.
-- Azure App Service or AKS.
-- Azure Database for PostgreSQL.
-- Azure Cache for Redis.
-- Azure Blob Storage.
-- Azure Service Bus.
-- Azure Key Vault.
-- Azure Monitor.
-- Microsoft Sentinel.
-- Azure AI Search.
-- Azure Machine Learning.
-- GitHub Actions or Azure DevOps.
-- Defender for Cloud.
-
-## Standards and control posture
-
-EstateOS should remain aligned to:
-
-- ISO/IEC 27001, 27017, 27018, 27701.
-- ISO/IEC 25010 and ISO 9241-210.
-- ISO/IEC 42001 and ISO/IEC 5259.
-- ISO 22301 and ISO 31000.
-- PCI DSS and SOC 2 Type 2.
-- ACORD-oriented interoperability.
-- NAIC-aligned privacy/security expectations.
-- KYC / AML / sanctions / PEP requirements.
-
-See `docs/compliance-mapping.md` for the control mapping baseline.
+- `frontend/` — static prototype for the decision workspace.
+- `backend/` — runnable FastAPI scaffold plus orchestration reference.
+- `docs/` — architecture, roadmap, compliance, and alignment documentation.
+- `apps/` — reserved production app roots.
+- `services/` — canonical future backend service boundaries.
+- `experts/` — canonical future expert ownership boundaries.
+- `packages/` — shared UI, types, config, and utilities.
+- `infra/` — Azure-focused infrastructure roots.
+- `scripts/` — lightweight validation and export helpers.
 
 ## Quick start
 
-Run the current orchestration reference implementation:
+### Run the backend scaffold
+
+```bash
+cd backend
+uvicorn app.main:app --reload
+```
+
+Then open:
+
+- API docs: `http://127.0.0.1:8000/api/v1/docs`
+- Health check: `http://127.0.0.1:8000/health`
+
+### Run the orchestration reference directly
 
 ```bash
 python3 backend/orchestration.py
 ```
+
+### Regenerate demo packets
+
+```bash
+python3 scripts/export_demo_payloads.py
+```
+
+### Serve the static frontend prototype
+
+Any static file server will work. For example:
+
+```bash
+python3 -m http.server 8080 --directory frontend
+```
+
+Then open `http://127.0.0.1:8080`.
+
+## Validation commands
 
 Run the repository-level architecture alignment check:
 
@@ -230,22 +341,31 @@ Run the repository-level architecture alignment check:
 python3 scripts/check_architecture_alignment.py
 ```
 
-Run the frontend wiring smoke test directly if you want to validate the served prototype against the generated demo snapshot:
+Run the frontend wiring smoke test:
 
 ```bash
 python3 scripts/check_frontend_wiring.py
 ```
 
-The alignment check validates the canonical repository scaffold, the key blueprint documents, the prototype frontend assets, the served frontend/demo snapshot wiring, the API contract JSON, and the README quick-start orchestration command so the current codebase keeps matching this README's governed-scaffold claims.
+## Recommended reading order
 
-## Repository status after this update
+If you're trying to understand the platform quickly, read these in order:
 
-This update makes the provided architecture the explicit baseline for:
+1. `README.md`
+2. `docs/current-state-alignment-audit.md`
+3. `docs/authoritative-blueprint.md`
+4. `docs/production-platform-blueprint.md`
+5. `docs/moe-platform-model.md`
+6. `docs/blueprint-traceability-matrix.md`
+7. `backend/app/services/ai_orchestrator.py`
+8. `backend/orchestration.py`
 
-- product naming,
-- stack choices,
-- repo shape,
-- AI expert taxonomy,
-- phased rollout,
-- Azure deployment assumptions, and
-- standards alignment.
+## Current-state caveat
+
+The safest description of EstateOS today is:
+
+> a governed scaffold and reference implementation for an AI-native real estate operating system, not yet the completed production platform.
+
+That distinction matters. The repo already preserves the target stack, service seams, expert taxonomy, Azure baseline, and compliance posture, but much of the production-grade implementation is still ahead.
+
+For the most explicit statement of that status, see `docs/current-state-alignment-audit.md` and `docs/blueprint-traceability-matrix.md`.
