@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at_utc": "2026-03-21T00:14:37.232295+00:00",
+    "generated_at_utc": "2026-03-21T00:46:45.062012+00:00",
     "generated_from": "backend.orchestration.build_demo_payloads",
     "normalized": true
   },
@@ -553,7 +553,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-21T00:14:37.202495+00:00"
+                "last_checked_utc": "2026-03-21T00:46:45.038857+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -568,7 +568,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-21T00:14:37.202510+00:00"
+                "last_checked_utc": "2026-03-21T00:46:45.038869+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -581,7 +581,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-21T00:14:37.202515+00:00"
+                "last_checked_utc": "2026-03-21T00:46:45.038874+00:00"
               }
             ],
             "workflow_stages": [
@@ -751,7 +751,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-890655c7 created for Lisbon Green Quarter acquisition.",
+              "detail": "Transaction deal-d6da2747 created for Lisbon Green Quarter acquisition.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -786,7 +786,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-890655c7 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-d6da2747 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -801,7 +801,7 @@
           "payment_instrument": {
             "instrument_type": "wire",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-62e5a90aa2",
+            "token_reference": "tok-31311894aa",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -810,18 +810,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-ef8a7021",
-              "identifier": "usr-ef8a7021"
+              "name": "usr-1c12cba8",
+              "identifier": "usr-1c12cba8"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-890655c7"
+              "identifier": "deal-d6da2747"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-f0deff9b"
+              "identifier": "req-157ff42b"
             }
           ],
           "fraud_probability": 0.36,
@@ -891,7 +891,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "released",
-          "explanation": "Payment deal-890655c7 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-d6da2747 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -923,8 +923,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-ef8a7021",
-              "identifier": "usr-ef8a7021"
+              "name": "usr-1c12cba8",
+              "identifier": "usr-1c12cba8"
             },
             {
               "role": "servicing_entity",
@@ -934,7 +934,7 @@
             {
               "role": "transaction_context",
               "name": "closing",
-              "identifier": "req-f0deff9b"
+              "identifier": "req-157ff42b"
             }
           ],
           "acord_coverages": [
@@ -1036,7 +1036,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-f0deff9b.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-157ff42b.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'buyer', property type 'apartment', occupancy 'owner_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -1594,7 +1594,7 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Lisbon Green Quarter Apartment to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-3b48631f modeled Lisbon Green Quarter Apartment in Portugal using purchase price 620,000, current value 628,000, occupancy 94%, rent 3,200/mo, renovation budget 38,000, insurance premium 2,256, and hold period 7 years. Best-case equity outcome is 535,249, downside annual cash flow is -7, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-a0d6df24 modeled Lisbon Green Quarter Apartment in Portugal using purchase price 620,000, current value 628,000, occupancy 94%, rent 3,200/mo, renovation budget 38,000, insurance premium 2,256, and hold period 7 years. Best-case equity outcome is 535,249, downside annual cash flow is -7, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
@@ -1935,25 +1935,25 @@
               "event": "document_ingested",
               "actor": "document_intelligence_pipeline",
               "detail": "Ingested 4 governed documents for Lisbon Green Quarter acquisition.",
-              "timestamp_utc": "2026-03-21T00:14:37.203663+00:00"
+              "timestamp_utc": "2026-03-21T00:46:45.039838+00:00"
             },
             {
               "event": "field_extraction_completed",
               "actor": "document_intelligence_pipeline",
               "detail": "Extracted 4 high-value normalized fields with explainability metadata.",
-              "timestamp_utc": "2026-03-21T00:14:37.203670+00:00"
+              "timestamp_utc": "2026-03-21T00:46:45.039843+00:00"
             },
             {
               "event": "compliance_linkage_verified",
               "actor": "compliance_service",
               "detail": "Linked document packet to privacy tier confidential, consent scope, and cross-border compliance checks.",
-              "timestamp_utc": "2026-03-21T00:14:37.203675+00:00"
+              "timestamp_utc": "2026-03-21T00:46:45.039848+00:00"
             },
             {
               "event": "frontend_summary_published",
               "actor": "ai_orchestrator",
               "detail": "Released simplified insights for frontend display while preserving backend-only evidence trails and anomaly markers.",
-              "timestamp_utc": "2026-03-21T00:14:37.203680+00:00"
+              "timestamp_utc": "2026-03-21T00:46:45.039852+00:00"
             }
           ],
           "release_status": "review",
@@ -1971,10 +1971,415 @@
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
+        "trust_reputation_decision": {
+          "request_id": "demo-request",
+          "network_status": "review",
+          "entities": [
+            {
+              "entity_id": "usr-1c12cba8",
+              "entity_type": "user",
+              "display_name": "Buyer profile",
+              "trust_score": 0.91,
+              "reputation_score": 0.82,
+              "risk_score": 0.13,
+              "trust_band": "high",
+              "verification_status": "verified",
+              "monitoring_status": "continuous",
+              "historical_factors": [
+                "Identity is bound to an authenticated subject with MFA.",
+                "Consent scope includes personalization and evidence retention.",
+                "AML posture is medium with sanctions status 'clear'."
+              ],
+              "key_drivers": [
+                "KYC outcome",
+                "MFA completion",
+                "Consent scope",
+                "AML/sanctions posture"
+              ],
+              "frontend_signals": [
+                "Verified identity badge",
+                "Trust band chip",
+                "Explainable compliance tooltip"
+              ]
+            },
+            {
+              "entity_id": "deal-d6da2747-property",
+              "entity_type": "property",
+              "display_name": "Lisbon Green Quarter acquisition",
+              "trust_score": 0.45,
+              "reputation_score": 0.56,
+              "risk_score": 0.51,
+              "trust_band": "watch",
+              "verification_status": "document_review",
+              "monitoring_status": "event_driven",
+              "historical_factors": [
+                "2/3 requested documents are currently validated.",
+                "2 document anomaly signals were raised by the AI review pipeline.",
+                "Climate risk is 'low' and market volatility is 'medium'."
+              ],
+              "key_drivers": [
+                "Document validation history",
+                "Anomaly detection",
+                "Climate and market risk",
+                "Counterparty posture"
+              ],
+              "frontend_signals": [
+                "Property trust meter",
+                "Document verification banner",
+                "Risk disclosure card"
+              ]
+            },
+            {
+              "entity_id": "broker-of-record",
+              "entity_type": "broker",
+              "display_name": "Broker of record",
+              "trust_score": 0.44,
+              "reputation_score": 0.52,
+              "risk_score": 0.52,
+              "trust_band": "watch",
+              "verification_status": "supervised",
+              "monitoring_status": "workflow_bound",
+              "historical_factors": [
+                "Average workflow completion is 64% across 6 tracked stages.",
+                "Broker-owned review items currently total 1.",
+                "Audit and segregation-of-duties checks remain attached to approval stages."
+              ],
+              "key_drivers": [
+                "Workflow completion history",
+                "Document stewardship backlog",
+                "Approval-control adherence",
+                "Operational urgency"
+              ],
+              "frontend_signals": [
+                "Broker reputation badge",
+                "Response quality label",
+                "Escalation availability status"
+              ]
+            },
+            {
+              "entity_id": "deal-d6da2747",
+              "entity_type": "transaction",
+              "display_name": "Lisbon Green Quarter acquisition transaction",
+              "trust_score": 0.22,
+              "reputation_score": 0.54,
+              "risk_score": 0.65,
+              "trust_band": "watch",
+              "verification_status": "ready",
+              "monitoring_status": "continuous_ai_and_compliance",
+              "historical_factors": [
+                "Payment fraud probability is 0.36 with escrow status 'Awaiting dual approval'.",
+                "3 compliance domains are currently in review state.",
+                "Transaction stage is 'document_validation' with release status 'released'."
+              ],
+              "key_drivers": [
+                "Payment and escrow history",
+                "Compliance graph posture",
+                "Document anomaly load",
+                "Stage progression integrity"
+              ],
+              "frontend_signals": [
+                "Closing trust status",
+                "Settlement readiness chip",
+                "Continuous monitoring indicator"
+              ]
+            }
+          ],
+          "risk_indicators": [
+            {
+              "indicator": "document_anomaly_pressure",
+              "severity": "high",
+              "source": "document_intelligence_expert",
+              "detail": "AI document review detected anomalies or missing evidence that should keep property and transaction trust signals in a monitored state.",
+              "related_entities": [
+                "property",
+                "transaction",
+                "broker"
+              ]
+            },
+            {
+              "indicator": "payment_and_settlement_risk",
+              "severity": "medium",
+              "source": "payment_intelligence",
+              "detail": "Fraud probability, device trust, and escrow readiness continuously adjust transaction trust and release gating.",
+              "related_entities": [
+                "user",
+                "transaction"
+              ]
+            },
+            {
+              "indicator": "jurisdictional_compliance_review",
+              "severity": "high",
+              "source": "compliance_graph",
+              "detail": "Jurisdiction-aware policy reviews feed the trust network so frontend badges stay aligned with backend compliance state.",
+              "related_entities": [
+                "property",
+                "broker",
+                "transaction"
+              ]
+            }
+          ],
+          "frontend_signals": [
+            "Expose user, property, broker, and transaction trust bands with drill-down explanations.",
+            "Render verification badges only when backend verification_status is verified, ready, or supervised.",
+            "Show live risk chips for document review, payment review, and compliance review without exposing sensitive evidence.",
+            "Let users expand 'Why this trust score?' panels sourced from key drivers and historical factors."
+          ],
+          "ai_monitoring_summary": "AI monitoring correlates document anomalies (2), payment fraud probability (0.36), and 3 reviewed compliance domains into a network status of 'review'.",
+          "compliance_summary": "Trust scoring remains bound to KYC='approved', AML='medium', sanctions='clear', privacy tier 'confidential', and compliance graph status 'review'.",
+          "recommended_actions": [
+            "Re-run trust scoring whenever document validation, payment review, or compliance graph status changes.",
+            "Escalate broker and transaction entities to human review when risk_score exceeds 0.45 or any high severity risk indicator appears.",
+            "Persist score history for trend analysis so the network reflects longitudinal behavior, not only the latest session snapshot."
+          ],
+          "explanation": "The trust, reputation, and risk scoring network synthesizes historical workflow behavior, verification posture, AI monitoring, AI anomaly detection, payment and escrow intelligence, and jurisdiction-aware compliance reviews into explainable scores for the user, property, broker, and transaction. Frontend trust signals stay lightweight and understandable, while backend services keep the authoritative monitoring, rescoring, and release gating.",
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "ISO 31000",
+            "KYC/AML/sanctions",
+            "SOC 2 Type 2"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "marketplace_decision": {
+          "request_id": "demo-request",
+          "marketplace_status": "governed_expandable",
+          "registry_summary": "EstateOS exposes a governed marketplace where external experts register through secure contracts, are routed only when policy permits, and remain subordinate to the platform's explainability and release gates.",
+          "providers": [
+            {
+              "provider_id": "provider-climate-grid",
+              "provider_name": "ClimateGrid Signals",
+              "provider_type": "third_party_developer",
+              "status": "production_approved",
+              "trust_tier": "tier_1",
+              "sandbox_mode": "remote_api_adapter",
+              "deployment_model": "signed external API with mTLS",
+              "supported_jurisdictions": [
+                "EU",
+                "UAE",
+                "US"
+              ],
+              "data_classifications": [
+                "market",
+                "property",
+                "geospatial"
+              ],
+              "capabilities": [
+                {
+                  "capability": "Climate and location enrichment",
+                  "workflow_scope": [
+                    "property ranking",
+                    "insurance",
+                    "market intelligence"
+                  ],
+                  "invocation_mode": "sync",
+                  "release_mode": "policy-cleared explanations only"
+                }
+              ],
+              "frontend_surfaces": [
+                "property cards",
+                "risk banners",
+                "market dashboards"
+              ],
+              "governance_notes": [
+                "Only redacted property metadata and geospatial tokens leave the core router.",
+                "Confidence scores are normalized against internal valuation and insurance experts before release."
+              ]
+            },
+            {
+              "provider_id": "provider-aurora-insure",
+              "provider_name": "Aurora MGA Underwriting",
+              "provider_type": "insurer",
+              "status": "shadow_mode",
+              "trust_tier": "tier_2",
+              "sandbox_mode": "hosted sandbox expert",
+              "deployment_model": "containerized underwriting model in EstateOS sandbox",
+              "supported_jurisdictions": [
+                "Portugal",
+                "Greece",
+                "Spain"
+              ],
+              "data_classifications": [
+                "insurance",
+                "property",
+                "claims-lite"
+              ],
+              "capabilities": [
+                {
+                  "capability": "Quote appetite and peril scoring",
+                  "workflow_scope": [
+                    "insurance",
+                    "closing readiness"
+                  ],
+                  "invocation_mode": "async",
+                  "release_mode": "advisor review before quote release"
+                }
+              ],
+              "frontend_surfaces": [
+                "insurance package comparison",
+                "quote readiness meter"
+              ],
+              "governance_notes": [
+                "Shadow traffic is replayed with masked personal identifiers before production cutover.",
+                "Outputs stay non-binding until carrier compliance and licensing checks pass."
+              ]
+            },
+            {
+              "provider_id": "provider-harbor-bank",
+              "provider_name": "Harbor Bank Treasury APIs",
+              "provider_type": "financial_institution",
+              "status": "production_approved",
+              "trust_tier": "tier_1",
+              "sandbox_mode": "remote_api_adapter",
+              "deployment_model": "bank-hosted treasury API with signed callbacks",
+              "supported_jurisdictions": [
+                "US",
+                "EU"
+              ],
+              "data_classifications": [
+                "payment",
+                "settlement",
+                "counterparty"
+              ],
+              "capabilities": [
+                {
+                  "capability": "Escrow verification and settlement readiness",
+                  "workflow_scope": [
+                    "payments",
+                    "transactions",
+                    "tokenization"
+                  ],
+                  "invocation_mode": "sync",
+                  "release_mode": "backend-only unless settlement is cleared"
+                }
+              ],
+              "frontend_surfaces": [
+                "payment readiness banner",
+                "escrow timeline",
+                "funding checklist"
+              ],
+              "governance_notes": [
+                "Payment tokens remain PSP-bound and the provider receives only scoped settlement references.",
+                "Fallback routing returns to internal payment intelligence if the treasury SLA degrades."
+              ]
+            },
+            {
+              "provider_id": "provider-lexis-ai",
+              "provider_name": "Lexis Domain AI",
+              "provider_type": "ai_provider",
+              "status": "review_limited",
+              "trust_tier": "tier_2",
+              "sandbox_mode": "hosted sandbox expert",
+              "deployment_model": "WASM-style package pinned in marketplace runtime",
+              "supported_jurisdictions": [
+                "Global review set"
+              ],
+              "data_classifications": [
+                "documents",
+                "compliance",
+                "translation"
+              ],
+              "capabilities": [
+                {
+                  "capability": "Multilingual legal clause extraction",
+                  "workflow_scope": [
+                    "document intelligence",
+                    "residency",
+                    "compliance"
+                  ],
+                  "invocation_mode": "async",
+                  "release_mode": "human review for high-impact fields"
+                }
+              ],
+              "frontend_surfaces": [
+                "document summaries",
+                "translation badges",
+                "evidence review queue"
+              ],
+              "governance_notes": [
+                "The package is version-pinned and evaluated in sandbox before any tenant enablement.",
+                "High-impact extraction fields require human review and reason-code capture before release."
+              ]
+            }
+          ],
+          "control_checks": [
+            {
+              "control": "Provider identity and due diligence",
+              "status": "active",
+              "detail": "Every provider is bound to signed ownership metadata, entitlement scopes, and regional contract records before activation."
+            },
+            {
+              "control": "Sandbox and egress isolation",
+              "status": "active",
+              "detail": "Hosted experts run in isolated sandboxes while remote adapters use mTLS, outbound allowlists, and short-lived credentials."
+            },
+            {
+              "control": "Data minimization and privacy tier enforcement",
+              "status": "active",
+              "detail": "Router requests inherit privacy tier confidential and suppress disallowed data classes before any third-party invocation."
+            },
+            {
+              "control": "Model governance and release approval",
+              "status": "review",
+              "detail": "External experts must pass certification, shadow-mode observation, and rollback approval before promotion into live routing."
+            },
+            {
+              "control": "Kill switch and fallback routing",
+              "status": "active",
+              "detail": "Providers can be suspended immediately while the router falls back to internal experts or human review without breaking the workflow."
+            }
+          ],
+          "routing_policies": [
+            {
+              "policy": "Eligibility gate",
+              "outcome": "active",
+              "detail": "Only providers mapped to discovery workflows and approved jurisdictions are considered for buyer routing."
+            },
+            {
+              "policy": "Normalization and ranking",
+              "outcome": "active",
+              "detail": "External outputs are scored alongside 7 internal experts and never bypass policy ranking or explanation assembly."
+            },
+            {
+              "policy": "Payment and regulated action suppression",
+              "outcome": "active",
+              "detail": "Provider output can inform payment risk low or compliance posture, but regulated release still depends on backend controls and 2026.03 graph policy."
+            },
+            {
+              "policy": "Human review threshold",
+              "outcome": "review",
+              "detail": "Cross-border or high-impact expert contributions require advisor/compliance review before tenant-visible release or partner forwarding."
+            }
+          ],
+          "frontend_capabilities": [
+            "Marketplace catalog for approved experts and partner capabilities",
+            "Workflow-specific capability badges in property, insurance, payments, documents, and compliance surfaces",
+            "Admin enablement toggles with sandbox, review, and production labels",
+            "Explainability notices whenever external intelligence influenced a recommendation or routed action"
+          ],
+          "governance_summary": "Marketplace governance spans provider onboarding, certification, sandbox execution, tenant entitlement, rollback controls, and continuous monitoring so third-party intelligence expands the MoE fabric without expanding the trust boundary.",
+          "compliance_summary": "The expert ecosystem enforces ISO/IEC 27001, ISO/IEC 27017, ISO/IEC 27701, ISO/IEC 42001, ISO/IEC 5259, SOC 2 Type 2, and regulated-workflow controls such as PCI DSS and KYC/AML scope minimization before external intelligence reaches users or partners.",
+          "recommended_actions": [
+            "Introduce expert registration, certification, and kill-switch APIs before enabling tenant self-service onboarding.",
+            "Keep hosted plug-ins sandboxed with outbound allowlists, signed package promotion, and version pinning.",
+            "Require shadow-mode evidence and human approval before any expert can influence regulated or high-impact workflows."
+          ],
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27017",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "ISO/IEC 5259",
+            "SOC 2 Type 2",
+            "PCI DSS / KYC-AML scope controls"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
         "tokenization_decision": {
           "request_id": "demo-request",
           "asset": {
-            "asset_id": "asset-deal-890655c7",
+            "asset_id": "asset-deal-d6da2747",
             "property_name": "Lisbon Green Quarter Apartment Income SPV",
             "jurisdiction": "Portugal",
             "legal_wrapper": "Portugal SPV with nominee ledger",
@@ -2029,7 +2434,7 @@
             {
               "investor_label": "Qualified investor allocation",
               "investor_class": "qualified",
-              "beneficial_owner_reference": "bo-usr-ef8a7021",
+              "beneficial_owner_reference": "bo-usr-1c12cba8",
               "wallet_reference": "custody-qualified-queue",
               "units": 6,
               "ownership_pct": 22.0,
@@ -2898,7 +3303,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-21T00:14:37.213201+00:00"
+                "last_checked_utc": "2026-03-21T00:46:45.047435+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -2913,7 +3318,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-21T00:14:37.213224+00:00"
+                "last_checked_utc": "2026-03-21T00:46:45.047445+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -2926,7 +3331,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-21T00:14:37.213231+00:00"
+                "last_checked_utc": "2026-03-21T00:46:45.047450+00:00"
               }
             ],
             "workflow_stages": [
@@ -3096,7 +3501,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-7b147342 created for Lisbon Green Quarter acquisition.",
+              "detail": "Transaction deal-e7360d85 created for Lisbon Green Quarter acquisition.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -3131,7 +3536,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-7b147342 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-e7360d85 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -3146,7 +3551,7 @@
           "payment_instrument": {
             "instrument_type": "wire",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-612cd7188f",
+            "token_reference": "tok-83621bd1e1",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -3155,18 +3560,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-9d5e03e9",
-              "identifier": "usr-9d5e03e9"
+              "name": "usr-3e374d66",
+              "identifier": "usr-3e374d66"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-7b147342"
+              "identifier": "deal-e7360d85"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-8ed398dc"
+              "identifier": "req-ee57984c"
             }
           ],
           "fraud_probability": 0.36,
@@ -3236,7 +3641,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "released",
-          "explanation": "Payment deal-7b147342 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-e7360d85 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -3268,8 +3673,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-9d5e03e9",
-              "identifier": "usr-9d5e03e9"
+              "name": "usr-3e374d66",
+              "identifier": "usr-3e374d66"
             },
             {
               "role": "servicing_entity",
@@ -3279,7 +3684,7 @@
             {
               "role": "transaction_context",
               "name": "closing",
-              "identifier": "req-8ed398dc"
+              "identifier": "req-ee57984c"
             }
           ],
           "acord_coverages": [
@@ -3381,7 +3786,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-8ed398dc.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-ee57984c.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -3935,7 +4340,7 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Athens Urban Residential Block to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-5a826156 modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-b5bc4e56 modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
@@ -4276,25 +4681,25 @@
               "event": "document_ingested",
               "actor": "document_intelligence_pipeline",
               "detail": "Ingested 4 governed documents for Lisbon Green Quarter acquisition.",
-              "timestamp_utc": "2026-03-21T00:14:37.214437+00:00"
+              "timestamp_utc": "2026-03-21T00:46:45.048143+00:00"
             },
             {
               "event": "field_extraction_completed",
               "actor": "document_intelligence_pipeline",
               "detail": "Extracted 4 high-value normalized fields with explainability metadata.",
-              "timestamp_utc": "2026-03-21T00:14:37.214444+00:00"
+              "timestamp_utc": "2026-03-21T00:46:45.048148+00:00"
             },
             {
               "event": "compliance_linkage_verified",
               "actor": "compliance_service",
               "detail": "Linked document packet to privacy tier confidential, consent scope, and cross-border compliance checks.",
-              "timestamp_utc": "2026-03-21T00:14:37.214449+00:00"
+              "timestamp_utc": "2026-03-21T00:46:45.048152+00:00"
             },
             {
               "event": "frontend_summary_published",
               "actor": "ai_orchestrator",
               "detail": "Released simplified insights for frontend display while preserving backend-only evidence trails and anomaly markers.",
-              "timestamp_utc": "2026-03-21T00:14:37.214453+00:00"
+              "timestamp_utc": "2026-03-21T00:46:45.048156+00:00"
             }
           ],
           "release_status": "review",
@@ -4312,10 +4717,415 @@
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
+        "trust_reputation_decision": {
+          "request_id": "demo-request",
+          "network_status": "review",
+          "entities": [
+            {
+              "entity_id": "usr-3e374d66",
+              "entity_type": "user",
+              "display_name": "Investor profile",
+              "trust_score": 0.91,
+              "reputation_score": 0.82,
+              "risk_score": 0.13,
+              "trust_band": "high",
+              "verification_status": "verified",
+              "monitoring_status": "continuous",
+              "historical_factors": [
+                "Identity is bound to an authenticated subject with MFA.",
+                "Consent scope includes personalization and evidence retention.",
+                "AML posture is medium with sanctions status 'clear'."
+              ],
+              "key_drivers": [
+                "KYC outcome",
+                "MFA completion",
+                "Consent scope",
+                "AML/sanctions posture"
+              ],
+              "frontend_signals": [
+                "Verified identity badge",
+                "Trust band chip",
+                "Explainable compliance tooltip"
+              ]
+            },
+            {
+              "entity_id": "deal-e7360d85-property",
+              "entity_type": "property",
+              "display_name": "Lisbon Green Quarter acquisition",
+              "trust_score": 0.42,
+              "reputation_score": 0.56,
+              "risk_score": 0.53,
+              "trust_band": "watch",
+              "verification_status": "document_review",
+              "monitoring_status": "event_driven",
+              "historical_factors": [
+                "2/3 requested documents are currently validated.",
+                "2 document anomaly signals were raised by the AI review pipeline.",
+                "Climate risk is 'medium' and market volatility is 'medium'."
+              ],
+              "key_drivers": [
+                "Document validation history",
+                "Anomaly detection",
+                "Climate and market risk",
+                "Counterparty posture"
+              ],
+              "frontend_signals": [
+                "Property trust meter",
+                "Document verification banner",
+                "Risk disclosure card"
+              ]
+            },
+            {
+              "entity_id": "broker-of-record",
+              "entity_type": "broker",
+              "display_name": "Broker of record",
+              "trust_score": 0.44,
+              "reputation_score": 0.52,
+              "risk_score": 0.52,
+              "trust_band": "watch",
+              "verification_status": "supervised",
+              "monitoring_status": "workflow_bound",
+              "historical_factors": [
+                "Average workflow completion is 64% across 6 tracked stages.",
+                "Broker-owned review items currently total 1.",
+                "Audit and segregation-of-duties checks remain attached to approval stages."
+              ],
+              "key_drivers": [
+                "Workflow completion history",
+                "Document stewardship backlog",
+                "Approval-control adherence",
+                "Operational urgency"
+              ],
+              "frontend_signals": [
+                "Broker reputation badge",
+                "Response quality label",
+                "Escalation availability status"
+              ]
+            },
+            {
+              "entity_id": "deal-e7360d85",
+              "entity_type": "transaction",
+              "display_name": "Lisbon Green Quarter acquisition transaction",
+              "trust_score": 0.27,
+              "reputation_score": 0.54,
+              "risk_score": 0.62,
+              "trust_band": "watch",
+              "verification_status": "ready",
+              "monitoring_status": "continuous_ai_and_compliance",
+              "historical_factors": [
+                "Payment fraud probability is 0.36 with escrow status 'Awaiting dual approval'.",
+                "2 compliance domains are currently in review state.",
+                "Transaction stage is 'document_validation' with release status 'released'."
+              ],
+              "key_drivers": [
+                "Payment and escrow history",
+                "Compliance graph posture",
+                "Document anomaly load",
+                "Stage progression integrity"
+              ],
+              "frontend_signals": [
+                "Closing trust status",
+                "Settlement readiness chip",
+                "Continuous monitoring indicator"
+              ]
+            }
+          ],
+          "risk_indicators": [
+            {
+              "indicator": "document_anomaly_pressure",
+              "severity": "high",
+              "source": "document_intelligence_expert",
+              "detail": "AI document review detected anomalies or missing evidence that should keep property and transaction trust signals in a monitored state.",
+              "related_entities": [
+                "property",
+                "transaction",
+                "broker"
+              ]
+            },
+            {
+              "indicator": "payment_and_settlement_risk",
+              "severity": "medium",
+              "source": "payment_intelligence",
+              "detail": "Fraud probability, device trust, and escrow readiness continuously adjust transaction trust and release gating.",
+              "related_entities": [
+                "user",
+                "transaction"
+              ]
+            },
+            {
+              "indicator": "jurisdictional_compliance_review",
+              "severity": "high",
+              "source": "compliance_graph",
+              "detail": "Jurisdiction-aware policy reviews feed the trust network so frontend badges stay aligned with backend compliance state.",
+              "related_entities": [
+                "property",
+                "broker",
+                "transaction"
+              ]
+            }
+          ],
+          "frontend_signals": [
+            "Expose user, property, broker, and transaction trust bands with drill-down explanations.",
+            "Render verification badges only when backend verification_status is verified, ready, or supervised.",
+            "Show live risk chips for document review, payment review, and compliance review without exposing sensitive evidence.",
+            "Let users expand 'Why this trust score?' panels sourced from key drivers and historical factors."
+          ],
+          "ai_monitoring_summary": "AI monitoring correlates document anomalies (2), payment fraud probability (0.36), and 2 reviewed compliance domains into a network status of 'review'.",
+          "compliance_summary": "Trust scoring remains bound to KYC='approved', AML='medium', sanctions='clear', privacy tier 'confidential', and compliance graph status 'review'.",
+          "recommended_actions": [
+            "Re-run trust scoring whenever document validation, payment review, or compliance graph status changes.",
+            "Escalate broker and transaction entities to human review when risk_score exceeds 0.45 or any high severity risk indicator appears.",
+            "Persist score history for trend analysis so the network reflects longitudinal behavior, not only the latest session snapshot."
+          ],
+          "explanation": "The trust, reputation, and risk scoring network synthesizes historical workflow behavior, verification posture, AI monitoring, AI anomaly detection, payment and escrow intelligence, and jurisdiction-aware compliance reviews into explainable scores for the user, property, broker, and transaction. Frontend trust signals stay lightweight and understandable, while backend services keep the authoritative monitoring, rescoring, and release gating.",
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "ISO 31000",
+            "KYC/AML/sanctions",
+            "SOC 2 Type 2"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "marketplace_decision": {
+          "request_id": "demo-request",
+          "marketplace_status": "governed_expandable",
+          "registry_summary": "EstateOS exposes a governed marketplace where external experts register through secure contracts, are routed only when policy permits, and remain subordinate to the platform's explainability and release gates.",
+          "providers": [
+            {
+              "provider_id": "provider-climate-grid",
+              "provider_name": "ClimateGrid Signals",
+              "provider_type": "third_party_developer",
+              "status": "production_approved",
+              "trust_tier": "tier_1",
+              "sandbox_mode": "remote_api_adapter",
+              "deployment_model": "signed external API with mTLS",
+              "supported_jurisdictions": [
+                "EU",
+                "UAE",
+                "US"
+              ],
+              "data_classifications": [
+                "market",
+                "property",
+                "geospatial"
+              ],
+              "capabilities": [
+                {
+                  "capability": "Climate and location enrichment",
+                  "workflow_scope": [
+                    "property ranking",
+                    "insurance",
+                    "market intelligence"
+                  ],
+                  "invocation_mode": "sync",
+                  "release_mode": "policy-cleared explanations only"
+                }
+              ],
+              "frontend_surfaces": [
+                "property cards",
+                "risk banners",
+                "market dashboards"
+              ],
+              "governance_notes": [
+                "Only redacted property metadata and geospatial tokens leave the core router.",
+                "Confidence scores are normalized against internal valuation and insurance experts before release."
+              ]
+            },
+            {
+              "provider_id": "provider-aurora-insure",
+              "provider_name": "Aurora MGA Underwriting",
+              "provider_type": "insurer",
+              "status": "shadow_mode",
+              "trust_tier": "tier_2",
+              "sandbox_mode": "hosted sandbox expert",
+              "deployment_model": "containerized underwriting model in EstateOS sandbox",
+              "supported_jurisdictions": [
+                "Portugal",
+                "Greece",
+                "Spain"
+              ],
+              "data_classifications": [
+                "insurance",
+                "property",
+                "claims-lite"
+              ],
+              "capabilities": [
+                {
+                  "capability": "Quote appetite and peril scoring",
+                  "workflow_scope": [
+                    "insurance",
+                    "closing readiness"
+                  ],
+                  "invocation_mode": "async",
+                  "release_mode": "advisor review before quote release"
+                }
+              ],
+              "frontend_surfaces": [
+                "insurance package comparison",
+                "quote readiness meter"
+              ],
+              "governance_notes": [
+                "Shadow traffic is replayed with masked personal identifiers before production cutover.",
+                "Outputs stay non-binding until carrier compliance and licensing checks pass."
+              ]
+            },
+            {
+              "provider_id": "provider-harbor-bank",
+              "provider_name": "Harbor Bank Treasury APIs",
+              "provider_type": "financial_institution",
+              "status": "production_approved",
+              "trust_tier": "tier_1",
+              "sandbox_mode": "remote_api_adapter",
+              "deployment_model": "bank-hosted treasury API with signed callbacks",
+              "supported_jurisdictions": [
+                "US",
+                "EU"
+              ],
+              "data_classifications": [
+                "payment",
+                "settlement",
+                "counterparty"
+              ],
+              "capabilities": [
+                {
+                  "capability": "Escrow verification and settlement readiness",
+                  "workflow_scope": [
+                    "payments",
+                    "transactions",
+                    "tokenization"
+                  ],
+                  "invocation_mode": "sync",
+                  "release_mode": "backend-only unless settlement is cleared"
+                }
+              ],
+              "frontend_surfaces": [
+                "payment readiness banner",
+                "escrow timeline",
+                "funding checklist"
+              ],
+              "governance_notes": [
+                "Payment tokens remain PSP-bound and the provider receives only scoped settlement references.",
+                "Fallback routing returns to internal payment intelligence if the treasury SLA degrades."
+              ]
+            },
+            {
+              "provider_id": "provider-lexis-ai",
+              "provider_name": "Lexis Domain AI",
+              "provider_type": "ai_provider",
+              "status": "review_limited",
+              "trust_tier": "tier_2",
+              "sandbox_mode": "hosted sandbox expert",
+              "deployment_model": "WASM-style package pinned in marketplace runtime",
+              "supported_jurisdictions": [
+                "Global review set"
+              ],
+              "data_classifications": [
+                "documents",
+                "compliance",
+                "translation"
+              ],
+              "capabilities": [
+                {
+                  "capability": "Multilingual legal clause extraction",
+                  "workflow_scope": [
+                    "document intelligence",
+                    "residency",
+                    "compliance"
+                  ],
+                  "invocation_mode": "async",
+                  "release_mode": "human review for high-impact fields"
+                }
+              ],
+              "frontend_surfaces": [
+                "document summaries",
+                "translation badges",
+                "evidence review queue"
+              ],
+              "governance_notes": [
+                "The package is version-pinned and evaluated in sandbox before any tenant enablement.",
+                "High-impact extraction fields require human review and reason-code capture before release."
+              ]
+            }
+          ],
+          "control_checks": [
+            {
+              "control": "Provider identity and due diligence",
+              "status": "active",
+              "detail": "Every provider is bound to signed ownership metadata, entitlement scopes, and regional contract records before activation."
+            },
+            {
+              "control": "Sandbox and egress isolation",
+              "status": "active",
+              "detail": "Hosted experts run in isolated sandboxes while remote adapters use mTLS, outbound allowlists, and short-lived credentials."
+            },
+            {
+              "control": "Data minimization and privacy tier enforcement",
+              "status": "active",
+              "detail": "Router requests inherit privacy tier confidential and suppress disallowed data classes before any third-party invocation."
+            },
+            {
+              "control": "Model governance and release approval",
+              "status": "review",
+              "detail": "External experts must pass certification, shadow-mode observation, and rollback approval before promotion into live routing."
+            },
+            {
+              "control": "Kill switch and fallback routing",
+              "status": "active",
+              "detail": "Providers can be suspended immediately while the router falls back to internal experts or human review without breaking the workflow."
+            }
+          ],
+          "routing_policies": [
+            {
+              "policy": "Eligibility gate",
+              "outcome": "active",
+              "detail": "Only providers mapped to consideration workflows and approved jurisdictions are considered for investor routing."
+            },
+            {
+              "policy": "Normalization and ranking",
+              "outcome": "active",
+              "detail": "External outputs are scored alongside 10 internal experts and never bypass policy ranking or explanation assembly."
+            },
+            {
+              "policy": "Payment and regulated action suppression",
+              "outcome": "active",
+              "detail": "Provider output can inform payment risk low or compliance posture, but regulated release still depends on backend controls and 2026.03 graph policy."
+            },
+            {
+              "policy": "Human review threshold",
+              "outcome": "review",
+              "detail": "Cross-border or high-impact expert contributions require advisor/compliance review before tenant-visible release or partner forwarding."
+            }
+          ],
+          "frontend_capabilities": [
+            "Marketplace catalog for approved experts and partner capabilities",
+            "Workflow-specific capability badges in property, insurance, payments, documents, and compliance surfaces",
+            "Admin enablement toggles with sandbox, review, and production labels",
+            "Explainability notices whenever external intelligence influenced a recommendation or routed action"
+          ],
+          "governance_summary": "Marketplace governance spans provider onboarding, certification, sandbox execution, tenant entitlement, rollback controls, and continuous monitoring so third-party intelligence expands the MoE fabric without expanding the trust boundary.",
+          "compliance_summary": "The expert ecosystem enforces ISO/IEC 27001, ISO/IEC 27017, ISO/IEC 27701, ISO/IEC 42001, ISO/IEC 5259, SOC 2 Type 2, and regulated-workflow controls such as PCI DSS and KYC/AML scope minimization before external intelligence reaches users or partners.",
+          "recommended_actions": [
+            "Introduce expert registration, certification, and kill-switch APIs before enabling tenant self-service onboarding.",
+            "Keep hosted plug-ins sandboxed with outbound allowlists, signed package promotion, and version pinning.",
+            "Require shadow-mode evidence and human approval before any expert can influence regulated or high-impact workflows."
+          ],
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27017",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "ISO/IEC 5259",
+            "SOC 2 Type 2",
+            "PCI DSS / KYC-AML scope controls"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
         "tokenization_decision": {
           "request_id": "demo-request",
           "asset": {
-            "asset_id": "asset-deal-7b147342",
+            "asset_id": "asset-deal-e7360d85",
             "property_name": "Athens Urban Residential Block Token Offering",
             "jurisdiction": "Portugal",
             "legal_wrapper": "Luxembourg feeder SPV with transfer-agent controls",
@@ -4370,7 +5180,7 @@
             {
               "investor_label": "Qualified investor allocation",
               "investor_class": "qualified",
-              "beneficial_owner_reference": "bo-usr-9d5e03e9",
+              "beneficial_owner_reference": "bo-usr-3e374d66",
               "wallet_reference": "custody-qualified-queue",
               "units": 4,
               "ownership_pct": 24.75,
@@ -5178,7 +5988,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-21T00:14:37.224753+00:00"
+                "last_checked_utc": "2026-03-21T00:46:45.055399+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -5193,7 +6003,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-21T00:14:37.224763+00:00"
+                "last_checked_utc": "2026-03-21T00:46:45.055408+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -5206,7 +6016,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-21T00:14:37.224768+00:00"
+                "last_checked_utc": "2026-03-21T00:46:45.055413+00:00"
               }
             ],
             "workflow_stages": [
@@ -5376,7 +6186,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-081f32da created for Athens Urban Block diligence.",
+              "detail": "Transaction deal-dc0cfdd8 created for Athens Urban Block diligence.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -5411,7 +6221,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-081f32da for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-dc0cfdd8 for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -5426,7 +6236,7 @@
           "payment_instrument": {
             "instrument_type": "escrow_disbursement",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-fa76c4be86",
+            "token_reference": "tok-41ecd395bc",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -5435,18 +6245,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-3a371e17",
-              "identifier": "usr-3a371e17"
+              "name": "usr-4a1615fa",
+              "identifier": "usr-4a1615fa"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-081f32da"
+              "identifier": "deal-dc0cfdd8"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-b81aef3d"
+              "identifier": "req-0cdb375f"
             }
           ],
           "fraud_probability": 0.54,
@@ -5516,7 +6326,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "review",
-          "explanation": "Payment deal-081f32da was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-dc0cfdd8 was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -5548,8 +6358,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-3a371e17",
-              "identifier": "usr-3a371e17"
+              "name": "usr-4a1615fa",
+              "identifier": "usr-4a1615fa"
             },
             {
               "role": "servicing_entity",
@@ -5559,7 +6369,7 @@
             {
               "role": "transaction_context",
               "name": "approval",
-              "identifier": "req-b81aef3d"
+              "identifier": "req-0cdb375f"
             }
           ],
           "acord_coverages": [
@@ -5661,7 +6471,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-b81aef3d.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-0cdb375f.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'advisor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'approval'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -6213,7 +7023,7 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Athens Urban Block diligence to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-05367b61 modeled Athens Urban Block diligence in Greece using purchase price 880,000, current value 898,000, occupancy 93%, rent 6,400/mo, renovation budget 76,000, insurance premium 4,020, and hold period 6 years. Best-case equity outcome is 1,070,903, downside annual cash flow is 20,338, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-caff8163 modeled Athens Urban Block diligence in Greece using purchase price 880,000, current value 898,000, occupancy 93%, rent 6,400/mo, renovation budget 76,000, insurance premium 4,020, and hold period 6 years. Best-case equity outcome is 1,070,903, downside annual cash flow is 20,338, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
@@ -6554,25 +7364,25 @@
               "event": "document_ingested",
               "actor": "document_intelligence_pipeline",
               "detail": "Ingested 4 governed documents for Athens Urban Block diligence.",
-              "timestamp_utc": "2026-03-21T00:14:37.225973+00:00"
+              "timestamp_utc": "2026-03-21T00:46:45.056096+00:00"
             },
             {
               "event": "field_extraction_completed",
               "actor": "document_intelligence_pipeline",
               "detail": "Extracted 4 high-value normalized fields with explainability metadata.",
-              "timestamp_utc": "2026-03-21T00:14:37.225993+00:00"
+              "timestamp_utc": "2026-03-21T00:46:45.056101+00:00"
             },
             {
               "event": "compliance_linkage_verified",
               "actor": "compliance_service",
               "detail": "Linked document packet to privacy tier confidential, consent scope, and cross-border compliance checks.",
-              "timestamp_utc": "2026-03-21T00:14:37.225998+00:00"
+              "timestamp_utc": "2026-03-21T00:46:45.056106+00:00"
             },
             {
               "event": "frontend_summary_published",
               "actor": "ai_orchestrator",
               "detail": "Released simplified insights for frontend display while preserving backend-only evidence trails and anomaly markers.",
-              "timestamp_utc": "2026-03-21T00:14:37.226002+00:00"
+              "timestamp_utc": "2026-03-21T00:46:45.056110+00:00"
             }
           ],
           "release_status": "review",
@@ -6590,10 +7400,415 @@
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
+        "trust_reputation_decision": {
+          "request_id": "demo-request",
+          "network_status": "review",
+          "entities": [
+            {
+              "entity_id": "usr-4a1615fa",
+              "entity_type": "user",
+              "display_name": "Advisor profile",
+              "trust_score": 0.91,
+              "reputation_score": 0.82,
+              "risk_score": 0.13,
+              "trust_band": "high",
+              "verification_status": "verified",
+              "monitoring_status": "continuous",
+              "historical_factors": [
+                "Identity is bound to an authenticated subject with MFA.",
+                "Consent scope includes personalization and evidence retention.",
+                "AML posture is medium with sanctions status 'clear'."
+              ],
+              "key_drivers": [
+                "KYC outcome",
+                "MFA completion",
+                "Consent scope",
+                "AML/sanctions posture"
+              ],
+              "frontend_signals": [
+                "Verified identity badge",
+                "Trust band chip",
+                "Explainable compliance tooltip"
+              ]
+            },
+            {
+              "entity_id": "deal-dc0cfdd8-property",
+              "entity_type": "property",
+              "display_name": "Athens Urban Block diligence",
+              "trust_score": 0.42,
+              "reputation_score": 0.56,
+              "risk_score": 0.53,
+              "trust_band": "watch",
+              "verification_status": "document_review",
+              "monitoring_status": "event_driven",
+              "historical_factors": [
+                "2/3 requested documents are currently validated.",
+                "2 document anomaly signals were raised by the AI review pipeline.",
+                "Climate risk is 'medium' and market volatility is 'medium'."
+              ],
+              "key_drivers": [
+                "Document validation history",
+                "Anomaly detection",
+                "Climate and market risk",
+                "Counterparty posture"
+              ],
+              "frontend_signals": [
+                "Property trust meter",
+                "Document verification banner",
+                "Risk disclosure card"
+              ]
+            },
+            {
+              "entity_id": "broker-of-record",
+              "entity_type": "broker",
+              "display_name": "Broker of record",
+              "trust_score": 0.44,
+              "reputation_score": 0.52,
+              "risk_score": 0.52,
+              "trust_band": "watch",
+              "verification_status": "supervised",
+              "monitoring_status": "workflow_bound",
+              "historical_factors": [
+                "Average workflow completion is 64% across 6 tracked stages.",
+                "Broker-owned review items currently total 1.",
+                "Audit and segregation-of-duties checks remain attached to approval stages."
+              ],
+              "key_drivers": [
+                "Workflow completion history",
+                "Document stewardship backlog",
+                "Approval-control adherence",
+                "Operational urgency"
+              ],
+              "frontend_signals": [
+                "Broker reputation badge",
+                "Response quality label",
+                "Escalation availability status"
+              ]
+            },
+            {
+              "entity_id": "deal-dc0cfdd8",
+              "entity_type": "transaction",
+              "display_name": "Athens Urban Block diligence transaction",
+              "trust_score": 0.18,
+              "reputation_score": 0.54,
+              "risk_score": 0.68,
+              "trust_band": "watch",
+              "verification_status": "review",
+              "monitoring_status": "continuous_ai_and_compliance",
+              "historical_factors": [
+                "Payment fraud probability is 0.54 with escrow status 'Funding controls active'.",
+                "4 compliance domains are currently in review state.",
+                "Transaction stage is 'approval' with release status 'review'."
+              ],
+              "key_drivers": [
+                "Payment and escrow history",
+                "Compliance graph posture",
+                "Document anomaly load",
+                "Stage progression integrity"
+              ],
+              "frontend_signals": [
+                "Closing trust status",
+                "Settlement readiness chip",
+                "Continuous monitoring indicator"
+              ]
+            }
+          ],
+          "risk_indicators": [
+            {
+              "indicator": "document_anomaly_pressure",
+              "severity": "high",
+              "source": "document_intelligence_expert",
+              "detail": "AI document review detected anomalies or missing evidence that should keep property and transaction trust signals in a monitored state.",
+              "related_entities": [
+                "property",
+                "transaction",
+                "broker"
+              ]
+            },
+            {
+              "indicator": "payment_and_settlement_risk",
+              "severity": "medium",
+              "source": "payment_intelligence",
+              "detail": "Fraud probability, device trust, and escrow readiness continuously adjust transaction trust and release gating.",
+              "related_entities": [
+                "user",
+                "transaction"
+              ]
+            },
+            {
+              "indicator": "jurisdictional_compliance_review",
+              "severity": "high",
+              "source": "compliance_graph",
+              "detail": "Jurisdiction-aware policy reviews feed the trust network so frontend badges stay aligned with backend compliance state.",
+              "related_entities": [
+                "property",
+                "broker",
+                "transaction"
+              ]
+            }
+          ],
+          "frontend_signals": [
+            "Expose user, property, broker, and transaction trust bands with drill-down explanations.",
+            "Render verification badges only when backend verification_status is verified, ready, or supervised.",
+            "Show live risk chips for document review, payment review, and compliance review without exposing sensitive evidence.",
+            "Let users expand 'Why this trust score?' panels sourced from key drivers and historical factors."
+          ],
+          "ai_monitoring_summary": "AI monitoring correlates document anomalies (2), payment fraud probability (0.54), and 4 reviewed compliance domains into a network status of 'review'.",
+          "compliance_summary": "Trust scoring remains bound to KYC='approved', AML='medium', sanctions='clear', privacy tier 'confidential', and compliance graph status 'review'.",
+          "recommended_actions": [
+            "Re-run trust scoring whenever document validation, payment review, or compliance graph status changes.",
+            "Escalate broker and transaction entities to human review when risk_score exceeds 0.45 or any high severity risk indicator appears.",
+            "Persist score history for trend analysis so the network reflects longitudinal behavior, not only the latest session snapshot."
+          ],
+          "explanation": "The trust, reputation, and risk scoring network synthesizes historical workflow behavior, verification posture, AI monitoring, AI anomaly detection, payment and escrow intelligence, and jurisdiction-aware compliance reviews into explainable scores for the user, property, broker, and transaction. Frontend trust signals stay lightweight and understandable, while backend services keep the authoritative monitoring, rescoring, and release gating.",
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "ISO 31000",
+            "KYC/AML/sanctions",
+            "SOC 2 Type 2"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
+        "marketplace_decision": {
+          "request_id": "demo-request",
+          "marketplace_status": "governed_expandable",
+          "registry_summary": "EstateOS exposes a governed marketplace where external experts register through secure contracts, are routed only when policy permits, and remain subordinate to the platform's explainability and release gates.",
+          "providers": [
+            {
+              "provider_id": "provider-climate-grid",
+              "provider_name": "ClimateGrid Signals",
+              "provider_type": "third_party_developer",
+              "status": "production_approved",
+              "trust_tier": "tier_1",
+              "sandbox_mode": "remote_api_adapter",
+              "deployment_model": "signed external API with mTLS",
+              "supported_jurisdictions": [
+                "EU",
+                "UAE",
+                "US"
+              ],
+              "data_classifications": [
+                "market",
+                "property",
+                "geospatial"
+              ],
+              "capabilities": [
+                {
+                  "capability": "Climate and location enrichment",
+                  "workflow_scope": [
+                    "property ranking",
+                    "insurance",
+                    "market intelligence"
+                  ],
+                  "invocation_mode": "sync",
+                  "release_mode": "policy-cleared explanations only"
+                }
+              ],
+              "frontend_surfaces": [
+                "property cards",
+                "risk banners",
+                "market dashboards"
+              ],
+              "governance_notes": [
+                "Only redacted property metadata and geospatial tokens leave the core router.",
+                "Confidence scores are normalized against internal valuation and insurance experts before release."
+              ]
+            },
+            {
+              "provider_id": "provider-aurora-insure",
+              "provider_name": "Aurora MGA Underwriting",
+              "provider_type": "insurer",
+              "status": "shadow_mode",
+              "trust_tier": "tier_2",
+              "sandbox_mode": "hosted sandbox expert",
+              "deployment_model": "containerized underwriting model in EstateOS sandbox",
+              "supported_jurisdictions": [
+                "Portugal",
+                "Greece",
+                "Spain"
+              ],
+              "data_classifications": [
+                "insurance",
+                "property",
+                "claims-lite"
+              ],
+              "capabilities": [
+                {
+                  "capability": "Quote appetite and peril scoring",
+                  "workflow_scope": [
+                    "insurance",
+                    "closing readiness"
+                  ],
+                  "invocation_mode": "async",
+                  "release_mode": "advisor review before quote release"
+                }
+              ],
+              "frontend_surfaces": [
+                "insurance package comparison",
+                "quote readiness meter"
+              ],
+              "governance_notes": [
+                "Shadow traffic is replayed with masked personal identifiers before production cutover.",
+                "Outputs stay non-binding until carrier compliance and licensing checks pass."
+              ]
+            },
+            {
+              "provider_id": "provider-harbor-bank",
+              "provider_name": "Harbor Bank Treasury APIs",
+              "provider_type": "financial_institution",
+              "status": "production_approved",
+              "trust_tier": "tier_1",
+              "sandbox_mode": "remote_api_adapter",
+              "deployment_model": "bank-hosted treasury API with signed callbacks",
+              "supported_jurisdictions": [
+                "US",
+                "EU"
+              ],
+              "data_classifications": [
+                "payment",
+                "settlement",
+                "counterparty"
+              ],
+              "capabilities": [
+                {
+                  "capability": "Escrow verification and settlement readiness",
+                  "workflow_scope": [
+                    "payments",
+                    "transactions",
+                    "tokenization"
+                  ],
+                  "invocation_mode": "sync",
+                  "release_mode": "backend-only unless settlement is cleared"
+                }
+              ],
+              "frontend_surfaces": [
+                "payment readiness banner",
+                "escrow timeline",
+                "funding checklist"
+              ],
+              "governance_notes": [
+                "Payment tokens remain PSP-bound and the provider receives only scoped settlement references.",
+                "Fallback routing returns to internal payment intelligence if the treasury SLA degrades."
+              ]
+            },
+            {
+              "provider_id": "provider-lexis-ai",
+              "provider_name": "Lexis Domain AI",
+              "provider_type": "ai_provider",
+              "status": "review_limited",
+              "trust_tier": "tier_2",
+              "sandbox_mode": "hosted sandbox expert",
+              "deployment_model": "WASM-style package pinned in marketplace runtime",
+              "supported_jurisdictions": [
+                "Global review set"
+              ],
+              "data_classifications": [
+                "documents",
+                "compliance",
+                "translation"
+              ],
+              "capabilities": [
+                {
+                  "capability": "Multilingual legal clause extraction",
+                  "workflow_scope": [
+                    "document intelligence",
+                    "residency",
+                    "compliance"
+                  ],
+                  "invocation_mode": "async",
+                  "release_mode": "human review for high-impact fields"
+                }
+              ],
+              "frontend_surfaces": [
+                "document summaries",
+                "translation badges",
+                "evidence review queue"
+              ],
+              "governance_notes": [
+                "The package is version-pinned and evaluated in sandbox before any tenant enablement.",
+                "High-impact extraction fields require human review and reason-code capture before release."
+              ]
+            }
+          ],
+          "control_checks": [
+            {
+              "control": "Provider identity and due diligence",
+              "status": "active",
+              "detail": "Every provider is bound to signed ownership metadata, entitlement scopes, and regional contract records before activation."
+            },
+            {
+              "control": "Sandbox and egress isolation",
+              "status": "active",
+              "detail": "Hosted experts run in isolated sandboxes while remote adapters use mTLS, outbound allowlists, and short-lived credentials."
+            },
+            {
+              "control": "Data minimization and privacy tier enforcement",
+              "status": "active",
+              "detail": "Router requests inherit privacy tier confidential and suppress disallowed data classes before any third-party invocation."
+            },
+            {
+              "control": "Model governance and release approval",
+              "status": "review",
+              "detail": "External experts must pass certification, shadow-mode observation, and rollback approval before promotion into live routing."
+            },
+            {
+              "control": "Kill switch and fallback routing",
+              "status": "active",
+              "detail": "Providers can be suspended immediately while the router falls back to internal experts or human review without breaking the workflow."
+            }
+          ],
+          "routing_policies": [
+            {
+              "policy": "Eligibility gate",
+              "outcome": "active",
+              "detail": "Only providers mapped to transaction_review workflows and approved jurisdictions are considered for advisor routing."
+            },
+            {
+              "policy": "Normalization and ranking",
+              "outcome": "active",
+              "detail": "External outputs are scored alongside 7 internal experts and never bypass policy ranking or explanation assembly."
+            },
+            {
+              "policy": "Payment and regulated action suppression",
+              "outcome": "active",
+              "detail": "Provider output can inform payment risk moderate or compliance posture, but regulated release still depends on backend controls and 2026.03 graph policy."
+            },
+            {
+              "policy": "Human review threshold",
+              "outcome": "review",
+              "detail": "Cross-border or high-impact expert contributions require advisor/compliance review before tenant-visible release or partner forwarding."
+            }
+          ],
+          "frontend_capabilities": [
+            "Marketplace catalog for approved experts and partner capabilities",
+            "Workflow-specific capability badges in property, insurance, payments, documents, and compliance surfaces",
+            "Admin enablement toggles with sandbox, review, and production labels",
+            "Explainability notices whenever external intelligence influenced a recommendation or routed action"
+          ],
+          "governance_summary": "Marketplace governance spans provider onboarding, certification, sandbox execution, tenant entitlement, rollback controls, and continuous monitoring so third-party intelligence expands the MoE fabric without expanding the trust boundary.",
+          "compliance_summary": "The expert ecosystem enforces ISO/IEC 27001, ISO/IEC 27017, ISO/IEC 27701, ISO/IEC 42001, ISO/IEC 5259, SOC 2 Type 2, and regulated-workflow controls such as PCI DSS and KYC/AML scope minimization before external intelligence reaches users or partners.",
+          "recommended_actions": [
+            "Introduce expert registration, certification, and kill-switch APIs before enabling tenant self-service onboarding.",
+            "Keep hosted plug-ins sandboxed with outbound allowlists, signed package promotion, and version pinning.",
+            "Require shadow-mode evidence and human approval before any expert can influence regulated or high-impact workflows."
+          ],
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27017",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "ISO/IEC 5259",
+            "SOC 2 Type 2",
+            "PCI DSS / KYC-AML scope controls"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
         "tokenization_decision": {
           "request_id": "demo-request",
           "asset": {
-            "asset_id": "asset-deal-081f32da",
+            "asset_id": "asset-deal-dc0cfdd8",
             "property_name": "Athens Urban Block Governance Share Class",
             "jurisdiction": "Greece",
             "legal_wrapper": "Greek property SPV with regulated registrar sync",
@@ -6648,7 +7863,7 @@
             {
               "investor_label": "Qualified investor allocation",
               "investor_class": "qualified",
-              "beneficial_owner_reference": "bo-usr-3a371e17",
+              "beneficial_owner_reference": "bo-usr-4a1615fa",
               "wallet_reference": "custody-qualified-queue",
               "units": 1,
               "ownership_pct": 15.4,
@@ -7513,7 +8728,7 @@
               "records",
               "jurisdiction"
             ],
-            "last_checked_utc": "2026-03-21T00:14:37.213201+00:00"
+            "last_checked_utc": "2026-03-21T00:46:45.047435+00:00"
           },
           {
             "document_id": "doc-disclosure",
@@ -7528,7 +8743,7 @@
               "records",
               "privacy"
             ],
-            "last_checked_utc": "2026-03-21T00:14:37.213224+00:00"
+            "last_checked_utc": "2026-03-21T00:46:45.047445+00:00"
           },
           {
             "document_id": "doc-finance",
@@ -7541,7 +8756,7 @@
               "records",
               "business_continuity"
             ],
-            "last_checked_utc": "2026-03-21T00:14:37.213231+00:00"
+            "last_checked_utc": "2026-03-21T00:46:45.047450+00:00"
           }
         ],
         "workflow_stages": [
@@ -7711,7 +8926,7 @@
         {
           "name": "transaction.intake.recorded",
           "status": "completed",
-          "detail": "Transaction deal-7b147342 created for Lisbon Green Quarter acquisition.",
+          "detail": "Transaction deal-e7360d85 created for Lisbon Green Quarter acquisition.",
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
         {
@@ -7746,7 +8961,7 @@
         "Lock release behind approval if the risk score remains above the configured threshold.",
         "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
       ],
-      "explanation": "Transaction deal-7b147342 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+      "explanation": "Transaction deal-e7360d85 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
       "standards_alignment": [
         "ISO/IEC 27001",
         "ISO 22301",
@@ -7761,7 +8976,7 @@
       "payment_instrument": {
         "instrument_type": "wire",
         "token_provider": "Banking / escrow token service",
-        "token_reference": "tok-612cd7188f",
+        "token_reference": "tok-83621bd1e1",
         "last4": "6789",
         "network": "ACH/Wire",
         "wallet_or_bank": "Escrow operating account",
@@ -7770,18 +8985,18 @@
       "participants": [
         {
           "role": "payer",
-          "name": "usr-9d5e03e9",
-          "identifier": "usr-9d5e03e9"
+          "name": "usr-3e374d66",
+          "identifier": "usr-3e374d66"
         },
         {
           "role": "beneficiary",
           "name": "EstateOS Escrow",
-          "identifier": "deal-7b147342"
+          "identifier": "deal-e7360d85"
         },
         {
           "role": "servicer",
           "name": "EstateOS Payment Ops",
-          "identifier": "req-8ed398dc"
+          "identifier": "req-ee57984c"
         }
       ],
       "fraud_probability": 0.36,
@@ -7851,7 +9066,7 @@
         "Match settlement references and escrow ledger entries before reconciliation close."
       ],
       "release_status": "released",
-      "explanation": "Payment deal-7b147342 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+      "explanation": "Payment deal-e7360d85 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
       "standards_alignment": [
         "PCI DSS",
         "ISO/IEC 27001",
@@ -7883,8 +9098,8 @@
       "acord_parties": [
         {
           "role": "applicant",
-          "name": "usr-9d5e03e9",
-          "identifier": "usr-9d5e03e9"
+          "name": "usr-3e374d66",
+          "identifier": "usr-3e374d66"
         },
         {
           "role": "servicing_entity",
@@ -7894,7 +9109,7 @@
         {
           "role": "transaction_context",
           "name": "closing",
-          "identifier": "req-8ed398dc"
+          "identifier": "req-ee57984c"
         }
       ],
       "acord_coverages": [
@@ -7996,7 +9211,7 @@
         }
       ],
       "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-8ed398dc.",
+      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-ee57984c.",
       "release_status": "released",
       "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
       "standards_alignment": [
@@ -8550,7 +9765,7 @@
       "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
       "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
       "recommendation": "Use the digital twin for Athens Urban Residential Block to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-      "explanation": "Digital twin twin-5a826156 modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+      "explanation": "Digital twin twin-b5bc4e56 modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
       "standards_alignment": [
         "ISO/IEC 42001",
         "ISO/IEC 5259",
@@ -8891,25 +10106,25 @@
           "event": "document_ingested",
           "actor": "document_intelligence_pipeline",
           "detail": "Ingested 4 governed documents for Lisbon Green Quarter acquisition.",
-          "timestamp_utc": "2026-03-21T00:14:37.214437+00:00"
+          "timestamp_utc": "2026-03-21T00:46:45.048143+00:00"
         },
         {
           "event": "field_extraction_completed",
           "actor": "document_intelligence_pipeline",
           "detail": "Extracted 4 high-value normalized fields with explainability metadata.",
-          "timestamp_utc": "2026-03-21T00:14:37.214444+00:00"
+          "timestamp_utc": "2026-03-21T00:46:45.048148+00:00"
         },
         {
           "event": "compliance_linkage_verified",
           "actor": "compliance_service",
           "detail": "Linked document packet to privacy tier confidential, consent scope, and cross-border compliance checks.",
-          "timestamp_utc": "2026-03-21T00:14:37.214449+00:00"
+          "timestamp_utc": "2026-03-21T00:46:45.048152+00:00"
         },
         {
           "event": "frontend_summary_published",
           "actor": "ai_orchestrator",
           "detail": "Released simplified insights for frontend display while preserving backend-only evidence trails and anomaly markers.",
-          "timestamp_utc": "2026-03-21T00:14:37.214453+00:00"
+          "timestamp_utc": "2026-03-21T00:46:45.048156+00:00"
         }
       ],
       "release_status": "review",
@@ -8927,10 +10142,415 @@
       ],
       "timestamp_utc": "2026-03-20T00:00:00+00:00"
     },
+    "trust_reputation_decision": {
+      "request_id": "demo-request",
+      "network_status": "review",
+      "entities": [
+        {
+          "entity_id": "usr-3e374d66",
+          "entity_type": "user",
+          "display_name": "Investor profile",
+          "trust_score": 0.91,
+          "reputation_score": 0.82,
+          "risk_score": 0.13,
+          "trust_band": "high",
+          "verification_status": "verified",
+          "monitoring_status": "continuous",
+          "historical_factors": [
+            "Identity is bound to an authenticated subject with MFA.",
+            "Consent scope includes personalization and evidence retention.",
+            "AML posture is medium with sanctions status 'clear'."
+          ],
+          "key_drivers": [
+            "KYC outcome",
+            "MFA completion",
+            "Consent scope",
+            "AML/sanctions posture"
+          ],
+          "frontend_signals": [
+            "Verified identity badge",
+            "Trust band chip",
+            "Explainable compliance tooltip"
+          ]
+        },
+        {
+          "entity_id": "deal-e7360d85-property",
+          "entity_type": "property",
+          "display_name": "Lisbon Green Quarter acquisition",
+          "trust_score": 0.42,
+          "reputation_score": 0.56,
+          "risk_score": 0.53,
+          "trust_band": "watch",
+          "verification_status": "document_review",
+          "monitoring_status": "event_driven",
+          "historical_factors": [
+            "2/3 requested documents are currently validated.",
+            "2 document anomaly signals were raised by the AI review pipeline.",
+            "Climate risk is 'medium' and market volatility is 'medium'."
+          ],
+          "key_drivers": [
+            "Document validation history",
+            "Anomaly detection",
+            "Climate and market risk",
+            "Counterparty posture"
+          ],
+          "frontend_signals": [
+            "Property trust meter",
+            "Document verification banner",
+            "Risk disclosure card"
+          ]
+        },
+        {
+          "entity_id": "broker-of-record",
+          "entity_type": "broker",
+          "display_name": "Broker of record",
+          "trust_score": 0.44,
+          "reputation_score": 0.52,
+          "risk_score": 0.52,
+          "trust_band": "watch",
+          "verification_status": "supervised",
+          "monitoring_status": "workflow_bound",
+          "historical_factors": [
+            "Average workflow completion is 64% across 6 tracked stages.",
+            "Broker-owned review items currently total 1.",
+            "Audit and segregation-of-duties checks remain attached to approval stages."
+          ],
+          "key_drivers": [
+            "Workflow completion history",
+            "Document stewardship backlog",
+            "Approval-control adherence",
+            "Operational urgency"
+          ],
+          "frontend_signals": [
+            "Broker reputation badge",
+            "Response quality label",
+            "Escalation availability status"
+          ]
+        },
+        {
+          "entity_id": "deal-e7360d85",
+          "entity_type": "transaction",
+          "display_name": "Lisbon Green Quarter acquisition transaction",
+          "trust_score": 0.27,
+          "reputation_score": 0.54,
+          "risk_score": 0.62,
+          "trust_band": "watch",
+          "verification_status": "ready",
+          "monitoring_status": "continuous_ai_and_compliance",
+          "historical_factors": [
+            "Payment fraud probability is 0.36 with escrow status 'Awaiting dual approval'.",
+            "2 compliance domains are currently in review state.",
+            "Transaction stage is 'document_validation' with release status 'released'."
+          ],
+          "key_drivers": [
+            "Payment and escrow history",
+            "Compliance graph posture",
+            "Document anomaly load",
+            "Stage progression integrity"
+          ],
+          "frontend_signals": [
+            "Closing trust status",
+            "Settlement readiness chip",
+            "Continuous monitoring indicator"
+          ]
+        }
+      ],
+      "risk_indicators": [
+        {
+          "indicator": "document_anomaly_pressure",
+          "severity": "high",
+          "source": "document_intelligence_expert",
+          "detail": "AI document review detected anomalies or missing evidence that should keep property and transaction trust signals in a monitored state.",
+          "related_entities": [
+            "property",
+            "transaction",
+            "broker"
+          ]
+        },
+        {
+          "indicator": "payment_and_settlement_risk",
+          "severity": "medium",
+          "source": "payment_intelligence",
+          "detail": "Fraud probability, device trust, and escrow readiness continuously adjust transaction trust and release gating.",
+          "related_entities": [
+            "user",
+            "transaction"
+          ]
+        },
+        {
+          "indicator": "jurisdictional_compliance_review",
+          "severity": "high",
+          "source": "compliance_graph",
+          "detail": "Jurisdiction-aware policy reviews feed the trust network so frontend badges stay aligned with backend compliance state.",
+          "related_entities": [
+            "property",
+            "broker",
+            "transaction"
+          ]
+        }
+      ],
+      "frontend_signals": [
+        "Expose user, property, broker, and transaction trust bands with drill-down explanations.",
+        "Render verification badges only when backend verification_status is verified, ready, or supervised.",
+        "Show live risk chips for document review, payment review, and compliance review without exposing sensitive evidence.",
+        "Let users expand 'Why this trust score?' panels sourced from key drivers and historical factors."
+      ],
+      "ai_monitoring_summary": "AI monitoring correlates document anomalies (2), payment fraud probability (0.36), and 2 reviewed compliance domains into a network status of 'review'.",
+      "compliance_summary": "Trust scoring remains bound to KYC='approved', AML='medium', sanctions='clear', privacy tier 'confidential', and compliance graph status 'review'.",
+      "recommended_actions": [
+        "Re-run trust scoring whenever document validation, payment review, or compliance graph status changes.",
+        "Escalate broker and transaction entities to human review when risk_score exceeds 0.45 or any high severity risk indicator appears.",
+        "Persist score history for trend analysis so the network reflects longitudinal behavior, not only the latest session snapshot."
+      ],
+      "explanation": "The trust, reputation, and risk scoring network synthesizes historical workflow behavior, verification posture, AI monitoring, AI anomaly detection, payment and escrow intelligence, and jurisdiction-aware compliance reviews into explainable scores for the user, property, broker, and transaction. Frontend trust signals stay lightweight and understandable, while backend services keep the authoritative monitoring, rescoring, and release gating.",
+      "standards_alignment": [
+        "ISO/IEC 27001",
+        "ISO/IEC 27701",
+        "ISO/IEC 42001",
+        "ISO 31000",
+        "KYC/AML/sanctions",
+        "SOC 2 Type 2"
+      ],
+      "timestamp_utc": "2026-03-20T00:00:00+00:00"
+    },
+    "marketplace_decision": {
+      "request_id": "demo-request",
+      "marketplace_status": "governed_expandable",
+      "registry_summary": "EstateOS exposes a governed marketplace where external experts register through secure contracts, are routed only when policy permits, and remain subordinate to the platform's explainability and release gates.",
+      "providers": [
+        {
+          "provider_id": "provider-climate-grid",
+          "provider_name": "ClimateGrid Signals",
+          "provider_type": "third_party_developer",
+          "status": "production_approved",
+          "trust_tier": "tier_1",
+          "sandbox_mode": "remote_api_adapter",
+          "deployment_model": "signed external API with mTLS",
+          "supported_jurisdictions": [
+            "EU",
+            "UAE",
+            "US"
+          ],
+          "data_classifications": [
+            "market",
+            "property",
+            "geospatial"
+          ],
+          "capabilities": [
+            {
+              "capability": "Climate and location enrichment",
+              "workflow_scope": [
+                "property ranking",
+                "insurance",
+                "market intelligence"
+              ],
+              "invocation_mode": "sync",
+              "release_mode": "policy-cleared explanations only"
+            }
+          ],
+          "frontend_surfaces": [
+            "property cards",
+            "risk banners",
+            "market dashboards"
+          ],
+          "governance_notes": [
+            "Only redacted property metadata and geospatial tokens leave the core router.",
+            "Confidence scores are normalized against internal valuation and insurance experts before release."
+          ]
+        },
+        {
+          "provider_id": "provider-aurora-insure",
+          "provider_name": "Aurora MGA Underwriting",
+          "provider_type": "insurer",
+          "status": "shadow_mode",
+          "trust_tier": "tier_2",
+          "sandbox_mode": "hosted sandbox expert",
+          "deployment_model": "containerized underwriting model in EstateOS sandbox",
+          "supported_jurisdictions": [
+            "Portugal",
+            "Greece",
+            "Spain"
+          ],
+          "data_classifications": [
+            "insurance",
+            "property",
+            "claims-lite"
+          ],
+          "capabilities": [
+            {
+              "capability": "Quote appetite and peril scoring",
+              "workflow_scope": [
+                "insurance",
+                "closing readiness"
+              ],
+              "invocation_mode": "async",
+              "release_mode": "advisor review before quote release"
+            }
+          ],
+          "frontend_surfaces": [
+            "insurance package comparison",
+            "quote readiness meter"
+          ],
+          "governance_notes": [
+            "Shadow traffic is replayed with masked personal identifiers before production cutover.",
+            "Outputs stay non-binding until carrier compliance and licensing checks pass."
+          ]
+        },
+        {
+          "provider_id": "provider-harbor-bank",
+          "provider_name": "Harbor Bank Treasury APIs",
+          "provider_type": "financial_institution",
+          "status": "production_approved",
+          "trust_tier": "tier_1",
+          "sandbox_mode": "remote_api_adapter",
+          "deployment_model": "bank-hosted treasury API with signed callbacks",
+          "supported_jurisdictions": [
+            "US",
+            "EU"
+          ],
+          "data_classifications": [
+            "payment",
+            "settlement",
+            "counterparty"
+          ],
+          "capabilities": [
+            {
+              "capability": "Escrow verification and settlement readiness",
+              "workflow_scope": [
+                "payments",
+                "transactions",
+                "tokenization"
+              ],
+              "invocation_mode": "sync",
+              "release_mode": "backend-only unless settlement is cleared"
+            }
+          ],
+          "frontend_surfaces": [
+            "payment readiness banner",
+            "escrow timeline",
+            "funding checklist"
+          ],
+          "governance_notes": [
+            "Payment tokens remain PSP-bound and the provider receives only scoped settlement references.",
+            "Fallback routing returns to internal payment intelligence if the treasury SLA degrades."
+          ]
+        },
+        {
+          "provider_id": "provider-lexis-ai",
+          "provider_name": "Lexis Domain AI",
+          "provider_type": "ai_provider",
+          "status": "review_limited",
+          "trust_tier": "tier_2",
+          "sandbox_mode": "hosted sandbox expert",
+          "deployment_model": "WASM-style package pinned in marketplace runtime",
+          "supported_jurisdictions": [
+            "Global review set"
+          ],
+          "data_classifications": [
+            "documents",
+            "compliance",
+            "translation"
+          ],
+          "capabilities": [
+            {
+              "capability": "Multilingual legal clause extraction",
+              "workflow_scope": [
+                "document intelligence",
+                "residency",
+                "compliance"
+              ],
+              "invocation_mode": "async",
+              "release_mode": "human review for high-impact fields"
+            }
+          ],
+          "frontend_surfaces": [
+            "document summaries",
+            "translation badges",
+            "evidence review queue"
+          ],
+          "governance_notes": [
+            "The package is version-pinned and evaluated in sandbox before any tenant enablement.",
+            "High-impact extraction fields require human review and reason-code capture before release."
+          ]
+        }
+      ],
+      "control_checks": [
+        {
+          "control": "Provider identity and due diligence",
+          "status": "active",
+          "detail": "Every provider is bound to signed ownership metadata, entitlement scopes, and regional contract records before activation."
+        },
+        {
+          "control": "Sandbox and egress isolation",
+          "status": "active",
+          "detail": "Hosted experts run in isolated sandboxes while remote adapters use mTLS, outbound allowlists, and short-lived credentials."
+        },
+        {
+          "control": "Data minimization and privacy tier enforcement",
+          "status": "active",
+          "detail": "Router requests inherit privacy tier confidential and suppress disallowed data classes before any third-party invocation."
+        },
+        {
+          "control": "Model governance and release approval",
+          "status": "review",
+          "detail": "External experts must pass certification, shadow-mode observation, and rollback approval before promotion into live routing."
+        },
+        {
+          "control": "Kill switch and fallback routing",
+          "status": "active",
+          "detail": "Providers can be suspended immediately while the router falls back to internal experts or human review without breaking the workflow."
+        }
+      ],
+      "routing_policies": [
+        {
+          "policy": "Eligibility gate",
+          "outcome": "active",
+          "detail": "Only providers mapped to consideration workflows and approved jurisdictions are considered for investor routing."
+        },
+        {
+          "policy": "Normalization and ranking",
+          "outcome": "active",
+          "detail": "External outputs are scored alongside 10 internal experts and never bypass policy ranking or explanation assembly."
+        },
+        {
+          "policy": "Payment and regulated action suppression",
+          "outcome": "active",
+          "detail": "Provider output can inform payment risk low or compliance posture, but regulated release still depends on backend controls and 2026.03 graph policy."
+        },
+        {
+          "policy": "Human review threshold",
+          "outcome": "review",
+          "detail": "Cross-border or high-impact expert contributions require advisor/compliance review before tenant-visible release or partner forwarding."
+        }
+      ],
+      "frontend_capabilities": [
+        "Marketplace catalog for approved experts and partner capabilities",
+        "Workflow-specific capability badges in property, insurance, payments, documents, and compliance surfaces",
+        "Admin enablement toggles with sandbox, review, and production labels",
+        "Explainability notices whenever external intelligence influenced a recommendation or routed action"
+      ],
+      "governance_summary": "Marketplace governance spans provider onboarding, certification, sandbox execution, tenant entitlement, rollback controls, and continuous monitoring so third-party intelligence expands the MoE fabric without expanding the trust boundary.",
+      "compliance_summary": "The expert ecosystem enforces ISO/IEC 27001, ISO/IEC 27017, ISO/IEC 27701, ISO/IEC 42001, ISO/IEC 5259, SOC 2 Type 2, and regulated-workflow controls such as PCI DSS and KYC/AML scope minimization before external intelligence reaches users or partners.",
+      "recommended_actions": [
+        "Introduce expert registration, certification, and kill-switch APIs before enabling tenant self-service onboarding.",
+        "Keep hosted plug-ins sandboxed with outbound allowlists, signed package promotion, and version pinning.",
+        "Require shadow-mode evidence and human approval before any expert can influence regulated or high-impact workflows."
+      ],
+      "standards_alignment": [
+        "ISO/IEC 27001",
+        "ISO/IEC 27017",
+        "ISO/IEC 27701",
+        "ISO/IEC 42001",
+        "ISO/IEC 5259",
+        "SOC 2 Type 2",
+        "PCI DSS / KYC-AML scope controls"
+      ],
+      "timestamp_utc": "2026-03-20T00:00:00+00:00"
+    },
     "tokenization_decision": {
       "request_id": "demo-request",
       "asset": {
-        "asset_id": "asset-deal-7b147342",
+        "asset_id": "asset-deal-e7360d85",
         "property_name": "Athens Urban Residential Block Token Offering",
         "jurisdiction": "Portugal",
         "legal_wrapper": "Luxembourg feeder SPV with transfer-agent controls",
@@ -8985,7 +10605,7 @@
         {
           "investor_label": "Qualified investor allocation",
           "investor_class": "qualified",
-          "beneficial_owner_reference": "bo-usr-9d5e03e9",
+          "beneficial_owner_reference": "bo-usr-3e374d66",
           "wallet_reference": "custody-qualified-queue",
           "units": 4,
           "ownership_pct": 24.75,

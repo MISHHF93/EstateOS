@@ -32,6 +32,7 @@ REQUIRED_DECISION_KEYS = {
     "digital_twin_decision",
     "market_intelligence_decision",
     "document_intelligence_decision",
+    "marketplace_decision",
     "tokenization_decision",
     "copilot_decision",
 }

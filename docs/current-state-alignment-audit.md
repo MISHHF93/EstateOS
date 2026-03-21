@@ -45,6 +45,7 @@ The repository already has the requested top-level shape:
 - `packages/` for shared contracts and primitives,
 - `infra/` for Azure-oriented infrastructure definitions,
 - `docs/` for architecture and governance.
+- Additional Phase 3 design packets, including the open expert marketplace, preserve the blueprint direction for future ecosystem extensibility without pretending the runtime already exists.
 
 That means new work can be added without collapsing back into ad hoc folders or feature-local architecture.
 

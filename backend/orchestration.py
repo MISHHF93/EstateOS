@@ -872,6 +872,60 @@ class TrustReputationPacket:
 
 
 @dataclass(frozen=True)
+class MarketplaceExpertCapability:
+    capability: str
+    workflow_scope: Sequence[str]
+    invocation_mode: str
+    release_mode: str
+
+
+@dataclass(frozen=True)
+class MarketplaceProviderListing:
+    provider_id: str
+    provider_name: str
+    provider_type: str
+    status: str
+    trust_tier: str
+    sandbox_mode: str
+    deployment_model: str
+    supported_jurisdictions: Sequence[str]
+    data_classifications: Sequence[str]
+    capabilities: Sequence[MarketplaceExpertCapability]
+    frontend_surfaces: Sequence[str]
+    governance_notes: Sequence[str]
+
+
+@dataclass(frozen=True)
+class MarketplaceControlCheck:
+    control: str
+    status: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class MarketplaceRoutingPolicy:
+    policy: str
+    outcome: str
+    detail: str
+
+
+@dataclass(frozen=True)
+class ExpertMarketplacePacket:
+    request_id: str
+    marketplace_status: str
+    registry_summary: str
+    providers: Sequence[MarketplaceProviderListing]
+    control_checks: Sequence[MarketplaceControlCheck]
+    routing_policies: Sequence[MarketplaceRoutingPolicy]
+    frontend_capabilities: Sequence[str]
+    governance_summary: str
+    compliance_summary: str
+    recommended_actions: Sequence[str]
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+@dataclass(frozen=True)
 class CopilotRoleSummary:
     role_key: str
     title: str
@@ -4360,6 +4414,206 @@ COPILOT_ROLE_LIBRARY: Dict[str, Dict[str, str]] = {
 }
 
 
+def evaluate_expert_marketplace(
+    profile: UserProfile,
+    identity: IdentityContext,
+    context: RequestContext,
+    property_packet: DecisionPacket,
+    payment_packet: PaymentDecisionPacket,
+    compliance_graph: ComplianceGraphPacket,
+) -> ExpertMarketplacePacket:
+    provider_listings = (
+        MarketplaceProviderListing(
+            provider_id="provider-climate-grid",
+            provider_name="ClimateGrid Signals",
+            provider_type="third_party_developer",
+            status="production_approved",
+            trust_tier="tier_1",
+            sandbox_mode="remote_api_adapter",
+            deployment_model="signed external API with mTLS",
+            supported_jurisdictions=("EU", "UAE", "US"),
+            data_classifications=("market", "property", "geospatial"),
+            capabilities=(
+                MarketplaceExpertCapability(
+                    capability="Climate and location enrichment",
+                    workflow_scope=("property ranking", "insurance", "market intelligence"),
+                    invocation_mode="sync",
+                    release_mode="policy-cleared explanations only",
+                ),
+            ),
+            frontend_surfaces=("property cards", "risk banners", "market dashboards"),
+            governance_notes=(
+                "Only redacted property metadata and geospatial tokens leave the core router.",
+                "Confidence scores are normalized against internal valuation and insurance experts before release.",
+            ),
+        ),
+        MarketplaceProviderListing(
+            provider_id="provider-aurora-insure",
+            provider_name="Aurora MGA Underwriting",
+            provider_type="insurer",
+            status="shadow_mode",
+            trust_tier="tier_2",
+            sandbox_mode="hosted sandbox expert",
+            deployment_model="containerized underwriting model in EstateOS sandbox",
+            supported_jurisdictions=("Portugal", "Greece", "Spain"),
+            data_classifications=("insurance", "property", "claims-lite"),
+            capabilities=(
+                MarketplaceExpertCapability(
+                    capability="Quote appetite and peril scoring",
+                    workflow_scope=("insurance", "closing readiness"),
+                    invocation_mode="async",
+                    release_mode="advisor review before quote release",
+                ),
+            ),
+            frontend_surfaces=("insurance package comparison", "quote readiness meter"),
+            governance_notes=(
+                "Shadow traffic is replayed with masked personal identifiers before production cutover.",
+                "Outputs stay non-binding until carrier compliance and licensing checks pass.",
+            ),
+        ),
+        MarketplaceProviderListing(
+            provider_id="provider-harbor-bank",
+            provider_name="Harbor Bank Treasury APIs",
+            provider_type="financial_institution",
+            status="production_approved",
+            trust_tier="tier_1",
+            sandbox_mode="remote_api_adapter",
+            deployment_model="bank-hosted treasury API with signed callbacks",
+            supported_jurisdictions=("US", "EU"),
+            data_classifications=("payment", "settlement", "counterparty"),
+            capabilities=(
+                MarketplaceExpertCapability(
+                    capability="Escrow verification and settlement readiness",
+                    workflow_scope=("payments", "transactions", "tokenization"),
+                    invocation_mode="sync",
+                    release_mode="backend-only unless settlement is cleared",
+                ),
+            ),
+            frontend_surfaces=("payment readiness banner", "escrow timeline", "funding checklist"),
+            governance_notes=(
+                "Payment tokens remain PSP-bound and the provider receives only scoped settlement references.",
+                "Fallback routing returns to internal payment intelligence if the treasury SLA degrades.",
+            ),
+        ),
+        MarketplaceProviderListing(
+            provider_id="provider-lexis-ai",
+            provider_name="Lexis Domain AI",
+            provider_type="ai_provider",
+            status="review_limited",
+            trust_tier="tier_2",
+            sandbox_mode="hosted sandbox expert",
+            deployment_model="WASM-style package pinned in marketplace runtime",
+            supported_jurisdictions=("Global review set",),
+            data_classifications=("documents", "compliance", "translation"),
+            capabilities=(
+                MarketplaceExpertCapability(
+                    capability="Multilingual legal clause extraction",
+                    workflow_scope=("document intelligence", "residency", "compliance"),
+                    invocation_mode="async",
+                    release_mode="human review for high-impact fields",
+                ),
+            ),
+            frontend_surfaces=("document summaries", "translation badges", "evidence review queue"),
+            governance_notes=(
+                "The package is version-pinned and evaluated in sandbox before any tenant enablement.",
+                "High-impact extraction fields require human review and reason-code capture before release.",
+            ),
+        ),
+    )
+
+    control_checks = (
+        MarketplaceControlCheck(
+            control="Provider identity and due diligence",
+            status="active",
+            detail="Every provider is bound to signed ownership metadata, entitlement scopes, and regional contract records before activation.",
+        ),
+        MarketplaceControlCheck(
+            control="Sandbox and egress isolation",
+            status="active",
+            detail="Hosted experts run in isolated sandboxes while remote adapters use mTLS, outbound allowlists, and short-lived credentials.",
+        ),
+        MarketplaceControlCheck(
+            control="Data minimization and privacy tier enforcement",
+            status="active",
+            detail=f"Router requests inherit privacy tier {identity.privacy_tier} and suppress disallowed data classes before any third-party invocation.",
+        ),
+        MarketplaceControlCheck(
+            control="Model governance and release approval",
+            status="review" if profile.role == "advisor" or context.cross_border else "active",
+            detail="External experts must pass certification, shadow-mode observation, and rollback approval before promotion into live routing.",
+        ),
+        MarketplaceControlCheck(
+            control="Kill switch and fallback routing",
+            status="active",
+            detail="Providers can be suspended immediately while the router falls back to internal experts or human review without breaking the workflow.",
+        ),
+    )
+
+    routing_policies = (
+        MarketplaceRoutingPolicy(
+            policy="Eligibility gate",
+            outcome="active",
+            detail=f"Only providers mapped to {context.journey_stage} workflows and approved jurisdictions are considered for {profile.role} routing.",
+        ),
+        MarketplaceRoutingPolicy(
+            policy="Normalization and ranking",
+            outcome="active",
+            detail=f"External outputs are scored alongside {len(property_packet.selected_experts)} internal experts and never bypass policy ranking or explanation assembly.",
+        ),
+        MarketplaceRoutingPolicy(
+            policy="Payment and regulated action suppression",
+            outcome="active",
+            detail=f"Provider output can inform payment risk {payment_packet.risk_level} or compliance posture, but regulated release still depends on backend controls and {compliance_graph.graph_version} graph policy.",
+        ),
+        MarketplaceRoutingPolicy(
+            policy="Human review threshold",
+            outcome="review" if context.cross_border else "active",
+            detail="Cross-border or high-impact expert contributions require advisor/compliance review before tenant-visible release or partner forwarding.",
+        ),
+    )
+
+    registry_summary = (
+        "EstateOS exposes a governed marketplace where external experts register through secure contracts, are routed only when policy permits, and remain subordinate to the platform's explainability and release gates."
+    )
+    governance_summary = (
+        "Marketplace governance spans provider onboarding, certification, sandbox execution, tenant entitlement, rollback controls, and continuous monitoring so third-party intelligence expands the MoE fabric without expanding the trust boundary."
+    )
+    compliance_summary = (
+        "The expert ecosystem enforces ISO/IEC 27001, ISO/IEC 27017, ISO/IEC 27701, ISO/IEC 42001, ISO/IEC 5259, SOC 2 Type 2, and regulated-workflow controls such as PCI DSS and KYC/AML scope minimization before external intelligence reaches users or partners."
+    )
+
+    return ExpertMarketplacePacket(
+        request_id=f"mkt-{uuid.uuid4().hex[:8]}",
+        marketplace_status="governed_expandable",
+        registry_summary=registry_summary,
+        providers=provider_listings,
+        control_checks=control_checks,
+        routing_policies=routing_policies,
+        frontend_capabilities=(
+            "Marketplace catalog for approved experts and partner capabilities",
+            "Workflow-specific capability badges in property, insurance, payments, documents, and compliance surfaces",
+            "Admin enablement toggles with sandbox, review, and production labels",
+            "Explainability notices whenever external intelligence influenced a recommendation or routed action",
+        ),
+        governance_summary=governance_summary,
+        compliance_summary=compliance_summary,
+        recommended_actions=(
+            "Introduce expert registration, certification, and kill-switch APIs before enabling tenant self-service onboarding.",
+            "Keep hosted plug-ins sandboxed with outbound allowlists, signed package promotion, and version pinning.",
+            "Require shadow-mode evidence and human approval before any expert can influence regulated or high-impact workflows.",
+        ),
+        standards_alignment=(
+            "ISO/IEC 27001",
+            "ISO/IEC 27017",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "ISO/IEC 5259",
+            "SOC 2 Type 2",
+            "PCI DSS / KYC-AML scope controls",
+        ),
+    )
+
+
 def evaluate_conversational_copilot(
     profile: UserProfile,
     identity: IdentityContext,
@@ -4694,6 +4948,14 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         transaction,
         **scenario["tokenization"],
     )
+    marketplace_packet = evaluate_expert_marketplace(
+        profile,
+        identity,
+        context,
+        packet,
+        payment_packet,
+        compliance_graph_packet,
+    )
     copilot_packet = evaluate_conversational_copilot(
         profile,
         identity,
@@ -4719,6 +4981,7 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         "market_intelligence_decision": asdict(market_intelligence_packet),
         "document_intelligence_decision": asdict(document_intelligence_packet),
         "trust_reputation_decision": asdict(trust_reputation_packet),
+        "marketplace_decision": asdict(marketplace_packet),
         "tokenization_decision": asdict(tokenization_packet),
         "copilot_decision": asdict(copilot_packet),
     }

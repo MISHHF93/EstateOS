@@ -466,6 +466,69 @@ const expertMeta = {
   recommendation: { label: "Recommendation expert", icon: "Recommend" }
 };
 
+const marketplaceProfiles = {
+  buyer: {
+    title: "Family relocation expert marketplace",
+    status: "Governed expansion",
+    summary: "Curated partner experts can add relocation intelligence, insurance appetite, and document translation without bypassing the EstateOS trust boundary.",
+    providers: [
+      "Climate and geospatial specialists for property and insurance insight cards.",
+      "Carrier plug-ins that stay shadow-mode until quote and licensing controls pass.",
+      "Document translation and legal-clause helpers that require human review for sensitive fields."
+    ],
+    controls: [
+      "Only approved experts can receive minimized, backend-shaped requests.",
+      "Hosted packages remain sandboxed with outbound allowlists and version pinning.",
+      "Frontend users see capability badges and disclosures instead of raw third-party output."
+    ],
+    policies: [
+      "Cross-border workflows require advisor review before third-party intelligence becomes user-visible.",
+      "Fallback routing returns to internal experts if a provider degrades or is suspended.",
+      "Tenant admins can enable marketplace capabilities only within entitlement boundaries."
+    ]
+  },
+  investor: {
+    title: "Investor intelligence marketplace",
+    status: "Governed expansion",
+    summary: "Marketplace experts widen the investor workspace with underwriting, treasury, market, and document capabilities while keeping the backend router authoritative.",
+    providers: [
+      "Treasury and settlement APIs for escrow-readiness and capital movement verification.",
+      "Macro and geospatial providers for scenario-based market overlays.",
+      "Specialized diligence experts for tenant, inspection, and document review workflows."
+    ],
+    controls: [
+      "Each provider must publish a versioned capability manifest and confidence contract.",
+      "Regulated outputs remain suppressed until payment, compliance, and explainability controls pass.",
+      "Provider outages trigger internal-model fallback and audit logging automatically."
+    ],
+    policies: [
+      "External experts are ranked with internal MoE outputs rather than treated as authorities.",
+      "High-impact investment or payment actions require human review and rollback readiness.",
+      "Marketplace activation remains tenant- and jurisdiction-aware."
+    ]
+  },
+  advisor: {
+    title: "Advisor expert marketplace",
+    status: "Approval-oriented",
+    summary: "Advisors gain a governed catalog of specialist plug-ins for diligence, compliance, insurance, and capital workflows with clear approval labels and evidence trails.",
+    providers: [
+      "Approved financial institution experts for settlement and treasury checks.",
+      "AI providers for multilingual document review and clause extraction in sandbox mode.",
+      "Insurer and MGA experts for appetite scoring and quote-routing support."
+    ],
+    controls: [
+      "Provider onboarding includes certification, security review, and shadow-mode observation.",
+      "Every tenant-visible result includes an explainability notice when external intelligence contributed.",
+      "Kill switches and provider suspension controls stay available to operators at all times."
+    ],
+    policies: [
+      "Only entitled admins can enable experts for production tenants.",
+      "Provider data access remains purpose-bound under privacy and outsourcing controls.",
+      "Advisor workflows can challenge, override, or disable external contributions with audit evidence."
+    ]
+  }
+};
+
 const propertyIntelligence = {
   "lisbon-green": {
     valuationBand: "$600k-$645k",
@@ -1231,6 +1294,16 @@ const documentAuditSummary = document.getElementById("document-audit-summary");
 const documentInsightList = document.getElementById("document-insight-list");
 const documentValidationList = document.getElementById("document-validation-list");
 const documentGovernanceList = document.getElementById("document-governance-list");
+const marketplaceProgramTitle = document.getElementById("marketplace-program-title");
+const marketplaceStatusPill = document.getElementById("marketplace-status-pill");
+const marketplaceSummary = document.getElementById("marketplace-summary");
+const marketplaceProviderCount = document.getElementById("marketplace-provider-count");
+const marketplaceSandboxMode = document.getElementById("marketplace-sandbox-mode");
+const marketplaceFrontendSurface = document.getElementById("marketplace-frontend-surface");
+const marketplaceGovernancePosture = document.getElementById("marketplace-governance-posture");
+const marketplaceProviderList = document.getElementById("marketplace-provider-list");
+const marketplaceControlList = document.getElementById("marketplace-control-list");
+const marketplacePolicyList = document.getElementById("marketplace-policy-list");
 const wiringTitle = document.getElementById("wiring-title");
 const wiringStatusPill = document.getElementById("wiring-status-pill");
 const wiringSummary = document.getElementById("wiring-summary");
@@ -1265,6 +1338,7 @@ function getBackendSync() {
     digitalTwin: packets.digital_twin_decision,
     marketIntelligence: packets.market_intelligence_decision,
     documentIntelligence: packets.document_intelligence_decision,
+    marketplace: packets.marketplace_decision,
     copilot: packets.copilot_decision
   };
 }
@@ -1302,6 +1376,7 @@ function renderWiringStatus() {
     const digitalTwinPacket = packets.digital_twin_decision;
     const marketPacket = packets.market_intelligence_decision;
     const documentPacket = packets.document_intelligence_decision;
+    const marketplacePacket = packets.marketplace_decision;
     const copilotPacket = packets.copilot_decision;
 
     wiringTitle.textContent = "Backend snapshot connected";
@@ -1360,6 +1435,11 @@ function renderWiringStatus() {
         `${documentPacket.governed_documents.length} documents • ${documentPacket.anomaly_signals.length} anomaly signals traced.`
       ),
       createWiringMetricCard(
+        "Expert marketplace",
+        marketplacePacket.marketplace_status.replace(/_/g, " "),
+        `${marketplacePacket.providers.length} providers • ${marketplacePacket.control_checks.length} control checks.`
+      ),
+      createWiringMetricCard(
         "Conversational copilot",
         `${copilotPacket.roles.length} roles`,
         `${copilotPacket.active_role.replace(/_/g, " ")} active • ${copilotPacket.guardrails.length} guardrails traced.`
@@ -1378,7 +1458,7 @@ function renderWiringStatus() {
   wiringCardGrid.innerHTML = [
     createWiringMetricCard("Property decision", "Local prototype", "Frontend ranking and explainability remain interactive while the backend snapshot is unavailable."),
     createWiringMetricCard("Transaction decision", "Local prototype", "Deal controls, stage tracking, and workflow evidence are still rendered from browser-side defaults."),
-    createWiringMetricCard("Specialized engines", "Awaiting sync", "Residency, insurance, payments, integration routing, digital twin simulation, predictive market signals, document intelligence, and conversational copilot roles will promote backend statuses when the snapshot loads.")
+    createWiringMetricCard("Specialized engines", "Awaiting sync", "Residency, insurance, payments, integration routing, marketplace experts, digital twin simulation, predictive market signals, document intelligence, and conversational copilot roles will promote backend statuses when the snapshot loads.")
   ].join("");
 }
 
@@ -3572,6 +3652,123 @@ function renderDocumentIntelligenceEngine() {
 }
 
 
+function getMarketplaceScenario() {
+  return marketplaceProfiles[state.activeJourney];
+}
+
+function renderMarketplaceEcosystem() {
+  const backend = getBackendSync();
+
+  if (backend?.marketplace) {
+    const packet = backend.marketplace;
+    const primaryProvider = packet.providers[0];
+    marketplaceProgramTitle.textContent = packet.registry_summary;
+    marketplaceStatusPill.textContent = packet.marketplace_status.replace(/_/g, " ");
+    marketplaceStatusPill.dataset.status = "active";
+    marketplaceSummary.textContent = `${packet.governance_summary} ${packet.compliance_summary}`;
+    marketplaceProviderCount.textContent = `${packet.providers.length} approved / review-tracked`;
+    marketplaceSandboxMode.textContent = primaryProvider?.sandbox_mode?.replace(/_/g, " ") || "Policy bound";
+    marketplaceFrontendSurface.textContent = primaryProvider?.frontend_surfaces?.[0] || packet.frontend_capabilities[0];
+    marketplaceGovernancePosture.textContent = packet.control_checks.some((item) => item.status === "review") ? "Mixed active + review" : "Active controls";
+
+    marketplaceProviderList.innerHTML = packet.providers
+      .map((provider) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${provider.provider_name}</strong>
+            <span>${provider.status.replace(/_/g, " ")}</span>
+          </div>
+          <p>${provider.provider_type.replace(/_/g, " ")} • ${provider.capabilities.map((item) => item.capability).join(" • ")}</p>
+          <small>${provider.sandbox_mode.replace(/_/g, " ")} • ${provider.frontend_surfaces.join(" • ")}</small>
+        </div>
+      `)
+      .join("");
+
+    marketplaceControlList.innerHTML = packet.control_checks
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.control}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join("");
+
+    marketplacePolicyList.innerHTML = [
+      ...packet.routing_policies.map((item) => ({
+        title: item.policy,
+        status: item.outcome,
+        detail: item.detail,
+      })),
+      ...packet.frontend_capabilities.slice(0, 2).map((item) => ({
+        title: "Frontend capability",
+        status: "catalog",
+        detail: item,
+      })),
+    ]
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.title}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join("");
+    return;
+  }
+
+  const local = getMarketplaceScenario();
+  marketplaceProgramTitle.textContent = local.title;
+  marketplaceStatusPill.textContent = local.status;
+  marketplaceStatusPill.dataset.status = "active";
+  marketplaceSummary.textContent = local.summary;
+  marketplaceProviderCount.textContent = "3 curated profiles";
+  marketplaceSandboxMode.textContent = "Sandbox + adapter mix";
+  marketplaceFrontendSurface.textContent = "Catalog badges + workflow cards";
+  marketplaceGovernancePosture.textContent = state.activeJourney === "advisor" ? "Approval-oriented" : "Policy-bound";
+
+  marketplaceProviderList.innerHTML = local.providers
+    .map((item, index) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>Provider lane ${index + 1}</strong>
+          <span>Curated</span>
+        </div>
+        <p>${item}</p>
+      </div>
+    `)
+    .join("");
+
+  marketplaceControlList.innerHTML = local.controls
+    .map((item, index) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>Control ${index + 1}</strong>
+          <span>Secure by default</span>
+        </div>
+        <p>${item}</p>
+      </div>
+    `)
+    .join("");
+
+  marketplacePolicyList.innerHTML = local.policies
+    .map((item, index) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>Policy ${index + 1}</strong>
+          <span>Governance</span>
+        </div>
+        <p>${item}</p>
+      </div>
+    `)
+    .join("");
+}
+
+
 function renderNextActions(journey, topCandidate) {
   const backend = getBackendSync();
   if (backend) {
@@ -3647,7 +3844,7 @@ function renderJourney() {
         `Detected intents: ${backend.property.detected_intents.join(", ")}.`,
         `Top recommendation: ${backendTopCandidate.title} in ${backendTopCandidate.geography}.`,
         `Transaction release is ${backend.transaction.release_status} with ${backend.transaction.compliance_controls.length} tracked controls.`,
-        `Residency, insurance, payment, integration, digital twin, market intelligence, document intelligence, and tokenization design surfaces rendered from backend packets or governed frontend content.`
+        `Residency, insurance, payment, integration, marketplace, digital twin, market intelligence, document intelligence, and tokenization design surfaces rendered from backend packets or governed frontend content.`
       ]
         .map((item) => `<li>${item}</li>`)
         .join("")
@@ -3675,6 +3872,7 @@ function renderJourney() {
   renderDealBoard();
   renderDigitalTwinEngine();
   renderMarketIntelligenceEngine();
+  renderMarketplaceEcosystem();
   renderDocumentIntelligenceEngine();
   renderResidencyEngine();
   renderComplianceGraph();
