@@ -92,6 +92,13 @@ EstateOS applies four assurance layers across all frontend and backend workflows
 - Keep production inference traffic on private endpoints, encrypted service-to-service channels, and least-privilege managed identities to satisfy cloud-security, privacy, and payment-segmentation requirements.
 - Test rollback and regional failover procedures regularly so the MoE fabric supports ISO 22301 continuity objectives and SOC 2 availability commitments.
 
+### 4.8 Hyper-personalization and behavioral intelligence
+- Capture behavioral signals only under documented purposes, lawful basis, and consent state consistent with ISO/IEC 27701 privacy management requirements.
+- Prefer pseudonymized identifiers, aggregated features, and bounded retention windows for telemetry and inferred preference data.
+- Provide user-facing transparency, opt-out controls, communication preference management, and profile reset or deletion workflows where legally applicable.
+- Evaluate personalization models for fairness, drift, manipulation risk, and dark-pattern avoidance before and after release.
+- Preserve audit evidence for feature use, strategy selection, explanation generation, and human overrides so personalization remains reviewable and contestable.
+
 ## 5. Audit evidence package for a single recommendation
 
 A complete recommendation should preserve:

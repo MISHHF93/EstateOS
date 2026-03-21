@@ -107,7 +107,9 @@ This expert adapts:
 - page sequencing,
 - prompts,
 - educational content,
-- CTA timing.
+- CTA timing,
+- communication strategy inputs,
+- human-handoff timing based on governed behavioral signals.
 
 ### 3.9 Document Intelligence Expert
 

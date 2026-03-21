@@ -159,6 +159,7 @@ realestate-moe-platform/
 
 A practical implementation roadmap is captured in `docs/implementation-roadmap.md`, and the repository transition expectations are captured in `docs/repository-transition.md`. `docs/autonomous-deal-execution-engine.md` adds the detailed Phase 3 design for the governed agentic transaction layer, including approvals, policy gates, auditability, and semi-autonomous deal execution boundaries. `docs/predictive-market-intelligence-engine.md` adds the macro-level forecasting design for global/local market trends, migration flows, rates, supply-demand monitoring, and forward-looking investor signals. `docs/tokenization-fractional-ownership-layer.md` adds the governed fractional ownership design for property-backed offerings, ownership ledgers, compliance checks, and transfer/settlement controls.
 `docs/document-intelligence-legal-ai.md` adds the Phase 3 design for AI-assisted extraction, validation, legal reasoning, anomaly detection, compliance checks, and audit trails across contracts, title packets, insurance policies, and immigration evidence.
+`docs/hyper-personalization-behavioral-intelligence-engine.md` adds the privacy-preserving Phase 3 design for behavioral learning, adaptive recommendations, communication optimization, and ISO/IEC 27701 plus ethical-AI guardrails.
 
 ## MoE expert model
 
