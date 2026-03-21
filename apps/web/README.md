@@ -1,10 +1,10 @@
 # Web App Surface
 
-`apps/web/` is the canonical home for the future **Next.js + React + TypeScript** customer-facing application.
+`apps/web/` is the canonical home for the **production Next.js + React + TypeScript** customer-facing application.
 
-## Scope
+## Product modules
 
-This surface should eventually include:
+The web surface should deliver an elegant, responsive, human-centered experience across:
 
 - public marketing pages,
 - property discovery and maps,
@@ -13,7 +13,17 @@ This surface should eventually include:
 - insurance flows,
 - payments / escrow UI,
 - documents / eSignature / deal-room workflows,
-- AI insights, recommendations, and risk explanations.
+- explainable AI insights, recommendations, and risk explanations.
+
+## UX implementation contract
+
+Production-grade work here should preserve:
+
+- adaptive property discovery for buyers and investors,
+- AI-generated but explainable property, ROI, residency, insurance, and risk insights,
+- transaction management that keeps approvals, documents, and payment milestones visible,
+- accessibility-conscious and multilingual-ready interaction patterns,
+- mobile-responsive layouts that do not sacrifice operational clarity.
 
 ## Locked stack guidance
 
@@ -29,6 +39,17 @@ When production-grade work begins here, prefer:
 - Framer Motion,
 - Mapbox or Google Maps,
 - Stripe Elements or equivalent payment SDKs where required.
+
+## Integration expectations
+
+The web application should consume governed APIs for:
+
+- authentication and profile management,
+- listings and search,
+- deals and documents,
+- residency and insurance workflows,
+- payments,
+- explainable AI assessments.
 
 ## Transition rule
 
