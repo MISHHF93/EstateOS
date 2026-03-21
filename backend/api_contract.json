@@ -561,6 +561,86 @@
         "standards_alignment"
       ]
     },
+    "GovernedDocument": {
+      "type": "object",
+      "required": [
+        "document_id",
+        "document_type",
+        "title",
+        "jurisdiction",
+        "source_system",
+        "language",
+        "status",
+        "confidence"
+      ]
+    },
+    "DocumentFieldExtraction": {
+      "type": "object",
+      "required": [
+        "document_id",
+        "field_name",
+        "field_value",
+        "confidence",
+        "normalized_value",
+        "rationale"
+      ]
+    },
+    "DocumentValidationCheck": {
+      "type": "object",
+      "required": [
+        "document_id",
+        "check_name",
+        "status",
+        "detail",
+        "severity"
+      ]
+    },
+    "DocumentAnomalySignal": {
+      "type": "object",
+      "required": [
+        "signal",
+        "severity",
+        "affected_documents",
+        "detail",
+        "recommended_action"
+      ]
+    },
+    "DocumentComplianceFinding": {
+      "type": "object",
+      "required": [
+        "framework",
+        "control",
+        "status",
+        "detail"
+      ]
+    },
+    "DocumentAuditRecord": {
+      "type": "object",
+      "required": [
+        "event",
+        "actor",
+        "detail",
+        "timestamp_utc"
+      ]
+    },
+    "DocumentIntelligenceDecision": {
+      "type": "object",
+      "required": [
+        "portfolio_name",
+        "simplified_summary",
+        "reasoning_summary",
+        "frontend_insights",
+        "governed_documents",
+        "extracted_fields",
+        "validation_checks",
+        "anomaly_signals",
+        "compliance_findings",
+        "audit_records",
+        "release_status",
+        "recommended_actions",
+        "standards_alignment"
+      ]
+    },
     "CopilotRoleSummary": {
       "type": "object",
       "required": [
@@ -714,6 +794,18 @@
         "PII minimization",
         "audit log",
         "ranked expert contribution trace"
+      ]
+    },
+    {
+      "path": "/v1/documents/intelligence/reason",
+      "method": "POST",
+      "purpose": "Extract, validate, summarize, and reason over contracts, title packets, insurance policies, and immigration evidence while keeping anomaly detection, compliance checks, and full audit trails on the backend.",
+      "controls": [
+        "blob hash and provenance tracking",
+        "field-level confidence and normalization evidence",
+        "cross-document anomaly detection",
+        "legal/compliance review gating",
+        "immutable audit trail"
       ]
     },
     {

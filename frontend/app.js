@@ -961,6 +961,66 @@ const marketIntelligenceProfiles = {
   }
 };
 
+const documentIntelligenceProfiles = {
+  buyer: {
+    portfolioName: "Buyer-side legal packet",
+    documents: 4,
+    status: "Guided review",
+    summary: "Contracts, title, insurance, and residency packets are simplified into buyer-friendly explanations while backend validation keeps release gating, anomaly checks, and legal review evidence intact.",
+    insights: [
+      "The contract is mostly complete, but one attachment still blocks a clean release.",
+      "Title evidence is clean and remains the strongest document signal in the packet.",
+      "Insurance and residency evidence are understandable in the UI without exposing the raw records."
+    ],
+    validation: [
+      "Extraction confidence stays high because price, title status, coverage amount, and pathway type are normalized across the packet.",
+      "Document completeness and date consistency checks run before any buyer-facing release or partner submission."
+    ],
+    governance: [
+      "Medium anomaly posture because binder release should remain coupled to contract completeness.",
+      "Immutable audit records preserve ingestion, extraction, compliance linkage, and frontend publication events."
+    ]
+  },
+  investor: {
+    portfolioName: "Investor diligence packet",
+    documents: 4,
+    status: "Analyst review",
+    summary: "The frontend gets simplified diligence notes, but the backend still performs cross-document extraction, anomaly detection, and compliance-linked legal reasoning across contracts, title, coverage, and immigration evidence.",
+    insights: [
+      "Title and core economic terms are easy to inspect in plain language.",
+      "Insurance and residency dependencies remain visible as structured blockers rather than buried PDF details.",
+      "Anomaly scoring helps investors understand what still requires counsel or advisor review."
+    ],
+    validation: [
+      "Field normalization compares values across legal, insurance, and immigration artifacts before they are surfaced.",
+      "Backend checks preserve severity labels so review queues can prioritize material issues first."
+    ],
+    governance: [
+      "Medium anomaly posture due to unresolved evidence dependencies and release sequencing.",
+      "Audit and compliance trails stay aligned to cross-border KYC, AML, privacy, and explainability controls."
+    ]
+  },
+  advisor: {
+    portfolioName: "Advisor exception packet",
+    documents: 4,
+    status: "Exception-led review",
+    summary: "Advisors see a concise issue list, confidence-backed field extraction, and compliance-linked anomaly reasoning instead of manually reconciling every raw document artifact.",
+    insights: [
+      "The AI layer explains what changed across the packet and why an exception matters.",
+      "Compliance, insurance, and residency evidence stay tied to the transaction audit chain.",
+      "Advisors can challenge extraction results using the attached rationale and confidence metadata."
+    ],
+    validation: [
+      "Cross-document comparisons focus on dates, values, signatures, obligations, and evidence dependencies.",
+      "Severity labels help route contract, title, insurance, and immigration exceptions to the right operators."
+    ],
+    governance: [
+      "Anomaly posture stays review-focused until all release dependencies are closed.",
+      "Full audit chains support legal sign-off, compliance escalation, and downstream regulator readiness."
+    ]
+  }
+};
+
 const state = {
   activeJourney: "buyer",
   activeCopilotRole: "buyer_advisor",
@@ -1152,6 +1212,16 @@ const marketSignalSummary = document.getElementById("market-signal-summary");
 const marketStreamList = document.getElementById("market-stream-list");
 const marketForecastList = document.getElementById("market-forecast-list");
 const marketPipelineList = document.getElementById("market-pipeline-list");
+const documentProgramTitle = document.getElementById("document-program-title");
+const documentStatusPill = document.getElementById("document-status-pill");
+const documentSummary = document.getElementById("document-summary");
+const documentPortfolioName = document.getElementById("document-portfolio-name");
+const documentCount = document.getElementById("document-count");
+const documentAnomalySummary = document.getElementById("document-anomaly-summary");
+const documentAuditSummary = document.getElementById("document-audit-summary");
+const documentInsightList = document.getElementById("document-insight-list");
+const documentValidationList = document.getElementById("document-validation-list");
+const documentGovernanceList = document.getElementById("document-governance-list");
 const wiringTitle = document.getElementById("wiring-title");
 const wiringStatusPill = document.getElementById("wiring-status-pill");
 const wiringSummary = document.getElementById("wiring-summary");
@@ -1184,6 +1254,7 @@ function getBackendSync() {
     residency: packets.residency_decision,
     digitalTwin: packets.digital_twin_decision,
     marketIntelligence: packets.market_intelligence_decision,
+    documentIntelligence: packets.document_intelligence_decision,
     copilot: packets.copilot_decision
   };
 }
@@ -1219,6 +1290,7 @@ function renderWiringStatus() {
     const residencyPacket = packets.residency_decision;
     const digitalTwinPacket = packets.digital_twin_decision;
     const marketPacket = packets.market_intelligence_decision;
+    const documentPacket = packets.document_intelligence_decision;
     const copilotPacket = packets.copilot_decision;
 
     wiringTitle.textContent = "Backend snapshot connected";
@@ -1267,6 +1339,11 @@ function renderWiringStatus() {
         `${marketPacket.market_scope} • ${marketPacket.alerts.length} alerts live.`
       ),
       createWiringMetricCard(
+        "Document intelligence",
+        documentPacket.release_status,
+        `${documentPacket.governed_documents.length} documents • ${documentPacket.anomaly_signals.length} anomaly signals traced.`
+      ),
+      createWiringMetricCard(
         "Conversational copilot",
         `${copilotPacket.roles.length} roles`,
         `${copilotPacket.active_role.replace(/_/g, " ")} active • ${copilotPacket.guardrails.length} guardrails traced.`
@@ -1285,7 +1362,7 @@ function renderWiringStatus() {
   wiringCardGrid.innerHTML = [
     createWiringMetricCard("Property decision", "Local prototype", "Frontend ranking and explainability remain interactive while the backend snapshot is unavailable."),
     createWiringMetricCard("Transaction decision", "Local prototype", "Deal controls, stage tracking, and workflow evidence are still rendered from browser-side defaults."),
-    createWiringMetricCard("Specialized engines", "Awaiting sync", "Residency, insurance, payments, integration routing, digital twin simulation, predictive market signals, and conversational copilot roles will promote backend statuses when the snapshot loads.")
+    createWiringMetricCard("Specialized engines", "Awaiting sync", "Residency, insurance, payments, integration routing, digital twin simulation, predictive market signals, document intelligence, and conversational copilot roles will promote backend statuses when the snapshot loads.")
   ].join("");
 }
 
@@ -3149,6 +3226,137 @@ function renderMarketIntelligenceEngine() {
 }
 
 
+function getDocumentIntelligenceScenario() {
+  return documentIntelligenceProfiles[state.activeJourney];
+}
+
+function renderDocumentIntelligenceEngine() {
+  const backend = getBackendSync();
+
+  if (backend?.documentIntelligence) {
+    const packet = backend.documentIntelligence;
+    documentProgramTitle.textContent = packet.portfolio_name;
+    documentStatusPill.textContent = packet.release_status;
+    documentStatusPill.dataset.status = packet.release_status.toLowerCase().replace(/\s+/g, "-");
+    documentSummary.textContent = `${packet.simplified_summary} ${packet.reasoning_summary}`;
+    documentPortfolioName.textContent = packet.portfolio_name;
+    documentCount.textContent = `${packet.governed_documents.length} governed docs`;
+    documentAnomalySummary.textContent = `${packet.anomaly_signals.length} anomaly signals`;
+    documentAuditSummary.textContent = `${packet.audit_records.length} audit events`;
+
+    documentInsightList.innerHTML = packet.frontend_insights
+      .map((item, index) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>Insight ${index + 1}</strong>
+            <span>Frontend-safe</span>
+          </div>
+          <p>${item}</p>
+        </div>
+      `)
+      .join("");
+
+    documentValidationList.innerHTML = [
+      ...packet.extracted_fields.map((item) => ({
+        title: `${item.field_name.replace(/_/g, " ")}`,
+        status: `${Math.round(item.confidence * 100)}/100 confidence`,
+        detail: `${item.field_value} • Normalized ${item.normalized_value}. ${item.rationale}`
+      })),
+      ...packet.validation_checks.map((item) => ({
+        title: item.check_name,
+        status: `${item.status} • ${item.severity}`,
+        detail: item.detail
+      }))
+    ]
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.title}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join("");
+
+    documentGovernanceList.innerHTML = [
+      ...packet.anomaly_signals.map((item) => ({
+        title: item.signal,
+        status: item.severity,
+        detail: `${item.detail} ${item.recommended_action}`
+      })),
+      ...packet.compliance_findings.map((item) => ({
+        title: `${item.framework} • ${item.control}`,
+        status: item.status,
+        detail: item.detail
+      })),
+      ...packet.audit_records.map((item) => ({
+        title: `${item.event.replace(/_/g, " ")}`,
+        status: item.actor,
+        detail: item.detail
+      }))
+    ]
+      .map((item) => `
+        <div class="stack-item">
+          <div class="recommendation-topline">
+            <strong>${item.title}</strong>
+            <span>${item.status}</span>
+          </div>
+          <p>${item.detail}</p>
+        </div>
+      `)
+      .join("");
+    return;
+  }
+
+  const local = getDocumentIntelligenceScenario();
+  documentProgramTitle.textContent = local.portfolioName;
+  documentStatusPill.textContent = local.status;
+  documentStatusPill.dataset.status = "active";
+  documentSummary.textContent = local.summary;
+  documentPortfolioName.textContent = local.portfolioName;
+  documentCount.textContent = `${local.documents} governed docs`;
+  documentAnomalySummary.textContent = "Medium review";
+  documentAuditSummary.textContent = "4 audit events";
+
+  documentInsightList.innerHTML = local.insights
+    .map((item, index) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>Insight ${index + 1}</strong>
+          <span>Frontend-safe</span>
+        </div>
+        <p>${item}</p>
+      </div>
+    `)
+    .join("");
+
+  documentValidationList.innerHTML = local.validation
+    .map((item, index) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>Validation ${index + 1}</strong>
+          <span>Explainable check</span>
+        </div>
+        <p>${item}</p>
+      </div>
+    `)
+    .join("");
+
+  documentGovernanceList.innerHTML = local.governance
+    .map((item, index) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>Governance ${index + 1}</strong>
+          <span>Backend control</span>
+        </div>
+        <p>${item}</p>
+      </div>
+    `)
+    .join("");
+}
+
+
 function renderNextActions(journey, topCandidate) {
   const backend = getBackendSync();
   if (backend) {
@@ -3224,7 +3432,7 @@ function renderJourney() {
         `Detected intents: ${backend.property.detected_intents.join(", ")}.`,
         `Top recommendation: ${backendTopCandidate.title} in ${backendTopCandidate.geography}.`,
         `Transaction release is ${backend.transaction.release_status} with ${backend.transaction.compliance_controls.length} tracked controls.`,
-        `Residency, insurance, payment, integration, digital twin, market intelligence, and tokenization design surfaces rendered from backend packets or governed frontend content.`
+        `Residency, insurance, payment, integration, digital twin, market intelligence, document intelligence, and tokenization design surfaces rendered from backend packets or governed frontend content.`
       ]
         .map((item) => `<li>${item}</li>`)
         .join("")
@@ -3252,6 +3460,7 @@ function renderJourney() {
   renderDealBoard();
   renderDigitalTwinEngine();
   renderMarketIntelligenceEngine();
+  renderDocumentIntelligenceEngine();
   renderResidencyEngine();
   renderInsuranceEngine();
   renderPaymentEngine();
