@@ -832,6 +832,46 @@ class ComplianceGraphPacket:
 
 
 @dataclass(frozen=True)
+class TrustEntityScore:
+    entity_id: str
+    entity_type: str
+    display_name: str
+    trust_score: float
+    reputation_score: float
+    risk_score: float
+    trust_band: str
+    verification_status: str
+    monitoring_status: str
+    historical_factors: Sequence[str]
+    key_drivers: Sequence[str]
+    frontend_signals: Sequence[str]
+
+
+@dataclass(frozen=True)
+class TrustRiskIndicator:
+    indicator: str
+    severity: str
+    source: str
+    detail: str
+    related_entities: Sequence[str]
+
+
+@dataclass(frozen=True)
+class TrustReputationPacket:
+    request_id: str
+    network_status: str
+    entities: Sequence[TrustEntityScore]
+    risk_indicators: Sequence[TrustRiskIndicator]
+    frontend_signals: Sequence[str]
+    ai_monitoring_summary: str
+    compliance_summary: str
+    recommended_actions: Sequence[str]
+    explanation: str
+    standards_alignment: Sequence[str]
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+
+@dataclass(frozen=True)
 class CopilotRoleSummary:
     role_key: str
     title: str
@@ -2378,6 +2418,310 @@ def evaluate_compliance_graph(
             "KYC/AML/sanctions",
         ),
     )
+
+
+def _band_from_score(score: float) -> str:
+    if score >= 0.82:
+        return "high"
+    if score >= 0.64:
+        return "moderate"
+    return "watch"
+
+
+def evaluate_trust_reputation_network(
+    profile: UserProfile,
+    identity: IdentityContext,
+    context: RequestContext,
+    transaction: TransactionCase,
+    payment: PaymentDecisionPacket,
+    document_packet: DocumentIntelligencePacket,
+    compliance_graph: ComplianceGraphPacket,
+) -> TrustReputationPacket:
+    verified_docs = sum(1 for doc in transaction.requested_documents if doc.status == "validated")
+    total_docs = len(transaction.requested_documents) or 1
+    document_issue_count = sum(len(doc.issues) for doc in transaction.requested_documents)
+    anomaly_weight = sum(0.12 if signal.severity == "high" else 0.07 for signal in document_packet.anomaly_signals)
+    review_domains = sum(1 for domain in compliance_graph.domains if domain.workflow_status == "review")
+    approval_completion = sum(stage.completion for stage in transaction.workflow_stages) / (len(transaction.workflow_stages) or 1)
+    broker_owned_reviews = sum(1 for doc in transaction.requested_documents if doc.owner == "Broker" and doc.status != "validated")
+
+    user_trust = max(
+        0.25,
+        min(
+            0.98,
+            0.58
+            + (0.12 if identity.mfa_completed else -0.08)
+            + (0.11 if identity.kyc_status == "approved" else -0.12)
+            + (0.05 if context.has_verified_identity else -0.10)
+            + (0.04 if identity.aml_risk == "low" else 0.0 if identity.aml_risk == "medium" else -0.12)
+            + (0.05 if identity.sanctions_status == "clear" else -0.30),
+        ),
+    )
+    user_reputation = max(
+        0.30,
+        min(
+            0.97,
+            0.55
+            + (0.10 if context.has_consent else -0.06)
+            + (0.08 if context.channel == "web" else 0.03)
+            + (0.05 if "personalization" in identity.consent_scope else 0.0)
+            + (0.04 if profile.risk_tolerance in {"balanced", "moderate"} else 0.0),
+        ),
+    )
+    user_risk = max(0.05, min(0.92, 1.0 - ((user_trust * 0.6) + (user_reputation * 0.4))))
+
+    property_trust = max(
+        0.22,
+        min(
+            0.95,
+            0.48
+            + (verified_docs / total_docs) * 0.22
+            - document_issue_count * 0.04
+            - anomaly_weight
+            - (0.08 if context.climate_risk in {"high", "severe"} else 0.03 if context.climate_risk == "medium" else 0.0)
+            - (0.05 if context.market_volatility == "high" else 0.0),
+        ),
+    )
+    property_reputation = max(
+        0.25,
+        min(
+            0.94,
+            0.46
+            + (0.15 if document_packet.release_status == "review_required" else 0.08)
+            + (0.07 if transaction.counterparty_risk == "medium" else 0.0 if transaction.counterparty_risk == "low" else -0.08)
+            + (0.05 if compliance_graph.overall_status == "active" else -0.05),
+        ),
+    )
+    property_risk = max(0.08, min(0.96, 1.0 - ((property_trust * 0.65) + (property_reputation * 0.35))))
+
+    broker_trust = max(
+        0.20,
+        min(
+            0.94,
+            0.52
+            + approval_completion * 0.16
+            - broker_owned_reviews * 0.08
+            - (0.06 if transaction.stage in {"document_validation", "approval"} else 0.0)
+            + (0.05 if review_domains <= 1 else -0.04),
+        ),
+    )
+    broker_reputation = max(
+        0.24,
+        min(
+            0.95,
+            0.5
+            + (0.12 if transaction.urgency_days >= 21 else 0.05)
+            + (0.08 if transaction.seller_motivation in {"measured", "flexible"} else 0.0)
+            - document_issue_count * 0.03,
+        ),
+    )
+    broker_risk = max(0.08, min(0.95, 1.0 - ((broker_trust * 0.55) + (broker_reputation * 0.45))))
+
+    transaction_trust = max(
+        0.18,
+        min(
+            0.93,
+            0.50
+            + approval_completion * 0.14
+            - payment.fraud_probability * 0.22
+            - anomaly_weight
+            - review_domains * 0.05,
+        ),
+    )
+    transaction_reputation = max(
+        0.22,
+        min(
+            0.94,
+            0.49
+            + (0.12 if payment.escrow_status == "ready" else 0.03)
+            + (0.08 if payment.release_status in {"released", "review"} else -0.08)
+            + (0.06 if compliance_graph.overall_status == "active" else -0.06),
+        ),
+    )
+    transaction_risk = max(0.10, min(0.98, 1.0 - ((transaction_trust * 0.6) + (transaction_reputation * 0.4))))
+
+    entities = (
+        TrustEntityScore(
+            entity_id=identity.subject_id,
+            entity_type="user",
+            display_name=f"{profile.role.title()} profile",
+            trust_score=round(user_trust, 2),
+            reputation_score=round(user_reputation, 2),
+            risk_score=round(user_risk, 2),
+            trust_band=_band_from_score(user_trust),
+            verification_status="verified" if identity.kyc_status == "approved" and identity.sanctions_status == "clear" else "review",
+            monitoring_status="continuous",
+            historical_factors=(
+                "Identity is bound to an authenticated subject with MFA.",
+                "Consent scope includes personalization and evidence retention.",
+                f"AML posture is {identity.aml_risk} with sanctions status '{identity.sanctions_status}'.",
+            ),
+            key_drivers=(
+                "KYC outcome",
+                "MFA completion",
+                "Consent scope",
+                "AML/sanctions posture",
+            ),
+            frontend_signals=(
+                "Verified identity badge",
+                "Trust band chip",
+                "Explainable compliance tooltip",
+            ),
+        ),
+        TrustEntityScore(
+            entity_id=transaction.transaction_id + "-property",
+            entity_type="property",
+            display_name=transaction.deal_name,
+            trust_score=round(property_trust, 2),
+            reputation_score=round(property_reputation, 2),
+            risk_score=round(property_risk, 2),
+            trust_band=_band_from_score(property_trust),
+            verification_status="document_review" if document_issue_count else "verified",
+            monitoring_status="event_driven",
+            historical_factors=(
+                f"{verified_docs}/{total_docs} requested documents are currently validated.",
+                f"{len(document_packet.anomaly_signals)} document anomaly signals were raised by the AI review pipeline.",
+                f"Climate risk is '{context.climate_risk}' and market volatility is '{context.market_volatility}'.",
+            ),
+            key_drivers=(
+                "Document validation history",
+                "Anomaly detection",
+                "Climate and market risk",
+                "Counterparty posture",
+            ),
+            frontend_signals=(
+                "Property trust meter",
+                "Document verification banner",
+                "Risk disclosure card",
+            ),
+        ),
+        TrustEntityScore(
+            entity_id="broker-of-record",
+            entity_type="broker",
+            display_name="Broker of record",
+            trust_score=round(broker_trust, 2),
+            reputation_score=round(broker_reputation, 2),
+            risk_score=round(broker_risk, 2),
+            trust_band=_band_from_score(broker_trust),
+            verification_status="supervised",
+            monitoring_status="workflow_bound",
+            historical_factors=(
+                f"Average workflow completion is {approval_completion:.0%} across {len(transaction.workflow_stages)} tracked stages.",
+                f"Broker-owned review items currently total {broker_owned_reviews}.",
+                "Audit and segregation-of-duties checks remain attached to approval stages.",
+            ),
+            key_drivers=(
+                "Workflow completion history",
+                "Document stewardship backlog",
+                "Approval-control adherence",
+                "Operational urgency",
+            ),
+            frontend_signals=(
+                "Broker reputation badge",
+                "Response quality label",
+                "Escalation availability status",
+            ),
+        ),
+        TrustEntityScore(
+            entity_id=transaction.transaction_id,
+            entity_type="transaction",
+            display_name=f"{transaction.deal_name} transaction",
+            trust_score=round(transaction_trust, 2),
+            reputation_score=round(transaction_reputation, 2),
+            risk_score=round(transaction_risk, 2),
+            trust_band=_band_from_score(transaction_trust),
+            verification_status="ready" if payment.release_status == "released" else "review",
+            monitoring_status="continuous_ai_and_compliance",
+            historical_factors=(
+                f"Payment fraud probability is {payment.fraud_probability:.2f} with escrow status '{payment.escrow_status}'.",
+                f"{review_domains} compliance domains are currently in review state.",
+                f"Transaction stage is '{transaction.stage}' with release status '{payment.release_status}'.",
+            ),
+            key_drivers=(
+                "Payment and escrow history",
+                "Compliance graph posture",
+                "Document anomaly load",
+                "Stage progression integrity",
+            ),
+            frontend_signals=(
+                "Closing trust status",
+                "Settlement readiness chip",
+                "Continuous monitoring indicator",
+            ),
+        ),
+    )
+
+    risk_indicators = (
+        TrustRiskIndicator(
+            indicator="document_anomaly_pressure",
+            severity="high" if anomaly_weight >= 0.12 else "medium",
+            source="document_intelligence_expert",
+            detail="AI document review detected anomalies or missing evidence that should keep property and transaction trust signals in a monitored state.",
+            related_entities=("property", "transaction", "broker"),
+        ),
+        TrustRiskIndicator(
+            indicator="payment_and_settlement_risk",
+            severity="high" if payment.fraud_probability >= 0.55 else "medium" if payment.fraud_probability >= 0.35 else "low",
+            source="payment_intelligence",
+            detail="Fraud probability, device trust, and escrow readiness continuously adjust transaction trust and release gating.",
+            related_entities=("user", "transaction"),
+        ),
+        TrustRiskIndicator(
+            indicator="jurisdictional_compliance_review",
+            severity="high" if compliance_graph.overall_status == "review" else "medium",
+            source="compliance_graph",
+            detail="Jurisdiction-aware policy reviews feed the trust network so frontend badges stay aligned with backend compliance state.",
+            related_entities=("property", "broker", "transaction"),
+        ),
+    )
+
+    frontend_signals = (
+        "Expose user, property, broker, and transaction trust bands with drill-down explanations.",
+        "Render verification badges only when backend verification_status is verified, ready, or supervised.",
+        "Show live risk chips for document review, payment review, and compliance review without exposing sensitive evidence.",
+        "Let users expand 'Why this trust score?' panels sourced from key drivers and historical factors.",
+    )
+    recommended_actions = (
+        "Re-run trust scoring whenever document validation, payment review, or compliance graph status changes.",
+        "Escalate broker and transaction entities to human review when risk_score exceeds 0.45 or any high severity risk indicator appears.",
+        "Persist score history for trend analysis so the network reflects longitudinal behavior, not only the latest session snapshot.",
+    )
+
+    network_status = "review" if any(entity.risk_score >= 0.4 for entity in entities) or compliance_graph.overall_status == "review" else "stable"
+    ai_monitoring_summary = (
+        f"AI monitoring correlates document anomalies ({len(document_packet.anomaly_signals)}), payment fraud probability ({payment.fraud_probability:.2f}), "
+        f"and {review_domains} reviewed compliance domains into a network status of '{network_status}'."
+    )
+    compliance_summary = (
+        f"Trust scoring remains bound to KYC='{identity.kyc_status}', AML='{identity.aml_risk}', sanctions='{identity.sanctions_status}', "
+        f"privacy tier '{identity.privacy_tier}', and compliance graph status '{compliance_graph.overall_status}'."
+    )
+    explanation = (
+        "The trust, reputation, and risk scoring network synthesizes historical workflow behavior, verification posture, AI monitoring, AI anomaly detection, "
+        "payment and escrow intelligence, and jurisdiction-aware compliance reviews into explainable scores for the user, property, broker, and transaction. "
+        "Frontend trust signals stay lightweight and understandable, while backend services keep the authoritative monitoring, rescoring, and release gating."
+    )
+
+    return TrustReputationPacket(
+        request_id=f"trn-{uuid.uuid4().hex[:8]}",
+        network_status=network_status,
+        entities=entities,
+        risk_indicators=risk_indicators,
+        frontend_signals=frontend_signals,
+        ai_monitoring_summary=ai_monitoring_summary,
+        compliance_summary=compliance_summary,
+        recommended_actions=recommended_actions,
+        explanation=explanation,
+        standards_alignment=(
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "ISO 31000",
+            "KYC/AML/sanctions",
+            "SOC 2 Type 2",
+        ),
+    )
+
 
 
 def _build_digital_twin_scenario(
@@ -4334,6 +4678,15 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         insurance_packet,
         residency_packet,
     )
+    trust_reputation_packet = evaluate_trust_reputation_network(
+        profile,
+        identity,
+        context,
+        transaction,
+        payment_packet,
+        document_intelligence_packet,
+        compliance_graph_packet,
+    )
     tokenization_packet = evaluate_tokenization(
         profile,
         identity,
@@ -4365,6 +4718,7 @@ def build_demo_payloads(journey_key: str = "investor") -> Dict[str, object]:
         "digital_twin_decision": asdict(digital_twin_packet),
         "market_intelligence_decision": asdict(market_intelligence_packet),
         "document_intelligence_decision": asdict(document_intelligence_packet),
+        "trust_reputation_decision": asdict(trust_reputation_packet),
         "tokenization_decision": asdict(tokenization_packet),
         "copilot_decision": asdict(copilot_packet),
     }

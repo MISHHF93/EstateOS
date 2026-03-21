@@ -40,6 +40,25 @@ class OrchestrationPayloadTests(unittest.TestCase):
         self.assertIn("residency", packet["graph_summary"])
         self.assertIn(packet["overall_status"], {"active", "review"})
 
+    def test_build_demo_payloads_includes_trust_reputation_packet(self):
+        payload = orchestration.build_demo_payloads("buyer")
+
+        self.assertIn("trust_reputation_decision", payload)
+        packet = payload["trust_reputation_decision"]
+        entity_types = {item["entity_type"] for item in packet["entities"]}
+        self.assertEqual(entity_types, {"user", "property", "broker", "transaction"})
+        self.assertIn(packet["network_status"], {"stable", "review"})
+        self.assertGreaterEqual(len(packet["risk_indicators"]), 3)
+
+    def test_trust_reputation_packet_explains_ai_and_compliance_monitoring(self):
+        payload = orchestration.build_demo_payloads("investor")
+        packet = payload["trust_reputation_decision"]
+
+        self.assertIn("AI monitoring", packet["explanation"])
+        self.assertIn("compliance", packet["compliance_summary"])
+        self.assertTrue(any("trust" in signal.lower() for signal in packet["frontend_signals"]))
+
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -268,6 +268,18 @@ def build_checks() -> list[CheckResult]:
                 "traceability matrix ties each major blueprint requirement to concrete repository evidence and current-state caveats",
             ),
             require_text(
+                "docs/trust-reputation-risk-scoring-network.md",
+                [
+                    "assign explainable trust scores to users, properties, brokers, and transactions",
+                    "historical behavior",
+                    "verification status",
+                    "live risk indicators",
+                    "frontend show clear trust signals",
+                    "backend, where AI monitoring, compliance controls, and continuous re-scoring remain enforced",
+                ],
+                "trust/reputation/risk scoring doc preserves the Phase 3 design for explainable entity trust and continuous backend monitoring",
+            ),
+            require_text(
                 "docs/current-state-alignment-audit.md",
                 [
                     "yes at the repository-governance and reference-implementation level",
@@ -353,6 +365,9 @@ def build_checks() -> list[CheckResult]:
                     "Microsoft Entra External ID",
                     "IdentityTrustContext",
                     "DecisionRelease",
+                    "TrustReputationDecision",
+                    "TrustEntityScore",
+                    "/v1/trust/reputation/score",
                 ],
                 "API contract preserves Azure-native and trust-context expectations",
             ),

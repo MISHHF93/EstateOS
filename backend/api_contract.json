@@ -704,6 +704,47 @@
         "standards_alignment"
       ]
     },
+    "TrustReputationDecision": {
+      "type": "object",
+      "required": [
+        "network_status",
+        "entities",
+        "risk_indicators",
+        "frontend_signals",
+        "ai_monitoring_summary",
+        "compliance_summary",
+        "recommended_actions",
+        "explanation",
+        "standards_alignment"
+      ]
+    },
+    "TrustRiskIndicator": {
+      "type": "object",
+      "required": [
+        "indicator",
+        "severity",
+        "source",
+        "detail",
+        "related_entities"
+      ]
+    },
+    "TrustEntityScore": {
+      "type": "object",
+      "required": [
+        "entity_id",
+        "entity_type",
+        "display_name",
+        "trust_score",
+        "reputation_score",
+        "risk_score",
+        "trust_band",
+        "verification_status",
+        "monitoring_status",
+        "historical_factors",
+        "key_drivers",
+        "frontend_signals"
+      ]
+    },
     "TokenizationAsset": {
       "type": "object",
       "required": [
@@ -819,6 +860,19 @@
         "privacy tier enforcement",
         "audit logging for each response turn",
         "compliance-gated response shaping"
+      ]
+    },
+    {
+      "path": "/v1/trust/reputation/score",
+      "method": "POST",
+      "purpose": "Score user, property, broker, and transaction trust using historical behavior, verification posture, AI risk indicators, and compliance graph data so the frontend can render trust signals while the backend continuously re-evaluates risk.",
+      "controls": [
+        "entity-level explainability payload",
+        "continuous rescoring trigger policy",
+        "KYC/AML and sanctions context binding",
+        "privacy-tier aware signal redaction",
+        "human-review escalation thresholds",
+        "auditable score history ledger"
       ]
     },
     {
