@@ -217,6 +217,20 @@ def build_checks() -> list[CheckResult]:
                 "architecture doc preserves the requested layered UX, control-plane, data-platform, and governance requirements",
             ),
             require_text(
+                "docs/production-platform-blueprint.md",
+                [
+                    "Next.js + React + TypeScript",
+                    "Python FastAPI",
+                    "Relational schema baseline",
+                    "ai.request.routed",
+                    "Azure API Management",
+                    "ISO/IEC 42001",
+                    "ISO/IEC 5259",
+                    "ACORD-oriented insurance interoperability",
+                ],
+                "production blueprint captures the modular full-stack architecture, schema baseline, AI lifecycle, and governance posture",
+            ),
+            require_text(
                 "docs/platform-manifest.md",
                 [
                     "property discovery and maps",
@@ -254,6 +268,15 @@ def build_checks() -> list[CheckResult]:
                     "incident response",
                 ],
                 "compliance mapping preserves the required governance posture",
+            ),
+            require_text(
+                "backend/README.md",
+                [
+                    "FastAPI modular-monolith scaffold",
+                    "recommendation, valuation, ROI, residency, insurance, fraud, compliance, document intelligence, personalization, and market forecasting",
+                    "Service Bus-style async/event seams",
+                ],
+                "backend README captures the broadened modular-monolith and MoE responsibilities",
             ),
             require_text(
                 "docs/blueprint-traceability-matrix.md",

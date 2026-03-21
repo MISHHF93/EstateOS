@@ -40,6 +40,7 @@ The target platform follows six major layers:
    - PCI DSS, SOC 2 Type 2, ACORD/NAIC-aligned workflows, KYC/AML/sanctions/PEP.
 
 Detailed architecture guidance lives in `docs/architecture.md`, the exact source-of-truth blueprint now lives in `docs/authoritative-blueprint.md`, and the repository migration rules now live in `docs/repository-transition.md`.
+`docs/production-platform-blueprint.md` now adds the production-grade implementation contract covering the modular full-stack architecture, relational schema baseline, REST API surface, event-driven lifecycle, Azure deployment, and MoE governance model.
 A repo-wide alignment checklist now lives in `docs/blueprint-alignment.md` so contributors can quickly validate that new work still matches the locked MoE real estate platform direction. `docs/platform-manifest.md` adds a concise implementation-facing contract that maps the authoritative blueprint to repository guardrails and delivery phases.
 `docs/architecture-scorecard.md` adds a direct alignment verdict and an acceptance checklist that contributors can use to verify that new work still abides by the requested platform architecture. `docs/current-state-alignment-audit.md` now captures the more exact current-state answer: EstateOS abides to the blueprint as a governed scaffold/reference implementation, not yet as a fully delivered production platform.
 `docs/blueprint-traceability-matrix.md` adds a requirement-by-requirement traceability view so contributors can map each major blueprint demand to concrete repository evidence and current implementation nuance.
@@ -76,6 +77,7 @@ This repository is still a **reference implementation + architecture blueprint**
 
 - document the authoritative target architecture,
 - provide a lightweight Python orchestration reference in `backend/orchestration.py`,
+- provide a FastAPI modular-monolith scaffold with explainable MoE routing, event contracts, and relational entity models in `backend/app/`,
 - provide a visual product-direction prototype in `frontend/`, and
 - scaffold the canonical monorepo roots in `apps/`, `services/`, `experts/`, `packages/`, and `infra/` so implementation work can land in the correct target locations.
 
