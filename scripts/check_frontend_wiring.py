@@ -28,6 +28,7 @@ REQUIRED_DECISION_KEYS = {
     "insurance_decision",
     "integration_decision",
     "residency_decision",
+    "compliance_graph_decision",
     "digital_twin_decision",
     "market_intelligence_decision",
     "document_intelligence_decision",

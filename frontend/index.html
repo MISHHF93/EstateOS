@@ -1120,22 +1120,62 @@
             <span>KYC/AML</span>
             <span>Sanctions</span>
           </div>
-          <div class="decision-card">
-            <h3>Identity release gate</h3>
-            <p>Decisions are published only after privacy minimization, RBAC, MFA, AML/KYC validation, sanctions screening, payment tokenization checks, continuous audit logging, and cross-workflow risk-threshold review.</p>
-          </div>
-          <div class="decision-card">
-            <h3>Audit evidence</h3>
-            <p>Every recommendation, payment event, insurance action, residency milestone, and deal-stage transition captures profile signals, token references, models consulted, document hashes, policy versions, confidence, risk scores, and time-stamped approvals.</p>
-          </div>
-          <div class="decision-card">
-            <h3>AI governance</h3>
-            <p>ISO/IEC 5259 data-quality controls and ISO/IEC 42001 AI-management controls govern valuation, ranking fairness, explainability, and human oversight.</p>
-          </div>
-          <div class="decision-card">
-            <h3>Resilience</h3>
-            <p>Active-active services, fallback experts, retriable workflows, immutable event logs, and reconciliation replay support business continuity aligned to ISO 22301.</p>
-          </div>
+          <article class="decision-card compliance-card compliance-card--primary">
+            <div class="card-heading">
+              <div>
+                <p class="eyebrow">Global compliance graph</p>
+                <h3 id="compliance-graph-title">Regulatory intelligence graph</h3>
+              </div>
+              <span class="status-pill" id="compliance-graph-status">Active</span>
+            </div>
+            <p id="compliance-graph-summary" class="helper-copy"></p>
+            <div class="metric-grid">
+              <div class="metric-item">
+                <span>Graph version</span>
+                <strong id="compliance-graph-version"></strong>
+              </div>
+              <div class="metric-item">
+                <span>Jurisdictions</span>
+                <strong id="compliance-graph-jurisdictions"></strong>
+              </div>
+            </div>
+          </article>
+          <article class="decision-card compliance-card">
+            <div class="card-heading">
+              <div>
+                <p class="eyebrow">Domain nodes</p>
+                <h3>Real estate, payments, insurance, and residency</h3>
+              </div>
+            </div>
+            <div id="compliance-domain-list" class="stack-list"></div>
+          </article>
+          <article class="decision-card compliance-card">
+            <div class="card-heading">
+              <div>
+                <p class="eyebrow">Workflow adaptations</p>
+                <h3>Dynamic backend and frontend policy behavior</h3>
+              </div>
+            </div>
+            <div id="compliance-adaptation-list" class="stack-list"></div>
+          </article>
+          <article class="decision-card compliance-card">
+            <div class="card-heading">
+              <div>
+                <p class="eyebrow">Regulatory change watch</p>
+                <h3>Continuous monitoring for evolving rules</h3>
+              </div>
+            </div>
+            <div id="compliance-change-list" class="stack-list"></div>
+          </article>
+          <article class="decision-card compliance-card">
+            <div class="card-heading">
+              <div>
+                <p class="eyebrow">Transparent guidance</p>
+                <h3>User disclosures and operator controls</h3>
+              </div>
+            </div>
+            <div id="compliance-transparency-list" class="stack-list"></div>
+          </article>
         </div>
       </section>
 

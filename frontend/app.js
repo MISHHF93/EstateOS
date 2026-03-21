@@ -1136,6 +1136,15 @@ const privacySummary = document.getElementById("privacy-summary");
 const ruleCheckList = document.getElementById("rule-check-list");
 const documentCheckList = document.getElementById("document-check-list");
 const complianceWorkflowList = document.getElementById("compliance-workflow-list");
+const complianceGraphTitle = document.getElementById("compliance-graph-title");
+const complianceGraphStatus = document.getElementById("compliance-graph-status");
+const complianceGraphSummary = document.getElementById("compliance-graph-summary");
+const complianceGraphVersion = document.getElementById("compliance-graph-version");
+const complianceGraphJurisdictions = document.getElementById("compliance-graph-jurisdictions");
+const complianceDomainList = document.getElementById("compliance-domain-list");
+const complianceAdaptationList = document.getElementById("compliance-adaptation-list");
+const complianceChangeList = document.getElementById("compliance-change-list");
+const complianceTransparencyList = document.getElementById("compliance-transparency-list");
 const insuranceProgramTitle = document.getElementById("insurance-program-title");
 const insuranceStatusPill = document.getElementById("insurance-status-pill");
 const insuranceSummary = document.getElementById("insurance-summary");
@@ -1252,6 +1261,7 @@ function getBackendSync() {
     insurance: packets.insurance_decision,
     integration: packets.integration_decision,
     residency: packets.residency_decision,
+    complianceGraph: packets.compliance_graph_decision,
     digitalTwin: packets.digital_twin_decision,
     marketIntelligence: packets.market_intelligence_decision,
     documentIntelligence: packets.document_intelligence_decision,
@@ -1288,6 +1298,7 @@ function renderWiringStatus() {
     const insurancePacket = packets.insurance_decision;
     const integrationPacket = packets.integration_decision;
     const residencyPacket = packets.residency_decision;
+    const complianceGraphPacket = packets.compliance_graph_decision;
     const digitalTwinPacket = packets.digital_twin_decision;
     const marketPacket = packets.market_intelligence_decision;
     const documentPacket = packets.document_intelligence_decision;
@@ -1322,6 +1333,11 @@ function renderWiringStatus() {
         "Residency decision",
         residencyPacket.eligibility_status,
         `${Math.round(residencyPacket.eligibility_score * 100)}/100 eligibility • ${residencyPacket.jurisdiction}.`
+      ),
+      createWiringMetricCard(
+        "Compliance graph",
+        complianceGraphPacket.overall_status,
+        `${complianceGraphPacket.domains.length} domains • ${complianceGraphPacket.operating_jurisdictions.join(" → ")}.`
       ),
       createWiringMetricCard(
         "Integration routing",
@@ -2826,6 +2842,205 @@ function renderPaymentEngine() {
     .join("");
 }
 
+function buildComplianceGraphFallback() {
+  const residency = evaluateResidencyProgram();
+  const payment = getPaymentScenario();
+  const insurance = getInsuranceScenario();
+  const activeJurisdictions = ["United States", state.jurisdiction].filter((value, index, array) => array.indexOf(value) === index);
+  const overallStatus = payment.fraudProbability >= 0.55 || residency.status !== "Eligible" ? "review" : "active";
+
+  return {
+    graph_version: "prototype-local",
+    overall_status: overallStatus,
+    graph_summary: `The local compliance graph keeps ${activeJurisdictions.join(" → ")} workflows aligned across real estate, payments, insurance, and residency. It adapts release guidance when payment risk, document readiness, or eligibility thresholds change so users understand why a workflow is ready, reviewable, or blocked.`,
+    operating_jurisdictions: activeJurisdictions,
+    domains: [
+      {
+        domain: "real_estate",
+        jurisdiction: state.jurisdiction,
+        workflow_status: state.financing ? "review" : "active",
+        regulatory_authorities: ["Transaction counsel", "Municipal registry"],
+        guidance_summary: "Property release logic keeps disclosure, financing, and closing-sequence checks visible before the user can move forward.",
+        evidence_refs: ["deal controls", "document validation", "release gate"]
+      },
+      {
+        domain: "payments",
+        jurisdiction: "United States",
+        workflow_status: payment.status === "Release ready" ? "active" : "review",
+        regulatory_authorities: ["Escrow operations", "PSP risk desk"],
+        guidance_summary: "Payment rules adapt to amount, settlement timing, device trust, and cross-border posture inside the same workflow.",
+        evidence_refs: ["fraud score", "escrow conditions", "reconciliation controls"]
+      },
+      {
+        domain: "insurance",
+        jurisdiction: state.jurisdiction,
+        workflow_status: insurance.status === "Escalate" ? "review" : "active",
+        regulatory_authorities: ["Carrier underwriting", "Privacy office"],
+        guidance_summary: "Insurance guidance stays transparent about coverage fit, payload requirements, and privacy-scoped exchange controls.",
+        evidence_refs: ["coverage stack", "ACORD payload", "NAIC privacy controls"]
+      },
+      {
+        domain: "residency",
+        jurisdiction: state.jurisdiction,
+        workflow_status: residency.status === "Eligible" ? "active" : "review",
+        regulatory_authorities: ["Immigration counsel", "Residency operations"],
+        guidance_summary: "Residency rules expose threshold checks, missing documents, and legal review requirements before filing.",
+        evidence_refs: ["eligibility score", "document checklist", "workflow steps"]
+      }
+    ],
+    workflow_adaptations: [
+      {
+        workflow: "property release",
+        status: "gated",
+        jurisdictions: [state.jurisdiction],
+        triggered_by: ["document readiness", "transaction approvals"],
+        frontend_guidance: "Show open blockers and next required evidence before offer export or closing release.",
+        backend_action: "Keep deal progression behind document and approval controls."
+      },
+      {
+        workflow: "payment release",
+        status: payment.status === "Release ready" ? "active" : "adaptive",
+        jurisdictions: activeJurisdictions,
+        triggered_by: ["fraud probability", "escrow stage", "cross-border posture"],
+        frontend_guidance: "Explain in plain language why payment can release now or needs more review.",
+        backend_action: "Raise manual-review and dual-approval requirements when risk signals worsen."
+      },
+      {
+        workflow: "insurance exchange",
+        status: insurance.status === "Escalate" ? "review" : "active",
+        jurisdictions: [state.jurisdiction],
+        triggered_by: ["property type", "occupancy", "privacy scope"],
+        frontend_guidance: "Clarify which extra coverages or documents are jurisdiction-driven rather than optional upsell.",
+        backend_action: "Shape outbound quote payloads according to consent scope and carrier expectations."
+      },
+      {
+        workflow: "residency filing",
+        status: residency.status === "Eligible" ? "ready" : "review",
+        jurisdictions: [state.jurisdiction],
+        triggered_by: ["eligibility rules", "source-of-funds evidence", "health insurance readiness"],
+        frontend_guidance: "List every threshold, missing item, and review reason before filing is attempted.",
+        backend_action: "Re-score the case whenever evidence or jurisdiction rules change."
+      }
+    ],
+    change_watch: [
+      {
+        domain: "real_estate",
+        jurisdiction: state.jurisdiction,
+        impact_level: "Medium",
+        change_summary: "Disclosure and filing templates are tracked as versioned policy artifacts.",
+        action_required: "Re-run document completeness checks when a new template is detected."
+      },
+      {
+        domain: "payments",
+        jurisdiction: "United States",
+        impact_level: payment.status === "Release ready" ? "Medium" : "High",
+        change_summary: "Cross-border and escrow release policies can tighten without requiring frontend rewrites.",
+        action_required: "Escalate manual review when geography, amount, or device trust changes."
+      },
+      {
+        domain: "insurance",
+        jurisdiction: state.jurisdiction,
+        impact_level: "Medium",
+        change_summary: "Carrier intake schemas and privacy notices stay versioned as the exchange model evolves.",
+        action_required: "Refresh payload mappings and user guidance when underwriting fields change."
+      },
+      {
+        domain: "residency",
+        jurisdiction: state.jurisdiction,
+        impact_level: residency.status === "Eligible" ? "Medium" : "High",
+        change_summary: "Residency thresholds and filing expectations are treated as a living rule graph.",
+        action_required: "Update eligibility scoring and applicant checklists when the program changes."
+      }
+    ],
+    transparency_guidance: [
+      {
+        title: "User-facing compliance guidance",
+        audience: "frontend user",
+        summary: "Users should understand which jurisdictional checks affect their workflow and what evidence is still needed.",
+        disclosures: [
+          "Show active jurisdictions and domain status.",
+          "Translate controls into blockers, watch items, and next actions.",
+          "Clearly mark policy review as a compliance hold, not an application error."
+        ]
+      },
+      {
+        title: "Backend regulatory intelligence guidance",
+        audience: "operations and services",
+        summary: "Services should consume the graph to adapt release gates, payload shaping, and human review paths.",
+        disclosures: [
+          "Version policy changes and bind them to audit evidence.",
+          "Trigger re-evaluation when regulations or user evidence change.",
+          "Limit outbound fields to the active purpose and consent scope."
+        ]
+      }
+    ]
+  };
+}
+
+function renderComplianceGraph() {
+  const backend = getBackendSync();
+  const graph = backend?.complianceGraph || buildComplianceGraphFallback();
+
+  complianceGraphTitle.textContent = `${graph.primary_jurisdiction || state.jurisdiction} regulatory intelligence graph`;
+  complianceGraphStatus.textContent = graph.overall_status;
+  complianceGraphStatus.dataset.status = String(graph.overall_status).toLowerCase().replace(/\s+/g, "-");
+  complianceGraphSummary.textContent = graph.graph_summary;
+  complianceGraphVersion.textContent = graph.graph_version;
+  complianceGraphJurisdictions.textContent = (graph.operating_jurisdictions || []).join(" → ");
+
+  complianceDomainList.innerHTML = (graph.domains || [])
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.domain.replace(/_/g, " ")}</strong>
+          <span>${item.workflow_status} • ${item.jurisdiction}</span>
+        </div>
+        <p>${item.guidance_summary}</p>
+        <small>${(item.regulatory_authorities || []).join(" • ")} • Evidence: ${(item.evidence_refs || []).join(", ")}</small>
+      </div>
+    `)
+    .join("");
+
+  complianceAdaptationList.innerHTML = (graph.workflow_adaptations || [])
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.workflow}</strong>
+          <span>${item.status}</span>
+        </div>
+        <p>${item.frontend_guidance}</p>
+        <small>Triggers • ${(item.triggered_by || []).join(", ")} • Backend • ${item.backend_action}</small>
+      </div>
+    `)
+    .join("");
+
+  complianceChangeList.innerHTML = (graph.change_watch || [])
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.domain.replace(/_/g, " ")} • ${item.jurisdiction}</strong>
+          <span>${item.impact_level}</span>
+        </div>
+        <p>${item.change_summary}</p>
+        <small>Action required • ${item.action_required}</small>
+      </div>
+    `)
+    .join("");
+
+  complianceTransparencyList.innerHTML = (graph.transparency_guidance || [])
+    .map((item) => `
+      <div class="stack-item">
+        <div class="recommendation-topline">
+          <strong>${item.title}</strong>
+          <span>${item.audience}</span>
+        </div>
+        <p>${item.summary}</p>
+        <small>${(item.disclosures || []).join(" • ")}</small>
+      </div>
+    `)
+    .join("");
+}
+
 function getIntegrationScenario() {
   const profile = integrationProfiles[state.integrationPartner];
   const releaseStatus = state.explanationDepth === "full" || state.activeJourney === "advisor" ? "Evidence ready" : state.integrationPartner === "government_registry" ? "Jurisdiction review" : "Release ready";
@@ -3462,6 +3677,7 @@ function renderJourney() {
   renderMarketIntelligenceEngine();
   renderDocumentIntelligenceEngine();
   renderResidencyEngine();
+  renderComplianceGraph();
   renderInsuranceEngine();
   renderPaymentEngine();
   renderIntegrationHub();

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at_utc": "2026-03-21T00:04:58.289177+00:00",
+    "generated_at_utc": "2026-03-21T00:14:37.232295+00:00",
     "generated_from": "backend.orchestration.build_demo_payloads",
     "normalized": true
   },
@@ -553,7 +553,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-21T00:04:58.256695+00:00"
+                "last_checked_utc": "2026-03-21T00:14:37.202495+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -568,7 +568,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-21T00:04:58.256712+00:00"
+                "last_checked_utc": "2026-03-21T00:14:37.202510+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -581,7 +581,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-21T00:04:58.256718+00:00"
+                "last_checked_utc": "2026-03-21T00:14:37.202515+00:00"
               }
             ],
             "workflow_stages": [
@@ -751,7 +751,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-da5e1172 created for Lisbon Green Quarter acquisition.",
+              "detail": "Transaction deal-890655c7 created for Lisbon Green Quarter acquisition.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -786,7 +786,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-da5e1172 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-890655c7 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -801,7 +801,7 @@
           "payment_instrument": {
             "instrument_type": "wire",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-1bc6f38115",
+            "token_reference": "tok-62e5a90aa2",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -810,18 +810,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-f8088f56",
-              "identifier": "usr-f8088f56"
+              "name": "usr-ef8a7021",
+              "identifier": "usr-ef8a7021"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-da5e1172"
+              "identifier": "deal-890655c7"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-28f998eb"
+              "identifier": "req-f0deff9b"
             }
           ],
           "fraud_probability": 0.36,
@@ -891,7 +891,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "released",
-          "explanation": "Payment deal-da5e1172 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-890655c7 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -923,8 +923,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-f8088f56",
-              "identifier": "usr-f8088f56"
+              "name": "usr-ef8a7021",
+              "identifier": "usr-ef8a7021"
             },
             {
               "role": "servicing_entity",
@@ -934,7 +934,7 @@
             {
               "role": "transaction_context",
               "name": "closing",
-              "identifier": "req-28f998eb"
+              "identifier": "req-f0deff9b"
             }
           ],
           "acord_coverages": [
@@ -1036,7 +1036,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-28f998eb.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for buyer servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-f0deff9b.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'buyer', property type 'apartment', occupancy 'owner_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -1258,6 +1258,231 @@
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
+        "compliance_graph_decision": {
+          "request_id": "demo-request",
+          "primary_jurisdiction": "Portugal",
+          "operating_jurisdictions": [
+            "Portugal",
+            "United States"
+          ],
+          "graph_version": "2026.03",
+          "overall_status": "review",
+          "graph_summary": "Compliance graph v2026.03 tracks 4 regulatory domains across 2 jurisdictions for United States \u2192 Portugal workflows. Current posture is 'review' because transaction stage is document_validation, payment risk is low, insurance release is released, and residency status is eligible_with_review. Workflow adaptations keep frontend guidance transparent while backend routing, payload shaping, and release gates remain jurisdiction-aware.",
+          "domains": [
+            {
+              "domain": "real_estate",
+              "jurisdiction": "Portugal",
+              "regulatory_authorities": [
+                "Land registry",
+                "Municipal planning office",
+                "Transaction counsel"
+              ],
+              "workflow_status": "review",
+              "guidance_summary": "Closing remains jurisdiction-aware: permit completeness, title evidence, seller disclosures, and notarization sequencing are validated before any downstream release or funds movement.",
+              "evidence_refs": [
+                "title_report",
+                "seller_disclosure_pack",
+                "closing_control_matrix"
+              ]
+            },
+            {
+              "domain": "payments",
+              "jurisdiction": "United States",
+              "regulatory_authorities": [
+                "PSP risk desk",
+                "Internal AML operations",
+                "Escrow operations"
+              ],
+              "workflow_status": "active",
+              "guidance_summary": "Payment orchestration adapts to settlement geography, escrow stage, sanctions posture, and fraud probability so release rules can tighten automatically for cross-border or high-value movement.",
+              "evidence_refs": [
+                "psp_token_reference",
+                "fraud_signal_trace",
+                "escrow_release_controls"
+              ]
+            },
+            {
+              "domain": "insurance",
+              "jurisdiction": "Portugal",
+              "regulatory_authorities": [
+                "Carrier underwriting",
+                "Privacy office",
+                "Servicing operations"
+              ],
+              "workflow_status": "review",
+              "guidance_summary": "Insurance exchange stays aligned to ACORD-style payloads, purpose-bound disclosures, and jurisdiction-specific underwriting expectations before quote, bind, or policy servicing actions are allowed.",
+              "evidence_refs": [
+                "acord_payload_bundle",
+                "underwriting_notes",
+                "privacy_scope_record"
+              ]
+            },
+            {
+              "domain": "residency",
+              "jurisdiction": "Portugal",
+              "regulatory_authorities": [
+                "Immigration counsel",
+                "Residency operations",
+                "Government filing adapter"
+              ],
+              "workflow_status": "review",
+              "guidance_summary": "Residency workflows adapt to program thresholds, supporting documents, privacy scope, and legal sign-off so applicants see transparent eligibility guidance before any filing package is assembled.",
+              "evidence_refs": [
+                "eligibility_rule_checks",
+                "document_bundle",
+                "filing_workflow_state"
+              ]
+            }
+          ],
+          "workflow_adaptations": [
+            {
+              "workflow": "property_release",
+              "status": "gated",
+              "jurisdictions": [
+                "Portugal"
+              ],
+              "triggered_by": [
+                "document completeness",
+                "jurisdiction disclosure rules",
+                "approval segregation"
+              ],
+              "frontend_guidance": "Show permit and disclosure blockers before users can export, submit an offer, or release closing instructions.",
+              "backend_action": "Keep recommendation release and transaction stage progression behind document and approval policy gates."
+            },
+            {
+              "workflow": "insurance_quote_exchange",
+              "status": "adaptive",
+              "jurisdictions": [
+                "Portugal"
+              ],
+              "triggered_by": [
+                "occupancy profile",
+                "privacy tier",
+                "carrier payload requirements"
+              ],
+              "frontend_guidance": "Explain why certain coverages, exclusions, or extra documents are required in the selected jurisdiction.",
+              "backend_action": "Transform quote requests into ACORD-compatible payloads and suppress fields outside consent scope."
+            },
+            {
+              "workflow": "payment_release",
+              "status": "adaptive",
+              "jurisdictions": [
+                "United States",
+                "Portugal"
+              ],
+              "triggered_by": [
+                "fraud probability",
+                "cross-border status",
+                "escrow milestone readiness"
+              ],
+              "frontend_guidance": "Surface payment risk, approval state, and escrow readiness in plain language before funds move.",
+              "backend_action": "Escalate to manual review or dual approval when geography, amount, or fraud signals exceed threshold."
+            },
+            {
+              "workflow": "residency_filing",
+              "status": "gated",
+              "jurisdictions": [
+                "Portugal"
+              ],
+              "triggered_by": [
+                "program thresholds",
+                "document readiness",
+                "source-of-funds evidence"
+              ],
+              "frontend_guidance": "Tell applicants exactly which eligibility checks passed, what is missing, and why counsel review is still required.",
+              "backend_action": "Assemble filing packets only when required rules, KYC/AML checks, and evidence bundles are satisfied."
+            }
+          ],
+          "change_watch": [
+            {
+              "change_id": "chg-real-estate-disclosure",
+              "domain": "real_estate",
+              "jurisdiction": "Portugal",
+              "change_summary": "Disclosure packet and permit attachment versions are continuously versioned for closing-readiness checks.",
+              "effective_date": "2026-03-01",
+              "impact_level": "medium",
+              "monitored_by": [
+                "compliance_expert",
+                "document_expert",
+                "transaction_service"
+              ],
+              "action_required": "Re-run document completeness and counsel review whenever a new municipal disclosure template is detected."
+            },
+            {
+              "change_id": "chg-payments-cross-border",
+              "domain": "payments",
+              "jurisdiction": "United States",
+              "change_summary": "Cross-border escrow and sanctions controls are tracked so payment review thresholds can tighten without frontend rewrites.",
+              "effective_date": "2026-02-15",
+              "impact_level": "medium",
+              "monitored_by": [
+                "fraud_expert",
+                "payment_service",
+                "compliance_service"
+              ],
+              "action_required": "Increase manual review and beneficiary verification when risk signals or geography change."
+            },
+            {
+              "change_id": "chg-insurance-underwriting",
+              "domain": "insurance",
+              "jurisdiction": "Portugal",
+              "change_summary": "Carrier intake schemas and privacy disclosures are versioned so quote exchanges remain jurisdiction-aware.",
+              "effective_date": "2026-02-20",
+              "impact_level": "medium",
+              "monitored_by": [
+                "insurance_expert",
+                "integration_service",
+                "privacy_office"
+              ],
+              "action_required": "Refresh ACORD mappings and update user-facing guidance when underwriting fields or disclosures change."
+            },
+            {
+              "change_id": "chg-residency-program",
+              "domain": "residency",
+              "jurisdiction": "Portugal",
+              "change_summary": "Residency pathway thresholds, filing steps, and legal review requirements are monitored as a living rule set.",
+              "effective_date": "2026-03-10",
+              "impact_level": "high",
+              "monitored_by": [
+                "visa_expert",
+                "government_registry_adapter",
+                "compliance_service"
+              ],
+              "action_required": "Re-score eligibility and update the applicant checklist whenever program rules or filing requirements change."
+            }
+          ],
+          "transparency_guidance": [
+            {
+              "title": "User-facing compliance guidance",
+              "audience": "frontend user",
+              "summary": "The UI should explain which jurisdictional checks affect offers, payments, insurance requests, and residency filings without exposing sensitive evidence.",
+              "disclosures": [
+                "Show the active jurisdiction and domain-specific status for real estate, payments, insurance, and residency.",
+                "Translate controls into plain-language next steps, blockers, and required documents.",
+                "Disclose when a workflow is held for review because of policy, not product failure."
+              ]
+            },
+            {
+              "title": "Operator adaptation guidance",
+              "audience": "backend operations",
+              "summary": "Backend services should consume the graph as a policy surface that can change routing, gating, payload shaping, and human-review requirements by jurisdiction.",
+              "disclosures": [
+                "Version all rule changes and keep them linked to audit evidence.",
+                "Apply least-privilege data shaping before partner or government release.",
+                "Trigger event-driven re-evaluation when payment, residency, insurance, or property regulations evolve."
+              ]
+            }
+          ],
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "PCI DSS",
+            "ACORD",
+            "KYC/AML/sanctions"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
         "digital_twin_decision": {
           "request_id": "demo-request",
           "twin": {
@@ -1369,7 +1594,7 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Lisbon Green Quarter Apartment to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-80ecbc4c modeled Lisbon Green Quarter Apartment in Portugal using purchase price 620,000, current value 628,000, occupancy 94%, rent 3,200/mo, renovation budget 38,000, insurance premium 2,256, and hold period 7 years. Best-case equity outcome is 535,249, downside annual cash flow is -7, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-3b48631f modeled Lisbon Green Quarter Apartment in Portugal using purchase price 620,000, current value 628,000, occupancy 94%, rent 3,200/mo, renovation budget 38,000, insurance premium 2,256, and hold period 7 years. Best-case equity outcome is 535,249, downside annual cash flow is -7, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
@@ -1710,25 +1935,25 @@
               "event": "document_ingested",
               "actor": "document_intelligence_pipeline",
               "detail": "Ingested 4 governed documents for Lisbon Green Quarter acquisition.",
-              "timestamp_utc": "2026-03-21T00:04:58.258005+00:00"
+              "timestamp_utc": "2026-03-21T00:14:37.203663+00:00"
             },
             {
               "event": "field_extraction_completed",
               "actor": "document_intelligence_pipeline",
               "detail": "Extracted 4 high-value normalized fields with explainability metadata.",
-              "timestamp_utc": "2026-03-21T00:04:58.258012+00:00"
+              "timestamp_utc": "2026-03-21T00:14:37.203670+00:00"
             },
             {
               "event": "compliance_linkage_verified",
               "actor": "compliance_service",
               "detail": "Linked document packet to privacy tier confidential, consent scope, and cross-border compliance checks.",
-              "timestamp_utc": "2026-03-21T00:04:58.258017+00:00"
+              "timestamp_utc": "2026-03-21T00:14:37.203675+00:00"
             },
             {
               "event": "frontend_summary_published",
               "actor": "ai_orchestrator",
               "detail": "Released simplified insights for frontend display while preserving backend-only evidence trails and anomaly markers.",
-              "timestamp_utc": "2026-03-21T00:04:58.258022+00:00"
+              "timestamp_utc": "2026-03-21T00:14:37.203680+00:00"
             }
           ],
           "release_status": "review",
@@ -1749,7 +1974,7 @@
         "tokenization_decision": {
           "request_id": "demo-request",
           "asset": {
-            "asset_id": "asset-deal-da5e1172",
+            "asset_id": "asset-deal-890655c7",
             "property_name": "Lisbon Green Quarter Apartment Income SPV",
             "jurisdiction": "Portugal",
             "legal_wrapper": "Portugal SPV with nominee ledger",
@@ -1804,7 +2029,7 @@
             {
               "investor_label": "Qualified investor allocation",
               "investor_class": "qualified",
-              "beneficial_owner_reference": "bo-usr-f8088f56",
+              "beneficial_owner_reference": "bo-usr-ef8a7021",
               "wallet_reference": "custody-qualified-queue",
               "units": 6,
               "ownership_pct": 22.0,
@@ -2673,7 +2898,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-21T00:04:58.269391+00:00"
+                "last_checked_utc": "2026-03-21T00:14:37.213201+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -2688,7 +2913,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-21T00:04:58.269757+00:00"
+                "last_checked_utc": "2026-03-21T00:14:37.213224+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -2701,7 +2926,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-21T00:04:58.269767+00:00"
+                "last_checked_utc": "2026-03-21T00:14:37.213231+00:00"
               }
             ],
             "workflow_stages": [
@@ -2871,7 +3096,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-4d756466 created for Lisbon Green Quarter acquisition.",
+              "detail": "Transaction deal-7b147342 created for Lisbon Green Quarter acquisition.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -2906,7 +3131,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-4d756466 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-7b147342 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -2921,7 +3146,7 @@
           "payment_instrument": {
             "instrument_type": "wire",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-0671491e87",
+            "token_reference": "tok-612cd7188f",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -2930,18 +3155,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-3729c45f",
-              "identifier": "usr-3729c45f"
+              "name": "usr-9d5e03e9",
+              "identifier": "usr-9d5e03e9"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-4d756466"
+              "identifier": "deal-7b147342"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-c04bf6a9"
+              "identifier": "req-8ed398dc"
             }
           ],
           "fraud_probability": 0.36,
@@ -3011,7 +3236,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "released",
-          "explanation": "Payment deal-4d756466 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-7b147342 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -3043,8 +3268,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-3729c45f",
-              "identifier": "usr-3729c45f"
+              "name": "usr-9d5e03e9",
+              "identifier": "usr-9d5e03e9"
             },
             {
               "role": "servicing_entity",
@@ -3054,7 +3279,7 @@
             {
               "role": "transaction_context",
               "name": "closing",
-              "identifier": "req-c04bf6a9"
+              "identifier": "req-8ed398dc"
             }
           ],
           "acord_coverages": [
@@ -3156,7 +3381,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-c04bf6a9.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-8ed398dc.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -3373,6 +3598,232 @@
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
+        "compliance_graph_decision": {
+          "request_id": "demo-request",
+          "primary_jurisdiction": "Portugal",
+          "operating_jurisdictions": [
+            "Portugal",
+            "Greece",
+            "United States"
+          ],
+          "graph_version": "2026.03",
+          "overall_status": "review",
+          "graph_summary": "Compliance graph v2026.03 tracks 4 regulatory domains across 3 jurisdictions for United States \u2192 Portugal workflows. Current posture is 'review' because transaction stage is document_validation, payment risk is low, insurance release is released, and residency status is eligible. Workflow adaptations keep frontend guidance transparent while backend routing, payload shaping, and release gates remain jurisdiction-aware.",
+          "domains": [
+            {
+              "domain": "real_estate",
+              "jurisdiction": "Portugal",
+              "regulatory_authorities": [
+                "Land registry",
+                "Municipal planning office",
+                "Transaction counsel"
+              ],
+              "workflow_status": "review",
+              "guidance_summary": "Closing remains jurisdiction-aware: permit completeness, title evidence, seller disclosures, and notarization sequencing are validated before any downstream release or funds movement.",
+              "evidence_refs": [
+                "title_report",
+                "seller_disclosure_pack",
+                "closing_control_matrix"
+              ]
+            },
+            {
+              "domain": "payments",
+              "jurisdiction": "United States",
+              "regulatory_authorities": [
+                "PSP risk desk",
+                "Internal AML operations",
+                "Escrow operations"
+              ],
+              "workflow_status": "active",
+              "guidance_summary": "Payment orchestration adapts to settlement geography, escrow stage, sanctions posture, and fraud probability so release rules can tighten automatically for cross-border or high-value movement.",
+              "evidence_refs": [
+                "psp_token_reference",
+                "fraud_signal_trace",
+                "escrow_release_controls"
+              ]
+            },
+            {
+              "domain": "insurance",
+              "jurisdiction": "Portugal",
+              "regulatory_authorities": [
+                "Carrier underwriting",
+                "Privacy office",
+                "Servicing operations"
+              ],
+              "workflow_status": "review",
+              "guidance_summary": "Insurance exchange stays aligned to ACORD-style payloads, purpose-bound disclosures, and jurisdiction-specific underwriting expectations before quote, bind, or policy servicing actions are allowed.",
+              "evidence_refs": [
+                "acord_payload_bundle",
+                "underwriting_notes",
+                "privacy_scope_record"
+              ]
+            },
+            {
+              "domain": "residency",
+              "jurisdiction": "Greece",
+              "regulatory_authorities": [
+                "Immigration counsel",
+                "Residency operations",
+                "Government filing adapter"
+              ],
+              "workflow_status": "active",
+              "guidance_summary": "Residency workflows adapt to program thresholds, supporting documents, privacy scope, and legal sign-off so applicants see transparent eligibility guidance before any filing package is assembled.",
+              "evidence_refs": [
+                "eligibility_rule_checks",
+                "document_bundle",
+                "filing_workflow_state"
+              ]
+            }
+          ],
+          "workflow_adaptations": [
+            {
+              "workflow": "property_release",
+              "status": "gated",
+              "jurisdictions": [
+                "Portugal"
+              ],
+              "triggered_by": [
+                "document completeness",
+                "jurisdiction disclosure rules",
+                "approval segregation"
+              ],
+              "frontend_guidance": "Show permit and disclosure blockers before users can export, submit an offer, or release closing instructions.",
+              "backend_action": "Keep recommendation release and transaction stage progression behind document and approval policy gates."
+            },
+            {
+              "workflow": "insurance_quote_exchange",
+              "status": "adaptive",
+              "jurisdictions": [
+                "Portugal"
+              ],
+              "triggered_by": [
+                "occupancy profile",
+                "privacy tier",
+                "carrier payload requirements"
+              ],
+              "frontend_guidance": "Explain why certain coverages, exclusions, or extra documents are required in the selected jurisdiction.",
+              "backend_action": "Transform quote requests into ACORD-compatible payloads and suppress fields outside consent scope."
+            },
+            {
+              "workflow": "payment_release",
+              "status": "adaptive",
+              "jurisdictions": [
+                "United States",
+                "Portugal"
+              ],
+              "triggered_by": [
+                "fraud probability",
+                "cross-border status",
+                "escrow milestone readiness"
+              ],
+              "frontend_guidance": "Surface payment risk, approval state, and escrow readiness in plain language before funds move.",
+              "backend_action": "Escalate to manual review or dual approval when geography, amount, or fraud signals exceed threshold."
+            },
+            {
+              "workflow": "residency_filing",
+              "status": "ready",
+              "jurisdictions": [
+                "Greece"
+              ],
+              "triggered_by": [
+                "program thresholds",
+                "document readiness",
+                "source-of-funds evidence"
+              ],
+              "frontend_guidance": "Tell applicants exactly which eligibility checks passed, what is missing, and why counsel review is still required.",
+              "backend_action": "Assemble filing packets only when required rules, KYC/AML checks, and evidence bundles are satisfied."
+            }
+          ],
+          "change_watch": [
+            {
+              "change_id": "chg-real-estate-disclosure",
+              "domain": "real_estate",
+              "jurisdiction": "Portugal",
+              "change_summary": "Disclosure packet and permit attachment versions are continuously versioned for closing-readiness checks.",
+              "effective_date": "2026-03-01",
+              "impact_level": "medium",
+              "monitored_by": [
+                "compliance_expert",
+                "document_expert",
+                "transaction_service"
+              ],
+              "action_required": "Re-run document completeness and counsel review whenever a new municipal disclosure template is detected."
+            },
+            {
+              "change_id": "chg-payments-cross-border",
+              "domain": "payments",
+              "jurisdiction": "United States",
+              "change_summary": "Cross-border escrow and sanctions controls are tracked so payment review thresholds can tighten without frontend rewrites.",
+              "effective_date": "2026-02-15",
+              "impact_level": "medium",
+              "monitored_by": [
+                "fraud_expert",
+                "payment_service",
+                "compliance_service"
+              ],
+              "action_required": "Increase manual review and beneficiary verification when risk signals or geography change."
+            },
+            {
+              "change_id": "chg-insurance-underwriting",
+              "domain": "insurance",
+              "jurisdiction": "Portugal",
+              "change_summary": "Carrier intake schemas and privacy disclosures are versioned so quote exchanges remain jurisdiction-aware.",
+              "effective_date": "2026-02-20",
+              "impact_level": "medium",
+              "monitored_by": [
+                "insurance_expert",
+                "integration_service",
+                "privacy_office"
+              ],
+              "action_required": "Refresh ACORD mappings and update user-facing guidance when underwriting fields or disclosures change."
+            },
+            {
+              "change_id": "chg-residency-program",
+              "domain": "residency",
+              "jurisdiction": "Greece",
+              "change_summary": "Residency pathway thresholds, filing steps, and legal review requirements are monitored as a living rule set.",
+              "effective_date": "2026-03-10",
+              "impact_level": "medium",
+              "monitored_by": [
+                "visa_expert",
+                "government_registry_adapter",
+                "compliance_service"
+              ],
+              "action_required": "Re-score eligibility and update the applicant checklist whenever program rules or filing requirements change."
+            }
+          ],
+          "transparency_guidance": [
+            {
+              "title": "User-facing compliance guidance",
+              "audience": "frontend user",
+              "summary": "The UI should explain which jurisdictional checks affect offers, payments, insurance requests, and residency filings without exposing sensitive evidence.",
+              "disclosures": [
+                "Show the active jurisdiction and domain-specific status for real estate, payments, insurance, and residency.",
+                "Translate controls into plain-language next steps, blockers, and required documents.",
+                "Disclose when a workflow is held for review because of policy, not product failure."
+              ]
+            },
+            {
+              "title": "Operator adaptation guidance",
+              "audience": "backend operations",
+              "summary": "Backend services should consume the graph as a policy surface that can change routing, gating, payload shaping, and human-review requirements by jurisdiction.",
+              "disclosures": [
+                "Version all rule changes and keep them linked to audit evidence.",
+                "Apply least-privilege data shaping before partner or government release.",
+                "Trigger event-driven re-evaluation when payment, residency, insurance, or property regulations evolve."
+              ]
+            }
+          ],
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "PCI DSS",
+            "ACORD",
+            "KYC/AML/sanctions"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
         "digital_twin_decision": {
           "request_id": "demo-request",
           "twin": {
@@ -3484,7 +3935,7 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Athens Urban Residential Block to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-d15bbdf2 modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-5a826156 modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
@@ -3825,25 +4276,25 @@
               "event": "document_ingested",
               "actor": "document_intelligence_pipeline",
               "detail": "Ingested 4 governed documents for Lisbon Green Quarter acquisition.",
-              "timestamp_utc": "2026-03-21T00:04:58.271430+00:00"
+              "timestamp_utc": "2026-03-21T00:14:37.214437+00:00"
             },
             {
               "event": "field_extraction_completed",
               "actor": "document_intelligence_pipeline",
               "detail": "Extracted 4 high-value normalized fields with explainability metadata.",
-              "timestamp_utc": "2026-03-21T00:04:58.271441+00:00"
+              "timestamp_utc": "2026-03-21T00:14:37.214444+00:00"
             },
             {
               "event": "compliance_linkage_verified",
               "actor": "compliance_service",
               "detail": "Linked document packet to privacy tier confidential, consent scope, and cross-border compliance checks.",
-              "timestamp_utc": "2026-03-21T00:04:58.271447+00:00"
+              "timestamp_utc": "2026-03-21T00:14:37.214449+00:00"
             },
             {
               "event": "frontend_summary_published",
               "actor": "ai_orchestrator",
               "detail": "Released simplified insights for frontend display while preserving backend-only evidence trails and anomaly markers.",
-              "timestamp_utc": "2026-03-21T00:04:58.271451+00:00"
+              "timestamp_utc": "2026-03-21T00:14:37.214453+00:00"
             }
           ],
           "release_status": "review",
@@ -3864,7 +4315,7 @@
         "tokenization_decision": {
           "request_id": "demo-request",
           "asset": {
-            "asset_id": "asset-deal-4d756466",
+            "asset_id": "asset-deal-7b147342",
             "property_name": "Athens Urban Residential Block Token Offering",
             "jurisdiction": "Portugal",
             "legal_wrapper": "Luxembourg feeder SPV with transfer-agent controls",
@@ -3919,7 +4370,7 @@
             {
               "investor_label": "Qualified investor allocation",
               "investor_class": "qualified",
-              "beneficial_owner_reference": "bo-usr-3729c45f",
+              "beneficial_owner_reference": "bo-usr-9d5e03e9",
               "wallet_reference": "custody-qualified-queue",
               "units": 4,
               "ownership_pct": 24.75,
@@ -4727,7 +5178,7 @@
                   "records",
                   "jurisdiction"
                 ],
-                "last_checked_utc": "2026-03-21T00:04:58.278975+00:00"
+                "last_checked_utc": "2026-03-21T00:14:37.224753+00:00"
               },
               {
                 "document_id": "doc-disclosure",
@@ -4742,7 +5193,7 @@
                   "records",
                   "privacy"
                 ],
-                "last_checked_utc": "2026-03-21T00:04:58.278988+00:00"
+                "last_checked_utc": "2026-03-21T00:14:37.224763+00:00"
               },
               {
                 "document_id": "doc-finance",
@@ -4755,7 +5206,7 @@
                   "records",
                   "business_continuity"
                 ],
-                "last_checked_utc": "2026-03-21T00:04:58.278994+00:00"
+                "last_checked_utc": "2026-03-21T00:14:37.224768+00:00"
               }
             ],
             "workflow_stages": [
@@ -4925,7 +5376,7 @@
             {
               "name": "transaction.intake.recorded",
               "status": "completed",
-              "detail": "Transaction deal-ddcc1fc4 created for Athens Urban Block diligence.",
+              "detail": "Transaction deal-081f32da created for Athens Urban Block diligence.",
               "timestamp_utc": "2026-03-20T00:00:00+00:00"
             },
             {
@@ -4960,7 +5411,7 @@
             "Lock release behind approval if the risk score remains above the configured threshold.",
             "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
           ],
-          "explanation": "Transaction deal-ddcc1fc4 for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+          "explanation": "Transaction deal-081f32da for Athens Urban Block diligence is in stage 'approval' with risk rating 'moderate'. Pricing confidence=0.83, negotiation confidence=0.78, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
           "standards_alignment": [
             "ISO/IEC 27001",
             "ISO 22301",
@@ -4975,7 +5426,7 @@
           "payment_instrument": {
             "instrument_type": "escrow_disbursement",
             "token_provider": "Banking / escrow token service",
-            "token_reference": "tok-1efa38b9df",
+            "token_reference": "tok-fa76c4be86",
             "last4": "6789",
             "network": "ACH/Wire",
             "wallet_or_bank": "Escrow operating account",
@@ -4984,18 +5435,18 @@
           "participants": [
             {
               "role": "payer",
-              "name": "usr-50fbfb98",
-              "identifier": "usr-50fbfb98"
+              "name": "usr-3a371e17",
+              "identifier": "usr-3a371e17"
             },
             {
               "role": "beneficiary",
               "name": "EstateOS Escrow",
-              "identifier": "deal-ddcc1fc4"
+              "identifier": "deal-081f32da"
             },
             {
               "role": "servicer",
               "name": "EstateOS Payment Ops",
-              "identifier": "req-7f3a5ace"
+              "identifier": "req-b81aef3d"
             }
           ],
           "fraud_probability": 0.54,
@@ -5065,7 +5516,7 @@
             "Match settlement references and escrow ledger entries before reconciliation close."
           ],
           "release_status": "review",
-          "explanation": "Payment deal-ddcc1fc4 was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+          "explanation": "Payment deal-081f32da was evaluated for 180,000 USD using method 'escrow_disbursement' with escrow stage 'funds_reserved'. Fraud probability=0.54, risk level='moderate', cross_border=True, trusted_device=True, and release_status='review'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
           "standards_alignment": [
             "PCI DSS",
             "ISO/IEC 27001",
@@ -5097,8 +5548,8 @@
           "acord_parties": [
             {
               "role": "applicant",
-              "name": "usr-50fbfb98",
-              "identifier": "usr-50fbfb98"
+              "name": "usr-3a371e17",
+              "identifier": "usr-3a371e17"
             },
             {
               "role": "servicing_entity",
@@ -5108,7 +5559,7 @@
             {
               "role": "transaction_context",
               "name": "approval",
-              "identifier": "req-7f3a5ace"
+              "identifier": "req-b81aef3d"
             }
           ],
           "acord_coverages": [
@@ -5210,7 +5661,7 @@
             }
           ],
           "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-7f3a5ace.",
+          "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for advisor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-b81aef3d.",
           "release_status": "released",
           "explanation": "Insurance review evaluated persona 'advisor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'approval'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
           "standards_alignment": [
@@ -5426,6 +5877,231 @@
           ],
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
+        "compliance_graph_decision": {
+          "request_id": "demo-request",
+          "primary_jurisdiction": "Greece",
+          "operating_jurisdictions": [
+            "Greece",
+            "United States"
+          ],
+          "graph_version": "2026.03",
+          "overall_status": "review",
+          "graph_summary": "Compliance graph v2026.03 tracks 4 regulatory domains across 2 jurisdictions for United States \u2192 Greece workflows. Current posture is 'review' because transaction stage is approval, payment risk is moderate, insurance release is released, and residency status is eligible_with_review. Workflow adaptations keep frontend guidance transparent while backend routing, payload shaping, and release gates remain jurisdiction-aware.",
+          "domains": [
+            {
+              "domain": "real_estate",
+              "jurisdiction": "Greece",
+              "regulatory_authorities": [
+                "Land registry",
+                "Municipal planning office",
+                "Transaction counsel"
+              ],
+              "workflow_status": "review",
+              "guidance_summary": "Closing remains jurisdiction-aware: permit completeness, title evidence, seller disclosures, and notarization sequencing are validated before any downstream release or funds movement.",
+              "evidence_refs": [
+                "title_report",
+                "seller_disclosure_pack",
+                "closing_control_matrix"
+              ]
+            },
+            {
+              "domain": "payments",
+              "jurisdiction": "United States",
+              "regulatory_authorities": [
+                "PSP risk desk",
+                "Internal AML operations",
+                "Escrow operations"
+              ],
+              "workflow_status": "review",
+              "guidance_summary": "Payment orchestration adapts to settlement geography, escrow stage, sanctions posture, and fraud probability so release rules can tighten automatically for cross-border or high-value movement.",
+              "evidence_refs": [
+                "psp_token_reference",
+                "fraud_signal_trace",
+                "escrow_release_controls"
+              ]
+            },
+            {
+              "domain": "insurance",
+              "jurisdiction": "Greece",
+              "regulatory_authorities": [
+                "Carrier underwriting",
+                "Privacy office",
+                "Servicing operations"
+              ],
+              "workflow_status": "review",
+              "guidance_summary": "Insurance exchange stays aligned to ACORD-style payloads, purpose-bound disclosures, and jurisdiction-specific underwriting expectations before quote, bind, or policy servicing actions are allowed.",
+              "evidence_refs": [
+                "acord_payload_bundle",
+                "underwriting_notes",
+                "privacy_scope_record"
+              ]
+            },
+            {
+              "domain": "residency",
+              "jurisdiction": "Greece",
+              "regulatory_authorities": [
+                "Immigration counsel",
+                "Residency operations",
+                "Government filing adapter"
+              ],
+              "workflow_status": "review",
+              "guidance_summary": "Residency workflows adapt to program thresholds, supporting documents, privacy scope, and legal sign-off so applicants see transparent eligibility guidance before any filing package is assembled.",
+              "evidence_refs": [
+                "eligibility_rule_checks",
+                "document_bundle",
+                "filing_workflow_state"
+              ]
+            }
+          ],
+          "workflow_adaptations": [
+            {
+              "workflow": "property_release",
+              "status": "gated",
+              "jurisdictions": [
+                "Greece"
+              ],
+              "triggered_by": [
+                "document completeness",
+                "jurisdiction disclosure rules",
+                "approval segregation"
+              ],
+              "frontend_guidance": "Show permit and disclosure blockers before users can export, submit an offer, or release closing instructions.",
+              "backend_action": "Keep recommendation release and transaction stage progression behind document and approval policy gates."
+            },
+            {
+              "workflow": "insurance_quote_exchange",
+              "status": "adaptive",
+              "jurisdictions": [
+                "Greece"
+              ],
+              "triggered_by": [
+                "occupancy profile",
+                "privacy tier",
+                "carrier payload requirements"
+              ],
+              "frontend_guidance": "Explain why certain coverages, exclusions, or extra documents are required in the selected jurisdiction.",
+              "backend_action": "Transform quote requests into ACORD-compatible payloads and suppress fields outside consent scope."
+            },
+            {
+              "workflow": "payment_release",
+              "status": "adaptive",
+              "jurisdictions": [
+                "United States",
+                "Greece"
+              ],
+              "triggered_by": [
+                "fraud probability",
+                "cross-border status",
+                "escrow milestone readiness"
+              ],
+              "frontend_guidance": "Surface payment risk, approval state, and escrow readiness in plain language before funds move.",
+              "backend_action": "Escalate to manual review or dual approval when geography, amount, or fraud signals exceed threshold."
+            },
+            {
+              "workflow": "residency_filing",
+              "status": "gated",
+              "jurisdictions": [
+                "Greece"
+              ],
+              "triggered_by": [
+                "program thresholds",
+                "document readiness",
+                "source-of-funds evidence"
+              ],
+              "frontend_guidance": "Tell applicants exactly which eligibility checks passed, what is missing, and why counsel review is still required.",
+              "backend_action": "Assemble filing packets only when required rules, KYC/AML checks, and evidence bundles are satisfied."
+            }
+          ],
+          "change_watch": [
+            {
+              "change_id": "chg-real-estate-disclosure",
+              "domain": "real_estate",
+              "jurisdiction": "Greece",
+              "change_summary": "Disclosure packet and permit attachment versions are continuously versioned for closing-readiness checks.",
+              "effective_date": "2026-03-01",
+              "impact_level": "medium",
+              "monitored_by": [
+                "compliance_expert",
+                "document_expert",
+                "transaction_service"
+              ],
+              "action_required": "Re-run document completeness and counsel review whenever a new municipal disclosure template is detected."
+            },
+            {
+              "change_id": "chg-payments-cross-border",
+              "domain": "payments",
+              "jurisdiction": "United States",
+              "change_summary": "Cross-border escrow and sanctions controls are tracked so payment review thresholds can tighten without frontend rewrites.",
+              "effective_date": "2026-02-15",
+              "impact_level": "high",
+              "monitored_by": [
+                "fraud_expert",
+                "payment_service",
+                "compliance_service"
+              ],
+              "action_required": "Increase manual review and beneficiary verification when risk signals or geography change."
+            },
+            {
+              "change_id": "chg-insurance-underwriting",
+              "domain": "insurance",
+              "jurisdiction": "Greece",
+              "change_summary": "Carrier intake schemas and privacy disclosures are versioned so quote exchanges remain jurisdiction-aware.",
+              "effective_date": "2026-02-20",
+              "impact_level": "medium",
+              "monitored_by": [
+                "insurance_expert",
+                "integration_service",
+                "privacy_office"
+              ],
+              "action_required": "Refresh ACORD mappings and update user-facing guidance when underwriting fields or disclosures change."
+            },
+            {
+              "change_id": "chg-residency-program",
+              "domain": "residency",
+              "jurisdiction": "Greece",
+              "change_summary": "Residency pathway thresholds, filing steps, and legal review requirements are monitored as a living rule set.",
+              "effective_date": "2026-03-10",
+              "impact_level": "high",
+              "monitored_by": [
+                "visa_expert",
+                "government_registry_adapter",
+                "compliance_service"
+              ],
+              "action_required": "Re-score eligibility and update the applicant checklist whenever program rules or filing requirements change."
+            }
+          ],
+          "transparency_guidance": [
+            {
+              "title": "User-facing compliance guidance",
+              "audience": "frontend user",
+              "summary": "The UI should explain which jurisdictional checks affect offers, payments, insurance requests, and residency filings without exposing sensitive evidence.",
+              "disclosures": [
+                "Show the active jurisdiction and domain-specific status for real estate, payments, insurance, and residency.",
+                "Translate controls into plain-language next steps, blockers, and required documents.",
+                "Disclose when a workflow is held for review because of policy, not product failure."
+              ]
+            },
+            {
+              "title": "Operator adaptation guidance",
+              "audience": "backend operations",
+              "summary": "Backend services should consume the graph as a policy surface that can change routing, gating, payload shaping, and human-review requirements by jurisdiction.",
+              "disclosures": [
+                "Version all rule changes and keep them linked to audit evidence.",
+                "Apply least-privilege data shaping before partner or government release.",
+                "Trigger event-driven re-evaluation when payment, residency, insurance, or property regulations evolve."
+              ]
+            }
+          ],
+          "standards_alignment": [
+            "ISO/IEC 27001",
+            "ISO/IEC 27701",
+            "ISO/IEC 42001",
+            "PCI DSS",
+            "ACORD",
+            "KYC/AML/sanctions"
+          ],
+          "timestamp_utc": "2026-03-20T00:00:00+00:00"
+        },
         "digital_twin_decision": {
           "request_id": "demo-request",
           "twin": {
@@ -5537,7 +6213,7 @@
           "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
           "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
           "recommendation": "Use the digital twin for Athens Urban Block diligence to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-          "explanation": "Digital twin twin-e20dbb5e modeled Athens Urban Block diligence in Greece using purchase price 880,000, current value 898,000, occupancy 93%, rent 6,400/mo, renovation budget 76,000, insurance premium 4,020, and hold period 6 years. Best-case equity outcome is 1,070,903, downside annual cash flow is 20,338, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+          "explanation": "Digital twin twin-05367b61 modeled Athens Urban Block diligence in Greece using purchase price 880,000, current value 898,000, occupancy 93%, rent 6,400/mo, renovation budget 76,000, insurance premium 4,020, and hold period 6 years. Best-case equity outcome is 1,070,903, downside annual cash flow is 20,338, and governance controls keep assumptions inspectable, challengeable, and replayable.",
           "standards_alignment": [
             "ISO/IEC 42001",
             "ISO/IEC 5259",
@@ -5878,25 +6554,25 @@
               "event": "document_ingested",
               "actor": "document_intelligence_pipeline",
               "detail": "Ingested 4 governed documents for Athens Urban Block diligence.",
-              "timestamp_utc": "2026-03-21T00:04:58.279636+00:00"
+              "timestamp_utc": "2026-03-21T00:14:37.225973+00:00"
             },
             {
               "event": "field_extraction_completed",
               "actor": "document_intelligence_pipeline",
               "detail": "Extracted 4 high-value normalized fields with explainability metadata.",
-              "timestamp_utc": "2026-03-21T00:04:58.279642+00:00"
+              "timestamp_utc": "2026-03-21T00:14:37.225993+00:00"
             },
             {
               "event": "compliance_linkage_verified",
               "actor": "compliance_service",
               "detail": "Linked document packet to privacy tier confidential, consent scope, and cross-border compliance checks.",
-              "timestamp_utc": "2026-03-21T00:04:58.279647+00:00"
+              "timestamp_utc": "2026-03-21T00:14:37.225998+00:00"
             },
             {
               "event": "frontend_summary_published",
               "actor": "ai_orchestrator",
               "detail": "Released simplified insights for frontend display while preserving backend-only evidence trails and anomaly markers.",
-              "timestamp_utc": "2026-03-21T00:04:58.279651+00:00"
+              "timestamp_utc": "2026-03-21T00:14:37.226002+00:00"
             }
           ],
           "release_status": "review",
@@ -5917,7 +6593,7 @@
         "tokenization_decision": {
           "request_id": "demo-request",
           "asset": {
-            "asset_id": "asset-deal-ddcc1fc4",
+            "asset_id": "asset-deal-081f32da",
             "property_name": "Athens Urban Block Governance Share Class",
             "jurisdiction": "Greece",
             "legal_wrapper": "Greek property SPV with regulated registrar sync",
@@ -5972,7 +6648,7 @@
             {
               "investor_label": "Qualified investor allocation",
               "investor_class": "qualified",
-              "beneficial_owner_reference": "bo-usr-50fbfb98",
+              "beneficial_owner_reference": "bo-usr-3a371e17",
               "wallet_reference": "custody-qualified-queue",
               "units": 1,
               "ownership_pct": 15.4,
@@ -6837,7 +7513,7 @@
               "records",
               "jurisdiction"
             ],
-            "last_checked_utc": "2026-03-21T00:04:58.269391+00:00"
+            "last_checked_utc": "2026-03-21T00:14:37.213201+00:00"
           },
           {
             "document_id": "doc-disclosure",
@@ -6852,7 +7528,7 @@
               "records",
               "privacy"
             ],
-            "last_checked_utc": "2026-03-21T00:04:58.269757+00:00"
+            "last_checked_utc": "2026-03-21T00:14:37.213224+00:00"
           },
           {
             "document_id": "doc-finance",
@@ -6865,7 +7541,7 @@
               "records",
               "business_continuity"
             ],
-            "last_checked_utc": "2026-03-21T00:04:58.269767+00:00"
+            "last_checked_utc": "2026-03-21T00:14:37.213231+00:00"
           }
         ],
         "workflow_stages": [
@@ -7035,7 +7711,7 @@
         {
           "name": "transaction.intake.recorded",
           "status": "completed",
-          "detail": "Transaction deal-4d756466 created for Lisbon Green Quarter acquisition.",
+          "detail": "Transaction deal-7b147342 created for Lisbon Green Quarter acquisition.",
           "timestamp_utc": "2026-03-20T00:00:00+00:00"
         },
         {
@@ -7070,7 +7746,7 @@
         "Lock release behind approval if the risk score remains above the configured threshold.",
         "Preserve all approvals, counters, and continuity checkpoints in the audit ledger before closing."
       ],
-      "explanation": "Transaction deal-4d756466 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
+      "explanation": "Transaction deal-7b147342 for Lisbon Green Quarter acquisition is in stage 'document_validation' with risk rating 'moderate'. Pricing confidence=0.87, negotiation confidence=0.83, document validation confidence=0.82, and workflow integrity is 'intact'. ISO/IEC 27001 controls protect access, evidence, and document handling while ISO 22301 controls preserve continuity through active-active routing and replayable events.",
       "standards_alignment": [
         "ISO/IEC 27001",
         "ISO 22301",
@@ -7085,7 +7761,7 @@
       "payment_instrument": {
         "instrument_type": "wire",
         "token_provider": "Banking / escrow token service",
-        "token_reference": "tok-0671491e87",
+        "token_reference": "tok-612cd7188f",
         "last4": "6789",
         "network": "ACH/Wire",
         "wallet_or_bank": "Escrow operating account",
@@ -7094,18 +7770,18 @@
       "participants": [
         {
           "role": "payer",
-          "name": "usr-3729c45f",
-          "identifier": "usr-3729c45f"
+          "name": "usr-9d5e03e9",
+          "identifier": "usr-9d5e03e9"
         },
         {
           "role": "beneficiary",
           "name": "EstateOS Escrow",
-          "identifier": "deal-4d756466"
+          "identifier": "deal-7b147342"
         },
         {
           "role": "servicer",
           "name": "EstateOS Payment Ops",
-          "identifier": "req-c04bf6a9"
+          "identifier": "req-8ed398dc"
         }
       ],
       "fraud_probability": 0.36,
@@ -7175,7 +7851,7 @@
         "Match settlement references and escrow ledger entries before reconciliation close."
       ],
       "release_status": "released",
-      "explanation": "Payment deal-4d756466 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
+      "explanation": "Payment deal-7b147342 was evaluated for 120,000 USD using method 'wire' with escrow stage 'release_pending'. Fraud probability=0.36, risk level='low', cross_border=True, trusted_device=True, and release_status='released'. The frontend remains PCI-safe by using tokenized instruments and hosted payment fields while backend controls score payer behavior, escrow conditions, and reconciliation posture.",
       "standards_alignment": [
         "PCI DSS",
         "ISO/IEC 27001",
@@ -7207,8 +7883,8 @@
       "acord_parties": [
         {
           "role": "applicant",
-          "name": "usr-3729c45f",
-          "identifier": "usr-3729c45f"
+          "name": "usr-9d5e03e9",
+          "identifier": "usr-9d5e03e9"
         },
         {
           "role": "servicing_entity",
@@ -7218,7 +7894,7 @@
         {
           "role": "transaction_context",
           "name": "closing",
-          "identifier": "req-c04bf6a9"
+          "identifier": "req-8ed398dc"
         }
       ],
       "acord_coverages": [
@@ -7320,7 +7996,7 @@
         }
       ],
       "naic_privacy_summary": "NAIC-aligned privacy handling uses purpose-bound collection, role-based disclosure, third-party oversight, incident response linkage, and secure disposal expectations.",
-      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-c04bf6a9.",
+      "secure_exchange_summary": "EstateOS packages 4 ACORD-informed coverage payloads for investor servicing, encrypts transport, minimizes shared fields, and binds transmissions to request req-8ed398dc.",
       "release_status": "released",
       "explanation": "Insurance review evaluated persona 'investor', property type 'multifamily', occupancy 'tenant_occupied', and transaction context 'closing'. Recommendations include homeowners, title, landlord, and life-related options while preserving confidential privacy posture, MFA=on, and release status 'released'.",
       "standards_alignment": [
@@ -7537,6 +8213,232 @@
       ],
       "timestamp_utc": "2026-03-20T00:00:00+00:00"
     },
+    "compliance_graph_decision": {
+      "request_id": "demo-request",
+      "primary_jurisdiction": "Portugal",
+      "operating_jurisdictions": [
+        "Portugal",
+        "Greece",
+        "United States"
+      ],
+      "graph_version": "2026.03",
+      "overall_status": "review",
+      "graph_summary": "Compliance graph v2026.03 tracks 4 regulatory domains across 3 jurisdictions for United States \u2192 Portugal workflows. Current posture is 'review' because transaction stage is document_validation, payment risk is low, insurance release is released, and residency status is eligible. Workflow adaptations keep frontend guidance transparent while backend routing, payload shaping, and release gates remain jurisdiction-aware.",
+      "domains": [
+        {
+          "domain": "real_estate",
+          "jurisdiction": "Portugal",
+          "regulatory_authorities": [
+            "Land registry",
+            "Municipal planning office",
+            "Transaction counsel"
+          ],
+          "workflow_status": "review",
+          "guidance_summary": "Closing remains jurisdiction-aware: permit completeness, title evidence, seller disclosures, and notarization sequencing are validated before any downstream release or funds movement.",
+          "evidence_refs": [
+            "title_report",
+            "seller_disclosure_pack",
+            "closing_control_matrix"
+          ]
+        },
+        {
+          "domain": "payments",
+          "jurisdiction": "United States",
+          "regulatory_authorities": [
+            "PSP risk desk",
+            "Internal AML operations",
+            "Escrow operations"
+          ],
+          "workflow_status": "active",
+          "guidance_summary": "Payment orchestration adapts to settlement geography, escrow stage, sanctions posture, and fraud probability so release rules can tighten automatically for cross-border or high-value movement.",
+          "evidence_refs": [
+            "psp_token_reference",
+            "fraud_signal_trace",
+            "escrow_release_controls"
+          ]
+        },
+        {
+          "domain": "insurance",
+          "jurisdiction": "Portugal",
+          "regulatory_authorities": [
+            "Carrier underwriting",
+            "Privacy office",
+            "Servicing operations"
+          ],
+          "workflow_status": "review",
+          "guidance_summary": "Insurance exchange stays aligned to ACORD-style payloads, purpose-bound disclosures, and jurisdiction-specific underwriting expectations before quote, bind, or policy servicing actions are allowed.",
+          "evidence_refs": [
+            "acord_payload_bundle",
+            "underwriting_notes",
+            "privacy_scope_record"
+          ]
+        },
+        {
+          "domain": "residency",
+          "jurisdiction": "Greece",
+          "regulatory_authorities": [
+            "Immigration counsel",
+            "Residency operations",
+            "Government filing adapter"
+          ],
+          "workflow_status": "active",
+          "guidance_summary": "Residency workflows adapt to program thresholds, supporting documents, privacy scope, and legal sign-off so applicants see transparent eligibility guidance before any filing package is assembled.",
+          "evidence_refs": [
+            "eligibility_rule_checks",
+            "document_bundle",
+            "filing_workflow_state"
+          ]
+        }
+      ],
+      "workflow_adaptations": [
+        {
+          "workflow": "property_release",
+          "status": "gated",
+          "jurisdictions": [
+            "Portugal"
+          ],
+          "triggered_by": [
+            "document completeness",
+            "jurisdiction disclosure rules",
+            "approval segregation"
+          ],
+          "frontend_guidance": "Show permit and disclosure blockers before users can export, submit an offer, or release closing instructions.",
+          "backend_action": "Keep recommendation release and transaction stage progression behind document and approval policy gates."
+        },
+        {
+          "workflow": "insurance_quote_exchange",
+          "status": "adaptive",
+          "jurisdictions": [
+            "Portugal"
+          ],
+          "triggered_by": [
+            "occupancy profile",
+            "privacy tier",
+            "carrier payload requirements"
+          ],
+          "frontend_guidance": "Explain why certain coverages, exclusions, or extra documents are required in the selected jurisdiction.",
+          "backend_action": "Transform quote requests into ACORD-compatible payloads and suppress fields outside consent scope."
+        },
+        {
+          "workflow": "payment_release",
+          "status": "adaptive",
+          "jurisdictions": [
+            "United States",
+            "Portugal"
+          ],
+          "triggered_by": [
+            "fraud probability",
+            "cross-border status",
+            "escrow milestone readiness"
+          ],
+          "frontend_guidance": "Surface payment risk, approval state, and escrow readiness in plain language before funds move.",
+          "backend_action": "Escalate to manual review or dual approval when geography, amount, or fraud signals exceed threshold."
+        },
+        {
+          "workflow": "residency_filing",
+          "status": "ready",
+          "jurisdictions": [
+            "Greece"
+          ],
+          "triggered_by": [
+            "program thresholds",
+            "document readiness",
+            "source-of-funds evidence"
+          ],
+          "frontend_guidance": "Tell applicants exactly which eligibility checks passed, what is missing, and why counsel review is still required.",
+          "backend_action": "Assemble filing packets only when required rules, KYC/AML checks, and evidence bundles are satisfied."
+        }
+      ],
+      "change_watch": [
+        {
+          "change_id": "chg-real-estate-disclosure",
+          "domain": "real_estate",
+          "jurisdiction": "Portugal",
+          "change_summary": "Disclosure packet and permit attachment versions are continuously versioned for closing-readiness checks.",
+          "effective_date": "2026-03-01",
+          "impact_level": "medium",
+          "monitored_by": [
+            "compliance_expert",
+            "document_expert",
+            "transaction_service"
+          ],
+          "action_required": "Re-run document completeness and counsel review whenever a new municipal disclosure template is detected."
+        },
+        {
+          "change_id": "chg-payments-cross-border",
+          "domain": "payments",
+          "jurisdiction": "United States",
+          "change_summary": "Cross-border escrow and sanctions controls are tracked so payment review thresholds can tighten without frontend rewrites.",
+          "effective_date": "2026-02-15",
+          "impact_level": "medium",
+          "monitored_by": [
+            "fraud_expert",
+            "payment_service",
+            "compliance_service"
+          ],
+          "action_required": "Increase manual review and beneficiary verification when risk signals or geography change."
+        },
+        {
+          "change_id": "chg-insurance-underwriting",
+          "domain": "insurance",
+          "jurisdiction": "Portugal",
+          "change_summary": "Carrier intake schemas and privacy disclosures are versioned so quote exchanges remain jurisdiction-aware.",
+          "effective_date": "2026-02-20",
+          "impact_level": "medium",
+          "monitored_by": [
+            "insurance_expert",
+            "integration_service",
+            "privacy_office"
+          ],
+          "action_required": "Refresh ACORD mappings and update user-facing guidance when underwriting fields or disclosures change."
+        },
+        {
+          "change_id": "chg-residency-program",
+          "domain": "residency",
+          "jurisdiction": "Greece",
+          "change_summary": "Residency pathway thresholds, filing steps, and legal review requirements are monitored as a living rule set.",
+          "effective_date": "2026-03-10",
+          "impact_level": "medium",
+          "monitored_by": [
+            "visa_expert",
+            "government_registry_adapter",
+            "compliance_service"
+          ],
+          "action_required": "Re-score eligibility and update the applicant checklist whenever program rules or filing requirements change."
+        }
+      ],
+      "transparency_guidance": [
+        {
+          "title": "User-facing compliance guidance",
+          "audience": "frontend user",
+          "summary": "The UI should explain which jurisdictional checks affect offers, payments, insurance requests, and residency filings without exposing sensitive evidence.",
+          "disclosures": [
+            "Show the active jurisdiction and domain-specific status for real estate, payments, insurance, and residency.",
+            "Translate controls into plain-language next steps, blockers, and required documents.",
+            "Disclose when a workflow is held for review because of policy, not product failure."
+          ]
+        },
+        {
+          "title": "Operator adaptation guidance",
+          "audience": "backend operations",
+          "summary": "Backend services should consume the graph as a policy surface that can change routing, gating, payload shaping, and human-review requirements by jurisdiction.",
+          "disclosures": [
+            "Version all rule changes and keep them linked to audit evidence.",
+            "Apply least-privilege data shaping before partner or government release.",
+            "Trigger event-driven re-evaluation when payment, residency, insurance, or property regulations evolve."
+          ]
+        }
+      ],
+      "standards_alignment": [
+        "ISO/IEC 27001",
+        "ISO/IEC 27701",
+        "ISO/IEC 42001",
+        "PCI DSS",
+        "ACORD",
+        "KYC/AML/sanctions"
+      ],
+      "timestamp_utc": "2026-03-20T00:00:00+00:00"
+    },
     "digital_twin_decision": {
       "request_id": "demo-request",
       "twin": {
@@ -7648,7 +8550,7 @@
       "explainability_summary": "Each scenario decomposes the recommendation into occupancy, rent, insurance, renovation, debt-service, NOI, cash-flow, and exit-value drivers rather than emitting a black-box score.",
       "reliability_summary": "Scenario reliability ranges from 0.65 to 0.83, with stress cases penalized when assumptions drift further from verified operating data.",
       "recommendation": "Use the digital twin for Athens Urban Residential Block to compare baseline, renovation upside, and insurance-stress outcomes before finalizing hold strategy, coverage, or capex timing.",
-      "explanation": "Digital twin twin-d15bbdf2 modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
+      "explanation": "Digital twin twin-5a826156 modeled Athens Urban Residential Block in Greece using purchase price 880,000, current value 892,000, occupancy 91%, rent 6,150/mo, renovation budget 95,000, insurance premium 3,864, and hold period 8 years. Best-case equity outcome is 1,158,255, downside annual cash flow is 12,826, and governance controls keep assumptions inspectable, challengeable, and replayable.",
       "standards_alignment": [
         "ISO/IEC 42001",
         "ISO/IEC 5259",
@@ -7989,25 +8891,25 @@
           "event": "document_ingested",
           "actor": "document_intelligence_pipeline",
           "detail": "Ingested 4 governed documents for Lisbon Green Quarter acquisition.",
-          "timestamp_utc": "2026-03-21T00:04:58.271430+00:00"
+          "timestamp_utc": "2026-03-21T00:14:37.214437+00:00"
         },
         {
           "event": "field_extraction_completed",
           "actor": "document_intelligence_pipeline",
           "detail": "Extracted 4 high-value normalized fields with explainability metadata.",
-          "timestamp_utc": "2026-03-21T00:04:58.271441+00:00"
+          "timestamp_utc": "2026-03-21T00:14:37.214444+00:00"
         },
         {
           "event": "compliance_linkage_verified",
           "actor": "compliance_service",
           "detail": "Linked document packet to privacy tier confidential, consent scope, and cross-border compliance checks.",
-          "timestamp_utc": "2026-03-21T00:04:58.271447+00:00"
+          "timestamp_utc": "2026-03-21T00:14:37.214449+00:00"
         },
         {
           "event": "frontend_summary_published",
           "actor": "ai_orchestrator",
           "detail": "Released simplified insights for frontend display while preserving backend-only evidence trails and anomaly markers.",
-          "timestamp_utc": "2026-03-21T00:04:58.271451+00:00"
+          "timestamp_utc": "2026-03-21T00:14:37.214453+00:00"
         }
       ],
       "release_status": "review",
@@ -8028,7 +8930,7 @@
     "tokenization_decision": {
       "request_id": "demo-request",
       "asset": {
-        "asset_id": "asset-deal-4d756466",
+        "asset_id": "asset-deal-7b147342",
         "property_name": "Athens Urban Residential Block Token Offering",
         "jurisdiction": "Portugal",
         "legal_wrapper": "Luxembourg feeder SPV with transfer-agent controls",
@@ -8083,7 +8985,7 @@
         {
           "investor_label": "Qualified investor allocation",
           "investor_class": "qualified",
-          "beneficial_owner_reference": "bo-usr-3729c45f",
+          "beneficial_owner_reference": "bo-usr-9d5e03e9",
           "wallet_reference": "custody-qualified-queue",
           "units": 4,
           "ownership_pct": 24.75,
