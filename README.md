@@ -161,6 +161,7 @@ A practical implementation roadmap is captured in `docs/implementation-roadmap.m
 `docs/document-intelligence-legal-ai.md` adds the Phase 3 design for AI-assisted extraction, validation, legal reasoning, anomaly detection, compliance checks, and audit trails across contracts, title packets, insurance policies, and immigration evidence.
 `docs/hyper-personalization-behavioral-intelligence-engine.md` adds the privacy-preserving Phase 3 design for behavioral learning, adaptive recommendations, communication optimization, and ISO/IEC 27701 plus ethical-AI guardrails.
 `docs/trust-reputation-risk-scoring-network.md` adds the Phase 3 design for explainable trust scoring across users, properties, brokers, and transactions, including AI monitoring, compliance-driven rescoring, and frontend trust signals.
+`docs/open-ai-marketplace-expert-plugin-ecosystem.md` adds the Phase 3 design for the governed third-party expert ecosystem, including provider onboarding, secure APIs, sandboxed execution, marketplace discovery, and AI/compliance release controls.
 
 ## MoE expert model
 

@@ -75,6 +75,7 @@ small {
 .transaction-layout,
 .twin-layout,
 .market-layout,
+.marketplace-layout,
 .adaptive-shell,
 .meta-row,
 .tag-row,
@@ -316,7 +317,8 @@ label,
 .transaction-layout,
 .insurance-layout,
 .payment-layout,
-.market-layout {
+.market-layout,
+.marketplace-layout {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 

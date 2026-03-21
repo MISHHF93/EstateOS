@@ -154,6 +154,7 @@ Implementation guardrails:
 - new feature docs should identify trust, audit, privacy, and evidence implications,
 - payment flows should remain PCI-aware and tokenized,
 - AI releases should preserve explainability, ownership, and governance hooks,
+- third-party or marketplace experts must enter routing only through approved registration, sandboxing, and compliance gates,
 - compliance and fraud controls should remain cross-workflow rather than isolated to one feature area.
 
 ## 4. Locked stack decisions

@@ -47,7 +47,10 @@
       "investor_classification",
       "beneficial_owner_attestation",
       "wallet_preference",
-      "fractional_transfer_intent"
+      "fractional_transfer_intent",
+      "expert_marketplace_opt_in",
+      "partner_capability_preferences",
+      "marketplace_admin_role"
     ],
     "trust_controls": [
       "OIDC/OAuth2 with step-up MFA",
@@ -88,7 +91,10 @@
         "investor_eligibility_tier",
         "beneficial_owner_status",
         "wallet_custody_mode",
-        "fractional_offering_scope"
+        "fractional_offering_scope",
+        "provider_registration_scope",
+        "sandbox_execution_tier",
+        "expert_release_authority"
       ]
     }
   },
@@ -809,6 +815,39 @@
         "explanation",
         "standards_alignment"
       ]
+    },
+    "ExpertMarketplaceProvider": {
+      "type": "object",
+      "required": [
+        "provider_id",
+        "provider_name",
+        "provider_type",
+        "status",
+        "trust_tier",
+        "sandbox_mode",
+        "deployment_model",
+        "supported_jurisdictions",
+        "data_classifications",
+        "capabilities",
+        "frontend_surfaces",
+        "governance_notes"
+      ]
+    },
+    "ExpertMarketplacePacket": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "marketplace_status",
+        "registry_summary",
+        "providers",
+        "control_checks",
+        "routing_policies",
+        "frontend_capabilities",
+        "governance_summary",
+        "compliance_summary",
+        "recommended_actions",
+        "standards_alignment"
+      ]
     }
   },
   "endpoints": [
@@ -1007,6 +1046,42 @@
         "segregation of duties",
         "exception escalation",
         "retention and export controls"
+      ]
+    },
+    {
+      "path": "/v1/marketplace/experts",
+      "method": "GET",
+      "purpose": "List approved, review-limited, and sandboxed marketplace experts so frontend and admin surfaces can discover backend-governed partner capabilities.",
+      "controls": [
+        "JWT auth",
+        "RBAC",
+        "tenant entitlement check",
+        "catalog filtering by jurisdiction",
+        "audit log"
+      ]
+    },
+    {
+      "path": "/v1/marketplace/experts/register",
+      "method": "POST",
+      "purpose": "Register a third-party developer, insurer, financial institution, or AI provider for sandbox certification, security review, and marketplace onboarding.",
+      "controls": [
+        "mTLS or signed service identity",
+        "provider due diligence check",
+        "schema validation",
+        "secret handling control",
+        "audit log"
+      ]
+    },
+    {
+      "path": "/v1/marketplace/experts/{expert_id}/certify",
+      "method": "POST",
+      "purpose": "Run certification, sandbox validation, model-governance review, and rollout gating before an external expert can join live MoE routing.",
+      "controls": [
+        "RBAC",
+        "segregation of duties",
+        "sandbox execution evidence",
+        "evaluation report attachment",
+        "kill-switch registration"
       ]
     }
   ]
